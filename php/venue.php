@@ -9,7 +9,7 @@ class Venue
 	/**
 	 * venue id fo the venue this is the primary key
 	 */
-	public $venueId;
+	private $venueId;
 	/**
 	 * venue name for the Venue
 	 */
@@ -136,8 +136,7 @@ class Venue
 	 * @param string $newVenueName venue name
 	 * @throws UnexpectedValueException if it doesn't appear to be a venue name
 	 */
-	public function setVenueName($newVenueName)
-	{
+	public function setVenueName($newVenueName) {
 		// sanitize the Venue Name as a likely Venue Name
 		$newVenueName = trim($newVenueName);
 		if(($newVenueName = filter_var($newVenueName, FILTER_SANITIZE_STRING)) == false) {
@@ -153,20 +152,18 @@ class Venue
 	 *
 	 * @return int value of venue capacity
 	 */
-	public function getVenueCapacity()
-	{
+	public function getVenueCapacity() {
 		return ($this->venueCapacity);
 	}
 
 	/**
-	 * sets the value of venue capacity
+	 * sets int value of venue capacity
 	 *
 	 * @param int $newVenueCapacity venue capacity
 	 * @throws UnexpectedValueException if not an integer
 	 * @throws RangeException if venue capacity isn't positive
 	 */
-	public function setVenueCapacity($newVenueCapacity)
-	{
+	public function setVenueCapacity($newVenueCapacity) {
 
 		// first, ensure the venue capacity is an integer
 		if(filter_var($newVenueCapacity, FILTER_VALIDATE_INT) === false) {
@@ -176,8 +173,37 @@ class Venue
 		// second, convert the venue capacity to an integer and enforce it is positive
 		$newVenueCapacity = intval($newVenueCapacity);
 		if($newVenueCapacity <= 0) {
-			throw(new UnexpectedValueException("venue capactity $newVenueCapacity is not positive"));
+			throw(new RangeException("venue capacity $newVenueCapacity is not positive"));
 		}
+
+		// finally take the venue capacity out of quarantine and assign it
+		$this->venueCapacity = $newVenueCapacity;
+	}
+
+	/**
+	 * gets the value of venue website
+	 *
+	 * @return string value of venue website
+	 */
+	public function getVenueWebsite() {
+		return ($this->venueWebsite);
+	}
+
+	/**
+	 * sets string value for venue website
+	 *
+	 * @param string $newVenueWebsite venue website
+	 * @throws UnexpectedValueException if the input doesn't appear to be an URL
+	 */
+	public function setVenueWebsite($newVenueWebsite) {
+		// sanitize teh VenueWebsite as a likely URL
+		$newVenueWebsite = trim($newVenueWebsite);
+		if(($newVenueWebsite = filter_var($newVenueWebsite, FILTER_VALIDATE_URL)) == false) {
+			throw(new UnexpectedValueException("venue website $newVenueWebsite does not appear to be a valid URL"));
+		}
+
+		// then just take venue website out of quarantine
+		$this->venueWebsite = $newVenueWebsite;
 	}
 
 }
