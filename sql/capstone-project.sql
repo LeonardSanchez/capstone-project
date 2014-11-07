@@ -129,7 +129,7 @@ CREATE TABLE venue (
 -- create ticket table
 CREATE TABLE ticket (
 	-- PRIMARY KEY
-	ticketId 		INT UNSIGNED NOT NULL,
+	ticketId 		INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	-- FOREIGN KEY
 	profileId 		INT UNSIGNED NOT NULL,
 	-- FOREIGN KEY
