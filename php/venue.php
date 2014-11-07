@@ -29,23 +29,23 @@ class Venue
 	/**
 	 * street address for the Venue
 	 */
-	private $address1;
+	private $venueAddress1;
 	/**
 	 * second line address for the Venue
 	 */
-	private $address2;
+	private $venueAddress2;
 	/**
 	 * city for the Venue
 	 */
-	private $city;
+	private $venueCity;
 	/**
 	 * state for the Venue
 	 */
-	private $state;
+	private $venueState;
 	/**
 	 * zip code for the Venue
 	 */
-	private $zipCode;
+	private $venueZipCode;
 
 
 	/**
@@ -181,6 +181,42 @@ class Venue
 	}
 
 	/**
+	 * gets the value of venue phone
+	 *
+	 * @return string value of venue phone
+	 */
+	public function getVenuePhone() {
+		return ($this->venuePhone);
+	}
+
+	/**
+	 * sets string value of venue phone
+	 *
+	 * @param string $newVenuePhone venue phone
+	 * @param string strip out all special characters using sanitize
+	 * @throws UnexpectedValueException if the input doesn't appear to be a phone number
+	 * @throws RangeException when input is not a valid phone number format
+	 */
+	public function setVenuePhone($newVenuePhone) {
+		// sanitize the VenuePhone as a likely phone number
+		$newVenuePhone = trim($newVenuePhone);
+		if(($newVenuePhone = filter_var($newVenuePhone, FILTER_VALIDATE_INT)) == false) {
+			throw(new UnexpectedValueException("phone $newVenuePhone does not appear to be a phone number"));
+		}
+
+		// verify the venuePhone is a valid phone number with acceptable character length
+		// regexp code sourced from stackoverflow.com user fatcat1111, http://stackoverflow.com/questions/123559/a-comprehensive-regex-for-phone-number-validation/
+		$newVenuePhone = trim($newVenuePhone);
+		$filterOptions = array("options" => array("regexp" => "^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$"));
+		if(filter_var($newVenuePhone, FILTER_VALIDATE_REGEXP, $filterOptions) === false) {
+			throw(new RangeException("venuePhone is not a valid phone number format"));
+		}
+
+		// finally, take the venuePhone out of quarantine
+		$this->venuePhone = $newVenuePhone;
+	}
+
+	/**
 	 * gets the value of venue website
 	 *
 	 * @return string value of venue website
@@ -204,6 +240,111 @@ class Venue
 
 		// then just take venue website out of quarantine
 		$this->venueWebsite = $newVenueWebsite;
+	}
+
+	/**
+	 * gets the value of address1
+	 *
+	 * @return string value of address1
+	 */
+	public function getVenueAddress1(){
+		return ($this->venueAddress1);
+	}
+
+	/**
+	 * sets the value of venueAddress1
+	 *
+	 * @param string $newVenueAddress1 venue address1
+	 * @throws UnexpectedValueException if the input doesn't appear to be an address line 1
+	 */
+	public function setVenueAddress1($newVenueAddress1) {
+		//sanitize the VenueAddress1 as a likely address line 1
+		$newVenueAddress1 = trim($newVenueAddress1);
+		if(($newVenueAddress1 = filter_var($newVenueAddress1, FILTER_SANITIZE_STRING)) == false) {
+			throw(new UnexpectedValueException("venueAddress1 $newVenueAddress1 does not appear to be an address1"));
+		}
+
+		// then just take the address1 out of quarantine
+		$this->venueAddress1 = $newVenueAddress1;
+	}
+
+	/**
+	 * gets the value of venueAddress2
+	 *
+	 * @return string value of venueAddress2
+	 */
+	public function getVenueAddress2(){
+		return ($this->venueAddress2);
+	}
+
+	/**
+	 * sets the value of venueAddress2
+	 *
+	 * @param string $newVenueAddress2 venue address2
+	 * @throws UnexpectedValueException if the input doesn't appear to be an address line 2
+	 */
+	public function setVenueAddress2($newVenueAddress2) {
+		//sanitize the VenueAddress2 as a likely address line 1
+		$newVenueAddress2 = trim($newVenueAddress2);
+		if(($newVenueAddress2 = filter_var($newVenueAddress2, FILTER_SANITIZE_STRING)) == false) {
+			throw(new UnexpectedValueException("venueAddress2 $newVenueAddress2 does not appear to be an address2"));
+		}
+
+		// then just take the address2 out of quarantine
+		$this->venueAddress2 = $newVenueAddress2;
+	}
+
+	/**
+	 * gets the value of venueCity
+	 *
+	 * @return string value of venueCity
+	 */
+	public function getVenueCity(){
+		return ($this->venueCity);
+	}
+
+	/**
+	 * sets the value of venueCity
+	 *
+	 * @param string $newVenueCity venue city
+	 * @throws UnexpectedValueException if the input doesn't appear to be a city
+	 */
+	public function setVenueCity($newVenueCity) {
+		//sanitize the VenueCity as a likely city
+		$newVenueCity = trim($newVenueCity);
+		if(($newVenueCity = filter_var($newVenueCity, FILTER_SANITIZE_STRING)) == false) {
+			throw(new UnexpectedValueException("venueCity $newVenueCity does not appear to be a city"));
+		}
+
+		// then just take the city out of quarantine
+		$this->venueCity = $newVenueCity;
+	}
+
+	/**
+	 * gets the value of venueState
+	 *
+	 * @return string value of venueState
+	 */
+	public function getVenueState(){
+		return ($this->venueState);
+	}
+
+	/**
+	 * sets the value of venueState
+	 *
+	 * @param string $newVenueState venue state
+	 * @throws UnexpectedValueException if the input doesn't appear to be a 2 character state
+	 */
+	public function setVenueState($newVenueState) {
+		//sanitize the VenueState as a likely US state
+		$newVenueState = trim($newVenueState);
+		$newVenueState = strlen(2);
+		if(($newVenueState = filter_var($newVenueState, FILTER_SANITIZE_STRING)) == false) {
+			throw(new UnexpectedValueException("venueState $newVenueState does not appear to be a State"));
+		}
+
+		// then just take the venueState out of quarantine
+		$this->venueState = $newVenueState;
 	}
 
 }
