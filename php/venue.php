@@ -356,6 +356,16 @@ class Venue
 		return ($this->venueZipCode);
 	}
 
+	/**
+	 * sets the value of venueZipCode
+	 *
+	 *
+	 */
+	public function setVenueZipCode($newVenueZipCode) {
+		//sanitize the VenueZipCode as a likely US zip code
+
+	}
+
 }
 
 ?>
