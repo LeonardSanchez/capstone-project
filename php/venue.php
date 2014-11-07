@@ -347,6 +347,15 @@ class Venue
 		$this->venueState = $newVenueState;
 	}
 
+	/**
+	 * gets the value for venueZipCode
+	 *
+	 * @return int value of venueZipCode
+	 */
+	public function getVenueZipCode() {
+		return ($this->venueZipCode);
+	}
+
 }
 
 ?>
