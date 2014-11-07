@@ -60,10 +60,38 @@ class Event{
 			return;
 		}
 
-		if(filter_var($newEventId, FILTER_VALIDATE_INT) === false){
+		if(filter_var($newEventId, FILTER_VALIDATE_INT) === false)	{
 			throw(new UnexpectedValueException("eventId $newEventId is not numeric"));
 		}
 
+		$newEventId = intval($newEventId);
+		if($newEventId <= 0)	{
+			throw(new RangeException("eventId $newEventId is not positive"));
+		}
 
+		$this->eventId = $newEventId;
 	}
+
+	public function getVenueId(){
+		return($this->venueId);
+	}
+
+	public function setVenueId($newVenueId){
+		if($newVenueId === null)	{
+			$this->eventId = null;
+			return;
+		}
+
+		if(filter_var($newVenueId, FILTER_VALIDATE_INT) === false)	{
+			throw(new UnexpectedValueException("venueId $newVenueId is not numeric"));
+		}
+
+		$newVenueId = intval($newVenueId);
+		if($newVenueId <= 0)	{
+			throw(new RangeException("venueId $newVenueId is not positive"));
+		}
+
+		$this->venueId = $newVenueId;
+	}
+
 }
