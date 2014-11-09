@@ -477,6 +477,23 @@ class Venue
 			}
 		}
 
+	/**
+	 * gets the Venue by VenueId
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @param string $venueId venueId to search for
+	 * @return mixed Venue found or null if not found
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 */
+	public function getVenueByVenueId(&$mysqli, $venueId) {
+
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+	}
+
 
 
 
