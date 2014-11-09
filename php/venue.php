@@ -422,7 +422,7 @@ class Venue
 		 */
 		public function delete(&$mysqli) {
 			// handle degenerate cases
-			if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			if(gettype($mysqli) !== "object" || get_class( $mysqli) !== "mysqli") {
 				throw(new mysqli_sql_exception("input is not a mysqli object"));
 			}
 
@@ -492,13 +492,57 @@ class Venue
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
+		// sanitize the Venue before searching
+		if(($venueId = filter_var($venueId, FILTER_VALIDATE_INT)) == false) {
+			throw(new mysqli_sql_exception("Venue does not appear to be an integer"));
+		}
+
+		// create query template
+		$query = "SELECT venueId, venueName, venueCapacity, venuePhone, venueWebsite, venueAddrss1, venueAddress2, venueCity, venueState, venueZipCode FROM venue WHERE venueId = ?";
+		$statement  = $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind the venueId to the place holder in the template
+		$wasClean = $statement->bind_param("i", $venueId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+
+		// get result from the SELECT query *pounds fists*
+		$result = $statement->get_result();
+		if($result === false) {
+			throw(new mysqli_sql_exception("Unable to get result set"));
+		}
+
+		// since this is a primary key, this will only return 0 or 1 results. So...
+		// 1) if there's a result, we can make it into a Venue object normally
+		// 2) if there's no result, we can just return null
+		$row = $result->fetch_assoc(); // fetch_assoc returns a row as an associative array
+
+		// convert the associative array to a Venue
+		if($row !== null) {
+			try {
+				$venue = new Venue($row["venueId"], $row["venueName"], $row["venueCapacity"], $row["venuePhone"], $row["venueWebsite"], $row["venueAddress1"], $row["venueAddress2"], $row["venueCity"], $row["venueState"], $row["venueZipCode"]);
+			}
+			catch(Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new mysqli_sql_exception("Unable to convert row to Venue", 0, $exception));
+			}
+
+			// if we got here, the Venue is good - return it
+			return($venue);
+		} else {
+			// 404 venue not found - return null instead
+			return(null);
+		}
 	}
-
-
-
-
-
-
 
 }
 
