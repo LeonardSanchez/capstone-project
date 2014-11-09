@@ -60,7 +60,7 @@ class Venue
 	 * @param string $newVenueAddress2 venue address second line
 	 * @param string $newCity venue city
 	 * @param string $newState venue state
-	 * @param int $newZipCode venue zip code
+	 * @param string $newZipCode venue zip code
 	 */
 	public function __construct($newVenueId, $newVenueName, $newVenueCapacity, $newVenuePhone, $newVenueWebsite, $newVenueAddress1, $newVenueAddress2, $newVenueCity, $newVenueState, $newVenueZipCode) {
 		try {
@@ -209,7 +209,7 @@ class Venue
 		$newVenuePhone = trim($newVenuePhone);
 		$filterOptions = array("options" => array("regexp" => "^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$"));
 		if(filter_var($newVenuePhone, FILTER_VALIDATE_REGEXP, $filterOptions) === false) {
-			throw(new RangeException("venuePhone is not a valid phone number format"));
+			throw(new RangeException("venuePhone $newVenuePhone is not a valid phone number format"));
 		}
 
 		// finally, take the venuePhone out of quarantine
@@ -350,7 +350,7 @@ class Venue
 	/**
 	 * gets the value for venueZipCode
 	 *
-	 * @return int value of venueZipCode
+	 * @return string value of venueZipCode
 	 */
 	public function getVenueZipCode() {
 		return ($this->venueZipCode);
@@ -359,12 +359,129 @@ class Venue
 	/**
 	 * sets the value of venueZipCode
 	 *
-	 *
+	 * @param string $newVenueZipCode venue zip code
+	 * @throws UnexpectedValueException if the input does not appear to be a valid zip code
 	 */
 	public function setVenueZipCode($newVenueZipCode) {
 		//sanitize the VenueZipCode as a likely US zip code
+		$newVenueZipCode = trim($newVenueZipCode);
+		if(($newVenueZipCode = filter_var($newVenueZipCode, FILTER_SANITIZE_STRING)) == false) {
+			throw(new UnexpectedValueException("venueZipCode $newVenueZipCode does not appear to be a US zip code"));
+		}
 
+		// then just take the zip code out of quarantine
+		$this->venueZipCode = $newVenueZipCode;
 	}
+
+	/**
+	 * inserts this Venue to mySQL
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 */
+	public function insert(&$mysqli) {
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		// enforce the venueId is null (i.e. don't insert a venue that already exists)
+		if($this->venueId !== null) {
+			throw(new mysqli_sql_exception("not a new venue"));
+		}
+
+		// create query template
+		$query = "INSERT INTO venue(venueName, venueCapacity, venuePhone, venueWebsite, venueAddress1, venueAddress2, venueCity, venueState, venueZipCode) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		$statement = $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind the member variables to the place holders in the template
+		$wasClean = $statement->bind_param("sisssssss", $this->venueName, $this->venueCapacity, $this->venuePhone,
+			$this->venueWebsite, $this->venueAddress1, $this->venueAddress2,
+			$this->venueCity, $this->venueState, $this->venueZipCode);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			echo $statement->error . "<br />";
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+
+		// update the null venueId with what mySQL jsut gave me
+		$this->venueId = $mysqli->insert_id;
+	}
+		/**
+		 * deletes this Venue from mySQL
+		 *
+		 * @param resource $mysqli pointer to mySQL connection, by reference
+		 * @throws mysqli_sql_exception when mySQL related errors occur
+		 */
+		public function delete(&$mysqli) {
+			// handle degenerate cases
+			if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+				throw(new mysqli_sql_exception("input is not a mysqli object"));
+			}
+
+			// create query template
+			$query = "DELETE FROM venue WHERE venueId = ?";
+			$statement = $mysqli->prepare($query);
+			if($statement === false) {
+				throw(new mysqli_sql_exception("Unable to prepare statement"));
+			}
+
+			// execute the statement
+			if($statement->execute() === false) {
+				throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+			}
+		}
+
+		/**
+		 * update this Venue in mySQL
+		 *
+		 * @param resource $mysqli pointer to mySQL connection, by reference
+		 * @throws mysqli_sql_exception when mySQL related errors occur
+		 */
+		public function update(&$mysqli) {
+			// handle degenerate cases
+			if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+				throw(new mysqli_sql_exception("input not a mysqli object"));
+			}
+
+			// enforce the venueId is not null (i.e., don't update a venue that hasn't been created
+			if($this->venueId === null) {
+				throw(new mysqli_sql_exception("Unable to update a venue that does not exist"));
+			}
+
+			// create query template
+			$query = "UPDATE venue SET venueName = ?, venueCapacity = ?, venuePhone = ?, venueWebsite = ?, venueAddress1 = ?, venueAddress2 = ?, venueCity = ?, venueState = ?, venueZipCode = ? WHERE venueId = ?";
+			$statement = $mysqli->prepare($query);
+			if($statement === false) {
+				throw(new mysqli_sql_exception("Unable to prepare statement"));
+			}
+
+			// bind the member variables to the place holders in the template
+			$wasClean = $statement->bind_param("sisssssss",	$this->venueName,		$this->venueCapacity,	$this->venuePhone,
+																			$this->venueWebsite,	$this->venueAddress1,	$this->venueAddress2,
+																			$this->venueCity,		$this->venueState,		$this->venueZipCode);
+			if($wasClean === false) {
+				throw(new mysqli_sql_exception("Unable to bind parameters"));
+			}
+
+			// execute the statement
+			if($statement->execute() === false) {
+				throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+			}
+		}
+
+
+
+
+
+
 
 }
 
