@@ -13,15 +13,22 @@ class Barcode {
 	private $barcodeId;
 
 	/**
+	 * ticket id for the barcode; this is a foreign key
+	 **/
+	private $ticketId;
+
+	/**
 	 * constructor for Barcode
 	 *
-	 * @param mixed $newBarcodeId barcode id (or null if new object)
+	 * @param mixed $newBarcodeId barcode id (or null if new barcode)
+	 * @param mixed $newTicketId ticket id (maybe null if new ticket)
 	 * @throws UnexpectedValueException when a parameter is of the wrong type
 	 * @throws RangeException when a parameter is invalid
 	 **/
-	public function __construct($newBarcodeId) {
+	public function __construct($newBarcodeId, $newTicketId) {
 		try {
 			$this->setBarcodeId($newBarcodeId);
+			$this->setTicketId($newTicketId);
 		}	catch(UnexpectedValueException $unexpectedValue) {
 			// rethrow to caller
 			throw(new UnexpectedValueException("Unable to construct Barcode", 0, $unexpectedValue));
@@ -43,7 +50,7 @@ class Barcode {
 	/**
 	 * sets the value of barcode id
 	 *
-	 * @param mixed $newBarcodeId barcode id (or null if new object)
+	 * @param mixed $newBarcodeId barcode id (or null if new barcode)
 	 * @throws UnexpectedValueException if not an integer or null
 	 * @throws RangeException if barcode id isn't positive
 	 **/
@@ -69,6 +76,12 @@ class Barcode {
 		$this->barcodeId = $newBarcodeId;
 
 	}
+
+	/**
+	 * gets the value of ticket id
+	 *
+	 * @return mixed ticket id (or null if new ticket)
+	 **/
 
 	/**
 	 * insert this Barcode into mySQL

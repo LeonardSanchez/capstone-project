@@ -140,7 +140,7 @@ CREATE TABLE eventLink(
 -- create barcode table
 CREATE TABLE barcode (
    barcodeId 		INT UNSIGNED AUTO_INCREMENT NULL,
-   PRIMARY KEY(barcodeId)
+   PRIMARY KEY(barcodeId)           
 );
 
 -- create transaction table
