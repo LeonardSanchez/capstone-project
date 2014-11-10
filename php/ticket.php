@@ -31,9 +31,10 @@ class Ticket
 	 */
 	private $barcodeId;
 	/**
+	 * PLACEHOLDER FOR PHASE 2
 	 * seat for the Ticket
 	 */
-	private $seat;
+	/**private $seat;
 
 
 	/**
@@ -44,7 +45,7 @@ class Ticket
 	 * @param mixed  $newEventId       event id, a foreign key
 	 * @param mixed  $newTransactionId transaction id, a foreign key
 	 * @param mixed  $newBarcodeId     barcode id, a foreign key
-	 * @param string $newSeat          seat
+	 * // PLACE HOLDER FOR PHASE 2 @param string $newSeat          seat
 	 */
 	public function __construct($newTicketId, $newProfileId, $newEventId, $newTransactionId, $newBarcodeId, $newSeat)
 	{
@@ -54,7 +55,7 @@ class Ticket
 			$this->setEventId($newEventId);
 			$this->setTransactionId($newTransactionId);
 			$this->setBarcodeId($newBarcodeId);
-			$this->setSeat($newSeat);
+			// PLACE HOLDER FOR PHASE 2 $this->setSeat($newSeat);
 		} catch(UnexpectedValueException $unexpectedValue) {
 			// rethrow to the caller
 			throw(new UnexpectedValueException("Unable to construct Ticket", 0, $unexpectedValue));
@@ -236,13 +237,16 @@ class Ticket
 	}
 
 	/**
+	 * THIS IS A PLACE HOLDER FOR SEAT TO BE INCLUDED IN PHASE 2 OF SITE
+	 *
 	 * gets the value of seat
 	 *
 	 * @return string value of seat
 	 */
-	public function getSeat() {
+	/**public function getSeat() {
 		return ($this->seat);
 	}
+	 */
 
 	/**
 	 * sets the value of seat
@@ -250,7 +254,7 @@ class Ticket
 	 * @param string $newSeat for seat
 	 * @throws UnexpectedValueException if the input doesn't appear to be a seat
 	 */
-	public function setSeat($newSeat) {
+	/**public function setSeat($newSeat) {
 
 		// sanitize the Seat as a likely seat assignment
 		$newSeat = trim($newSeat);
@@ -261,6 +265,7 @@ class Ticket
 		// then just take the seat out of quarantine
 		$this->seat = $newSeat;
 	}
+	*/
 
 	/**
 	 * insert this Ticket to mySQL
@@ -281,15 +286,17 @@ class Ticket
 		}
 
 		// create query template
-		$query = "INSERT INTO ticket(ticketId, profileId, eventId, transactionId, barcodeId, seat) VALUES(?, ?, ?, ?, ?, ?)";
+		// ADD SEAT DURING PHASE 2
+		$query = "INSERT INTO ticket(ticketId, profileId, eventId, transactionId, barcodeId) VALUES(?, ?, ?, ?, ?)";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("iiiiis", 	$this->ticketId,			$this->profileId,		$this->eventId,
-																		$this->transactionId,	$this->barcodeId,		$this->seat);
+		// ADD SEAT DURING PHASE 2
+		$wasClean = $statement->bind_param("iiiii", 	$this->ticketId,			$this->profileId,		$this->eventId,
+																		$this->transactionId,	$this->barcodeId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -303,6 +310,83 @@ class Ticket
 		// update the null ticketId with what mySQL just gave me
 		$this->ticketId = $mysqli->insert_id;
 
+	}
+
+	/**
+	 * deletes this Ticket from mySQL
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 */
+	public function delete(&$mysqli) {
+
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		// enforce the ticketId is not null (i.e. don't delete a ticket that hasn't been inserted)
+		if($this->ticketId === null) {
+			throw(new mysqli_sql_exception("Unable to delete a ticket that does not exist"));
+		}
+
+		// create query template
+		$query		= "DELETE FROM ticket WHERE ticketId = ?";
+		$statement	= $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind the member variables to the place holder in the template
+		$wasClean = $statement->bind_param("i", $this->ticketId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute statement"));
+		}
+	}
+
+	/**
+	 * updates this Ticket in mySQL
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 */
+	public function update(&$mysqli) {
+
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		// enforce the ticket id is not null (i.e. don't update a ticket that hasn't been inserted)
+		if($this->ticketId === null) {
+			throw(new mysqli_sql_exception("Unable to update a ticket that does not exist"));
+		}
+
+		// create query template
+		// ADD SEAT DURING PHASE 2
+		$query		= "UPDATE ticket SET profileId = ?, eventId = ?, transactionId = ?, barcodeId = ?, WHERE ticketId = ?";
+		$statement	= $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind the member variables to the place holders in the template
+		// ADD SEAT DURING PHASE 2
+		$wasClean = $statement->bind_param("iiiii",	$this->profileId,		$this->eventId,		$this->transactionId,
+																	$this->barcodeId,		$this->ticketId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind the parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute statement"));
+		}
 	}
 
 
