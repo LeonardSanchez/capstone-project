@@ -1,6 +1,6 @@
 <?php
 /**
- * mySQL enabled user
+ * mySQL enabled event
  * This is a mySQL enabled container for an event listing on an event ticket site
  *
  * @author Sebastian Sandoval <sbsandoval42@gmail.com>
@@ -44,54 +44,153 @@ class Event{
 			$this->setEventDateTime($newEventDateTime);
 			$this->setTicketPrice($newTicketPrice);
 		}	catch(UnexpectedValueException $unexpectedValue)	{
+			/** Throw exception to user */
 			throw(new UnexpectedValueException("unable to construct event", 0 , $unexpectedValue));
 		}	catch(RangeException $range)	{
 			throw(new RangeException("unable to construct event", 0 , $range));
 		}
 	}
 
+	/**
+	 * get eventId
+	 * PRIMARY KEY
+	 */
 	public function getEventId() {
 		return($this->eventId);
 	}
 
+	/**
+	 * set eventId
+	 * PRIMARY KEY
+	 */
 	public function setEventId($newEventId)	{
+		/**
+		 * set to null if it does not exist
+		 */
 		if($newEventId === null)	{
 			$this->eventId = null;
 			return;
 		}
 
+		/**
+		 * filter to ensure eventId is an int
+		 */
 		if(filter_var($newEventId, FILTER_VALIDATE_INT) === false)	{
 			throw(new UnexpectedValueException("eventId $newEventId is not numeric"));
 		}
 
+		/**
+		 * ensure eventId
+		 */
 		$newEventId = intval($newEventId);
 		if($newEventId <= 0)	{
 			throw(new RangeException("eventId $newEventId is not positive"));
 		}
 
+		/** passed all assign to eventId */
 		$this->eventId = $newEventId;
 	}
 
+	/**
+	 *get venueId
+	 * FOREIGN KEY
+	 */
 	public function getVenueId(){
 		return($this->venueId);
 	}
 
+	/**
+	 * set venueId
+	 * FOREIGN KEY
+	 */
 	public function setVenueId($newVenueId){
+		/**
+		 * set to null if venueId doesn't exist
+		 */
 		if($newVenueId === null)	{
-			$this->eventId = null;
+			$this->venueId = null;
 			return;
 		}
 
+		/**
+		 * validate venueId as an int
+		 */
 		if(filter_var($newVenueId, FILTER_VALIDATE_INT) === false)	{
 			throw(new UnexpectedValueException("venueId $newVenueId is not numeric"));
 		}
 
+		/**
+		 * ensure the venueId is positive
+		 */
 		$newVenueId = intval($newVenueId);
 		if($newVenueId <= 0)	{
 			throw(new RangeException("venueId $newVenueId is not positive"));
 		}
 
+		/**
+		 * all tests pass assign to venueId
+		 */
 		$this->venueId = $newVenueId;
+	}
+
+	/**
+	 * get eventCategoryId
+	 */
+	public function getEventCategoryId()	{
+		return($this->eventCategoryId);
+	}
+
+	/**
+	 * set eventCategoryId
+	 */
+	public function setEventCategoryId($newEventCategoryId)	{
+		if($newEventCategoryId === null)	{
+			$this->eventCategoryId = null;
+		}
+
+		/**
+		 * validate eventCategoryId as int
+		 */
+		if(filter_var($newEventCategoryId, FILTER_VALIDATE_INT) === false)	{
+			throw(new UnexpectedValueException("eventCategoryId $newEventCategoryId is not numeric"));
+		}
+
+		/**
+		 * ensure the eventCategoryId is positive
+		 */
+		$newEventCategoryId = intval(($newEventCategoryId));
+		if($newEventCategoryId <= 0)	{
+			throw(new RangeException("eventCategoryId $newEventCategoryId is not positive"));
+		}
+
+		/**
+		 * passed all set to eventCategoryId
+		 */
+		$this->eventCategoryId = $newEventCategoryId;
+	}
+
+	/**
+	 * get eventName
+	 */
+	public function getEventName(){
+		return($this->eventName);
+	}
+
+	/**
+	 * get eventName
+	 */
+	public function setEventName($newEventName)	{
+		/**
+		 * ensure the eventName is a string
+		 */
+		if(is_string($newEventName) === false)	{
+			throw(new UnexpectedValueException("eventName $newEventName is not a string"));
+		}
+
+		/**
+		 * passed; assign to eventName
+		 */
+		$this->eventName = $newEventName;
 	}
 
 }
