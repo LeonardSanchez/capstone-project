@@ -544,6 +544,73 @@ class Venue
 		}
 	}
 
+	/**
+	 * gts the Venue by Venue Name
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @param string $venueName venueName to search for
+	 * @return Venue if found, or null if not
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 */
+	public static function getVenueByVenueName(&$mysqli, $venueName) {
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli !== "mysqli")) {
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		// sanitize the Venue Name before searching
+		$venueName = trim($venueName);
+		if(($venueName = filter_var($venueName, FILTER_SANITIZE_STRING)) == false) {
+			throw(new UnexpectedValueException("venueName $venueName does not appear to be a valid name"));
+		}
+
+		// create query template
+		$query 		= "SELECT venueId, venueName, venueCapacity, venuePhone, venueWebsite, venueAddress1, venueAddress2, venueCity, venueState, venueZipCode FROM venue WHERE venueName = ?";
+		$statement	= $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind the venueName to the place holder in the template
+		$wasClean = $statement->bind_param("s", $venueName);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+
+		// get result from the SELECT query
+		$result = $statement->get_result();
+		if($result === false) {
+			throw(new mysqli_sql_exception("Unable to get result set"));
+		}
+
+		// since this is not a unique field, this can return many results. So...
+		// 1) if there's more than 1 result, we can make all into Venue objects
+		// 2) if there's no result, we can just return null
+		while(($row = $result->fetch_assoc()) !== null); // fetch_assoc returns a row as an associative array
+
+		// convert the associative array to a Venue
+		if($row !== null) {
+			try {
+				$venue = new Venue($row["venueId"], $row["venueName"], $row["venueCapacity"], $row["venuePhone"], $row["venueWebsite"], $row["venueAddress1"], $row["venueAddress2"], $row["venueCity"], $row["venueState"], $row["venueZipCode"]);
+			} catch(Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new mysqli_sql_exception("Unable to convert row to Venue", 0, $exception));
+			}
+
+			// if we got here, the venue is good - return it
+			return ($venueName);
+		} else {
+			// 404 Venue not found - return null instead
+			return (null);
+		}
+	}
+
+
 }
 
 ?>
