@@ -265,4 +265,84 @@ class Event{
 		$this->ticketPrice = $newTicketPrice;
 	}
 
+	public function insert(&$mysqli)	{
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("not a valid mysqli object"));
+		}
+
+		if($this->eventId !== null) {
+			throw(new mysqli_sql_exception("not a new event"));
+		}
+
+		$query = "INSERT INTO event(eventName, eventDateTime, ticketPrice) VALUES(?, ?, ?, ?)";
+		$statement = $mysqli->prepare($query);
+		if($statement === false)	{
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		$wasClean = $statement->bind_param("ssd", $this->eventName, $this->eventDateTime, $this->ticketPrice);
+
+		if($wasClean === false)	{
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		if($statement->execute() === false)	{
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+
+		$this->eventId = $mysqli->insert_id;
+
+	}
+
+	public function delete(&$mysqli)	{
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		if($this->eventId === null)	{
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		$query = "DELETE FROM event WHERE eventId = ?";
+		$statement = $mysqli->prepare($query);
+		if($statement === false)	{
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		$wasClean = $statement->bind_param("i", $this->eventId);
+		if($wasClean === false)	{
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		if($statement->execute() === false)	{
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+
+	}
+	public function update(&$mysqli)	{
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		if($this->eventId)	{
+			throw(new mysqli_sql_exception("Unable to update an event that does not exist"));
+		}
+
+		$query = "UPDATE event SET eventName = ?, eventDateTime = ?, ticketPrice = ? WHERE eventId = ?";
+		$statement = $mysqli->prepare($query);
+		if($statement === false)	{
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		$wasClean = $statement->bind_param("ssd", $this->eventName, $this->eventDateTime, $this->ticketPrice);
+
+		if($wasClean === false)	{
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		if($statement->execute() === false)	{
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+	}
+
 }
