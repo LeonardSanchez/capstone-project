@@ -480,6 +480,9 @@ class Venue
 			}
 		}
 
+
+
+
 	/**
 	 * gets the Venue by VenueId
 	 *
@@ -642,7 +645,7 @@ class Venue
 		}
 
 		// create query template
-		$query = "SELECT venueId, venueName, venueCapacity, venuePhone, venueWebsite, venueAddress1, venueAddress2, venueCity, venueState, venueZipCode FROM venue WHERE venueName = ? AND venueCity = ?";
+		$query = "SELECT venueId, venueName, venueCapacity, venuePhone, venueWebsite, venueAddress1, venueAddress2, venueCity, venueState, venueZipCode FROM venue WHERE venueCity = ? AND venueCity = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));

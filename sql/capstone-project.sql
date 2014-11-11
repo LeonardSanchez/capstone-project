@@ -68,7 +68,7 @@ CREATE TABLE venue (
 	venuePhone 		VARCHAR(20) NOT NULL,
 	venueWebsite 	VARCHAR(250) NOT NULL,
 	venueAddress1 		VARCHAR(50) NOT NULL,
-	venueAddress2 		VARCHAR(30) NOT NULL,
+	venueAddress2 		VARCHAR(30) NULL,
 
 	-- indexed for searching
 	venueCity 				VARCHAR(25) NOT NULL,
