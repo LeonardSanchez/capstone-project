@@ -40,9 +40,7 @@ class VenueTest extends UnitTestCase {
 		$this->venue->delete($this->mysqli);
 		$this->venue = null;
 		}
-
 	}
-
 
 	// test creating a new Venue and inserting it to mySQL
 	public function testInsertNewVenue() {
