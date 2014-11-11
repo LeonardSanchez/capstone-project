@@ -16,5 +16,7 @@ class VenueTest extends UnitTestCase {
 	private $VENUE_ID				= ?;
 	private $VENUE_NAME			= ?;
 	private $VENUE_CAPACITY		= ?;
-	private $VENUE_
+	private $VENUE_PHONE			= ?;
+	private $VENUE_WEBSITE		= ?;
+	private
 }
