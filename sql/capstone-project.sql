@@ -9,10 +9,10 @@
 DROP TABLE IF EXISTS transaction;
 DROP TABLE IF EXISTS barcode;
 DROP TABLE IF EXISTS ticket;
-DROP TABLE IF EXISTS venue;
-DROP TABLE IF EXISTS eventCategory;
 DROP TABLE IF EXISTS eventLink;
 DROP TABLE IF EXISTS event;
+DROP TABLE IF EXISTS venue;
+DROP TABLE IF EXISTS eventCategory;
 DROP TABLE IF EXISTS profile;
 DROP TABLE IF EXISTS user;
 
@@ -49,56 +49,6 @@ CREATE TABLE profile (
    FOREIGN KEY (userId) REFERENCES user (userId)
 );
 
-
--- create event table
-CREATE TABLE event (
-
-	-- PRIMARY KEY
-	eventId 				INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	-- FOREIGN KEY
-	eventCategoryId 	INT UNSIGNED NOT NULL,
-	-- FOREIGN KEY
-	venueId 				INT UNSIGNED NOT NULL,
-	eventName 			VARCHAR(100) NOT NULL,
-	eventDateTime 		DATETIME NOT NULL,
-	ticketPrice 		DECIMAL(9,2),
-
-	-- assign primary key
-	PRIMARY KEY(eventId),
-
-	-- indexing eventName because it will be commonly searched
-	INDEX(eventName),
-
-	-- indexing eventDateTime because it will have its own search function
-	INDEX(eventDateTime),
-
-	-- unique index for foreign key
-	UNIQUE(eventCategoryId),
-	UNIQUE(venueId),
-
-	-- call the foreign keys tables
-	FOREIGN KEY(eventCategoryId) REFERENCES eventCategory(eventCategoryId),
-	FOREIGN KEY(venueId) REFERENCES venue(venueId)
-);
-
--- create eventLink table
-CREATE TABLE eventLink(
-
-	-- FOREIGN KEY
-	eventCategoryId INT UNSIGNED NOT NULL,
-
-	-- FOREIGN KEY
-	eventId INT UNSIGNED NOT NULL,
-
-	-- Indexing for foreign keys
-	UNIQUE(eventCategoryId),
-	UNIQUE(eventId),
-
-	-- calling to tables with foreign keys
-	FOREIGN KEY(eventCategoryId) REFERENCES eventCategory(eventCategoryId),
-	FOREIGN KEY(eventId) REFERENCES event(eventId)
-);
-
 -- create eventCategory table
 CREATE TABLE eventCategory(
 	-- PRIMARY KEY
@@ -111,7 +61,7 @@ CREATE TABLE eventCategory(
 -- create venue table
 CREATE TABLE venue (
 	-- PRIMARY KEY
-	venueId 			INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	venueId 			INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	-- indexed for searching
 	venueName 		VARCHAR(100) NOT NULL,
 	venueCapacity 	INT UNSIGNED NOT NULL,
@@ -131,35 +81,58 @@ CREATE TABLE venue (
 	-- search INDEX
 	INDEX (venueName),
 	INDEX (venueCity),
-	INDEX (venueState),
-	INDEX (venueZipCode)
+	INDEX (venueState)
 	--
 );
 
--- create ticket table
-CREATE TABLE ticket (
-	-- PRIMARY KEY
-	ticketId 		INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	-- FOREIGN KEY
-	profileId 		INT UNSIGNED NOT NULL,
-	-- FOREIGN KEY
-	eventId 			INT UNSIGNED NOT NULL,
-	-- FOREIGN KEY
-	transactionId 	INT UNSIGNED NOT NULL,
-	-- seat 				VARCHAR(10),
-	barcodeId 		INT UNSIGNED,
 
-	PRIMARY KEY (ticketId),
-	-- indexing for foreign keys
-	UNIQUE(profileId),
+-- create event table
+CREATE TABLE event (
+
+-- PRIMARY KEY
+	eventId 				INT UNSIGNED AUTO_INCREMENT NOT NULL ,
+-- FOREIGN KEY
+	eventCategoryId 	INT UNSIGNED NOT NULL,
+-- FOREIGN KEY
+	venueId 				INT UNSIGNED NOT NULL,
+	eventName 			VARCHAR(100) NOT NULL,
+	eventDateTime 		DATETIME NOT NULL,
+	ticketPrice 		DECIMAL(9,2),
+
+-- assign primary key
+	PRIMARY KEY(eventId),
+
+-- indexing eventName because it will be commonly searched
+	INDEX(eventName),
+
+-- indexing eventDateTime because it will have its own search function
+	INDEX(eventDateTime),
+
+-- unique index for foreign key
+	UNIQUE(eventCategoryId),
+	UNIQUE(venueId),
+
+-- call the foreign keys tables
+	FOREIGN KEY(eventCategoryId) REFERENCES eventCategory(eventCategoryId),
+	FOREIGN KEY(venueId) REFERENCES venue(venueId)
+);
+
+-- create eventLink table
+CREATE TABLE eventLink(
+
+-- FOREIGN KEY
+	eventCategoryId INT UNSIGNED NOT NULL,
+
+-- FOREIGN KEY
+	eventId INT UNSIGNED NOT NULL,
+
+-- Indexing for foreign keys
+	UNIQUE(eventCategoryId),
 	UNIQUE(eventId),
-	UNIQUE(transactionId),
-	UNIQUE(barcodeId),
-	-- calling to profile, event, transaction, and barcode tables
-	FOREIGN KEY (profileId) REFERENCES profile(profileId),
-	FOREIGN KEY (eventId) REFERENCES event(eventId),
-	FOREIGN KEY (transactionId) REFERENCES transaction(transactionId),
-	FOREIGN KEY (barcodeId) REFERENCES barcode(barcodeId)
+
+-- calling to tables with foreign keys
+	FOREIGN KEY(eventCategoryId) REFERENCES eventCategory(eventCategoryId),
+	FOREIGN KEY(eventId) REFERENCES event(eventId)
 );
 
 
@@ -185,4 +158,30 @@ CREATE TABLE transaction (
    PRIMARY KEY(transactionId),
 	-- call to profile table for foreign key
    FOREIGN KEY(profileId) REFERENCES profile(profileId)
+);
+
+-- create ticket table
+CREATE TABLE ticket (
+-- PRIMARY KEY
+	ticketId 		INT UNSIGNED NOT NULL AUTO_INCREMENT,
+-- FOREIGN KEY
+	profileId 		INT UNSIGNED NOT NULL,
+-- FOREIGN KEY
+	eventId 			INT UNSIGNED NOT NULL,
+-- FOREIGN KEY
+	transactionId 	INT UNSIGNED NOT NULL,
+-- seat 				VARCHAR(10),
+	barcodeId 		INT UNSIGNED,
+
+	PRIMARY KEY (ticketId),
+-- indexing for foreign keys
+	UNIQUE(profileId),
+	UNIQUE(eventId),
+	UNIQUE(transactionId),
+	UNIQUE(barcodeId),
+-- calling to profile, event, transaction, and barcode tables
+	FOREIGN KEY (profileId) REFERENCES profile(profileId),
+	FOREIGN KEY (eventId) REFERENCES event(eventId),
+	FOREIGN KEY (transactionId) REFERENCES transaction(transactionId),
+	FOREIGN KEY (barcodeId) REFERENCES barcode(barcodeId)
 );
