@@ -105,7 +105,7 @@ class Event{
 	 */
 	public function setVenueId($newVenueId){
 		/**
-		 * set to null if venueId doesn't exist
+		 * set to null if venueId does not exist
 		 */
 		if($newVenueId === null)	{
 			$this->venueId = null;
@@ -144,8 +144,12 @@ class Event{
 	 * set eventCategoryId
 	 */
 	public function setEventCategoryId($newEventCategoryId)	{
+		/**
+		 * set to null if eventCategoryId does not exist
+		 */
 		if($newEventCategoryId === null)	{
 			$this->eventCategoryId = null;
+			return;
 		}
 
 		/**
@@ -177,7 +181,7 @@ class Event{
 	}
 
 	/**
-	 * get eventName
+	 * set eventName
 	 */
 	public function setEventName($newEventName)	{
 		/**
@@ -191,6 +195,74 @@ class Event{
 		 * passed; assign to eventName
 		 */
 		$this->eventName = $newEventName;
+	}
+
+	/**
+	 * get eventDateTime
+	 */
+	public function getEventDateTime()	{
+		return($this->eventDateTime);
+	}
+
+	/**
+	 * set eventDateTime
+	 */
+	public function setEventDateTime($newEventDateTime)	{
+		/**
+		 * if eventDateTime does not exist set to null
+		 */
+		if($newEventDateTime === null)	{
+			$this->eventDateTime = null;
+			return;
+		}
+
+		if(gettype($newEventDateTime) === "object" && get_class($newEventDateTime) === "Date")	{
+			$this->eventDateTime = $newEventDateTime;
+			return;
+		}
+
+		$newEventDateTime = trim($newEventDateTime);
+		if((preg_match("/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/", $newEventDateTime, $matches)) !== 1)	{
+			throw(new RangeException("$newEventDateTime is not a valid date"));
+		}
+
+		$year = intval($matches[1]);
+		$month = intval($matches[2]);
+		$day = intval($matches[3]);
+		if(checkdate($month, $day, $year) === false)	{
+			throw(new RangeException("$newEventDateTime is not a Gregorian date"));
+		}
+
+		$newEventDateTime = DateTime::createFromFormat ("Y-m-d H:i:s", $newEventDateTime);
+		$this->eventDateTime = $newEventDateTime;
+	}
+
+
+	/**
+	 * get ticketPrice
+	 */
+	public function getTicketPrice()	{
+		return($this->ticketPrice);
+	}
+
+	/**
+	 * set ticketPrice
+	 */
+	public function setTicketPrice($newTicketPrice)	{
+		if($newTicketPrice === null)	{
+			$this->ticketPrice = null;
+			return;
+		}
+
+		/**
+		 * filter for 0000000.00 dollar format
+		 */
+		$filterOptions = array("options" => array("regexp" => "^[\d]{1,7}(\.\d\d)$"));
+		if(filter_var($newTicketPrice, FILTER_VALIDATE_REGEXP, $filterOptions) === false)	{
+			throw(new RangeException("ticketPrice $newTicketPrice is not a dollar value"));
+		}
+
+		$this->ticketPrice = $newTicketPrice;
 	}
 
 }

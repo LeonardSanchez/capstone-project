@@ -6,6 +6,16 @@
 --
 --
 
+DROP TABLE IF EXISTS transaction;
+DROP TABLE IF EXISTS barcode;
+DROP TABLE IF EXISTS ticket;
+DROP TABLE IF EXISTS venue;
+DROP TABLE IF EXISTS eventCategory;
+DROP TABLE IF EXISTS eventLink;
+DROP TABLE IF EXISTS event;
+DROP TABLE IF EXISTS profile;
+DROP TABLE IF EXISTS user;
+
 -- create user table
 CREATE TABLE user (
 
@@ -107,22 +117,22 @@ CREATE TABLE venue (
 	venueCapacity 	INT UNSIGNED NOT NULL,
 	venuePhone 		VARCHAR(20) NOT NULL,
 	venueWebsite 	VARCHAR(250) NOT NULL,
-	address1 		VARCHAR(50) NOT NULL,
-	address2 		VARCHAR(30) NOT NULL,
+	venueAddress1 		VARCHAR(50) NOT NULL,
+	venueAddress2 		VARCHAR(30) NOT NULL,
 
 	-- indexed for searching
-	city 				VARCHAR(25) NOT NULL,
-	state 			CHAR(2) NOT NULL,
-	zipCode 			SMALLINT NOT NULL,
+	venueCity 				VARCHAR(25) NOT NULL,
+	venueState 			CHAR(2) NOT NULL,
+	venueZipCode 			SMALLINT NOT NULL,
 	--
 
 	-- PRIMARY KEY
 	PRIMARY KEY (venueId),
 	-- search INDEX
 	INDEX (venueName),
-	INDEX (city),
-	INDEX (state),
-	INDEX (zipCode)
+	INDEX (venueCity),
+	INDEX (venueState),
+	INDEX (venueZipCode)
 	--
 );
 
@@ -136,7 +146,7 @@ CREATE TABLE ticket (
 	eventId 			INT UNSIGNED NOT NULL,
 	-- FOREIGN KEY
 	transactionId 	INT UNSIGNED NOT NULL,
-	seat 				VARCHAR(10),
+	-- seat 				VARCHAR(10),
 	barcodeId 		INT UNSIGNED,
 
 	PRIMARY KEY (ticketId),
