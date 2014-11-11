@@ -5,6 +5,9 @@ require_once("/usr/lib/php5/simpletest/autorun.php");
 // then require the class under scrutiny
 require_once("../php/venue.php");
 
+// require mySQLI
+require_once("/etc/apache2/capstone-mysql/group-name.php");
+
 // the VenueTest is a container for all our tests
 class VenueTest extends UnitTestCase {
 	// variable to hold the mySQL connection
@@ -26,8 +29,7 @@ class VenueTest extends UnitTestCase {
 	// setUp() is a method that is run before each test
 	// connect to mySQL
 	public function setUp() {
-		mysqli_report(MYSQLI_REPORT_STRICT);
-		$this->mysqli = new mysqli("localhost", "rgevents", "gunny666happychance", "rgevents-dba");
+		$this->mysqli = MysqliConfiguration::getMysqli();
 	}
 
 	// tearDown() is a method that is run after each test
@@ -35,15 +37,12 @@ class VenueTest extends UnitTestCase {
 	public function tearDown() {
 		// delete the venue if we can
 		if($this->venue !== null) {
-			$this->venue->delete($this->mysqli);
-			$this->venue = null;
+		$this->venue->delete($this->mysqli);
+		$this->venue = null;
 		}
 
-		// disconnect from mySQL
-		if($this->mysqli != null) {
-			$this->mysqli->close();
-		}
 	}
+
 
 	// test creating a new Venue and inserting it to mySQL
 	public function testInsertNewVenue() {

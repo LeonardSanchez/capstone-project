@@ -5,6 +5,9 @@ require_once("/usr/lib/php5/simpletest/autorun.php");
 // then require the class under scrutiny
 require_once("../php/ticket.php");
 
+// require mySQLI
+require_once("/etc/apache2/capstone-mysql/group-name.php");
+
 // the TicketTest is a container for all our tests
 class TicketTest extends UnitTestCase {
 	// variable to hold the mySQL connection
@@ -21,8 +24,7 @@ class TicketTest extends UnitTestCase {
 	// setUp() is a method that is run before each test
 	// connect to mySQL
 	public function setUp() {
-		mysqli_report(MYSQLI_REPORT_STRICT);
-		$this->mysqli = new mysqli("localhost", "rgevents", "gunny666happychance", "rgevents-dba");
+		$this->mysqli = MysqliConfiguration::getMysqli();
 	}
 
 	// tearDown() is a method that is run after each test
@@ -32,10 +34,6 @@ class TicketTest extends UnitTestCase {
 		if($this->ticket !== null) {
 			$this->ticket->delete($this->mysqli);
 			$this->ticket = null;
-		}
-
-		// disconnect from mySQL
-		if($this->mysqli !== null) {
 		}
 	}
 
@@ -127,7 +125,7 @@ class TicketTest extends UnitTestCase {
 		$this->assertTrue($staticTicket->getTicketId() > 0);
 		$this->assertIdentical($staticTicket->getTicketId(),			$this->ticket->getTicketId());
 		$this->assertIdentical($staticTicket->getProfileId(),			$this->PROFILE_ID);
-		$this->assertIdentical($staticTicket->getEventId(),			$this->EVENT_ID;
+		$this->assertIdentical($staticTicket->getEventId(),			$this->EVENT_ID);
 		$this->assertIdentical($staticTicket->getTransactionId(),	$this->TRANSACTION_ID);
 		$this->assertIdentical($staticTicket->getBarcodeId(),			$this->BARCODE_ID);
 	}
