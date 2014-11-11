@@ -71,9 +71,9 @@ CREATE TABLE venue (
 	venueAddress2 		VARCHAR(30) NULL,
 
 	-- indexed for searching
-	venueCity 				VARCHAR(25) NOT NULL,
+	venueCity 			VARCHAR(25) NOT NULL,
 	venueState 			CHAR(2) NOT NULL,
-	venueZipCode 			SMALLINT NOT NULL,
+	venueZipCode 		VARCHAR(11) NOT NULL,
 	--
 
 	-- PRIMARY KEY
