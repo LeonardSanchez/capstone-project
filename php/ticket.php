@@ -47,7 +47,7 @@ class Ticket
 	 * @param mixed  $newBarcodeId     barcode id, a foreign key
 	 * // PLACE HOLDER FOR PHASE 2 @param string $newSeat          seat
 	 */
-	public function __construct($newTicketId, $newProfileId, $newEventId, $newTransactionId, $newBarcodeId, $newSeat)
+	public function __construct($newTicketId, $newProfileId, $newEventId, $newTransactionId, $newBarcodeId)
 	{
 		try {
 			$this->setTicketId($newTicketId);

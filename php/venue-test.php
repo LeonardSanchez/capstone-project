@@ -13,10 +13,143 @@ class VenueTest extends UnitTestCase {
 	private $venue		= null;
 
 	// a few "global" variables for creating test data
-	private $VENUE_ID				= ?;
-	private $VENUE_NAME			= ?;
-	private $VENUE_CAPACITY		= ?;
-	private $VENUE_PHONE			= ?;
-	private $VENUE_WEBSITE		= ?;
-	private
+	private $VENUE_NAME				= "?";
+	private $VENUE_CAPACITY			= "?";
+	private $VENUE_PHONE				= "?";
+	private $VENUE_WEBSITE			= "?";
+	private $VENUE_ADDRESS_1		= "?";
+	private $VENUE_ADDRESS_2		= "?";
+	private $VENUE_CITY				= "?";
+	private $VENUE_STATE				= "?";
+	private $VENUE_ZIP_CODE			= "?";
+
+	// setUp() is a method that is run before each test
+	// connect to mySQL
+	public function setUp() {
+		mysqli_report(MYSQLI_REPORT_STRICT);
+		$this->mysqli = new mysqli("localhost", "rgevents", "gunny666happychance", "rgevents-dba");
+	}
+
+	// tearDown() is a method that is run after each test
+	// here, we use it to delete the test record and disconnect from mmySQL
+	public function tearDown() {
+		// delete the venue if we can
+		if($this->venue !== null) {
+			$this->venue->delete($this->mysqli);
+			$this->venue = null;
+		}
+
+		// disconnect from mySQL
+		if($this->mysqli != null) {
+			$this->mysqli->close();
+		}
+	}
+
+	// test creating a new Venue and inserting it to mySQL
+	public function testInsertNewVenue() {
+		// first, verify mySQL connected OK
+		$this->assertNotNull($this->mysqli);
+
+		// second, create a venue to post to mySQL
+		$this->venue = new Venue(null, $this->VENUE_NAME, $this->VENUE_CAPACITY, $this->VENUE_PHONE, $this->VENUE_WEBSITE, $this->VENUE_ADDRESS_1, $this->VENUE_ADDRESS_2, $this->VENUE_CITY, $this->VENUE_STATE, $this->VENUE_ZIP_CODE);
+
+		// third, insert the venue to mySQL
+		$this->venue->insert($this->mysqli);
+
+		// finally, compare the fields
+		$this->assertNotNull($this->venue->getVenueId());
+		$this->assertTrue($this->venue->getVenueId() > 0);
+		$this->assertIdentical($this->venue->getVenueName(),			$this->VENUE_NAME);
+		$this->assertIdentical($this->venue->getVenueCapacity(),		$this->VENUE_CAPACITY);
+		$this->assertIdentical($this->venue->getVenuePhone(),			$this->VENUE_PHONE);
+		$this->assertIdentical($this->venue->getVenueWebsite(),		$this->VENUE_WEBSITE);
+		$this->assertIdentical($this->venue->getVenueAddress1(),		$this->VENUE_ADDRESS_1);
+		$this->assertIdentical($this->venue->getVenueAddress2(),		$this->VENUE_ADDRESS_2);
+		$this->assertIdentical($this->venue->getVenueCity(),			$this->VENUE_CITY);
+		$this->assertIdentical($this->venue->getVenueState(),			$this->VENUE_STATE);
+		$this->assertIdentical($this->venue->getVenueZipCode(),		$this->VENUE_ZIP_CODE);
+	}
+
+	// test updating a Venue to post to mySQL
+	public function testUpdateVenue() {
+		// first, verify mySQL connected OK
+		$this->assertNotNull($this->mysqli);
+
+		// second, create a venue to post to mySQL
+		$this->venue = new Venue(null, $this->VENUE_NAME, $this->VENUE_CAPACITY, $this->VENUE_PHONE, $this->VENUE_WEBSITE, $this->VENUE_ADDRESS_1, $this->VENUE_ADDRESS_2, $this->VENUE_CITY, $this->VENUE_STATE, $this->VENUE_ZIP_CODE);
+
+		// third, insert the venue to mySQL
+		$this->venue->insert($this->mysqli);
+
+		// fourth, update the venue and post the changes to mySQL
+		$newVenueZipCode = "87120";
+		$this->venue->setVenueZipCode($newVenueZipCode);
+		$this->venue->update($this->mysqli);
+
+		// finally, compare the fields
+		$this->assertNotNull($this->venue->getVenueId());
+		$this->assertTrue($this->venue->getVenueId() > 0);
+		$this->assertIdentical($this->venue->getVenueName(),			$this->VENUE_NAME);
+		$this->assertIdentical($this->venue->getVenueCapacity(),		$this->VENUE_CAPACITY);
+		$this->assertIdentical($this->venue->getVenuePhone(),			$this->VENUE_PHONE);
+		$this->assertIdentical($this->venue->getVenueWebsite(),		$this->VENUE_WEBSITE);
+		$this->assertIdentical($this->venue->getVenueAddress1(),		$this->VENUE_ADDRESS_1);
+		$this->assertIdentical($this->venue->getVenueAddress2(),		$this->VENUE_ADDRESS_2);
+		$this->assertIdentical($this->venue->getVenueCity(),			$this->VENUE_CITY);
+		$this->assertIdentical($this->venue->getVenueState(),			$this->VENUE_STATE);
+		$this->assertIdentical($this->venue->getVenueZipCode(),		$newVenueZipCode);
+	}
+
+	// test deleting a Venue
+	public function testDeleteVenue() {
+		// first, verify mySQL connected OK
+		$this->assertNotNull($this->mysqli);
+
+		// second, create a venue to post to mySQL
+		$this->venue = new Venue(null, $this->VENUE_NAME, $this->VENUE_CAPACITY, $this->VENUE_PHONE, $this->VENUE_WEBSITE, $this->VENUE_ADDRESS_1, $this->VENUE_ADDRESS_2, $this->VENUE_CITY, $this->VENUE_STATE, $this->VENUE_ZIP_CODE);
+
+		// third, insert the venue to mySQL
+		$this->venue->insert($this->mysqli);
+
+		// fourth, verify the Venue was inserted
+		$this->assertNotNull($this->venue->getVenueId());
+		$this->assertTrue($this->venue->getVenueId() > 0);
+
+		// fifth, delete the venue
+		$this->venue->delete($this->mysqli);
+		$this->venue = null;
+
+		// finally, try to get the venue and assert we didn't get a thing
+		$hopefulVenue = Venue::getVenueByVenueName($this->mysqli, $this->VENUE_NAME);
+		$this->assertNull($hopefulVenue);
+	}
+
+	// test grabbing a Venue from mySQL
+	public function testGetVenueByVenueName() {
+		// first, verify mySQL connected OK
+		$this->assertNotNull($this->mysqli);
+
+		// second, create a venue to post to mySQL
+		$this->venue = new Venue(null, $this->VENUE_NAME, $this->VENUE_CAPACITY, $this->VENUE_PHONE, $this->VENUE_WEBSITE, $this->VENUE_ADDRESS_1, $this->VENUE_ADDRESS_2, $this->VENUE_CITY, $this->VENUE_STATE, $this->VENUE_ZIP_CODE);
+
+		// third, insert the venue to mySQL
+		$this->venue->insert($this->mysqli);
+
+		// fourth, get the venue using the static method
+		$staticVenue = Venue::getVenueByVenueName($this->mysqli, $this->VENUE_NAME);
+
+		// finally, compare the fields
+		$this->assertNotNull($staticVenue->getVenueId());
+		$this->assertTrue($staticVenue->getVenueId() > 0);
+		$this->assertIdentical($staticVenue->getVenueName(),			$this->VENUE_NAME);
+		$this->assertIdentical($staticVenue->getVenueCapacity(),		$this->VENUE_CAPACITY);
+		$this->assertIdentical($staticVenue->getVenuePhone(),			$this->VENUE_PHONE);
+		$this->assertIdentical($staticVenue->getVenueWebsite(),		$this->VENUE_WEBSITE);
+		$this->assertIdentical($staticVenue->getVenueAddress1(),		$this->VENUE_ADDRESS_1);
+		$this->assertIdentical($staticVenue->getVenueAddress2(),		$this->VENUE_ADDRESS_2);
+		$this->assertIdentical($staticVenue->getVenueCity(),			$this->VENUE_CITY);
+		$this->assertIdentical($staticVenue->getVenueState(),			$this->VENUE_STATE);
+		$this->assertIdentical($staticVenue->getVenueZipCode(),		$this->VENUE_ZIP_CODE);
+	}
 }
+?>
