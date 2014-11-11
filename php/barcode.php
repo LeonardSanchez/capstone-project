@@ -82,6 +82,39 @@ class Barcode {
 	 *
 	 * @return mixed ticket id (or null if new ticket)
 	 **/
+	public function getTicketId() {
+		return($this->ticketId);
+	}
+
+	/**
+	 *sets the value of the ticket id
+	 *
+	 * @param mixed $newTicketId
+	 * @throws UnexpectedValueException if not an integer or null
+	 * @throws RangeException if ticket id is not positive
+	 **/
+	public function setTicketId($newTicketId)	{
+		// allow the ticket id to be null if a new object
+		if($newTicketId === null) {
+			$this->ticketId = null;
+			return;
+		}
+
+		// ensure the ticket id is an integer
+		if(filter_var($newTicketId,FILTER_VALIDATE_INT) === false)	{
+			throw(new UnexpectedValueException("ticket id $newTicketId is not numeric"));
+		}
+
+		// convert convert the ticket id to an integer and enforce it's positive
+		$newTicketId = intval($newTicketId);
+		if($newTicketId <= 0)	{
+			throw(new RangeException("ticket id $newTicketId is not positive"));
+		}
+
+		// take the ticket id out of quarantine and assign it
+		$this->ticketId = $newTicketId;
+
+	}
 
 	/**
 	 * insert this Barcode into mySQL

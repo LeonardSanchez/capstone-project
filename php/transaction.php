@@ -1,8 +1,8 @@
 <?php
 /**
- *  class for transaction
+ * class for transaction
  *
- *  created by Brendan
+ * created by Brendan
  **/
 class Transaction {
 	/**
@@ -64,24 +64,24 @@ class Transaction {
 	 * @throws RangeException if transaction id is not positive
 	 **/
 	public function setTransactionId($newTransactionId) {
-		// zeroth, set allow the transaction id to be null if a new object
+		// set allow the transaction id to be null if a new object
 		if($newTransactionId === null) {
 			$this->transactionId = null;
 			return;
 		}
 
-		// first, ensure the transaction id is an integer
+		// ensure the transaction id is an integer
 		if(filter_var($newTransactionId, FILTER_VALIDATE_INT) === false) {
 			throw(new UnexpectedValueException("Transaction id $newTransactionId is not numeric"));
 		}
 
-		//second, convert the transaction id not an integer and enforce it's positive
+		// convert the transaction id not an integer and enforce it's positive
 		$newTransactionId = intval($newTransactionId);
 		if($newTransactionId <= 0) {
 			throw(new RangeException("transaction id $newTransactionId is not positive"));
 		}
 
-		// finally, take the transaction id out of quarantine and assign it
+		// take the transaction id out of quarantine and assign it
 		$this->transactionId = $newTransactionId;
 
 	}
@@ -103,18 +103,18 @@ class Transaction {
 	 * @throws RangeException if amount is not positive
 	 **/
 	public function setAmount($newAmount) {
-		// zeroth, ensure the amount is a double
+		// ensure the amount is a double
 		if(filter_var($newAmount, FILTER_VALIDATE_FLOAT) === false) {
 			throw(new UnexpectedValueException("amount $newAmount is not a float"));
 		}
 
-		// first, convert the amount to a double and enforce it's positive
+		// convert the amount to a double and enforce it's positive
 		$newAmount = floatval($newAmount);
 		if($newAmount <= 0) {
 			throw(new RangeException("amount $newAmount is not positive"));
 		}
 
-		// finally, take the amount out of quarantine and assign it
+		// take the amount out of quarantine and assign it
 		$this->amount = $newAmount;
 
 	}
@@ -135,13 +135,13 @@ class Transaction {
 	 * @throws RangeException if the date is not a valid date
 	 **/
 	public function setDateApproved($newDateApproved) {
-		// zeroth, allow the date to be null if a new object
+		// allow the date to be null if a new object
 		if($newDateApproved === null) {
 			$this->dateApproved = null;
 			return;
 		}
 
-		// first, allow a DateTime object to be directly assigned
+		// allow a DateTime object to be directly assigned
 		if(gettype($newDateApproved) === "object" && get_class($newDateApproved) === "DateApproved") {
 			$this->dateApproved = $newDateApproved;
 			return;
@@ -161,7 +161,7 @@ class Transaction {
 			throw(new RangeException("$newDateApproved is not a Gregorian date"));
 		}
 
-		// finally, take the date out of quarantine
+		// take the date out of quarantine
 		$newDateApproved = DateTime::createFromFormat("Y-m-d H:i:s", $newDateApproved);
 		$this->dateApproved = $newDateApproved;
 	}
@@ -182,24 +182,24 @@ class Transaction {
 	 * @throws RangeException if profile id is not positive
 	 **/
 	public function setProfileId($newProfileId) {
-		// zeroth, set allow the profile id to be null if a new object
+		// allow the profile id to be null if a new object
 		if($newProfileId === null) {
 			$this->profileId = null;
 			return;
 		}
 
-		// first, ensure the profile id is an integer
+		// ensure the profile id is an integer
 		if(filter_var($newProfileId, FILTER_VALIDATE_INT) === false) {
 			throw(new UnexpectedValueException("profile id $newProfileId is not numeric"));
 		}
 
-		// secondly, convert the profile id to an integer and enforce that it is positive
+		// convert the profile id to an integer and enforce that it is positive
 		$newProfileId = intval($newProfileId);
 		if($newProfileId <= 0) {
 			throw(new RangeException("profile id $newProfileId is not positive"));
 		}
 
-		// finally, take the profile id out of quarantine and assign it
+		// take the profile id out of quarantine and assign it
 		$this->profileId = $newProfileId;
 	}
 
@@ -243,6 +243,74 @@ class Transaction {
 
 
 	}
+
+	public function delete(&$mysqli) {
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		// enforce the transaction id is not null
+		if($this->transactionId === null) {
+			throw(new mysqli_sql_exception("Unable to delete a transaction that does not exist"));
+		}
+
+		// create query template
+		$query     = "DELETE FROM transaction WHERE transactionId = ?";
+		$statement = $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind the member variables to the place holder in the template
+		$wasClean = $statement->bind_param("i", $this->transactionId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+	}
+
+	/**
+	 * updates this transaction in mySQL
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 **/
+	public function update(&$mysqli) {
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		// enforce the transactionId is not null
+		if($this->transactionId === null) {
+			throw(new mysqli_sql_exception("Unable to update a transaction that does not exist"));
+		}
+
+		// create query template
+		$query     = "UPDATE transaction SET amount = ?, dateApproved = ?, profileId = ? WHERE transactionId = ?";
+		$statement = $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind the member variables to the place holders in the template
+		$wasClean = $statement->bind_param("dsi",  $this->amount, $this->dateApproved,
+			$this->profileId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+	}
+
 
 
 
