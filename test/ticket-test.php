@@ -6,7 +6,7 @@ require_once("/usr/lib/php5/simpletest/autorun.php");
 require_once("../php/ticket.php");
 
 // require mySQLI
-require_once("/etc/apache2/capstone-mysql/group-name.php");
+require_once("/etc/apache2/capstone-mysql/rgevents.php");
 
 // the TicketTest is a container for all our tests
 class TicketTest extends UnitTestCase {

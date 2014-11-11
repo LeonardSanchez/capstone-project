@@ -204,14 +204,11 @@ class Venue
 	public function setVenuePhone($newVenuePhone) {
 		// sanitize the VenuePhone as a likely phone number
 		$newVenuePhone = trim($newVenuePhone);
-		if(($newVenuePhone = filter_var($newVenuePhone, FILTER_VALIDATE_INT)) == false) {
-			throw(new UnexpectedValueException("phone $newVenuePhone does not appear to be a phone number"));
-		}
 
 		// verify the venuePhone is a valid phone number with acceptable character length
 		// regexp code sourced from stackoverflow.com user fatcat1111, http://stackoverflow.com/questions/123559/a-comprehensive-regex-for-phone-number-validation/
 		$newVenuePhone = trim($newVenuePhone);
-		$filterOptions = array("options" => array("regexp" => "^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$"));
+		$filterOptions = array("options" => array("regexp" => "/^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/"));
 		if(filter_var($newVenuePhone, FILTER_VALIDATE_REGEXP, $filterOptions) === false) {
 			throw(new RangeException("venuePhone $newVenuePhone is not a valid phone number format"));
 		}
@@ -290,7 +287,7 @@ class Venue
 	public function setVenueAddress2($newVenueAddress2) {
 		//sanitize the VenueAddress2 as a likely address line 1
 		$newVenueAddress2 = trim($newVenueAddress2);
-		if(($newVenueAddress2 = filter_var($newVenueAddress2, FILTER_SANITIZE_STRING)) == false) {
+		if(($newVenueAddress2 = filter_var($newVenueAddress2, FILTER_SANITIZE_STRING)) == false && !empty($newVenueAddress2)) {
 			throw(new UnexpectedValueException("venueAddress2 $newVenueAddress2 does not appear to be an address2"));
 		}
 
@@ -429,11 +426,22 @@ class Venue
 				throw(new mysqli_sql_exception("input is not a mysqli object"));
 			}
 
+			// enforce the venueId is not null (i.e. don't delete a venue that hasn't been inserted)
+			if($this->venueId === null) {
+				throw(new mysqli_sql_exception("Unable to delete a venue that does not exist"));
+			}
+
 			// create query template
 			$query = "DELETE FROM venue WHERE venueId = ?";
 			$statement = $mysqli->prepare($query);
 			if($statement === false) {
 				throw(new mysqli_sql_exception("Unable to prepare statement"));
+			}
+
+			// bind the member variables to the place holder in the template
+			$wasClean = $statement->bind_param("i", $this->venueId);
+			if($wasClean === false) {
+				throw(new mysqli_sql_exception("Unable to bind parameters"));
 			}
 
 			// execute the statement
@@ -467,9 +475,10 @@ class Venue
 			}
 
 			// bind the member variables to the place holders in the template
-			$wasClean = $statement->bind_param("sisssssss",	$this->venueName,		$this->venueCapacity,	$this->venuePhone,
-																			$this->venueWebsite,	$this->venueAddress1,	$this->venueAddress2,
-																			$this->venueCity,		$this->venueState,		$this->venueZipCode);
+			$wasClean = $statement->bind_param("sissssssss",	$this->venueName,		$this->venueCapacity,	$this->venuePhone,
+																				$this->venueWebsite,	$this->venueAddress1,	$this->venueAddress2,
+																				$this->venueCity,		$this->venueState,		$this->venueZipCode,
+																				$this->venueId);
 			if($wasClean === false) {
 				throw(new mysqli_sql_exception("Unable to bind parameters"));
 			}
@@ -560,7 +569,7 @@ class Venue
 	 */
 	public static function getVenueByVenueName(&$mysqli, $venueName) {
 		// handle degenerate cases
-		if(gettype($mysqli) !== "object" || get_class($mysqli !== "mysqli")) {
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 

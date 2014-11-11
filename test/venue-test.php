@@ -6,7 +6,7 @@ require_once("/usr/lib/php5/simpletest/autorun.php");
 require_once("../php/venue.php");
 
 // require mySQLI
-require_once("/etc/apache2/capstone-mysql/group-name.php");
+require_once("/etc/apache2/capstone-mysql/rgevents.php");
 
 // the VenueTest is a container for all our tests
 class VenueTest extends UnitTestCase {
@@ -16,15 +16,15 @@ class VenueTest extends UnitTestCase {
 	private $venue		= null;
 
 	// a few "global" variables for creating test data
-	private $VENUE_NAME				= "?";
-	private $VENUE_CAPACITY			= "?";
-	private $VENUE_PHONE				= "?";
-	private $VENUE_WEBSITE			= "?";
-	private $VENUE_ADDRESS_1		= "?";
-	private $VENUE_ADDRESS_2		= "?";
-	private $VENUE_CITY				= "?";
-	private $VENUE_STATE				= "?";
-	private $VENUE_ZIP_CODE			= "?";
+	private $VENUE_NAME				= "Kimo Theatre";
+	private $VENUE_CAPACITY			= 200;
+	private $VENUE_PHONE				= "505-769-3522";
+	private $VENUE_WEBSITE			= "http://www.kimotickets.com";
+	private $VENUE_ADDRESS_1		= "421 Central Ave NW";
+	private $VENUE_ADDRESS_2		= "";
+	private $VENUE_CITY				= "Albuquerque";
+	private $VENUE_STATE				= "NM";
+	private $VENUE_ZIP_CODE			= "87102";
 
 	// setUp() is a method that is run before each test
 	// connect to mySQL
