@@ -55,24 +55,24 @@ class Barcode {
 	 * @throws RangeException if barcode id isn't positive
 	 **/
 	public function setBarcodeId($newBarcodeId)	{
-		// zeroth, set allow the barcode id to be null if a new object
+		// set allow the barcode id to be null if a new object
 		if($newBarcodeId === null) {
 			$this->barcodeId = null;
 			return;
 		}
 
-		// first, ensure the barcode id is an integer
+		// ensure the barcode id is an integer
 		if(filter_var($newBarcodeId,FILTER_VALIDATE_INT) === false)	{
 			throw(new UnexpectedValueException("barcode id $newBarcodeId is not numeric"));
 		}
 
-		// second, convert convert the barcode id to an integer and enforce it's positive
+		// convert convert the barcode id to an integer and enforce it's positive
 		$newBarcodeId = intval($newBarcodeId);
 		if($newBarcodeId <= 0)	{
 			throw(new RangeException("barcode id $newBarcodeId is not positive"));
 		}
 
-		// finally, take the barcode id out of quarantine and assign it
+		// take the barcode id out of quarantine and assign it
 		$this->barcodeId = $newBarcodeId;
 
 	}
@@ -133,7 +133,100 @@ class Barcode {
 			throw(new mysqli_sql_exception("not a new barcode"));
 		}
 
+		// create query table
+		$query		= "INSERT INTO barcode(ticketId) VALUES(?)";
+		$statement	= $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
 
+		// bind the member variables to the place holders in the template
+		$wasClean = $statement->bind_param("i", $this->ticketId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+
+		// update the null barcodeId with what mySQL just gave us
+		$this->barcodeId = $mysqli->insert_id;
+
+
+	}
+
+	/**
+	 * delete this transaction from mySQL
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 */
+	public function delete(&$mysqli){
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("input is not an mysqli object"));
+		}
+
+		// enforce the barcode id is not null
+		if($this->barcodeId === null) {
+			throw(mysqli_sql_exception("Unable to delete barcode that does not exist"));
+		}
+
+		// create query template
+		$query		= "DELETE FROM barcode WHERE barcodeId = ?";
+		$statement  = $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind the member variables to the place holder in the template
+		$wasClean = $statement->bind_param("i", $this->barcodeId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if ($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+	}
+
+	/**
+	 * updates this barcode in mySQL
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 **/
+	public function update(&$mysqli) {
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("input is not an mysqli object"));
+		}
+
+		// enforce the barcodeId is not null
+		if($this->barcodeId === null) {
+			throw(new mysqli_sql_exception("Unable to update a barcode that doesn't exist"));
+		}
+
+		// create query template
+		$query		= "UPDATE barcode SET ticketId = ?";
+		$statement  = $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind the member variables to the place holders in the template
+		$wasClean = $statement->bind_param("i", $this->ticketId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
 	}
 
 

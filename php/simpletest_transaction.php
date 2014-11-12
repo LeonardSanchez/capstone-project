@@ -50,7 +50,7 @@ class TransactionTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// now, create a transaction to post to mySQL
-		$this->transaction = new Transaction(null, $this->AMOUNT, $this->DATEAPPROVED, $this->PROFILEID);
+		$this->transaction = new Transaction(null, $this->amount, $this->dateApproved, $this->profileId);
 
 		// insert the transaction to mySQL
 		$this->transaction->insert($this->mysqli);
@@ -58,9 +58,9 @@ class TransactionTest extends UnitTestCase {
 		// and now, compare the fields
 		$this->assertNotNull($this->transaction->getTransactionId());
 		$this->assertTrue($this->transaction->getTransactionId() > 0);
-		$this->assertIdentical($this->transaction->getAmount(),				$this->AMOUNT);
-		$this->assertIdentical($this->transaction->getDateApproved(),	   $this->DATEAPPROVED);
-		$this->assertIdentical($this->transaction->getProfileId(),			$this->PROFILEID);
+		$this->assertIdentical($this->transaction->getAmount(),				$this->amount);
+		$this->assertIdentical($this->transaction->getDateApproved(),	   $this->dateApproved);
+		$this->assertIdentical($this->transaction->getProfileId(),			$this->profileId);
 	}
 
 	// test updating a Transaction in mySQL
@@ -69,7 +69,7 @@ class TransactionTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// create a transaction to post to mySQL
-		$this->transaction = new Transaction(null, $this->AMOUNT, $this->DATEAPPROVED, $this->PROFILEID);
+		$this->transaction = new Transaction(null, $this->amount, $this->dateApproved, $this->profileId);
 
 		// insert the transaction to mySQL
 		$this->transaction->insert($this->mysqli);
@@ -83,8 +83,8 @@ class TransactionTest extends UnitTestCase {
 		$this->assertNotNull($this->transaction->getTransactionId());
 		$this->assertTrue($this->transaction->getTransactionId() > 0);
 		$this->assertIdentical($this->transaction->getAmount(),				$newAmount);
-		$this->assertIdentical($this->transaction->getDateApproved(),	   $this->DATEAPPROVED);
-		$this->assertIdentical($this->transaction->getProfileId(),			$this->PROFILEID);
+		$this->assertIdentical($this->transaction->getDateApproved(),	   $this->dateApproved);
+		$this->assertIdentical($this->transaction->getProfileId(),			$this->profileId);
 
 	}
 
@@ -94,7 +94,7 @@ class TransactionTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// create a transaction to post to mySQL
-		$this->transaction = new Transaction(null, $this->AMOUNT, $this->DATEAPPROVED, $this->PROFILEID);
+		$this->transaction = new Transaction(null, $this->amount, $this->dateApproved, $this->profileId);
 
 		// insert the transaction to mySQL
 		$this->transaction->insert($this->mysqli);
@@ -108,7 +108,7 @@ class TransactionTest extends UnitTestCase {
 		$this->transaction = null;
 
 		// try to get the transaction and assert we didn't get a thing
-		$hopefulTransaction = Transaction::getTransactionByProfileId($this->mysqli, $this->PROFILEID);
+		$hopefulTransaction = Transaction::getTransactionByProfileId($this->mysqli, $this->profileId);
 		$this->assertNull($hopefulTransaction);
 	}
 
@@ -118,21 +118,21 @@ class TransactionTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// create a transaction to post to mySQL
-		$this->transaction = new Transaction(null, $this->AMOUNT, $this->DATEAPPROVED, $this->PROFILEID);
+		$this->transaction = new Transaction(null, $this->amount, $this->dateApproved, $this->profileId);
 
 		// insert the transaction to mySQL
 		$this->transaction->insert($this->mysqli);
 
 		// get the transaction by using the static method
-		$staticTransaction = Transaction::getTransactionByProfileId($this->mysqli, $this->PROFILEID);
+		$staticTransaction = Transaction::getTransactionByProfileId($this->mysqli, $this->profileId);
 
 		// compare fields
 		$this->assertNotNull($staticTransaction->getTransactionId());
 		$this->assertTrue($staticTransaction->getTransactionId() > 0);
 		$this->assertIdentical($staticTransaction->getTransactionId(),						$this->transaction->getTransactionId());
-		$this->assertIdentical($staticTransaction->getAmount(),								$this->AMOUNT);
-		$this->assertIdentical($staticTransaction->getDateApproved(),						$this->DATEAPPROVED);
-		$this->assertIdentical($staticTransaction->getProfileId(),							$this->PROFILEID);
+		$this->assertIdentical($staticTransaction->getAmount(),								$this->amount);
+		$this->assertIdentical($staticTransaction->getDateApproved(),						$this->dateApproved);
+		$this->assertIdentical($staticTransaction->getProfileId(),							$this->profileId);
 	}
 }
 ?>
