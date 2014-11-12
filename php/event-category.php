@@ -62,7 +62,7 @@ private $eventCategory;
 		$this->eventCategory = $newEventCategory;
 	}
 
-	public function insert($mysqli)	{
+	public function insert(&$mysqli)	{
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("Input is not a mysqli object"));
 		}
@@ -88,4 +88,56 @@ private $eventCategory;
 
 		$this->eventCategoryId = $mysqli->insert_id;
 	}
+
+	public function delete(&$mysqli)	{
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("Input is not a mysqli object"));
+		}
+
+		if($this->eventCategoryId === null)	{
+			throw(new mysqli_sql_exception("Unable to delete an event category that does not exist"));
+		}
+
+		$query = "DELETE FROM eventCategory WHERE eventCategoryId = ?";
+		$statement = $mysqli->prepare($query);
+		if($statement === false)	{
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		$wasClean = $statement->bind_param("i", $this->eventCategoryId);
+		if($wasClean === false)	{
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		if($statement->execute() === false)	{
+			throw(new mysqli_sql_exception("Unable to execute statement"));
+		}
+	}
+
+	public function update(&$mysqli)	{
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		if($this->eventCategoryId === null)	{
+			throw(new mysqli_sql_exception("Unable to update an eventCategory that does not exist"));
+		}
+
+		$query = "UPDATE eventCategory SET eventCategory = ?";
+		$statement = $mysqli->prepare($query);
+		if($statement === false)	{
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		$wasClean = $statement->bind_param("s", $this->eventCategory);
+
+		if($wasClean === false)	{
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		if($statement->execute() === false)	{
+			throw(new mysqli_sql_exception("Unable to execute statement"));
+		}
+	}
 }
+?>
