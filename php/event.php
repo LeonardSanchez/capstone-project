@@ -35,7 +35,8 @@ class Event{
 	 * constructor for Event
 	 *
 	 */
-	public function __construct($newEventId, $newVenueId, $newEventCategoryId, $newEventName, $newEventDateTime, $newTicketPrice){
+	public function __construct($newEventId, $newVenueId, $newEventCategoryId,
+										 $newEventName, $newEventDateTime, $newTicketPrice){
 		try{
 			$this->setEventId($newEventId);
 			$this->setVenueId($newVenueId);
@@ -216,16 +217,25 @@ class Event{
 			return;
 		}
 
+		/**
+		 *
+		 */
 		if(gettype($newEventDateTime) === "object" && get_class($newEventDateTime) === "Date")	{
 			$this->eventDateTime = $newEventDateTime;
 			return;
 		}
 
+		/**
+		 * Check format for eventDateTime
+		 */
 		$newEventDateTime = trim($newEventDateTime);
 		if((preg_match("/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/", $newEventDateTime, $matches)) !== 1)	{
 			throw(new RangeException("$newEventDateTime is not a valid date"));
 		}
 
+		/**
+		 * ensure each date does not go over date values ie;2014/17/53
+		 */
 		$year = intval($matches[1]);
 		$month = intval($matches[2]);
 		$day = intval($matches[3]);
