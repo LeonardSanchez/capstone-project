@@ -149,7 +149,7 @@ class Transaction {
 
 		// treat the date as a mySQL date string
 		$newDateApproved = trim($newDateApproved);
-		if((preg_match("/^(\d{4})-(/d^{2})-(/d^{2}) (/d{2}):(/d{2}):(/d{2})$/", $newDateApproved, $matches)) !== 1) {
+		if((preg_match("/^(/d{4})-(/d^{2})-(/d^{2}) (/d{2}):(/d{2}):(/d{2})$/", $newDateApproved, $matches)) !== 1) {
 			throw(new RangeException("$newDateApproved is not a valid date"));
 		}
 
@@ -311,10 +311,68 @@ class Transaction {
 		}
 	}
 
+	/**
+	 * gets the Transaction by ProfileId
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @param integer $profileId profileId to search for
+	 * @return mixed Transaction found or null if not found
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 **/
+	public static function getTransactionByProfileId(&$mysqli, $profileId) {
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
 
+		// sanitize the profileId before searching
+		$profileId = filter_var($profileId, FILTER_SANITIZE_NUMBER_INT);
 
+		// create query template
+		$query		= "SELECT transactionId, amount, dateApproved, profileId FROM transaction WHERE profileId = ?";
+		$statement  = $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
 
+		// bind the profileId to the place holder in the template
+		$wasClean = $statement->bind_param("i", $profileId);
+		if($wasClean ===false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute statement"));
+		}
+
+		// get the result from the SELECT query
+		$result = $statement->get_result();
+		if($result === false) {
+			throw(new mysqli_sql_exception("Unable to get result set"));
+		}
+
+		// since this is a foreign key, this will return one result at most
+		// if there's a result, we can make it into a Transaction object normally
+		// if there's no result, we can just return null
+		$row = $result->fetch_assoc(); // fetch assoc() returns a row as an associative array
+
+		// convert the associative array to a Transaction
+		if($row !== null) {
+			try{
+				$transaction = new Transaction($row["transactionId"], $row["amount"], $row["dateApproved"], $row["profileId"]);
+			}
+			catch(Exception $exception) {
+				// if row couldn't be converted, rethrow it
+				throw(new mysqli_sql_exception("Unable to convert row to Transaction", 0, $exception));
+			}
+
+			// if we get here, the Transaction is good return it
+			return($transaction);
+		} else {
+			// 404 Transaction not found return null
+			return(null);
+		}
+	}
 }
-
-
 ?>
