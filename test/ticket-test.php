@@ -28,7 +28,7 @@ class TicketTest extends UnitTestCase {
 	}
 
 	// tearDown() is a method that is run after each test
-	// here, we use it to delete the test record and disconnect from mySQL
+	// here, we use it to delete the test record
 	public function tearDown() {
 		// delete the ticket if we can
 		if($this->ticket !== null) {

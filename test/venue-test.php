@@ -33,7 +33,7 @@ class VenueTest extends UnitTestCase {
 	}
 
 	// tearDown() is a method that is run after each test
-	// here, we use it to delete the test record and disconnect from mmySQL
+	// here, we use it to delete the test record
 	public function tearDown() {
 		// delete the venue if we can
 		if($this->venue !== null) {
@@ -138,6 +138,7 @@ class VenueTest extends UnitTestCase {
 		// finally, compare the fields
 		$this->assertNotNull($staticVenue->getVenueId());
 		$this->assertTrue($staticVenue->getVenueId() > 0);
+		$this->assertIdentical($staticVenue->getVenueId(),				$this->venue->getVenueId());
 		$this->assertIdentical($staticVenue->getVenueName(),			$this->VENUE_NAME);
 		$this->assertIdentical($staticVenue->getVenueCapacity(),		$this->VENUE_CAPACITY);
 		$this->assertIdentical($staticVenue->getVenuePhone(),			$this->VENUE_PHONE);
