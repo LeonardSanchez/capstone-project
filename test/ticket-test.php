@@ -5,6 +5,11 @@ require_once("/usr/lib/php5/simpletest/autorun.php");
 // then require the class under scrutiny
 require_once("../php/ticket.php");
 
+// require the classes for poor man's dependency injection
+require_once("../php/profile.php");
+
+
+
 // require mySQLI
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 
@@ -21,11 +26,14 @@ class TicketTest extends UnitTestCase {
 	private $TRANSACTION_ID	= null;
 	private $BARCODE_ID		= null;
 
+	// create state variables for the objects
+	$this->profileId = $profileId
+
 	// setUp() is a method that is run before each test
 	// connect to mySQL
 	public function setUp() {
 		$this->mysqli = MysqliConfiguration::getMysqli();
-		$this->profileId =
+		// setup the objects
 	}
 
 	// tearDown() is a method that is run after each test
@@ -36,6 +44,8 @@ class TicketTest extends UnitTestCase {
 			$this->ticket->delete($this->mysqli);
 			$this->ticket = null;
 		}
+
+		// tear down the objects
 	}
 
 	// test creating a new Ticket and inserting it to mySQL

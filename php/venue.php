@@ -560,7 +560,7 @@ class Venue
 	}
 
 	/**
-	 * gts the Venue by Venue Name
+	 * gets the Venue by Venue Name
 	 *
 	 * @param resource $mysqli pointer to mySQL connection, by reference
 	 * @param string $venueName venueName to search for
@@ -606,7 +606,7 @@ class Venue
 		// since this is not a unique field, this can return many results. So...
 		// 1) if there's more than 1 result, we can make all into Venue objects
 		// 2) if there's no result, we can just return null
-		while(($row = $result->fetch_assoc()) !== null); // fetch_assoc returns a row as an associative array
+		$row = $result->fetch_assoc(); // fetch_assoc returns a row as an associative array
 
 		// convert the associative array to a Venue
 		if($row !== null) {
@@ -618,7 +618,7 @@ class Venue
 			}
 
 			// if we got here, the venue is good - return it
-			return ($venueName);
+			return ($venue);
 		} else {
 			// 404 Venue not found - return null instead
 			return (null);
@@ -626,25 +626,18 @@ class Venue
 	}
 
 	/**
-	 * gets the Venue by Venue Name and Venue City
+	 * gets the Venue by Venue City
 	 *
 	 * @param resource $mysqli pointer to mySQL connection, by reference
-	 * @param string $venueName venueName to search for
 	 * @param string $venueState venueCity to search for
 	 * @return Venue if found, or null if not
 	 * @throws mysqli_sql_exception when mySQL related errors occur
 	 */
-	public static function getVenueByVenueNameAndVenueCity(&$mysqli, $venueName, $venueCity)
+	public static function getVenueByVenueCity(&$mysqli, $venueCity)
 	{
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object" || get_class($mysqli !== "mysqli")) {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
-		}
-
-		// sanitize the Venue Name before searching
-		$venueName = trim($venueName);
-		if(($venueName = filter_var($venueName, FILTER_SANITIZE_STRING)) == false) {
-			throw(new UnexpectedValueException("venueName $venueName does not appear to be a valid name"));
 		}
 
 		// sanitize the Venue City before searching
@@ -654,14 +647,14 @@ class Venue
 		}
 
 		// create query template
-		$query = "SELECT venueId, venueName, venueCapacity, venuePhone, venueWebsite, venueAddress1, venueAddress2, venueCity, venueState, venueZipCode FROM venue WHERE venueCity = ? AND venueCity = ?";
+		$query = "SELECT venueId, venueName, venueCapacity, venuePhone, venueWebsite, venueAddress1, venueAddress2, venueCity, venueState, venueZipCode FROM venue WHERE venueCity = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the venueName to the place holder in the template
-		$wasClean = $statement->bind_param("ss", $venueName, $venueCity);
+		$wasClean = $statement->bind_param("s", $venueCity);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -680,7 +673,7 @@ class Venue
 		// since this is not a unique field, this can return many results. So...
 		// 1) if there's more than 1 result, we can make all into Venue objects
 		// 2) if there's no result, we can just return null
-		while(($row = $result->fetch_assoc()) !== null) ; // fetch_assoc returns a row as an associative array
+		$row = $result->fetch_assoc(); // fetch_assoc returns a row as an associative array
 
 		// convert the associative array to a Venue
 		if($row !== null) {
@@ -692,7 +685,7 @@ class Venue
 			}
 
 			// if we got here, the venue is good - return it
-			return ($venueName);
+			return ($venue);
 		} else {
 			// 404 Venue not found - return null instead
 			return (null);
@@ -700,25 +693,18 @@ class Venue
 	}
 
 	/**
-	 * gets the Venue by Venue Name and Venue State
+	 * gets the Venue by Venue State
 	 *
 	 * @param resource $mysqli pointer to mySQL connection, by reference
-	 * @param string $venueName venueName to search for
 	 * @param string $venueState venueState to search for
 	 * @return Venue if found, or null if not
 	 * @throws mysqli_sql_exception when mySQL related errors occur
 	 */
-	public static function getVenueByVenueNameAndVenueState(&$mysqli, $venueName, $venueState)
+	public static function getVenueByVenueState(&$mysqli, $venueState)
 	{
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object" || get_class($mysqli !== "mysqli")) {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
-		}
-
-		// sanitize the Venue Name before searching
-		$venueName = trim($venueName);
-		if(($venueName = filter_var($venueName, FILTER_SANITIZE_STRING)) == false) {
-			throw(new UnexpectedValueException("venueName $venueName does not appear to be a valid name"));
 		}
 
 		// sanitize the Venue State before searching
@@ -728,14 +714,14 @@ class Venue
 		}
 
 		// create query template
-		$query = "SELECT venueId, venueName, venueCapacity, venuePhone, venueWebsite, venueAddress1, venueAddress2, venueCity, venueState, venueZipCode FROM venue WHERE venueName = ? AND venueState = ?";
+		$query = "SELECT venueId, venueName, venueCapacity, venuePhone, venueWebsite, venueAddress1, venueAddress2, venueCity, venueState, venueZipCode FROM venue WHERE venueState = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the venueName to the place holder in the template
-		$wasClean = $statement->bind_param("ss", $venueName, $venueState);
+		$wasClean = $statement->bind_param("s", $venueState);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -754,7 +740,7 @@ class Venue
 		// since this is not a unique field, this can return many results. So...
 		// 1) if there's more than 1 result, we can make all into Venue objects
 		// 2) if there's no result, we can just return null
-		while(($row = $result->fetch_assoc()) !== null) ; // fetch_assoc returns a row as an associative array
+		$row = $result->fetch_assoc(); // fetch_assoc returns a row as an associative array
 
 		// convert the associative array to a Venue
 		if($row !== null) {
@@ -766,7 +752,7 @@ class Venue
 			}
 
 			// if we got here, the venue is good - return it
-			return ($venueName);
+			return ($venue);
 		} else {
 			// 404 Venue not found - return null instead
 			return (null);
@@ -774,42 +760,35 @@ class Venue
 	}
 
 	/**
-	 * gets the Venue by Venue Name and Venue Zip Code
+	 * gets the Venue by venue Zip Code
 	 *
 	 * @param resource $mysqli pointer to mySQL connection, by reference
-	 * @param string $venueName venueName to search for
 	 * @param string $venueZipCode venueZipCode to search for
 	 * @return Venue if found, or null if not
 	 * @throws mysqli_sql_exception when mySQL related errors occur
 	 */
-	public static function getVenueByVenueNameAndVenueZipCode(&$mysqli, $venueName, $venueState)
+	public static function getVenueByVenueZipCode(&$mysqli, $venueZipCode)
 	{
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object" || get_class($mysqli !== "mysqli")) {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
-		// sanitize the Venue Name before searching
-		$venueName = trim($venueName);
-		if(($venueName = filter_var($venueName, FILTER_SANITIZE_STRING)) == false) {
-			throw(new UnexpectedValueException("venueName $venueName does not appear to be a valid name"));
-		}
-
-		// sanitize the Venue State before searching
-		$venueState = trim($venueState);
-		if(($venueState = filter_var($venueState, FILTER_SANITIZE_STRING)) == false) {
-			throw(new UnexpectedValueException("venueState $venueState does not appear to be a valid state"));
+		// sanitize the Venue Zip Code before searching
+		$venueZipCode = trim($venueZipCode);
+		if(($venueZipCode = filter_var($venueZipCode, FILTER_SANITIZE_STRING)) == false) {
+			throw(new UnexpectedValueException("venueZipCode $venueZipCode does not appear to be a valid state"));
 		}
 
 		// create query template
-		$query = "SELECT venueId, venueName, venueCapacity, venuePhone, venueWebsite, venueAddress1, venueAddress2, venueCity, venueState, venueZipCode FROM venue WHERE venueName = ? AND venueState = ?";
+		$query = "SELECT venueId, venueName, venueCapacity, venuePhone, venueWebsite, venueAddress1, venueAddress2, venueCity, venueState, venueZipCode FROM venue WHERE venueZipCode = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the venueName to the place holder in the template
-		$wasClean = $statement->bind_param("ss", $venueName, $venueState);
+		$wasClean = $statement->bind_param("s", $venueZipCode);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -828,7 +807,7 @@ class Venue
 		// since this is not a unique field, this can return many results. So...
 		// 1) if there's more than 1 result, we can make all into Venue objects
 		// 2) if there's no result, we can just return null
-		while(($row = $result->fetch_assoc()) !== null) ; // fetch_assoc returns a row as an associative array
+		$row = $result->fetch_assoc(); // fetch_assoc returns a row as an associative array
 
 		// convert the associative array to a Venue
 		if($row !== null) {
@@ -840,7 +819,7 @@ class Venue
 			}
 
 			// if we got here, the venue is good - return it
-			return ($venueName);
+			return ($venue);
 		} else {
 			// 404 Venue not found - return null instead
 			return (null);

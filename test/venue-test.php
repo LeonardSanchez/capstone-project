@@ -16,7 +16,7 @@ class VenueTest extends UnitTestCase {
 	private $venue		= null;
 
 	// a few "global" variables for creating test data
-	private $VENUE_NAME				= "Kimo Theatre";
+	private $VENUE_NAME				= "Unit Test Ampitheatre";
 	private $VENUE_CAPACITY			= 200;
 	private $VENUE_PHONE				= "505-769-3522";
 	private $VENUE_WEBSITE			= "http://www.kimotickets.com";
