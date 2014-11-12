@@ -27,6 +27,7 @@ class User {
 	 **/
 	private $authenticationToken;
 
+
 	/**
 	 * constructors for the User
 	 * @param mixed $newUserId user id (or null if new object)
@@ -37,10 +38,11 @@ class User {
 	 * @throws UnexpectedValueException when a parameter is wrong type
 	 * @throws RangeException when a parameter is invalid
 	 **/
-	public function __construct($newUserId, $newEmail, $newPassword, $newSalt, $newAuthenticationToken) {
+	public function __construct($newUserId, $newEmail, $newDateOfBirth, $newPassword, $newSalt, $newAuthenticationToken) {
 		try {
 			$this->setUserId($newUserId);
 			$this->setEmail($newEmail);
+			$this->setDateOfBirth($newDateOfBirth);
 			$this->setPassword($newPassword);
 			$this->setSalt($newSalt);
 			$this->setAuthenticationToken($newAuthenticationToken);
@@ -113,6 +115,28 @@ class User {
 		$this->email = $newEmail;
 	}
 
+	/**
+	 * *gets the value of date of birth
+	 *@param  string $new$dateOfBirth date of birth
+	 *@throws UnExpectedValueException if the input doesn't appear to be a date of birth
+	 **/
+	public function getDateOfBirth(){
+		return($this->dateOfBirth);
+		/** sets the value of date of birth
+		 * @param string $newdateOfBirth date of birth
+		 * @throws UnExpectedValueException if the input doesn't appear to be a date of birth
+		 **/
+	}
+
+	public function setDateOfBirth($newDateOfBirth){
+		// sanitize the date of birth as a likely date of birth
+		$newDateOfBirth = trim($newDateOfBirth);
+		if(($newDateOfBirth = filter_var($newDateOfBirth, FILTER_SANITIZE_DATEOFBIRTH)) == false) {
+			throw(new UnexpectedValueException("dateOfBirth $newDateOfBirth does not appear to be a date of birth"));
+		}
+		// then take the date of birth out of quarantine
+		$this->dateOfBirth = $newDateOfBirth;
+	}
 	/**
 	 * gets the value of password
 	 * @return string value of password
@@ -358,7 +382,7 @@ class User {
 		// convert the associative array to a User
 		if($row !== null) {
 			try {
-				$user = new User($row["userId"], $row["email"], $row["password"], $row["salt"], $row["authenticationToken"]);
+				$user = new User($row["userId"], $row["email"], $row["dateOfBirth"], $row["password"], $row["salt"], $row["authenticationToken"]);
 			}
 			catch(Exception $exception) {
 				// if the row couldn't be converted, rethrow it
@@ -427,7 +451,7 @@ class UserTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// create a user to post to mySQL
-		$this->user = new User(null, $this->EMAIL, $this->HASH, $this->SALT, $this->AUTH_TOKEN);
+		$this->user = new User(null, $this->EMAIL, $this->DATEOFBIRTH, $this->HASH, $this->SALT, $this->AUTH_TOKEN);
 
 		// insert the user to mySQL
 		$this->user->insert($this->mysqli);
@@ -436,6 +460,7 @@ class UserTest extends UnitTestCase {
 		$this->assertNotNull($this->user->getUserId());
 		$this->assertTrue($this->user->getUserId() > 0);
 		$this->assertIdentical($this->user->getEmail(),               $this->EMAIL);
+		$this->assertIdentical($this->user-getDateOfBirth(),			  $this->DATE_OF_BIRTH);
 		$this->assertIdentical($this->user->getPassword(),            $this->HASH);
 		$this->assertIdentical($this->user->getSalt(),                $this->SALT);
 		$this->assertIdentical($this->user->getAuthenticationToken(), $this->AUTH_TOKEN);
@@ -447,7 +472,7 @@ class UserTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// create a user to post to mySQL
-		$this->user = new User(null, $this->EMAIL, $this->HASH, $this->SALT, $this->AUTH_TOKEN);
+		$this->user = new User(null, $this->EMAIL, $this->DATEOFBIRTH, $this->HASH, $this->SALT, $this->AUTH_TOKEN);
 
 		// insert the user to mySQL
 		$this->user->insert($this->mysqli);
@@ -461,11 +486,12 @@ class UserTest extends UnitTestCase {
 		  $this->assertNotNull($this->user->getUserId());
         $this->assertTrue($this->user->getUserId() > 0);
         $this->assertIdentical($this->user->getEmail(),               $newEmail);
+		  $this->assertIdentical($this->user->getDateOfBirth(),         $newDATEOFBIRTH);
         $this->assertIdentical($this->user->getPassword(),            $this->HASH);
         $this->assertIdentical($this->user->getSalt(),                $this->SALT);
         $this->assertIdentical($this->user->getAuthenticationToken(), $this->AUTH_TOKEN);
 		// create a user to post to mySQL
-		$this->user = new User(null, $this->EMAIL, $this->HASH, $this->SALT, $this->AUTH_TOKEN);
+		$this->user = new User(null, $this->EMAIL,$this->DATEOFBIRTH, $this->HASH, $this->SALT, $this->AUTH_TOKEN);
 
 		// insert the user to mySQL
 		$this->user->insert($this->mysqli);
@@ -489,7 +515,7 @@ class UserTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// create a user to post to mySQL
-		$this->user = new User(null, $this->EMAIL, $this->HASH, $this->SALT, $this->AUTH_TOKEN);
+		$this->user = new User(null, $this->EMAIL,$this->DATEOFBIRTH, $this->HASH, $this->SALT, $this->AUTH_TOKEN);
 
 		// insert the user to mySQL
 		$this->user->insert($this->mysqli);
@@ -502,6 +528,7 @@ class UserTest extends UnitTestCase {
 		$this->assertTrue($staticUser->getUserId() > 0);
 		$this->assertIdentical($staticUser->getUserId(),              $this->user->getUserId());
 		$this->assertIdentical($staticUser->getEmail(),               $this->EMAIL);
+		$this->assertIdentical($staticUser->getDateOfBirth(),         $this->DATEOFBIRTH());
 		$this->assertIdentical($staticUser->getPassword(),            $this->HASH);
 		$this->assertIdentical($staticUser->getSalt(),                $this->SALT);
 		$this->assertIdentical($staticUser->getAuthenticationToken(), $this->AUTH_TOKEN);
