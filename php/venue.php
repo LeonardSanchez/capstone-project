@@ -614,7 +614,7 @@ class Venue
 				$venue = new Venue($row["venueId"], $row["venueName"], $row["venueCapacity"], $row["venuePhone"], $row["venueWebsite"], $row["venueAddress1"], $row["venueAddress2"], $row["venueCity"], $row["venueState"], $row["venueZipCode"]);
 			} catch(Exception $exception) {
 				// if the row couldn't be converted, rethrow it
-				throw(new mysqli_sql_exception("Unable to conv ert row to Venue", 0, $exception));
+				throw(new mysqli_sql_exception("Unable to convert row to Venue", 0, $exception));
 			}
 
 			// if we got here, the venue is good - return it

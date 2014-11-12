@@ -16,15 +16,16 @@ class TicketTest extends UnitTestCase {
 	private $ticket	= null;
 
 	// a few "global" variables for creating test data
-	private $PROFILE_ID		= "?";
-	private $EVENT_ID			= "?";
-	private $TRANSACTION_ID	= "?";
-	private $BARCODE_ID		= "?";
+	private $PROFILE_ID		= null;
+	private $EVENT_ID			= null;
+	private $TRANSACTION_ID	= null;
+	private $BARCODE_ID		= null;
 
 	// setUp() is a method that is run before each test
 	// connect to mySQL
 	public function setUp() {
 		$this->mysqli = MysqliConfiguration::getMysqli();
+		$this->profileId =
 	}
 
 	// tearDown() is a method that is run after each test

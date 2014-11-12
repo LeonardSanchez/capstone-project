@@ -134,6 +134,7 @@ class VenueTest extends UnitTestCase {
 
 		// fourth, get the venue using the static method
 		$staticVenue = Venue::getVenueByVenueName($this->mysqli, $this->VENUE_NAME);
+		var_dump($staticVenue);
 
 		// finally, compare the fields
 		$this->assertNotNull($staticVenue->getVenueId());

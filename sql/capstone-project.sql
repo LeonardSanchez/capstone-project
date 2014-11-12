@@ -151,8 +151,8 @@ CREATE TABLE transaction (
 	profileId 		INT UNSIGNED NOT NULL,
    amount 			DECIMAL(9, 2) UNSIGNED NOT NULL,
    dateApproved 	DATETIME NOT NULL,
-   cardToken 		VARCHAR(128) NOT NULL,
-   customerToken 	VARCHAR(35) NOT NULL,
+--	cardToken 		VARCHAR(128) NOT NULL,
+--	customerToken 	VARCHAR(35) NOT NULL,
 	-- indexing for foreign key
 	UNIQUE(profileId),
    PRIMARY KEY(transactionId),
