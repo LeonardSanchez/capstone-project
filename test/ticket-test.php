@@ -67,9 +67,8 @@ class TicketTest extends UnitTestCase {
 		$this->barcode	= new Barcode(null);
 		$this->barcode->insert($this->mysqli);
 
-		$this->transaction = new Transaction(null, $this->profile->getProfileId(), "20.00", "2014-11-15 12:00:00",
-
-
+		$this->transaction = new Transaction(null, $this->profile->getProfileId(), "20.00", "2014-11-15 12:00:00");
+		$this->transaction->insert($this->mysqli);
 	}
 
 	// tearDown() is a method that is run after each test
@@ -77,14 +76,46 @@ class TicketTest extends UnitTestCase {
 	public function tearDown() {
 		// delete the ticket if we can
 		// for the foreign keys MAKE SURE TO DELETE IN REVERSE ORDER!
-		if($this->ticket !== null) {
-			$this->ticket->delete($this->mysqli);
-			$this->ticket = null;
+		if($this->transaction !== null) {
+			$this->transaction->delete($this->mysqli);
+			$this->transaction = null;
 		}
+
+		if($this->barcode !== null) {
+			$this->barcode->delete($this->mysqli);
+			$this->barcode = null;
+		}
+
+		if($this->event !== null) {
+			$this->event->delete($this->mysqli);
+			$this->event = null;
+		}
+
+		if($this->venue !== null) {
+			$this->venue->delete($this->mysqli);
+			$this->venue = null;
+		}
+
+		if($this->eventCategory !== null) {
+			$this->eventCategory->delete($this->mysqli);
+			$this->eventCategory = null;
+		}
+
 		if($this->profile !== null) {
 			$this->profile->delete($this->mysqli);
 			$this->profile = null;
 		}
+
+		if($this->user !== null) {
+			$this->user->delete($this->mysqli);
+			$this->user = null;
+		}
+
+		if($this->ticket !== null) {
+			$this->ticket->delete($this->mysqli);
+			$this->ticket = null;
+		}
+
 
 		// tear down the objects
 	}
@@ -95,7 +126,7 @@ class TicketTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// second, create a ticket to post to mySQL
-		$this->ticket = new Ticket(null, $this->profile->getProfileId(), $this->EVENT_ID, $this->TRANSACTION_ID, $this->BARCODE_ID);
+		$this->ticket = new Ticket(null, $this->profile->getProfileId(), $this->event->getEventId(), $this->transaction->getTransactionId(), $this->barcode->getBarcodeId());
 
 		// third, insert the ticket to mySQL
 		$this->ticket->insert($this->mysqli);
@@ -104,9 +135,9 @@ class TicketTest extends UnitTestCase {
 		$this->assertNotNull($this->ticket->getTicketId());
 		$this->assertTrue($this->ticket->getTicketId() > 0);
 		$this->assertIdentical($this->ticket->getProfileId(),			$this->profile->getProfileId());
-		$this->assertIdentical($this->ticket->getEventId(),			$this->EVENT_ID);
-		$this->assertIdentical($this->ticket->getTransactionId(),	$this->TRANSACTION_ID);
-		$this->assertIdentical($this->ticket->getBarcodeId(),			$this->BARCODE_ID);
+		$this->assertIdentical($this->ticket->getEventId(),			$this->event->getEventId());
+		$this->assertIdentical($this->ticket->getTransactionId(),	$this->transaction->getTransactionId());
+		$this->assertIdentical($this->ticket->getBarcodeId(),			$this->barcode->getBarcodeId());
 	}
 
 	// test updating a Ticket in mySQL
@@ -115,23 +146,23 @@ class TicketTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// second, create a ticket to post to mySQL
-		$this->ticket = new Ticket(null, $this->profile->getProfileId(), $this->EVENT_ID, $this->TRANSACTION_ID, $this->BARCODE_ID);
+		$this->ticket = new Ticket(null, $this->profile->getProfileId(), $this->event->getEventId(), $this->transaction->getTransactionId(), $this->barcode->getBarcodeId());
 
 		// third, insert the ticket to mySQL
 		$this->ticket->insert($this->mysqli);
 
 		// fourth, update the ticket and post the changes to mySQL
-		$newEventId = "9999";
-		$this->ticket->setEventId($newEventId);
+		$newTicketId = "9999";
+		$this->ticket->setTicketId($newTicketId);
 		$this->ticket->update($this->mysqli);
 
 		// finally, compare the fields
 		$this->assertNotNull($this->ticket->getTicketId());
 		$this->assertTrue($this->ticket->getTicketId() > 0);
 		$this->assertIdentical($this->ticket->getProfileId(),			$this->profile->getProfileId());
-		$this->assertIdentical($this->ticket->getEventId(),			$newEventId);
-		$this->assertIdentical($this->ticket->getTransactionId(),	$this->TRANSACTION_ID);
-		$this->assertIdentical($this->ticket->getBarcodeId(),			$this->BARCODE_ID);
+		$this->assertIdentical($this->ticket->getEventId(),			$this->event->getEventId());
+		$this->assertIdentical($this->ticket->getTransactionId(),	$this->transaction->getTransactionId());
+		$this->assertIdentical($this->ticket->getBarcodeId(),			$this->barcode->getBarcodeId());
 	}
 
 	// test deleting a Venue
@@ -140,7 +171,7 @@ class TicketTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// second, create a ticket to post to mySQL
-		$this->ticket = new Ticket(null, $this->profile->getProfileId(), $this->EVENT_ID, $this->TRANSACTION_ID, $this->BARCODE_ID);
+		$this->ticket = new Ticket(null, $this->profile->getProfileId(), $this->event->getEventId(), $this->transaction->getTransactionId(), $this->barcode->getBarcodeId());
 
 		// third, insert the ticket to mySQL
 		$this->ticket->insert($this->mysqli);
@@ -154,7 +185,7 @@ class TicketTest extends UnitTestCase {
 		$this->ticket = null;
 
 		// finally, try to get the ticket and assert we didn't get a thing
-		$hopefulTicket = Ticket::getTicketByTransactionId($this->mysqli, $this->TRANSACTION_ID);
+		$hopefulTicket = Ticket::getTicketByTransactionId($this->mysqli, $this->transaction->getTransactionId());
 		$this->assertNull($hopefulTicket);
 	}
 
@@ -164,22 +195,22 @@ class TicketTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// second, create a ticket to post to mySQL
-		$this->ticket = new Ticket(null, $this->profile->getProfileId(), $this->EVENT_ID, $this->TRANSACTION_ID, $this->BARCODE_ID);
+		$this->ticket = new Ticket(null, $this->profile->getProfileId(), $this->event->getEventId(), $this->transaction->getTransactionId(), $this->barcode->getBarcodeId());
 
 		// third, insert the ticket to mySQL
 		$this->ticket->insert($this->mysqli);
 
 		// fourth, get the venue using the static method
-		$staticTicket = Venue::getTicketByTransactionId($this->mysqli, $this->TICKET_ID);
+		$staticTicket = Venue::getTicketByTransactionId($this->mysqli, $this->transaction->getTransactionId());
 
 		// finally, compare the fields
 		$this->assertNotNull($staticTicket->getTicketId());
 		$this->assertTrue($staticTicket->getTicketId() > 0);
 		$this->assertIdentical($staticTicket->getTicketId(),			$this->ticket->getTicketId());
 		$this->assertIdentical($staticTicket->getProfileId(),			$this->profile->getProfileId());
-		$this->assertIdentical($staticTicket->getEventId(),			$this->EVENT_ID);
-		$this->assertIdentical($staticTicket->getTransactionId(),	$this->TRANSACTION_ID);
-		$this->assertIdentical($staticTicket->getBarcodeId(),			$this->BARCODE_ID);
+		$this->assertIdentical($staticTicket->getEventId(),			$this->event->getEventId());
+		$this->assertIdentical($staticTicket->getTransactionId(),	$this->transaction->getTransactionId());
+		$this->assertIdentical($staticTicket->getBarcodeId(),			$this->barcode->getBarcodeId());
 	}
 }
 ?>
