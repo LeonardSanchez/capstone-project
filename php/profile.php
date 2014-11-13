@@ -365,15 +365,15 @@ class Profile
 		}
 
 		// convert dates to strings
-		if($this->dateConfirmed === null) {
-			$dateConfirmed = null;
+		if($this->dateOfBirth === null) {
+			$dateOfBirth = null;
 		} else {
-			$dateConfirmed = $this->dateConfirmed->format("Y-d-m H:i:s");
+			$dateOfBirth = $this->dateOfBirth->format("Y-d-m H:i:s");
 		}
-		if($this->dateCreated === null) {
-			$dateCreated = null;
+		if($this->dateOfBirth === null) {
+			$dateOfBirth = null;
 		} else {
-			$dateCreated = $this->dateCreated->format("Y-d-m H:i:s");
+			$dateOfBirth = $this->dateOfBirth->format("Y-d-m H:i:s");
 		}
 
 		// create query template

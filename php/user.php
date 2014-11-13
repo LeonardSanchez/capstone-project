@@ -225,8 +225,8 @@ class User {
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("ssss", $this->email, $this->passwordHash,
-			$this->salt,  $this->authToken);
+		$wasClean = $statement->bind_param("ssss", 	$this->email, $this->passwordHash,
+																	$this->salt,  $this->authToken);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -290,6 +290,18 @@ class User {
 		// enforce the userId is not null
 		if($this->userId === null) {
 			throw(new mysqli_sql_exception("Unable to update a user that does not exist"));
+		}
+
+		// convert dates to strings
+		if($this->dateConfirmed === null) {
+			$dateConfirmed = null;
+		} else {
+			$dateConfirmed = $this->dateConfirmed->format("Y-d-m H:i:s");
+		}
+		if($this->dateCreated === null) {
+			$dateCreated = null;
+		} else {
+			$dateCreated = $this->dateCreated->format("Y-d-m H:i:s");
 		}
 
 		// create query template

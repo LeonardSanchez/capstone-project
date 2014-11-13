@@ -49,7 +49,7 @@ class TicketTest extends UnitTestCase {
 		$salt       	= bin2hex(openssl_random_pseudo_bytes(32));
 		$authToken 		= bin2hex(openssl_random_pseudo_bytes(16));
 		$passwordHash 	= hash_pbkdf2("sha512", "password", $salt, 2048, 128);
-		$this->user 	= new User(null,"imconfused", "myhomie@lost.com",$passwordHash,$salt,$authToken);
+		$this->user 	= new User(null, "someemail@gmail.com", $passwordHash, $salt, $authToken);
 		$this->user->insert($this->mysqli);
 
 		$this->profile = new Profile(null, $this->user->getUserId(), "Bill", "Murray", "1972-05-21 12:00:00", "m");
