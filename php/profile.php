@@ -1,297 +1,391 @@
 <?php
-
 /**
- * mySQL Enabled User and User Profile
- * @author Leonard Sanchez <Suavelen69@gmail.com, leonard@cnm.edu>
+ * mySQL Enabled Event
  *
- **/
-class User {
+ * This is a mySQL enabled container for Profile authentication at Stackoverflow.com. It can easily be extended to include more fields as necessary.
+ *
+ * @author James Mistalski <james.mistalski@gmail.com
+ * @see my profile
+ */
+
+class Profile
+{
 	/**
-	 * user id for  User; this is the primary key
+	 * profile id for the Profile; this is the primary key
+	 **/
+	private $profileId;
+	/**
+	 * user id for the Profile; this is a foreign key
 	 **/
 	private $userId;
 	/**
-	 * email for the User; this is a unique field
+	 * first name for the Profile;
 	 **/
-	private $email;
+	private $firstName;
 	/**
-	 * SHA512 PBKDF2 hash of the password
+	 * last name for the Profile;
 	 **/
-	private $password;
+	private $lastName;
 	/**
-	 * salt used in the PBKDF2 hash
-	 **/
-	private $salt;
+	 * date of birth for the profile
+	 */
+	private $dateOfBirth;
 	/**
-	 * authentication token used for  new accounts and password resets
-	 **/
-	private $authenticationToken;
+	 * gender for the profile
+	 */
+	private $gender;
 
-	public function __construct($newUserId, $newEmail, $newPassword, $newSalt, $newAuthenticationToken)
-{
 
-	try {
-		$this->setUserId($newUserId);
-		$this->setEmail($newEmail);
-		$this->setPassword($newPassword);
-		$this->setSalt($newSalt);
-		$this->setAuthenticationToken($newAuthenticationToken);
-	} catch(UnexpectedValueException $unexpectedValue) {
-		// rethrow to the caller
-		throw(new UnexpectedValueException("Unable to construct User", 0, $unexpectedValue));
-	} catch(RangeException $range) {
-		// rethrow to the caller
-		throw(new RangeException("Unable to construct User", 0, $range));
+
+	/**
+	 * constructor for Profile
+	 *
+	 * @param mixed  $newProfileId  profile id (or null if new object)
+	 * @param mixed  $newUserId     user id
+	 * @param string $newFirstName  first name
+	 * @param string $newLastName   last name
+	 * @param string $newDateOfBirth date of birth
+	 * @param string $newGender gender
+	 *
+	 **/
+	public function __construct($newProfileId, $newUserId, $newFirstName, $newLastName, $newDateOfBirth, $newGender)
+	{
+		try {
+			$this->setProfileId($newProfileId);
+			$this->setUserId($newUserId);
+			$this->setFirstName($newFirstName);
+			$this->setLastName($newLastName);
+			$this->setDateOfBirth($newDateOfBirth);
+			$this->setGender($newGender);
+		} catch(UnexpectedValueException $unexpectedValue) {
+			//rethrow to the caller
+			throw(new UnexpectedValueException("Unable to construct Profile", 0, $unexpectedValue));
+		} catch(RangeException $range) {
+			//rethrow to the caller
+			throw(new RangeException("Unable to construct Profile", 0, $range));
+		}
 	}
-}
 
 	/**
-	 * gets the value of user id
-	 * @return mixed user id (or null if new object)
+	 * gets the value of profile id
+	 *
+	 * @return mixed profile id (or null if new object)
 	 **/
-	public function getUserId() {
-		return($this->userId);
+	public function getProfileId()
+	{
+		return ($this->profileId);
 	}
 
+
 	/**
-	 * set the value of user id
-	 * @param mixed $newUserId user id (or null if new object)
+	 * sets the value of profile id
+	 *
+	 * @param mixed $newProfileId profile id (or null if new object)
 	 * @throws UnexpectedValueException if not an integer or null
-	 * @throws RangeException if user id isn't positive
+	 * @throws RangeException if profile id isn't positive
 	 **/
-	public function setUserId($newUserId) {
-		// set allow the user id to be null if a new object
-		if($newUserId === null) {
-			$this->userId = null;
+	public function setProfileId($newProfileId)
+	{
+		// zeroth, set allow the profile id to be null if a new object
+		if($newProfileId === null) {
+			$this->profileId = null;
 			return;
 		}
 
-		// ensure the user id is an integer
+		// first, ensure the profile id is an integer
+		if(filter_var($newProfileId, FILTER_VALIDATE_INT) === false) {
+			throw(new UnexpectedValueException("profile id $newProfileId is not numeric"));
+		}
+
+		// second, convert the profile id to an integer and enforce it's positive
+		$newProfileId = intval($newProfileId);
+		if($newProfileId <= 0) {
+			throw(new RangeException("profile id $newProfileId is not positive"));
+		}
+
+		// finally, take the profile id out of quarantine and assign it
+		$this->profileId = $newProfileId;
+	}
+
+
+	/**
+	 * gets the value of user id
+	 *
+	 * @return mixed user id
+	 **/
+	public function getUserId()
+	{
+		return ($this->userId);
+	}
+
+	/**
+	 * sets the value of user id
+	 *
+	 * @param mixed $newUserId user id
+	 * @throws UnexpectedValueException if not an integer
+	 * @throws RangeException if user id isn't positive
+	 **/
+	public function setUserId($newUserId)
+	{
+		// first, ensure the user id is an integer
 		if(filter_var($newUserId, FILTER_VALIDATE_INT) === false) {
 			throw(new UnexpectedValueException("user id $newUserId is not numeric"));
 		}
 
-		// convert the user id to an integer and enforce it's positive
+		// second, convert the user id to an integer and enforce it's positive
 		$newUserId = intval($newUserId);
 		if($newUserId <= 0) {
 			throw(new RangeException("user id $newUserId is not positive"));
 		}
 
-		//  take user id out of quarantine and assign it
+		// finally, take the user id out of quarantine and assign it
 		$this->userId = $newUserId;
 	}
 
 	/**
-	 * get the value of email
-	 * @return string value of email
-	 **/
-	public function getEmail() {
-		return($this->email);
-	}
-
-	/**
-	 * sets the value of email
-	 * @param string $newEmail email
-	 * @throws UnexpectedValueException if the input doesn't appear to be an Email
-	 **/
-	public function setEmail($newEmail) {
-		// sanitize the Email as a likely Email
-		$newEmail = trim($newEmail);
-		if(($newEmail = filter_var($newEmail, FILTER_SANITIZE_EMAIL)) == false) {
-			throw(new UnexpectedValueException("email $newEmail does not appear to be an email address"));
-		}
-
-		// then just take email out of quarantine
-		$this->email = $newEmail;
-	}
-
-	/**
-	 * gets the value of password
-	 * @return string value of password
-	 **/
-	public function getPassword() {
-		return($this->password);
-	}
-
-	/**
-	 * sets the value of password
-	 * @param string $newPassword SHA512 PBKDF2 hash of the password
-	 * @throws RangeException when input is not a valid SHA512 PBKDF2 hash
-	 **/
-	public function setPassword($newPassword) {
-		// verify the password has 128 hex characters
-		$newPassword   = trim($newPassword);
-		$newPassword   = strtolower($newPassword);
-		$filterOptions = array("options" => array("regexp" => "/^[\da-f]{128}$/"));
-		if(filter_var($newPassword, FILTER_VALIDATE_REGEXP, $filterOptions) === false) {
-			throw(new RangeException("password is not a valid SHA512 PBKDF2 hash"));
-		}
-
-		// take  password out of quarantine
-		$this->password = $newPassword;
-	}
-
-	/**
-	 * gets the value of the salt
+	 * gets the value of first name
 	 *
-	 * @return string value of the salt
+	 * @return string value of first name
 	 **/
-	public function getSalt() {
-		return($this->salt);
+	public function getFirstName()
+	{
+		return ($this->firstName);
 	}
 
 	/**
-	 * sets the value of salt
-	 * @param string $newSalt salt (64 hexadecimal bytes)
-	 * @throws RangeException when input is not 64 hexadecimal bytes
+	 *sets the value of first name
+	 *
+	 * @param string $newFirstName first name
+	 * @throws UnexpectedValueException if the input doesn't appear to be a First Name
 	 **/
-	public function setSalt($newSalt) {
-		// verify salt has 64 hex characters
-		$newSalt   = trim($newSalt);
-		$newSalt   = strtolower($newSalt);
-		$filterOptions = array("options" => array("regexp" => "/^[\da-f]{64}$/"));
-		if(filter_var($newSalt, FILTER_VALIDATE_REGEXP, $filterOptions) === false) {
-			throw(new RangeException("salt is not 64 hexadecimal bytes"));
+	public function setFirstName($newFirstName)
+	{
+		// sanitize the First Name as a likely First Name
+		$newFirstName = trim($newFirstName);
+		if(($newFirstName = filter_var($newFirstName, FILTER_SANITIZE_STRING)) == false) {
+			throw(new UnexpectedValueException("firstName $newFirstName does not appear to be a first name"));
 		}
 
-		// take salt out of quarantine
-		$this->salt = $newSalt;
+		//then just take first name out of quarantine
+		$this->firstName = $newFirstName;
 	}
 
 	/**
-	 * gets the value of authentication token
-	 * @return mixed value of authentication token
+	 * gets the value of last name
+	 *
+	 * @return string value of last name
 	 **/
-	public function getAuthenticationToken() {
-		return($this->authenticationToken);
+	public function getLastName()
+	{
+		return ($this->lastName);
 	}
 
 	/**
-	 * sets the value of authentication token
-	 * @param mixed $newAuthenticationToken authentication token (32 hexadecimal bytes)
-	 * @throws RangeException when input is not 32 hexadecimal bytes
+	 *sets the value of last name
+	 *
+	 * @param string $newLastName last name
+	 * @throws UnexpectedValueException if the input doesn't appear to be a Last Name
 	 **/
-	public function setAuthenticationToken($newAuthenticationToken) {
-		//  set allow the authentication token to null if an active o
-		if($newAuthenticationToken === null) {
-			$this->authenticationToken = null;
+	public function setLastName($newLastName)
+	{
+		// sanitize the Last Name as a likely Last Name
+		$newLastName = trim($newLastName);
+		if(($newLastName = filter_var($newLastName, FILTER_SANITIZE_STRING)) == false) {
+			throw(new UnexpectedValueException("lastName $newLastName does not appear to be a last name"));
+		}
+
+		//then just take last name out of quarantine
+		$this->lastName = $newLastName;
+	}
+
+	/**
+	 * gets the value of date of birth
+	 */
+	public function getDateOfBirth()	{
+		return($this->dateOfBirth);
+	}
+
+	/**
+	 * sets the value of date of birth
+	 *
+	 * @param mixed $newDateOfBirth object or string with the date of birth
+	 * @throws RangeException if date is not a valid date
+	 */
+	public function setDateOfBirth($newDateOfBirth)
+	{
+		// zeroth, allow the date to be null if new object
+		if($newDateOfBirth === null) {
+			$this->dateOfBirth = null;
 			return;
 		}
 
-		// confirm the authentication token has 32 hex characters
-		$newAuthenticationToken   = trim($newAuthenticationToken);
-		$newAuthenticationToken   = strtolower($newAuthenticationToken);
-		$filterOptions = array("options" => array("regexp" => "/^[\da-f]{32}$/"));
-		if(filter_var($newAuthenticationToken, FILTER_VALIDATE_REGEXP, $filterOptions) === false) {
-			throw(new RangeException("authentication token is not 32 hexadecimal bytes"));
+		// first, allow a DateTime object to be directly assigned
+		if(gettype($newDateOfBirth) === "object" && get_class($newDateOfBirth) === "Date") {
+			$this->eventDateTime = $newDateOfBirth;
+			return;
 		}
 
-		// take authentication token out of quarantine
-		$this->authenticationToken = $newAuthenticationToken;
+		// second, treat the date as a mySQL date string
+		$newDateOfBirth = trim($newDateOfBirth);
+		if((preg_match("/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/", $newDateOfBirth, $matches)) !== 1) {
+			throw(new RangeException("$newDateOfBirth is not a valid date"));
+		}
+
+		// third, verify the date is really a valid calendar date
+		$year = intval($matches[1]);
+		$month = intval($matches[2]);
+		$day = intval($matches[3]);
+		if(checkdate($month, $day, $year) === false) {
+			throw(new RangeException("$newDateOfBirth is not a Gregorian date"));
+		}
+
+		// finally, take the date out of quarantine
+		$newDateOfBirth = DateTime::createFromFormat("Y-m-d H:i:s", $newDateOfBirth);
+		$this->dateOfBirth = $newDateOfBirth;
 	}
 
 	/**
-	 * inserts this User to mySQL
-	 * @param resource $mysqli pointer to mySQL connection
-	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 * gets the value of gender
+	 *
+	 * @return string value of gender
+	 */
+	public function getGender($newGender) {
+		return($this->gender);
+	}
+
+	/**
+	 *sets the value of gender
+	 *
+	 * @param string $newGender gender
+	 * @throws UnexpectedValueException if the input doesn't appear to be a gender identifier
 	 **/
-	public function insert(&$mysqli) {
-		// handle degenerate cases
-		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
-			throw(new mysqli_sql_exception("input is not a mysqli object"));
+	public function setGender($newGender)
+	{
+		// sanitize the Gender as a likely Gender identifier
+		$newGender = trim($newGender);
+		if(($newGender = filter_var($newGender, FILTER_SANITIZE_STRING)) == false) {
+			throw(new UnexpectedValueException("gender $newGender does not appear to be a last name"));
 		}
 
-		// enforce the userId is null
-		if($this->userId !== null) {
-			throw(new mysqli_sql_exception("not a new user"));
-		}
-
-		// create query template
-		$query     = "INSERT INTO user(email, password, salt, authenticationToken) VALUES(?, ?, ?, ?)";
-		$statement = $mysqli->prepare($query);
-		if($statement === false) {
-			throw(new mysqli_sql_exception("Unable to prepare statement"));
-		}
-
-		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("ssss", $this->email, $this->password,
-			$this->salt,  $this->authenticationToken);
-		if($wasClean === false) {
-			throw(new mysqli_sql_exception("Unable to bind parameters"));
-		}
-
-		// execute the statement
-		if($statement->execute() === false) {
-			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
-		}
-
-		// update the null userId
-		$this->userId = $mysqli->insert_id;
+		//then just take last name out of quarantine
+		$this->gender = $newGender;
 	}
 
 	/**
-	 * deletes this User from mySQL
+	 *  inserts this Profile to mySQL
 	 *
 	 * @param resource $mysqli pointer to mySQL connection, by reference
 	 * @throws mysqli_sql_exception when mySQL related errors occur
 	 **/
-	public function delete(&$mysqli) {
+	public function insert(&$mysqli) {
+
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
-		// enforce the userId is not null
-		if($this->userId === null) {
-			throw(new mysqli_sql_exception("Unable to delete a user that does not exist"));
+		// enforce the profileId is null (i.e., don't insert a profile that already exists)
+		if($this->profileId !== null) {
+			throw(new mysqli_sql_exception("not a new profile"));
 		}
 
 		// create query template
-		$query     = "DELETE FROM user WHERE userId = ?";
-		$statement = $mysqli->prepare($query);
-		if($statement === false) {
-			throw(new mysqli_sql_exception("Unable to prepare statement"));
-		}
-
-		// bind the member variables to the place holder in the template
-		$wasClean = $statement->bind_param("i", $this->userId);
-		if($wasClean === false) {
-			throw(new mysqli_sql_exception("Unable to bind parameters"));
-		}
-
-		// execute the statement
-		if($statement->execute() === false) {
-			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
-		}
-	}
-
-	/**
-	 * update the User in mySQL
-	 * @param resource $mysqli pointer to mySQL connection, by reference
-	 * @throws mysqli_sql_exception when mySQL related errors occur
-	 **/
-	public function update(&$mysqli) {
-		// handle degenerate cases
-		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
-			throw(new mysqli_sql_exception("input is not a mysqli object"));
-		}
-
-		// enforce the userId is not null
-		if($this->userId === null) {
-			throw(new mysqli_sql_exception("Unable to update a user that does not exist"));
-		}
-
-		// create query template
-		$query     = "UPDATE user SET email = ?, password = ?, salt = ?, authenticationToken = ? WHERE userId = ?";
+		$query = "INSERT INTO profile(userId, firstName, lastName, dateOfBirth, gender) VALUES(?, ?, ?, ?, ?)";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("ssssi", $this->email, $this->password,
-			$this->salt,  $this->authenticationToken,
-			$this->userId);
+		$wasClean = $statement->bind_param("issss", $this->userId, $this->firstName,
+			$this->lastName, $this->dateOfBirth,
+			$this->gender);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			echo $statement->error . "<br />";
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+
+		// update the null profileId with what mySQL just gave me
+		$this->profileId = $mysqli->insert_id;
+	}
+
+	/**
+	 * deletes this Profile from mySQL
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 **/
+	public function delete(&$mysqli)
+	{
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		// enforce the profileId is not null (i.e., don't delete a profile that hasn't been inserted)
+		if($this->profileId === null) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// create query template
+		$query = "DELETE FROM profile WHERE profileId = ?";
+		$statement = $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+	}
+
+	/**
+	 * updates this Profile in mySQL
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 **/
+	public function update(&$mysqli)
+	{
+
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		// enforce the profileId is not null (i.e., don't update a profile that hasn't been inserted)
+		if($this->profileId === null) {
+			throw(new mysqli_sql_exception("Unable to update a profile that does not exist"));
+		}
+
+		// convert dates to strings
+		if($this->dateConfirmed === null) {
+			$dateConfirmed = null;
+		} else {
+			$dateConfirmed = $this->dateConfirmed->format("Y-d-m H:i:s");
+		}
+		if($this->dateCreated === null) {
+			$dateCreated = null;
+		} else {
+			$dateCreated = $this->dateCreated->format("Y-d-m H:i:s");
+		}
+
+		// create query template
+		$query = "UPDATE profile SET userId = ?, firstName = ?, lastName = ?, dateOfBirth = ?, gender = ? WHERE profileId = ?";
+		$statement = $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind the member variables to the place holders in the template
+		$wasClean = $statement->bind_param("issssi", $this->userId, $this->firstName,
+			$this->lastName, $this->dateOfBirth, $this->gender, $this->profileId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -303,31 +397,99 @@ class User {
 	}
 
 	/**
-	 * gets the User by Email
+	 * gets the Profile by ProfileId
+	 *
 	 * @param resource $mysqli pointer to mySQL connection, by reference
-	 * @param string $email email to search for
-	 * @return mixed User found or null if not found
+	 * @param string $profileId profileId to search for
+	 * @return mixed Profile found or null if not found
 	 * @throws mysqli_sql_exception when mySQL related errors occur
 	 **/
-	public static function getUserByEmail(&$mysqli, $email) {
+	public static function getProfileByProfileId(&$mysqli, $profileId) {
+
 		// handle degenerate cases
-		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+		if(gettype($mysqli) !== "object" || get_class(mysqli) !== "mysqli") {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
-		// sanitize the Email before searching
-		$email = trim($email);
-		$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+		// sanitize the Profile before searching
+		if(($profileId = filter_var($profileId, FILTER_SANITIZE_NUMBER_INT)) == false) {
+			throw(new mysqli_sql_exception("Profile does not appear to be an integer"));
+		}
 
 		// create query template
-		$query     = "SELECT userId, email, password, salt, authenticationToken FROM user WHERE email = ?";
+		$query = "SELECT profileId, userId, firstName, lastName, dateOfBirth, gender FROM profile WHERE profileId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the email to the place holder in the template
-		$wasClean = $statement->bind_param("s", $email);
+		$wasClean = $statement->bind_param("i", $profileId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+
+		//get result from the SELECT query *pounds fists*
+		$result = $statement->get_result();
+		if($result === false) {
+			throw(new mysqli_sql_exception("Unable to get result set"));
+		}
+
+		// since this is a primary key, this will only return 0 or 1 results. So...
+		// 1) if there's a result, we can make it into a Profile object normally
+		// 2) if there's no result, we can just return null
+		$row = $result->fetch_assoc(); // fetch_assoc() returns a row as an associative array
+
+		// convert the associative array to a Profile
+		if($row !== null) {
+			try {
+				$profileId = new Profile($row["profileId"], $row["userId"], $row["firstName"], $row["lastName"], $row["dateOfBirth"], $row["gender"]);
+			} catch(Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new mysqli_sql_exception("Unable to convert row to Profile", 0, $exception));
+			}
+
+			// if we got here, the Profile is good - return it
+			return ($profileId);
+		} else {
+			// 404 Profile not found - return null instead
+			return (null);
+		}
+	}
+
+	/** gets the Profile by First Name
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @param string $firstName firstName to search fo
+	 * @return mixed Profile found or null if not found
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 **/
+	public static function  getProfileByFirstName(&$mysqli, $firstName) {
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		//sanitize the First Name before searching
+		$firstName = trim($firstName);
+		if(($firstName = filter_var($firstName, FILTER_SANITIZE_STRING)) == false) {
+			throw(new UnexpectedValueException("firstName $firstName does not appear to be a first name"));
+		}
+
+		// create query template
+		$query 		= "SELECT profileId, userId, firstName, lastName, dateOfBirth, gender FROM profile WHERE firstName = ?";
+		$statement	= $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind the firstName to the place holder in the template
+		$wasClean = $statement->bind_param("s", $firstName);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -343,28 +505,27 @@ class User {
 			throw(new mysqli_sql_exception("Unable to get result set"));
 		}
 
-		//  if  a result, make it into a User object
-		//  no result, null
-		$row = $result->fetch_assoc(); // fetch_assoc() returns a row as an associative array
+		// since this is not a unique field, this can return many results. So...
+		// 1) if there's more than 1 result, we can make all into Profile objects
+		// 2) if there's no result, we can just return null
+		while(($row = $result->fetch_assoc()) !== null); // fetch_assoc() returns a row as an associative array
 
-		// convert the associative array to a User
+		// convert the associative array to a Profile
 		if($row !== null) {
 			try {
-				$user = new User($row["userId"], $row["email"], $row["password"], $row["salt"], $row["authenticationToken"]);
-			}
-			catch(Exception $exception) {
+				$profileId = new Profile($row["profileId"], $row["userId"], $row["firstName"], $row["lastName"], $row["dateOfBirth"], $row["gender"]);
+			} catch(Exception $exception) {
 				// if the row couldn't be converted, rethrow it
-				throw(new mysqli_sql_exception("Unable to convert row to User", 0, $exception));
+				throw(new mysqli_sql_exception("Unable to convert row to Profile", 0, $exception));
 			}
 
-			// if we got here, the User is good - return it
-			return($user);
+			// if we got here, the Profile is good - return it
+			return ($profileId);
 		} else {
-			//  return null
-			return(null);
+			// 404 Profile not found - return null instead
+			return (null);
 		}
 	}
 }
+
 ?>
-
-
