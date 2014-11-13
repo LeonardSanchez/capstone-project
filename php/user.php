@@ -17,7 +17,7 @@ class User {
 	/**
 	 * SHA512 PBKDF2 hash of the password
 	 **/
-	private $password;
+	private $passwordHash;
 	/**
 	 * salt used in the PBKDF2 hash
 	 **/
@@ -25,27 +25,26 @@ class User {
 	/**
 	 * authentication token used for  new accounts and password resets
 	 **/
-	private $authenticationToken;
+	private $authToken;
 
 
 	/**
 	 * constructors for the User
 	 * @param mixed $newUserId user id (or null if new object)
 	 * @param string $newEmail email
-	 * @param string $newPassword PBKDF2 hash of the password
+	 * @param string $newPasswordHash PBKDF2 hash of the password
 	 * @param string $newSalt salt used in the PBKDF2 hash
-	 * @param mixed $newAuthenticationToken authentication token used in new accounts and password resets (or null if active User)
+	 * @param mixed $newAuthToken authentication token used in new accounts and password resets (or null if active User)
 	 * @throws UnexpectedValueException when a parameter is wrong type
 	 * @throws RangeException when a parameter is invalid
 	 **/
-	public function __construct($newUserId, $newEmail, $newDateOfBirth, $newPassword, $newSalt, $newAuthenticationToken) {
+	public function __construct($newUserId, $newEmail, $newPasswordHash, $newSalt, $newAuthToken) {
 		try {
 			$this->setUserId($newUserId);
 			$this->setEmail($newEmail);
-			$this->setDateOfBirth($newDateOfBirth);
-			$this->setPassword($newPassword);
+			$this->setPasswordHash($newPasswordHash);
 			$this->setSalt($newSalt);
-			$this->setAuthenticationToken($newAuthenticationToken);
+			$this->setAuthToken($newAuthToken);
 		} catch(UnexpectedValueException $unexpectedValue) {
 			// rethrow to the caller
 			throw(new UnexpectedValueException("Unable to construct User", 0, $unexpectedValue));
@@ -116,51 +115,30 @@ class User {
 	}
 
 	/**
-	 * *gets the value of date of birth
-	 *@param  string $new$dateOfBirth date of birth
-	 *@throws UnExpectedValueException if the input doesn't appear to be a date of birth
+	 * gets the value of passwordHash
+	 * @return string value of passwordHash
 	 **/
-	public function getDateOfBirth(){
-		return($this->dateOfBirth);
-		/** sets the value of date of birth
-		 * @param string $newdateOfBirth date of birth
-		 * @throws UnExpectedValueException if the input doesn't appear to be a date of birth
-		 **/
-	}
-
-	public function setDateOfBirth($newDateOfBirth){
-		// sanitize the date of birth as a likely date of birth
-		$newDateOfBirth = trim($newDateOfBirth);
-		if(($newDateOfBirth = filter_var($newDateOfBirth, FILTER_SANITIZE_DATEOFBIRTH)) == false) {
-			throw(new UnexpectedValueException("dateOfBirth $newDateOfBirth does not appear to be a date of birth"));
-		}
-		// then take the date of birth out of quarantine
-		$this->dateOfBirth = $newDateOfBirth;
-	}
-	/**
-	 * gets the value of password
-	 * @return string value of password
-	 **/
-	public function getPassword() {
-		return($this->password);
+	public function getPasswordHash() {
+		return($this->passwordHash);
 	}
 
 	/**
-	 * sets the value of password
-	 * @param string $newPassword SHA512 PBKDF2 hash of the password
+	 * sets the value of passwordHash
+	 *
+	 * @param string $newPasswordHash SHA512 PBKDF2 hash of the password
 	 * @throws RangeException when input is not a valid SHA512 PBKDF2 hash
 	 **/
-	public function setPassword($newPassword) {
-		// verify the password has 128 hex characters
-		$newPassword   = trim($newPassword);
-		$newPassword   = strtolower($newPassword);
+	public function setPasswordHash($newPasswordHash) {
+		// verify the passwordHash has 128 hex characters
+		$newPasswordHash   = trim($newPasswordHash);
+		$newPasswordHash   = strtolower($newPasswordHash);
 		$filterOptions = array("options" => array("regexp" => "/^[\da-f]{128}$/"));
-		if(filter_var($newPassword, FILTER_VALIDATE_REGEXP, $filterOptions) === false) {
+		if(filter_var($newPasswordHash, FILTER_VALIDATE_REGEXP, $filterOptions) === false) {
 			throw(new RangeException("password is not a valid SHA512 PBKDF2 hash"));
 		}
 
 		// take  password out of quarantine
-		$this->password = $newPassword;
+		$this->passwordHash = $newPasswordHash;
 	}
 
 	/**
@@ -174,6 +152,7 @@ class User {
 
 	/**
 	 * sets the value of salt
+	 *
 	 * @param string $newSalt salt (64 hexadecimal bytes)
 	 * @throws RangeException when input is not 64 hexadecimal bytes
 	 **/
@@ -194,32 +173,32 @@ class User {
 	 * gets the value of authentication token
 	 * @return mixed value of authentication token
 	 **/
-	public function getAuthenticationToken() {
-		return($this->authenticationToken);
+	public function getAuthToken() {
+		return($this->authToken);
 	}
 
 	/**
 	 * sets the value of authentication token
-	 * @param mixed $newAuthenticationToken authentication token (32 hexadecimal bytes)
+	 * @param mixed $newAuthToken authentication token (32 hexadecimal bytes)
 	 * @throws RangeException when input is not 32 hexadecimal bytes
 	 **/
-	public function setAuthenticationToken($newAuthenticationToken) {
+	public function setAuthToken($newAuthToken) {
 		//  set allow the authentication token to null if an active o
-		if($newAuthenticationToken === null) {
-			$this->authenticationToken = null;
+		if($newAuthToken === null) {
+			$this->authToken = null;
 			return;
 		}
 
 		// confirm the authentication token has 32 hex characters
-		$newAuthenticationToken   = trim($newAuthenticationToken);
-		$newAuthenticationToken   = strtolower($newAuthenticationToken);
+		$newAuthToken   = trim($newAuthToken);
+		$newAuthToken   = strtolower($newAuthToken);
 		$filterOptions = array("options" => array("regexp" => "/^[\da-f]{32}$/"));
-		if(filter_var($newAuthenticationToken, FILTER_VALIDATE_REGEXP, $filterOptions) === false) {
-			throw(new RangeException("authentication token is not 32 hexadecimal bytes"));
+		if(filter_var($newAuthToken, FILTER_VALIDATE_REGEXP, $filterOptions) === false) {
+			throw(new RangeException("authentication token $newAuthToken is not 32 hexadecimal bytes"));
 		}
 
 		// take authentication token out of quarantine
-		$this->authenticationToken = $newAuthenticationToken;
+		$this->authToken = $newAuthToken;
 	}
 
 	/**
@@ -239,15 +218,15 @@ class User {
 		}
 
 		// create query template
-		$query     = "INSERT INTO user(email, password, salt, authenticationToken) VALUES(?, ?, ?, ?)";
+		$query     = "INSERT INTO user(email, passwordHash, salt, authToken) VALUES(?, ?, ?, ?)";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("ssss", $this->email, $this->password,
-			$this->salt,  $this->authenticationToken);
+		$wasClean = $statement->bind_param("ssss", $this->email, $this->passwordHash,
+			$this->salt,  $this->authToken);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -314,15 +293,15 @@ class User {
 		}
 
 		// create query template
-		$query     = "UPDATE user SET email = ?, password = ?, salt = ?, authenticationToken = ? WHERE userId = ?";
+		$query     = "UPDATE user SET email = ?, passwordHash = ?, salt = ?, authToken = ? WHERE userId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("ssssi", $this->email, $this->password,
-			$this->salt,  $this->authenticationToken,
+		$wasClean = $statement->bind_param("ssssi", $this->email, $this->passwordHash,
+			$this->salt,  $this->authToken,
 			$this->userId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
@@ -352,7 +331,7 @@ class User {
 		$email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
 		// create query template
-		$query     = "SELECT userId, email, password, salt, authenticationToken FROM user WHERE email = ?";
+		$query     = "SELECT userId, email, passwordHash, salt, authToken FROM user WHERE email = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -382,7 +361,7 @@ class User {
 		// convert the associative array to a User
 		if($row !== null) {
 			try {
-				$user = new User($row["userId"], $row["email"], $row["dateOfBirth"], $row["password"], $row["salt"], $row["authenticationToken"]);
+				$user = new User($row["userId"], $row["email"], $row["passwordHash"], $row["salt"], $row["authToken"]);
 			}
 			catch(Exception $exception) {
 				// if the row couldn't be converted, rethrow it
