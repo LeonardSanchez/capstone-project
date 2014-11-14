@@ -298,15 +298,13 @@ class Profile
 
 		// bind the member variables to the place holders in the template
 		$wasClean = $statement->bind_param("issss", $this->userId, $this->firstName,
-			$this->lastName, $this->dateOfBirth,
-			$this->gender);
+			$this->lastName, $this->dateOfBirth, $this->gender);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
 
 		// execute the statement
 		if($statement->execute() === false) {
-			echo $statement->error . "<br />";
 			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
 		}
 
