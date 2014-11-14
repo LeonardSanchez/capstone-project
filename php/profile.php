@@ -289,6 +289,18 @@ class Profile
 			throw(new mysqli_sql_exception("not a new profile"));
 		}
 
+		// convert dates to strings
+		if($this->dateOfBirth === null) {
+			$dateOfBirth = null;
+		} else {
+			$dateOfBirth = $this->dateOfBirth->format("Y-d-m H:i:s");
+		}
+		if($this->dateOfBirth === null) {
+			$dateOfBirth = null;
+		} else {
+			$dateOfBirth = $this->dateOfBirth->format("Y-d-m H:i:s");
+		}
+
 		// create query template
 		$query = "INSERT INTO profile(userId, firstName, lastName, dateOfBirth, gender) VALUES(?, ?, ?, ?, ?)";
 		$statement = $mysqli->prepare($query);
