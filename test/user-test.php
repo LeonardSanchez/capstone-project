@@ -119,7 +119,7 @@ class UserTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// second, create a user to post to mySQL
-		$this->user = new User(null, $this->EMAIL, $this->HASH, $this->SALT, $this->AUTH_TOKEN);
+		$this->user = new User(null, $this->EMAIL, $this->HASH, $this->SALT, $this->AUTHTOKEN);
 
 		// third, insert the user to mySQL
 		$this->user->insert($this->mysqli);
