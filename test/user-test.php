@@ -1,4 +1,6 @@
 <?php
+// THIS HAS PASSED UNIT TEST 2014-11-15 00:48:00 MST
+
 // first require the SimpleTest framework
 require_once("/usr/lib/php5/simpletest/autorun.php");
 

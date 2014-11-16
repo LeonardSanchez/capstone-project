@@ -356,7 +356,7 @@ class Profile
 		}
 	}
 	/**
-	 * gets the Profile by ProfileId
+	 * gets the Profile by Pro fileId
 	 *
 	 * @param resource $mysqli pointer to mySQL connection, by reference
 	 * @param string $profileId profileId to search for
