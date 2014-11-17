@@ -113,7 +113,7 @@ CREATE TABLE event (
 	UNIQUE(venueId),
 
 -- call the foreign keys tables
-	FOREIGN KEY(eventCategoryId) REFERENCES eventCategory(eventCategoryId),
+	FOREIGN KEY(eventCategoryId) REFERENCES eventLink(eventCategoryId),
 	FOREIGN KEY(venueId) REFERENCES venue(venueId)
 );
 

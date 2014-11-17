@@ -411,7 +411,7 @@ class Venue
 			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
 		}
 
-		// update the null venueId with what mySQL jsut gave me
+		// update the null venueId with what mySQL just gave me
 		$this->venueId = $mysqli->insert_id;
 	}
 		/**
