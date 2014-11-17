@@ -45,7 +45,7 @@ CREATE TABLE profile (
 	-- PRIMARY KEY
    PRIMARY KEY(profileId),
 	-- FOREIGN KEY
-   UNIQUE (userId),
+   INDEX (userId),
    FOREIGN KEY (userId) REFERENCES user (userId)
 );
 
@@ -85,24 +85,6 @@ CREATE TABLE venue (
 	--
 );
 
--- create eventLink table
-CREATE TABLE eventLink(
-
--- FOREIGN KEY
-	eventCategoryId INT UNSIGNED NOT NULL,
-
--- FOREIGN KEY
-	eventId INT UNSIGNED NOT NULL,
-
--- Indexing for foreign keys
-	UNIQUE(eventCategoryId),
-	UNIQUE(eventId),
-
--- calling to tables with foreign keys
-	FOREIGN KEY(eventCategoryId) REFERENCES eventCategory(eventCategoryId),
-	FOREIGN KEY(eventId) REFERENCES event(eventId)
-);
-
 -- create event table
 CREATE TABLE event (
 
@@ -126,14 +108,31 @@ CREATE TABLE event (
 	INDEX(eventDateTime),
 
 -- unique index for foreign key
-	UNIQUE(eventCategoryId),
-	UNIQUE(venueId),
+	INDEX (eventCategoryId),
+	INDEX (venueId),
 
 -- call the foreign keys tables
-	FOREIGN KEY(eventCategoryId) REFERENCES eventLink(eventCategoryId),
+	FOREIGN KEY(eventCategoryId) REFERENCES eventCategory(eventCategoryId),
 	FOREIGN KEY(venueId) REFERENCES venue(venueId)
 );
 
+-- create eventLink table
+CREATE TABLE eventLink(
+
+-- FOREIGN KEY
+	eventCategoryId INT UNSIGNED NOT NULL,
+
+-- FOREIGN KEY
+	eventId INT UNSIGNED NOT NULL,
+
+-- Indexing for foreign keys
+	INDEX (eventCategoryId),
+	INDEX (eventId),
+
+-- calling to tables with foreign keys
+	FOREIGN KEY(eventCategoryId) REFERENCES eventCategory(eventCategoryId),
+	FOREIGN KEY(eventId) REFERENCES event(eventId)
+);
 
 -- milestone project
 -- create barcode table
@@ -153,7 +152,7 @@ CREATE TABLE transaction (
 --	cardToken 		VARCHAR(128) NOT NULL,
 --	customerToken 	VARCHAR(35) NOT NULL,
 	-- indexing for foreign key
-	UNIQUE(profileId),
+	INDEX (profileId),
    PRIMARY KEY(transactionId),
 	-- call to profile table for foreign key
    FOREIGN KEY(profileId) REFERENCES profile(profileId)
@@ -174,10 +173,10 @@ CREATE TABLE ticket (
 
 	PRIMARY KEY (ticketId),
 -- indexing for foreign keys
-	UNIQUE(profileId),
-	UNIQUE(eventId),
-	UNIQUE(transactionId),
-	UNIQUE(barcodeId),
+	INDEX (profileId),
+	INDEX (eventId),
+	INDEX (transactionId),
+	UNIQUE (barcodeId),
 -- calling to profile, event, transaction, and barcode tables
 	FOREIGN KEY (profileId) REFERENCES profile(profileId),
 	FOREIGN KEY (eventId) REFERENCES event(eventId),
