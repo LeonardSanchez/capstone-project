@@ -267,7 +267,7 @@ class Event{
 		/**
 		 * filter for 0000000.00 dollar format
 		 */
-		$filterOptions = array("options" => array("regexp" => "^[\d]{1,7}(\.\d\d)$"));
+		$filterOptions = array("options" => array("regexp" => "/^[\d]{1,7}(\.\d\d)$/"));
 		if(filter_var($newTicketPrice, FILTER_VALIDATE_REGEXP, $filterOptions) === false)	{
 			throw(new RangeException("ticketPrice $newTicketPrice is not a dollar value"));
 		}
@@ -363,7 +363,8 @@ class Event{
 		$eventName	=	trim($eventName);
 		$eventName	=	filter_var($eventName, FILTER_SANITIZE_STRING);
 
-		$query = "SELECT eventId, eventCategoryId, "
+		$query = "SELECT eventId, eventCategoryId, venueId, eventName, eventDateTime, ticketPrice FROM event WHERE eventName = ?";
+		$statement = $mysqli->prepare($query);
 	}
 
 }
