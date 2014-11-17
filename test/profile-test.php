@@ -131,10 +131,10 @@ class ProfileTest extends UnitTestCase {
 		$this->assertNotNull  ($staticUser->getProfileId());
 		$this->assertTrue     ($staticUser->getProfileId() > 0);
 		$this->assertIdentical($staticUser->getProfileId(),           $this->profile->getProfileId());
-		$this->assertIdentical($staticUser->getFirstName(),               $this->EMAIL);
+		$this->assertIdentical($staticUser->getFirstName(),           $this->EMAIL);
 		$this->assertIdentical($staticUser->getLastName(),            $this->HASH);
-		$this->assertIdentical($staticUser->getDateOfBirth(),                $this->SALT);
-		$this->assertIdentical($staticUser->getGender(), $this->AUTH_TOKEN);
+		$this->assertIdentical($staticUser->getDateOfBirth(),         $this->SALT);
+		$this->assertIdentical($staticUser->getGender(),              $this->AUTH_TOKEN);
 	}
 }
 ?>
