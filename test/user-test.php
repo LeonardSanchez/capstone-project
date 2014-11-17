@@ -62,10 +62,10 @@ class UserTest extends UnitTestCase
 		// finally, compare the fields
 		$this->assertNotNull  ($this->userId->getUserId());
 		$this->assertTrue     ($this->userId->getUserId() > 0);
-		$this->assertIdentical($this->userId->getFirstName(),               $this->EMAIL);
-		$this->assertIdentical($this->userId->getLastName(),            $this->HASH);
-		$this->assertIdentical($this->userId->getDateOfBirth(),                $this->SALT);
-		$this->assertIdentical($this->userId->getGender(), $this->AUTH_TOKEN);
+		$this->assertIdentical($this->userId->getFirstName(),        $this->EMAIL);
+		$this->assertIdentical($this->userId->getLastName(),         $this->HASH);
+		$this->assertIdentical($this->userId->getDateOfBirth(),      $this->SALT);
+		$this->assertIdentical($this->userId->getGender(),           $this->AUTH_TOKEN);
 	}
 
 	// test updating a User id in mySQL
@@ -89,8 +89,8 @@ class UserTest extends UnitTestCase
 		$this->assertTrue     ($this->userId->getUserId() > 0);
 		$this->assertIdentical($this->userId->getFirstName(),           $newEmail);
 		$this->assertIdentical($this->userId->getLastName(),            $this->HASH);
-		$this->assertIdentical($this->userId->getDateOfBirth(),                $this->SALT);
-		$this->assertIdentical($this->userId->getGender(), $this->AUTH_TOKEN);
+		$this->assertIdentical($this->userId->getDateOfBirth(),         $this->SALT);
+		$this->assertIdentical($this->userId->getGender(),              $this->AUTH_TOKEN);
 	}
 
 	// test deleting a User id
@@ -135,10 +135,10 @@ class UserTest extends UnitTestCase
 		$this->assertNotNull($staticUser->getUserId());
 		$this->assertTrue($staticUser->getUserId() > 0);
 		$this->assertIdentical($staticUser->getUserId(),              $this->user->getUserId());
-		$this->assertIdentical($staticUser->getFirstName(),               $this->EMAIL);
+		$this->assertIdentical($staticUser->getFirstName(),           $this->EMAIL);
 		$this->assertIdentical($staticUser->getLastName(),            $this->HASH);
-		$this->assertIdentical($staticUser->getDateOfBirth(),                $this->SALT);
-		$this->assertIdentical($staticUser->getGender(), $this->AUTH_TOKEN);
+		$this->assertIdentical($staticUser->getDateOfBirth(),         $this->SALT);
+		$this->assertIdentical($staticUser->getGender(),              $this->AUTH_TOKEN);
 	}
 }
 ?>
