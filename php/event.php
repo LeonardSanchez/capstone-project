@@ -355,7 +355,9 @@ class Event{
 		}
 	}
 
-
+	public function getEventByEventName(&$mysqli)	{
+		
+	}
 
 }
 ?>
