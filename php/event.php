@@ -286,7 +286,7 @@ class Event{
 			throw(new mysqli_sql_exception("not a new event"));
 		}
 
-		$query = "INSERT INTO event(eventName, eventDateTime, ticketPrice) VALUES(?, ?, ?, ?)";
+		$query = "INSERT INTO event(eventName, eventDateTime, ticketPrice) VALUES(?, ?, ?)";
 		$statement = $mysqli->prepare($query);
 		if($statement === false)	{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
