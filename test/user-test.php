@@ -46,10 +46,6 @@ class UserTest extends UnitTestCase
 			$this->user->delete($this->mysqli);
 			$this->user = null;
 		}
-		// disconnect from mySQL
-		if($this->mysqli !== null) {
-			$this->mysqli->close();
-		}
 	}
 
 	// test creating a new User id and inserting it to mySQL

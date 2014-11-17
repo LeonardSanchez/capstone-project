@@ -42,10 +42,6 @@ class ProfileTest extends UnitTestCase {
 			$this->profile = null;
 		}
 
-		// disconnect from mySQL
-		if($this->mysqli !== null) {
-			$this->mysqli->close();
-		}
 	}
 
 	// test creating a new Profile and inserting it to mySQL
