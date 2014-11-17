@@ -355,8 +355,15 @@ class Event{
 		}
 	}
 
-	public function getEventByEventName(&$mysqli)	{
-		
+	public function getEventByEventName(&$mysqli, $eventName)	{
+		if(gettype($mysqli) !== "object"	||	get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		$eventName	=	trim($eventName);
+		$eventName	=	filter_var($eventName, FILTER_SANITIZE_STRING);
+
+		$query = "SELECT eventId, eventCategoryId, "
 	}
 
 }
