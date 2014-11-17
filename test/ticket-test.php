@@ -26,8 +26,8 @@ class TicketTest extends UnitTestCase {
 	private $ticket	= null;
 
 	// a few "global" variables for creating test data
-	private $PROFILE_ID		= null;
-	private $EVENT_ID			= null;
+	private $profileId		= null;
+	private $eventId			= null;
 	private $TRANSACTION_ID	= null;
 	private $BARCODE_ID		= null;
 
@@ -46,6 +46,8 @@ class TicketTest extends UnitTestCase {
 		$this->mysqli = MysqliConfiguration::getMysqli();
 
 		// setup the objects, and enter all data fields from corresponding table
+
+		// FIXME: getting a RangeException for User class on line 236. Since User Class passed simpletest, it must be an issue here.
 		$salt       	= bin2hex(openssl_random_pseudo_bytes(32));
 		$authToken 		= bin2hex(openssl_random_pseudo_bytes(16));
 		$passwordHash 	= hash_pbkdf2("sha512", "password", $salt, 2048, 128);
