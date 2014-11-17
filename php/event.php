@@ -267,9 +267,11 @@ class Event{
 		/**
 		 * filter for 0000000.00 dollar format
 		 */
-		$filterOptions = array("options" => array("regexp" => "/^[\d]{1,7}(\.\d\d)$/"));
-		if(filter_var($newTicketPrice, FILTER_VALIDATE_REGEXP, $filterOptions) === false)	{
+		if(filter_var($newTicketPrice, FILTER_VALIDATE_FLOAT) === false)	{
 			throw(new RangeException("ticketPrice $newTicketPrice is not a dollar value"));
+		}
+		if($newTicketPrice < 0) {
+			throw(new RangeException("ticketPrice $newTicketPrice is not a positive dollar value"));
 		}
 
 		$this->ticketPrice = $newTicketPrice;

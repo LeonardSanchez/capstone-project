@@ -102,7 +102,7 @@ CREATE TABLE eventLink(
 	FOREIGN KEY(eventCategoryId) REFERENCES eventCategory(eventCategoryId),
 	FOREIGN KEY(eventId) REFERENCES event(eventId)
 );
-	
+
 -- create event table
 CREATE TABLE event (
 
