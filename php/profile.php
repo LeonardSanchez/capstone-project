@@ -233,8 +233,8 @@ class profile {
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("ssss", $this->firstName, $this->lastName,
-			$this->dateOfBirth,  $this->gender);
+		$wasClean = $statement->bind_param("ssss", $this->firstName,    $this->lastName,
+			                                        $this->dateOfBirth,  $this->gender);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -309,9 +309,9 @@ class profile {
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("ssssi", $this->firstName, $this->lastName,
-			$this->dateOfBirth,  $this->gender,
-			$this->profileId);
+		$wasClean = $statement->bind_param("ssssi", $this->firstName,    $this->lastName,
+			                                         $this->dateOfBirth,  $this->gender,
+			                                         $this->profileId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}

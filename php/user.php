@@ -192,7 +192,7 @@ class User {
 		// confirm the authentication token has 32 hex characters
 		$newAuthToken   = trim($newAuthToken);
 		$newAuthToken   = strtolower($newAuthToken);
-		$filterOptions = array("options" => array("regexp" => "/^[\da-f]{32}$/"));
+		$filterOptions  = array("options" => array("regexp" => "/^[\da-f]{32}$/"));
 		if(filter_var($newAuthToken, FILTER_VALIDATE_REGEXP, $filterOptions) === false) {
 			throw(new RangeException("authentication token $newAuthToken is not 32 hexadecimal bytes"));
 		}
