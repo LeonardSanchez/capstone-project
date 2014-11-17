@@ -10,6 +10,7 @@ require_once("/usr/lib/php5/simpletest/autorun.php");
 
 // next, require the class to be tested
 require_once("../php/transaction.php");
+require_once("../php/profile.php");
 
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 
@@ -23,7 +24,7 @@ class TransactionTest extends UnitTestCase {
 	// a few global variables for creating test data
 	private $amount		 = "40.00";
 	private $dateApproved = "11/10/2014";
-	private $profileId    = 1;
+	private $profileId    = 2;
 
 	// now to create the setUp
 	public function setUp() {

@@ -149,7 +149,7 @@ class Transaction {
 
 		// treat the date as a mySQL date string
 		$newDateApproved = trim($newDateApproved);
-		if((preg_match("/^(/d{4})-(/d^{2})-(/d^{2}) (/d{2}):(/d{2}):(/d{2})$/", $newDateApproved, $matches)) !== 1) {
+		if((preg_match("/^(\d{4})-(\d^{2})-(\d^{2}) (\d{2}):(\d{2}):(\d{2})$/", $newDateApproved, $matches)) !== 1) {
 			throw(new RangeException("$newDateApproved is not a valid date"));
 		}
 
@@ -220,7 +220,14 @@ class Transaction {
 			throw(new mysqli_sql_exception("not a new transaction"));
 		}
 
-		// create query template
+		// convert dates to strings
+		if($this->dateApproved === null) {
+			$dateApproved = null;
+		} else {
+			$dateApproved = $this->dateApproved->format("Y-d-m H:i:s");
+		}
+
+			// create query template
 		$query		= "INSERT INTO transaction(amount, dateApproved, profileId) VALUES(?, ?, ?)";
 		$statement  = $mysqli->prepare($query);
 		if($statement === false) {
@@ -291,7 +298,14 @@ class Transaction {
 			throw(new mysqli_sql_exception("Unable to update a transaction that does not exist"));
 		}
 
-		// create query template
+		// convert dates to strings
+		if($this->dateApproved === null) {
+			$dateApproved = null;
+		} else {
+			$dateApproved = $this->dateApproved->format("Y-d-m H:i:s");
+		}
+
+				// create query template
 		$query     = "UPDATE Transaction SET amount = ?, dateApproved = ?, profileId = ? WHERE transactionId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
