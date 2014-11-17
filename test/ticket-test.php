@@ -1,3 +1,4 @@
+
 <?php
 // first require the SimpleTest framework
 require_once("/usr/lib/php5/simpletest/autorun.php");
@@ -24,12 +25,6 @@ class TicketTest extends UnitTestCase {
 	private $mysqli	= null;
 	// variable to hold the test database row
 	private $ticket	= null;
-
-	// a few "global" variables for creating test data
-	private $profileId		= null;
-	private $eventId			= null;
-	private $TRANSACTION_ID	= null;
-	private $BARCODE_ID		= null;
 
 	// create state variables for the objects
 	private $user				= null;
@@ -143,6 +138,8 @@ class TicketTest extends UnitTestCase {
 	}
 
 	// test updating a Ticket in mySQL
+	// Possibly delete the update method, question on the table is, in what scenario would you update a ticketId
+	// Create second venue, insert it,
 	public function testUpdateTicket() {
 		// first, verify mySQL connected OK
 		$this->assertNotNull($this->mysqli);
@@ -214,5 +211,6 @@ class TicketTest extends UnitTestCase {
 		$this->assertIdentical($staticTicket->getTransactionId(),	$this->transaction->getTransactionId());
 		$this->assertIdentical($staticTicket->getBarcodeId(),			$this->barcode->getBarcodeId());
 	}
+	// write a static method for each foreign key
 }
 ?>

@@ -55,7 +55,7 @@ private $eventCategory;
 			return;
 		}
 
-		if(is_string($newEventCategory))	{
+		if(is_string($newEventCategory) === false)	{
 			throw(new RangeException("eventCategory $newEventCategory is not a string"));
 		}
 

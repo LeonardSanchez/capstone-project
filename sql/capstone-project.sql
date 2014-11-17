@@ -85,7 +85,24 @@ CREATE TABLE venue (
 	--
 );
 
+-- create eventLink table
+CREATE TABLE eventLink(
 
+-- FOREIGN KEY
+	eventCategoryId INT UNSIGNED NOT NULL,
+
+-- FOREIGN KEY
+	eventId INT UNSIGNED NOT NULL,
+
+-- Indexing for foreign keys
+	UNIQUE(eventCategoryId),
+	UNIQUE(eventId),
+
+-- calling to tables with foreign keys
+	FOREIGN KEY(eventCategoryId) REFERENCES eventCategory(eventCategoryId),
+	FOREIGN KEY(eventId) REFERENCES event(eventId)
+);
+	
 -- create event table
 CREATE TABLE event (
 
@@ -115,24 +132,6 @@ CREATE TABLE event (
 -- call the foreign keys tables
 	FOREIGN KEY(eventCategoryId) REFERENCES eventLink(eventCategoryId),
 	FOREIGN KEY(venueId) REFERENCES venue(venueId)
-);
-
--- create eventLink table
-CREATE TABLE eventLink(
-
--- FOREIGN KEY
-	eventCategoryId INT UNSIGNED NOT NULL,
-
--- FOREIGN KEY
-	eventId INT UNSIGNED NOT NULL,
-
--- Indexing for foreign keys
-	UNIQUE(eventCategoryId),
-	UNIQUE(eventId),
-
--- calling to tables with foreign keys
-	FOREIGN KEY(eventCategoryId) REFERENCES eventCategory(eventCategoryId),
-	FOREIGN KEY(eventId) REFERENCES event(eventId)
 );
 
 
