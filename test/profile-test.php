@@ -25,7 +25,7 @@ class ProfileTest extends UnitTestCase {
 	public function setUp() {
 		// connect to mySQL
 		mysqli_report (MYSQLI_REPORT_STRICT);
-		$this->mysqli = new mysqli("localhost", "store_leo", "deepdive", "store_leo");
+		$this->mysqli = new mysqli("localhost", "store_dylan", "deepdive", "store_dylan");
 
 		// randomize the salt, hash, and authentication token
 		$this->SALT       = bin2hex(openssl_random_pseudo_bytes(32));
@@ -65,7 +65,7 @@ class ProfileTest extends UnitTestCase {
 		$this->assertIdentical($this->profile->getFirstName(),               $this->EMAIL);
 		$this->assertIdentical($this->profile->getLastNamed(),               $this->HASH);
 		$this->assertIdentical($this->profile->getDateOfBirth(),             $this->SALT);
-		$this->assertIdentical($this->profile->getGender(), $this->AUTH_TOKEN);
+		$this->assertIdentical($this->profile->getGender(),                  $this->AUTH_TOKEN);
 	}
 
 	// test updating a Profile in mySQL
