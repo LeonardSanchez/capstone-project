@@ -90,7 +90,7 @@ class profile {
 
 		// finally, take the profile id out of quarantine and assign it
 		$this->profileId = $newProfileId;
-	}jsacboydjudge30thjob
+	}
 
 	/**
 	 * gets the value of first name
