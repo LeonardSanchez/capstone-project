@@ -330,6 +330,3 @@ class User {
 	}
 }
 ?>
-
-
-<?php
