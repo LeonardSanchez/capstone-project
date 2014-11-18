@@ -220,7 +220,7 @@ class Event{
 		/**
 		 *
 		 */
-		if(gettype($newEventDateTime) === "object" && get_class($newEventDateTime) === "Date")	{
+		if(gettype($newEventDateTime) === "object" && get_class($newEventDateTime) === "DateTime")	{
 			$this->eventDateTime = $newEventDateTime;
 			return;
 		}
@@ -286,13 +286,20 @@ class Event{
 			throw(new mysqli_sql_exception("not a new event"));
 		}
 
-		$query = "INSERT INTO event(eventName, eventDateTime, ticketPrice) VALUES(?, ?, ?)";
+		// convert dates to strings
+		if($this->eventDateTime === null) {
+			$eventDateTime = null;
+		} else {
+			$eventDateTime = $this->eventDateTime->format("Y-m-d H:i:s");
+		}
+
+		$query = "INSERT INTO event(venueId, eventCategoryId, eventName, eventDateTime, ticketPrice) VALUES(?, ?, ?, ?, ?)";
 		$statement = $mysqli->prepare($query);
 		if($statement === false)	{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
-		$wasClean = $statement->bind_param("ssd", $this->eventName, $this->eventDateTime, $this->ticketPrice);
+		$wasClean = $statement->bind_param("iissd", $this->venueId, $this->eventCategoryId, $this->eventName, $eventDateTime, $this->ticketPrice);
 
 		if($wasClean === false)	{
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
@@ -340,13 +347,20 @@ class Event{
 			throw(new mysqli_sql_exception("Unable to update an event that does not exist"));
 		}
 
+		// convert dates to strings
+		if($this->eventDateTime === null) {
+			$eventDateTime = null;
+		} else {
+			$eventDateTime = $this->eventDateTime->format("Y-m-d H:i:s");
+		}
+
 		$query = "UPDATE event SET eventName = ?, eventDateTime = ?, ticketPrice = ? WHERE eventId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false)	{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
-		$wasClean = $statement->bind_param("ssd", $this->eventName, $this->eventDateTime, $this->ticketPrice);
+		$wasClean = $statement->bind_param("ssd", $this->eventName, $eventDateTime, $this->ticketPrice);
 
 		if($wasClean === false)	{
 			throw(new mysqli_sql_exception("Unable to bind parameters"));

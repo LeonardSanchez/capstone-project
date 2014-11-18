@@ -26,10 +26,7 @@ class Ticket
 	 * transaction id for the Ticket; this is a foreign key
 	 */
 	private $transactionId;
-	/**
-	 * barcode id for the Ticket; this is a foreign key
-	 */
-	private $barcodeId;
+
 	/**
 	 * PLACEHOLDER FOR PHASE 2
 	 * seat for the Ticket
@@ -44,17 +41,15 @@ class Ticket
 	 * @param mixed  $newProfileId     profile id, a foreign key
 	 * @param mixed  $newEventId       event id, a foreign key
 	 * @param mixed  $newTransactionId transaction id, a foreign key
-	 * @param mixed  $newBarcodeId     barcode id, a foreign key
 	 * // PLACE HOLDER FOR PHASE 2 @param string $newSeat          seat
 	 */
-	public function __construct($newTicketId, $newProfileId, $newEventId, $newTransactionId, $newBarcodeId)
+	public function __construct($newTicketId, $newProfileId, $newEventId, $newTransactionId)
 	{
 		try {
 			$this->setTicketId($newTicketId);
 			$this->setProfileId($newProfileId);
 			$this->setEventId($newEventId);
 			$this->setTransactionId($newTransactionId);
-			$this->setBarcodeId($newBarcodeId);
 			// PLACE HOLDER FOR PHASE 2 $this->setSeat($newSeat);
 		} catch(UnexpectedValueException $unexpectedValue) {
 			// rethrow to the caller
@@ -204,39 +199,6 @@ class Ticket
 	}
 
 	/**
-	 * gets value of barcode id
-	 *
-	 * @return mixed barcode id
-	 */
-	public function getBarcodeId() {
-		return ($this->barcodeId);
-	}
-
-	/**
-	 * sets the value of barcode id
-	 *
-	 * @param mixed $newBarcodeId barcode id
-	 * @throws UnexpectedValueException if not an integer
-	 * @throws RangeException if barcode id is not positive
-	 */
-	public function setBarcodeId($newBarcodeId) {
-
-		// first, ensure the barcode id is an integer
-		if(filter_var($newBarcodeId, FILTER_VALIDATE_INT) === false) {
-			throw(new UnexpectedValueException("barcode id $newBarcodeId is not numeric"));
-		}
-
-		// second, convert the barcode id to an integer and enforce it is positive
-		$newBarcodeId = intval($newBarcodeId);
-		if($newBarcodeId <= 0) {
-			throw(new RangeException("barcode id $newBarcodeId is not positive"));
-		}
-
-		//finally, take the barcode id out of quarantine and assign it
-		$this->barcodeId = $newBarcodeId;
-	}
-
-	/**
 	 * THIS IS A PLACE HOLDER FOR SEAT TO BE INCLUDED IN PHASE 2 OF SITE
 	 *
 	 * gets the value of seat
@@ -287,7 +249,7 @@ class Ticket
 
 		// create query template
 		// ADD SEAT DURING PHASE 2
-		$query = "INSERT INTO ticket(ticketId, profileId, eventId, transactionId, barcodeId) VALUES(?, ?, ?, ?, ?)";
+		$query = "INSERT INTO ticket(ticketId, profileId, eventId, transactionId) VALUES(?, ?, ?, ?)";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -295,8 +257,8 @@ class Ticket
 
 		// bind the member variables to the place holders in the template
 		// ADD SEAT DURING PHASE 2
-		$wasClean = $statement->bind_param("iiiii", 	$this->ticketId,			$this->profileId,		$this->eventId,
-																		$this->transactionId,	$this->barcodeId);
+		$wasClean = $statement->bind_param("iiii", 	$this->ticketId,			$this->profileId,		$this->eventId,
+																		$this->transactionId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -369,7 +331,7 @@ class Ticket
 
 		// create query template
 		// ADD SEAT DURING PHASE 2
-		$query		= "UPDATE ticket SET profileId = ?, eventId = ?, transactionId = ?, barcodeId = ?, WHERE ticketId = ?";
+		$query		= "UPDATE ticket SET profileId = ?, eventId = ?, transactionId = ?, WHERE ticketId = ?";
 		$statement	= $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -377,8 +339,7 @@ class Ticket
 
 		// bind the member variables to the place holders in the template
 		// ADD SEAT DURING PHASE 2
-		$wasClean = $statement->bind_param("iiiii",	$this->profileId,		$this->eventId,		$this->transactionId,
-																	$this->barcodeId,		$this->ticketId);
+		$wasClean = $statement->bind_param("iiii",	$this->profileId,	$this->eventId, $this->transactionId, $this->ticketId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind the parameters"));
 		}

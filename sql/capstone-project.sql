@@ -6,9 +6,9 @@
 --
 --
 
+DROP TABLE IF EXISTS barcode;
 DROP TABLE IF EXISTS ticket;
 DROP TABLE IF EXISTS transaction;
-DROP TABLE IF EXISTS barcode;
 DROP TABLE IF EXISTS eventLink;
 DROP TABLE IF EXISTS event;
 DROP TABLE IF EXISTS venue;
@@ -134,13 +134,6 @@ CREATE TABLE eventLink(
 	FOREIGN KEY(eventId) REFERENCES event(eventId)
 );
 
--- milestone project
--- create barcode table
-CREATE TABLE barcode (
-   barcodeId 		INT UNSIGNED AUTO_INCREMENT NULL,
-   PRIMARY KEY(barcodeId)           
-);
-
 -- create transaction table
 CREATE TABLE transaction (
 	-- PRIMARY KEY
@@ -161,25 +154,32 @@ CREATE TABLE transaction (
 -- create ticket table
 CREATE TABLE ticket (
 -- PRIMARY KEY
-	ticketId 		INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	ticketId      INT UNSIGNED NOT NULL AUTO_INCREMENT,
 -- FOREIGN KEY
-	profileId 		INT UNSIGNED NOT NULL,
+	profileId     INT UNSIGNED NOT NULL,
 -- FOREIGN KEY
-	eventId 			INT UNSIGNED NOT NULL,
+	eventId       INT UNSIGNED NOT NULL,
 -- FOREIGN KEY
-	transactionId 	INT UNSIGNED NOT NULL,
+	transactionId INT UNSIGNED NOT NULL,
 -- seat 				VARCHAR(10),
-	barcodeId 		INT UNSIGNED,
 
 	PRIMARY KEY (ticketId),
 -- indexing for foreign keys
 	INDEX (profileId),
 	INDEX (eventId),
 	INDEX (transactionId),
-	UNIQUE (barcodeId),
+
 -- calling to profile, event, transaction, and barcode tables
-	FOREIGN KEY (profileId) REFERENCES profile(profileId),
-	FOREIGN KEY (eventId) REFERENCES event(eventId),
-	FOREIGN KEY (transactionId) REFERENCES transaction(transactionId),
-	FOREIGN KEY (barcodeId) REFERENCES barcode(barcodeId)
+	FOREIGN KEY (profileId) REFERENCES profile (profileId),
+	FOREIGN KEY (eventId) REFERENCES event (eventId),
+	FOREIGN KEY (transactionId) REFERENCES transaction (transactionId)
+);
+
+-- milestone project
+-- create barcode table
+CREATE TABLE barcode (
+	barcodeId 		INT UNSIGNED AUTO_INCREMENT NULL,
+	ticketId		INT UNSIGNED NOT NULL,
+	PRIMARY KEY(barcodeId),
+	FOREIGN KEY (ticketId) REFERENCES ticket(ticketId)
 );
