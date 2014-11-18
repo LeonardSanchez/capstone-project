@@ -24,7 +24,7 @@ class TransactionTest extends UnitTestCase {
 
 	// a few global variables for creating test data
 	private $amount		 = "40.00";
-	private $dateApproved = "11/10/2014";
+	private $dateApproved = "2014-11-10 00:00:00";
 
 	//create state variables for the objects
 	private $user       = null;
@@ -36,10 +36,12 @@ class TransactionTest extends UnitTestCase {
 		$this->mysqli = MysqliConfiguration::getMysqli();
 
 		// set up the objects, and enter all data fields from corresponding table
+		$password      = "abc123";
+		$email         = "email@gmail.com";
 		$salt       	= bin2hex(openssl_random_pseudo_bytes(32));
 		$authToken 		= bin2hex(openssl_random_pseudo_bytes(16));
-		$passwordHash 	= hash_pbkdf2("sha512", "password", $salt, 2048, 128);
-		$this->user 	= new User(null, "email@gmail.com", $passwordHash, $salt, $authToken);
+		$passwordHash 	= hash_pbkdf2("sha512", $password, $salt, 2048, 128);
+		$this->user 	= new User(null, $email, $passwordHash, $salt, $authToken);
 		$this->user->insert($this->mysqli);
 
 		$this->profile = new Profile(null, $this->user->getUserId(), "Jack", "Sparrow", "1972-05-21 12:00:00", "m");
