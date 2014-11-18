@@ -1,4 +1,3 @@
-
 <?php
 /**
  * mySQL Enabled User and User Profile
@@ -26,8 +25,6 @@ class User {
 	 * authentication token used for  new accounts and password resets
 	 **/
 	private $authToken;
-
-
 	/**
 	 * constructors for the User
 	 * @param mixed $newUserId user id (or null if new object)
@@ -53,7 +50,6 @@ class User {
 			throw(new RangeException("Unable to construct User", 0, $range));
 		}
 	}
-
 	/**
 	 * gets the value of user id
 	 * @return mixed user id (or null if new object)
@@ -61,7 +57,6 @@ class User {
 	public function getUserId() {
 		return($this->userId);
 	}
-
 	/**
 	 * set the value of user id
 	 * @param mixed $newUserId user id (or null if new object)
@@ -74,22 +69,18 @@ class User {
 			$this->userId = null;
 			return;
 		}
-
 		// ensure the user id is an integer
 		if(filter_var($newUserId, FILTER_VALIDATE_INT) === false) {
 			throw(new UnexpectedValueException("user id $newUserId is not numeric"));
 		}
-
 		// convert the user id to an integer and enforce it's positive
 		$newUserId = intval($newUserId);
 		if($newUserId <= 0) {
 			throw(new RangeException("user id $newUserId is not positive"));
 		}
-
 		//  take user id out of quarantine and assign it
 		$this->userId = $newUserId;
 	}
-
 	/**
 	 * get the value of email
 	 * @return string value of email
@@ -97,7 +88,6 @@ class User {
 	public function getEmail() {
 		return($this->email);
 	}
-
 	/**
 	 * sets the value of email
 	 * @param string $newEmail email
@@ -109,11 +99,9 @@ class User {
 		if(($newEmail = filter_var($newEmail, FILTER_SANITIZE_EMAIL)) == false) {
 			throw(new UnexpectedValueException("email $newEmail does not appear to be an email address"));
 		}
-
 		// then just take email out of quarantine
 		$this->email = $newEmail;
 	}
-
 	/**
 	 * gets the value of passwordHash
 	 * @return string value of passwordHash
@@ -121,7 +109,6 @@ class User {
 	public function getPasswordHash() {
 		return($this->passwordHash);
 	}
-
 	/**
 	 * sets the value of passwordHash
 	 *
@@ -136,11 +123,9 @@ class User {
 		if(filter_var($newPasswordHash, FILTER_VALIDATE_REGEXP, $filterOptions) === false) {
 			throw(new RangeException("password is not a valid SHA512 PBKDF2 hash"));
 		}
-
 		// take  password out of quarantine
 		$this->passwordHash = $newPasswordHash;
 	}
-
 	/**
 	 * gets the value of the salt
 	 *
@@ -149,7 +134,6 @@ class User {
 	public function getSalt() {
 		return($this->salt);
 	}
-
 	/**
 	 * sets the value of salt
 	 *
@@ -164,11 +148,9 @@ class User {
 		if(filter_var($newSalt, FILTER_VALIDATE_REGEXP, $filterOptions) === false) {
 			throw(new RangeException("salt is not 64 hexadecimal bytes"));
 		}
-
 		// take salt out of quarantine
 		$this->salt = $newSalt;
 	}
-
 	/**
 	 * gets the value of authentication token
 	 * @return mixed value of authentication token
@@ -176,7 +158,6 @@ class User {
 	public function getAuthToken() {
 		return($this->authToken);
 	}
-
 	/**
 	 * sets the value of authentication token
 	 * @param mixed $newAuthToken authentication token (32 hexadecimal bytes)
@@ -188,19 +169,16 @@ class User {
 			$this->authToken = null;
 			return;
 		}
-
 		// confirm the authentication token has 32 hex characters
 		$newAuthToken   = trim($newAuthToken);
 		$newAuthToken   = strtolower($newAuthToken);
-		$filterOptions  = array("options" => array("regexp" => "/^[\da-f]{32}$/"));
+		$filterOptions = array("options" => array("regexp" => "/^[\da-f]{32}$/"));
 		if(filter_var($newAuthToken, FILTER_VALIDATE_REGEXP, $filterOptions) === false) {
 			throw(new RangeException("authentication token $newAuthToken is not 32 hexadecimal bytes"));
 		}
-
 		// take authentication token out of quarantine
 		$this->authToken = $newAuthToken;
 	}
-
 	/**
 	 * inserts this User to mySQL
 	 * @param resource $mysqli pointer to mySQL connection
@@ -211,35 +189,29 @@ class User {
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
-
 		// enforce the userId is null
 		if($this->userId !== null) {
 			throw(new mysqli_sql_exception("not a new user"));
 		}
-
 		// create query template
 		$query     = "INSERT INTO user(email, passwordHash, salt, authToken) VALUES(?, ?, ?, ?)";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
-
 		// bind the member variables to the place holders in the template
 		$wasClean = $statement->bind_param("ssss", 	$this->email, $this->passwordHash,
-																	$this->salt,  $this->authToken);
+			$this->salt,  $this->authToken);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
-
 		// execute the statement
 		if($statement->execute() === false) {
 			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
 		}
-
 		// update the null userId
 		$this->userId = $mysqli->insert_id;
 	}
-
 	/**
 	 * deletes this User from mySQL
 	 *
@@ -251,31 +223,26 @@ class User {
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
-
 		// enforce the userId is not null
 		if($this->userId === null) {
 			throw(new mysqli_sql_exception("Unable to delete a user that does not exist"));
 		}
-
 		// create query template
 		$query     = "DELETE FROM user WHERE userId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
-
 		// bind the member variables to the place holder in the template
 		$wasClean = $statement->bind_param("i", $this->userId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
-
 		// execute the statement
 		if($statement->execute() === false) {
 			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
 		}
 	}
-
 	/**
 	 * update the User in mySQL
 	 * @param resource $mysqli pointer to mySQL connection, by reference
@@ -286,19 +253,16 @@ class User {
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
-
 		// enforce the userId is not null
 		if($this->userId === null) {
 			throw(new mysqli_sql_exception("Unable to update a user that does not exist"));
 		}
-
 		// create query template
 		$query     = "UPDATE user SET email = ?, passwordHash = ?, salt = ?, authToken = ? WHERE userId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
-
 		// bind the member variables to the place holders in the template
 		$wasClean = $statement->bind_param("ssssi", $this->email, $this->passwordHash,
 			$this->salt,  $this->authToken,
@@ -306,13 +270,11 @@ class User {
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
-
 		// execute the statement
 		if($statement->execute() === false) {
 			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
 		}
 	}
-
 	/**
 	 * gets the User by Email
 	 * @param resource $mysqli pointer to mySQL connection, by reference
@@ -325,39 +287,32 @@ class User {
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
-
 		// sanitize the Email before searching
 		$email = trim($email);
 		$email = filter_var($email, FILTER_SANITIZE_EMAIL);
-
 		// create query template
 		$query     = "SELECT userId, email, passwordHash, salt, authToken FROM user WHERE email = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
-
 		// bind the email to the place holder in the template
 		$wasClean = $statement->bind_param("s", $email);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
-
 		// execute the statement
 		if($statement->execute() === false) {
 			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
 		}
-
 		// get result from the SELECT query
 		$result = $statement->get_result();
 		if($result === false) {
 			throw(new mysqli_sql_exception("Unable to get result set"));
 		}
-
 		//  if  a result, make it into a User object
 		//  no result, null
 		$row = $result->fetch_assoc(); // fetch_assoc() returns a row as an associative array
-
 		// convert the associative array to a User
 		if($row !== null) {
 			try {
@@ -367,7 +322,6 @@ class User {
 				// if the row couldn't be converted, rethrow it
 				throw(new mysqli_sql_exception("Unable to convert row to User", 0, $exception));
 			}
-
 			// if we got here, the User is good - return it
 			return($user);
 		} else {
