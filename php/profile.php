@@ -260,13 +260,13 @@ class profile {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
-		// enforce the userId is not null (i.e., don't delete a user that hasn't been inserted)
+		// enforce the profileId is not null
 		if($this->profileId === null) {
 			throw(new mysqli_sql_exception("Unable to delete a profile that does not exist"));
 		}
 
 		// create query template
-		$query     = "DELETE FROM user WHERE profileId = ?";
+		$query     = "DELETE_FROM profile WHERE profileId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -296,13 +296,13 @@ class profile {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
-		// enforce the profileId is not null (i.e., don't update a user that hasn't been inserted)
+		// enforce the profileId is not null
 		if($this->profileId === null) {
 			throw(new mysqli_sql_exception("Unable to update a profile that does not exist"));
 		}
 
 		// create query template
-		$query     = "UPDATE user SET firstName = ?, lastName = ?, dateOfBirth = ?, gender = ? WHERE profileId = ?";
+		$query     = "UPDATE profile SET firstName = ?, lastName = ?, dateOfBirth = ?, gender = ? WHERE profileId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));

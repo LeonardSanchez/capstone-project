@@ -12,7 +12,7 @@ require_once("../php/user.php");
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 
 // the ProfileTest is a container for all our tests
-class ProfileTest extends UnitTestCase {
+class ProfileTest extends unitTestCase {
 	// variable to hold the mySQL connection
 	private $mysqli	= null;
 	// variable to hold the test database row
@@ -25,11 +25,13 @@ class ProfileTest extends UnitTestCase {
 	private $GENDER			= "M";
 
 	// create state variables for the objects
-	private $user				= null;
 
-	// setUp() is a method that is run before each test
+
+	// setUp() is a method that is run before each test & connnect to mySQl
+	public function setUp()
 	// connect to mySQL
-	public function setUp() {
+	{
+		mysqli_report(MYSQLI_REPORT_STRICT);
 		$this->mysqli = MysqliConfiguration::getMysqli();
 
 		// setup the objects, and enter all data fields from corresponding table
@@ -37,8 +39,8 @@ class ProfileTest extends UnitTestCase {
 		$salt = bin2hex(openssl_random_pseudo_bytes(32));
 		$authToken = bin2hex(openssl_random_pseudo_bytes(16));
 		$passwordHash = hash_pbkdf2("sha512", "password123", $salt, 2048, 128);
-		$this->user = new User(null, "randomemail@yahoo.com", $passwordHash, $salt, $authToken);
-		$this->user->insert($this->mysqli);
+		$this->profile = new User(null, "randomemail@yahoo.com", $passwordHash, $salt, $authToken);
+		$this->profile->insert($this->mysqli);
 	}
 
 	// tearDown() is a method that is run after each test
@@ -47,9 +49,9 @@ class ProfileTest extends UnitTestCase {
 	{
 		// delete the user if we can
 
-		if($this->user !== null) {
-			$this->user->delete($this->mysqli);
-			$this->user = null;
+		if($this->profile !== null) {
+			$this->profile->delete($this->mysqli);
+			$this->profile = null;
 		}
 		if($this->profile !== null) {
 			$this->profile->delete($this->mysqli);
@@ -71,7 +73,7 @@ class ProfileTest extends UnitTestCase {
 		// finally, compare the fields
 		$this->assertNotNull($this->profile->getProfileId());
 		$this->assertTrue($this->profile->getProfileId() > 0);
-		$this->assertIdentical($this->profile->getUserId(),			$this->user->getUserId());
+		$this->assertIdentical($this->profile->getUserId(),			$this->profile->getUserId());
 		$this->assertIdentical($this->profile->getFirstName(),		$this->FIRST_NAME);
 		$this->assertIdentical($this->profile->getLastName(),			$this->LAST_NAME);
 		$this->assertIdentical($this->profile->getDateOfBirth(),		$this->DATE_OF_BIRTH);
@@ -84,7 +86,7 @@ class ProfileTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// second, create a profile to post to mySQL
-		$this->profile = new Profile(null, $this->user->getUserId(), $this->FIRST_NAME, $this->LAST_NAME, $this->DATE_OF_BIRTH, $this->GENDER);
+		$this->profile = new Profile(null, $this->profile->getUserId(), $this->FIRST_NAME, $this->LAST_NAME, $this->DATE_OF_BIRTH, $this->GENDER);
 
 		// third, insert the profile to mySQL
 		$this->profile->insert($this->mysqli);
@@ -110,7 +112,7 @@ class ProfileTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// second, create a profile to post to mySql
-		$this->profile = new Profile(null, $this->user->getUserId(), $this->FIRST_NAME, $this->LAST_NAME, $this->DATE_OF_BIRTH, $this->GENDER);
+		$this->profile = new Profile(null, $this->profile->getUserId(), $this->FIRST_NAME, $this->LAST_NAME, $this->DATE_OF_BIRTH, $this->GENDER);
 
 		// third, insert the profile to mySQL
 		$this->profile->insert($this->mysqli);
@@ -134,7 +136,7 @@ class ProfileTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// second, create a profile to post to mySQL
-		$this->profile = new Profile(null, $this->user->getUserId(), $this->FIRST_NAME, $this->LAST_NAME, $this->DATE_OF_BIRTH, $this->GENDER);
+		$this->profile = new Profile(null, $this->profile->getUserId(), $this->FIRST_NAME, $this->LAST_NAME, $this->DATE_OF_BIRTH, $this->GENDER);
 
 		// third, insert the profile to mySQL
 		$this->profile->insert($this->mysqli);

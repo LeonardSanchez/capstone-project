@@ -16,6 +16,7 @@ class UserTest extends UnitTestCase {
 	private $user   = null;
 	// a few "global" variables for creating test data
 	private $EMAIL      = "unit-test@example.net";
+
 	private $PASSWORD  = "ChedGeek5";
 	private $SALT       = null;
 	private $AUTHTOKEN = null;
