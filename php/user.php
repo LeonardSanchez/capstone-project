@@ -6,7 +6,7 @@
  **/
 class User {
 	/**
-	 * user id for  User; this is the primary key
+	 * user id for User; this is the primary key
 	 **/
 	private $userId;
 	/**
@@ -200,8 +200,7 @@ class User {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("ssss", 	$this->email, $this->passwordHash,
-			$this->salt,  $this->authToken);
+		$wasClean = $statement->bind_param("ssss", $this->email, $this->passwordHash, $this->salt, $this->authToken);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
