@@ -10,6 +10,10 @@ class Transaction {
 	 **/
 	private $transactionId;
 	/**
+	 * the profile id links to the transaction class/table and is a foreign key
+	 **/
+	private $profileId;
+	/**
 	 * the monetary amount for the transaction
 	 **/
 	private $amount;
@@ -17,27 +21,23 @@ class Transaction {
 	 * the date that the transaction was approved
 	 **/
 	private $dateApproved;
-	/**
-	 * the profile id links to the transaction class/table and is a foreign key
-	 **/
-	private $profileId;
 
 	/**
 	 * constructor for the Transaction class
 	 *
 	 * @param mixed $newTransactionId (or null if new transaction)
+	 * @param mixed $newProfileId
 	 * @param float $newAmount
 	 * @param mixed $newDateApproved
-	 * @param mixed $newProfileId
 	 * @throws UnexpectedValueException when a parameter is not the right type
 	 * @throws RangeException when a parameter is invalid
 	 **/
-	public function __constuct($newTransactionId, $newAmount, $newDateApproved, $newProfileId) {
+	public function __construct($newTransactionId, $newProfileId, $newAmount, $newDateApproved) {
 		try {
 			$this->setTransactionId($newTransactionId);
+			$this->setProfileId($newProfileId);
 			$this->setAmount($newAmount);
 			$this->setDateApproved($newDateApproved);
-			$this->setProfileId($newProfileId);
 		} catch(UnexpectedValueException $unexpectedValue) {
 			// rethrow to caller
 			throw(new UnexpectedValueException("Unable to construct Transaction", 0, $unexpectedValue));
@@ -83,7 +83,43 @@ class Transaction {
 
 		// take the transaction id out of quarantine and assign it
 		$this->transactionId = $newTransactionId;
+	}
 
+	/**
+	 * gets the value of the profile id
+	 *
+	 * @return mixed profile id
+	 **/
+	public function getProfileId() {
+		return($this->profileId);
+	}
+
+	/**
+	 * sets the value of the profile id
+	 * @param mixed $newProfileId
+	 * @throws UnexpectedValueException if not an integer or null
+	 * @throws RangeException if profile id is not positive
+	 **/
+	public function setProfileId($newProfileId) {
+		// allow the profile id to be null if a new object
+		if($newProfileId === null) {
+			$this->profileId = null;
+			return;
+		}
+
+		// ensure the profile id is an integer
+		if(filter_var($newProfileId, FILTER_VALIDATE_INT) === false) {
+			throw(new UnexpectedValueException("profile id $newProfileId is not numeric"));
+		}
+
+		// convert the profile id to an integer and enforce that it is positive
+		$newProfileId = intval($newProfileId);
+		if($newProfileId <= 0) {
+			throw(new RangeException("profile id $newProfileId is not positive"));
+		}
+
+		// take the profile id out of quarantine and assign it
+		$this->profileId = $newProfileId;
 	}
 
 	/**
@@ -149,7 +185,7 @@ class Transaction {
 
 		// treat the date as a mySQL date string
 		$newDateApproved = trim($newDateApproved);
-		if((preg_match("/^(\d{4})-(\d^{2})-(\d^{2}) (\d{2}):(\d{2}):(\d{2})$/", $newDateApproved, $matches)) !== 1) {
+		if((preg_match("/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/", $newDateApproved, $matches)) !== 1) {
 			throw(new RangeException("$newDateApproved is not a valid date"));
 		}
 
@@ -164,43 +200,6 @@ class Transaction {
 		// take the date out of quarantine
 		$newDateApproved = DateTime::createFromFormat("Y-m-d H:i:s", $newDateApproved);
 		$this->dateApproved = $newDateApproved;
-	}
-
-	/**
-	 * gets the value of the profile id
-	 *
-	 * @return mixed profile id
-	 **/
-	public function getProfileId() {
-		return($this->profileId);
-	}
-
-	/**
-	 * sets the value of the profile id
-	 * @param mixed $newProfileId
-	 * @throws UnexpectedValueException if not an integer or null
-	 * @throws RangeException if profile id is not positive
-	 **/
-	public function setProfileId($newProfileId) {
-		// allow the profile id to be null if a new object
-		if($newProfileId === null) {
-			$this->profileId = null;
-			return;
-		}
-
-		// ensure the profile id is an integer
-		if(filter_var($newProfileId, FILTER_VALIDATE_INT) === false) {
-			throw(new UnexpectedValueException("profile id $newProfileId is not numeric"));
-		}
-
-		// convert the profile id to an integer and enforce that it is positive
-		$newProfileId = intval($newProfileId);
-		if($newProfileId <= 0) {
-			throw(new RangeException("profile id $newProfileId is not positive"));
-		}
-
-		// take the profile id out of quarantine and assign it
-		$this->profileId = $newProfileId;
 	}
 
 	/**
@@ -224,18 +223,18 @@ class Transaction {
 		if($this->dateApproved === null) {
 			$dateApproved = null;
 		} else {
-			$dateApproved = $this->dateApproved->format("Y-d-m H:i:s");
+			$dateApproved = $this->dateApproved->format("Y-m-d H:i:s");
 		}
 
 			// create query template
-		$query		= "INSERT INTO transaction(amount, dateApproved, profileId) VALUES(?, ?, ?)";
+		$query		= "INSERT INTO transaction(profileId, amount, dateApproved) VALUES(?, ?, ?)";
 		$statement  = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("dsi", $this->amount, $this->dateApproved, $this->profileId);
+		$wasClean = $statement->bind_param("ids", $this->profileId, $this->amount, $dateApproved);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -247,8 +246,6 @@ class Transaction {
 
 		// update the null transactionId with what mySQL just gave us
 		$this->transactionId = $mysqli->insert_id;
-
-
 	}
 
 	public function delete(&$mysqli) {
@@ -302,19 +299,18 @@ class Transaction {
 		if($this->dateApproved === null) {
 			$dateApproved = null;
 		} else {
-			$dateApproved = $this->dateApproved->format("Y-d-m H:i:s");
+			$dateApproved = $this->dateApproved->format("Y-m-d H:i:s");
 		}
 
-				// create query template
-		$query     = "UPDATE Transaction SET amount = ?, dateApproved = ?, profileId = ? WHERE transactionId = ?";
+		// create query template
+		$query     = "UPDATE transaction SET profileId = ?, amount = ?, dateApproved = ? WHERE transactionId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("dsi",  $this->amount, $this->dateApproved,
-			$this->profileId);
+		$wasClean = $statement->bind_param("idsi", $this->profileId, $this->amount, $dateApproved, $this->transactionId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -343,7 +339,7 @@ class Transaction {
 		$profileId = filter_var($profileId, FILTER_SANITIZE_NUMBER_INT);
 
 		// create query template
-		$query		= "SELECT transactionId, amount, dateApproved, profileId FROM transaction WHERE profileId = ?";
+		$query		= "SELECT transactionId, profileId, amount, dateApproved FROM transaction WHERE profileId = ?";
 		$statement  = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -374,7 +370,7 @@ class Transaction {
 		// convert the associative array to a Transaction
 		if($row !== null) {
 			try{
-				$transaction = new Transaction($row["transactionId"], $row["amount"], $row["dateApproved"], $row["profileId"]);
+				$transaction = new Transaction($row["transactionId"], $row["profileId"], $row["amount"], $row["dateApproved"]);
 			}
 			catch(Exception $exception) {
 				// if row couldn't be converted, rethrow it
