@@ -10,6 +10,7 @@ require_once("/usr/lib/php5/simpletest/autorun.php");
 
 // next, require the class to be tested
 require_once("../php/transaction.php");
+require_once("../php/user.php");
 require_once("../php/profile.php");
 
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
@@ -23,16 +24,29 @@ class TransactionTest extends UnitTestCase {
 
 	// a few global variables for creating test data
 	private $amount		 = "40.00";
-	private $dateApproved = "11/10/2014";
-	private $profileId    = 2;
+	private $dateApproved = "2014-11-10 00:00:00";
+
+	//create state variables for the objects
+	private $user       = null;
+	private $profile    = null;
 
 	// now to create the setUp
 	public function setUp() {
 		//connect to mySQL
 		$this->mysqli = MysqliConfiguration::getMysqli();
 
+		// set up the objects, and enter all data fields from corresponding table
+		$password      = "abc123";
+		$email         = "email@gmail.com";
+		$salt       	= bin2hex(openssl_random_pseudo_bytes(32));
+		$authToken 		= bin2hex(openssl_random_pseudo_bytes(16));
+		$passwordHash 	= hash_pbkdf2("sha512", $password, $salt, 2048, 128);
+		$this->user 	= new User(null, $email, $passwordHash, $salt, $authToken);
+		$this->user->insert($this->mysqli);
 
-		// no need to randomize anything
+		$this->profile = new Profile(null, $this->user->getUserId(), "Jack", "Sparrow", "1972-05-21 12:00:00", "m");
+		$this->profile->insert($this->mysqli);
+
 	}
 
 	// now for the tear down after each test
@@ -40,6 +54,16 @@ class TransactionTest extends UnitTestCase {
 		if($this->transaction !== null){
 			$this->transaction->delete($this->mysqli);
 			$this->transaction = null;
+		}
+
+		if($this->profile !== null) {
+			$this->profile->delete($this->mysqli);
+			$this->profile = null;
+		}
+
+		if($this->user !== null) {
+			$this->user->delete($this->mysqli);
+			$this->user = null;
 		}
 
 		// no need to disconnect with new mysqliConfiguration class added YAY!
@@ -51,7 +75,7 @@ class TransactionTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// now, create a transaction to post to mySQL
-		$this->transaction = new Transaction(null, $this->amount, $this->dateApproved, $this->profileId);
+		$this->transaction = new Transaction(null, $this->amount, $this->dateApproved, $this->profile->getProfileId());
 
 		// insert the transaction to mySQL
 		$this->transaction->insert($this->mysqli);
@@ -61,7 +85,7 @@ class TransactionTest extends UnitTestCase {
 		$this->assertTrue($this->transaction->getTransactionId() > 0);
 		$this->assertIdentical($this->transaction->getAmount(),				$this->amount);
 		$this->assertIdentical($this->transaction->getDateApproved(),	   $this->dateApproved);
-		$this->assertIdentical($this->transaction->getProfileId(),			$this->profileId);
+		$this->assertIdentical($this->transaction->getProfileId(),			$this->profile->getProfileId());
 	}
 
 	// test updating a Transaction in mySQL
@@ -70,7 +94,7 @@ class TransactionTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// create a transaction to post to mySQL
-		$this->transaction = new Transaction(null, $this->amount, $this->dateApproved, $this->profileId);
+		$this->transaction = new Transaction(null, $this->amount, $this->dateApproved, $this->profile->getProfileId());
 
 		// insert the transaction to mySQL
 		$this->transaction->insert($this->mysqli);
@@ -85,7 +109,7 @@ class TransactionTest extends UnitTestCase {
 		$this->assertTrue($this->transaction->getTransactionId() > 0);
 		$this->assertIdentical($this->transaction->getAmount(),				$newAmount);
 		$this->assertIdentical($this->transaction->getDateApproved(),	   $this->dateApproved);
-		$this->assertIdentical($this->transaction->getProfileId(),			$this->profileId);
+		$this->assertIdentical($this->transaction->getProfileId(),			$this->profile->getProfileId());
 
 	}
 
@@ -95,7 +119,7 @@ class TransactionTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// create a transaction to post to mySQL
-		$this->transaction = new Transaction(null, $this->amount, $this->dateApproved, $this->profileId);
+		$this->transaction = new Transaction(null, $this->amount, $this->dateApproved, $this->profile->getProfileId());
 
 		// insert the transaction to mySQL
 		$this->transaction->insert($this->mysqli);
@@ -119,13 +143,13 @@ class TransactionTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// create a transaction to post to mySQL
-		$this->transaction = new Transaction(null, $this->amount, $this->dateApproved, $this->profileId);
+		$this->transaction = new Transaction(null, $this->amount, $this->dateApproved, $this->profile->getProfileId());
 
 		// insert the transaction to mySQL
 		$this->transaction->insert($this->mysqli);
 
 		// get the transaction by using the static method
-		$staticTransaction = Transaction::getTransactionByProfileId($this->mysqli, $this->profileId);
+		$staticTransaction = Transaction::getTransactionByProfileId($this->mysqli, $this->profile->getProfileId());
 
 		// compare fields
 		$this->assertNotNull($staticTransaction->getTransactionId());
@@ -133,7 +157,7 @@ class TransactionTest extends UnitTestCase {
 		$this->assertIdentical($staticTransaction->getTransactionId(),						$this->transaction->getTransactionId());
 		$this->assertIdentical($staticTransaction->getAmount(),								$this->amount);
 		$this->assertIdentical($staticTransaction->getDateApproved(),						$this->dateApproved);
-		$this->assertIdentical($staticTransaction->getProfileId(),							$this->profileId);
+		$this->assertIdentical($staticTransaction->getProfileId(),							$this->profile->getProfileId());
 	}
 }
 ?>
