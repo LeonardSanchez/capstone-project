@@ -34,12 +34,12 @@ class Profile
 	/**
 	 * constructor for Profile
 	 *
-	 * @param mixed  $newProfileId  profile id (or null if new object)
-	 * @param mixed  $newUserId     user id
-	 * @param string $newFirstName  first name
-	 * @param string $newLastName   last name
+	 * @param mixed  $newProfileId   profile id (or null if new object)
+	 * @param mixed  $newUserId      user id
+	 * @param string $newFirstName   first name
+	 * @param string $newLastName    last name
 	 * @param string $newDateOfBirth date of birth
-	 * @param string $newGender gender
+	 * @param string $newGender      gender
 	 *
 	 **/
 	public function __construct($newProfileId, $newUserId, $newFirstName, $newLastName, $newDateOfBirth, $newGender)
@@ -95,9 +95,9 @@ class Profile
 		$this->profileId = $newProfileId;
 	}
 	/**
-	 * gets the value of user id
+	 * gets the value of profile id
 	 *
-	 * @return mixed user id
+	 * @return mixed profile id
 	 **/
 	public function getUserId()
 	{
@@ -228,14 +228,13 @@ class Profile
 	 * @param string $newGender gender
 	 * @throws UnexpectedValueException if the input doesn't appear to be a gender identifier
 	 **/
-	public function setGender($newGender)
-	{
+	public function setGender($newGender) {
 		// sanitize the Gender as a likely Gender identifier
 		$newGender = trim($newGender);
 		if(($newGender = filter_var($newGender, FILTER_SANITIZE_STRING)) == false) {
 			throw(new UnexpectedValueException("gender $newGender does not appear to be a gender"));
 		}
-		//then just take last name out of quarantine
+		//then just take the Gender out of quarantine
 		$this->gender = $newGender;
 	}
 	/**
