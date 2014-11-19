@@ -134,7 +134,7 @@ class TransactionTest extends UnitTestCase {
 		$this->transaction = null;
 
 		// try to get the transaction and assert we didn't get a thing
-		$hopefulTransaction = Transaction::getTransactionByProfileId($this->mysqli, $this->profile->getProfileId);
+		$hopefulTransaction = Transaction::getTransactionByProfileId($this->mysqli, $this->profile->getProfileId());
 		$this->assertNull($hopefulTransaction);
 	}
 
