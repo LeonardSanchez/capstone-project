@@ -379,9 +379,49 @@ class Event{
 		$eventName	=	trim($eventName);
 		$eventName	=	filter_var($eventName, FILTER_SANITIZE_STRING);
 
-		$query = "SELECT eventId, eventCategoryId, venueId, eventName, eventDateTime, ticketPrice FROM event WHERE eventName = ?";
+		$query = "SELECT eventId, eventCategoryId, venueId, eventName, eventDateTime, ticketPrice FROM event WHERE eventName LIKE ?";
 		$statement = $mysqli->prepare($query);
+		if($statement === false)	{
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		$eventName = "%$eventName%";
+		$wasClean = $statement->bind_param("s", $this->$eventName);
+		if($wasClean === false)	{
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		if($statement->execute() === false)	{
+			throw(new mysqli_sql_exception("Unable to execute statement"))
+		}
+
+		$result = $statement->get_results();
+		if($result === false)	{
+			throw(new mysqli_sql_exception("Unable to get result sets"));
+		}
+
+		$events = array();
+		while(($row = $result->fetch_assoc()) === null)	{
+			try	{
+				$event		= new Event($row["eventId"], $row["eventCategoryId"], $row["venueId"],
+												$row["eventName"], $row["eventDateTime"], $row["ticketPrice"]);
+				$events[]	=	$event;
+			}	catch(Exception $exception)	{
+				// if the row was not able to be converted rethrow
+				throw(new mysqli_sql_exception("Unable to convert row to Event", 0, $exception));
+			}
+		}
+
+		$numberOfEvents = count($events);
+		if($numberOfEvents === 0)	{
+			return(null);
+		}	else if($numberOfEvents === 1)	{
+			return($events[0]);
+		}	else	{
+			return($events);
+		}
 	}
 
+	public function getEventByEventDateTime(&$mysqli,)
 }
 ?>
