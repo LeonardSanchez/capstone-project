@@ -45,7 +45,7 @@ class TransactionTest extends UnitTestCase {
 		$this->user 	= new User(null, $email, $passwordHash, $salt, $authToken);
 		$this->user->insert($this->mysqli);
 
-		$this->profile = new Profile(null, $this->user->getUserId(), "Jack", "Sparrow", "1972-05-05 12:00:00", "m");
+		$this->profile = new Profile(null, $this->user->getUserId(), "Jack", "Sparrow", "1972-06-05 12:00:00", "m");
 		$this->profile->insert($this->mysqli);
 
 	}

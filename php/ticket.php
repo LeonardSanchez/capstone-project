@@ -53,6 +53,8 @@ class Ticket
 			// PLACE HOLDER FOR PHASE 2 $this->setSeat($newSeat);
 		} catch(UnexpectedValueException $unexpectedValue) {
 			// rethrow to the caller
+			var_dump($newTicketId);
+			var_dump($unexpectedValue);
 			throw(new UnexpectedValueException("Unable to construct Ticket", 0, $unexpectedValue));
 		} catch(RangeException $range) {
 			// rethrow to the caller
@@ -82,6 +84,7 @@ class Ticket
 		// zeroth, set allow the ticket id to be null if a new object
 		if($newTicketId === null) {
 			$this->ticketId = null;
+			return;
 		}
 
 		// first, ensure the ticket id is an integer

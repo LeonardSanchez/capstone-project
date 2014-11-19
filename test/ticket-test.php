@@ -49,6 +49,9 @@ class TicketTest extends UnitTestCase {
 		$this->profile = new Profile(null, $this->user->getUserId(), "Bill", "Murray", "1972-05-21 12:00:00", "m");
 		$this->profile->insert($this->mysqli);
 
+		$this->transaction = new Transaction(null, $this->profile->getProfileId(), "20.00", "2014-11-15 12:00:00");
+		$this->transaction->insert($this->mysqli);
+
 		$this->venue	= new Venue(null, "The Place To Be", 500, "505-765-4321", "http://www.theplacetobe.com", "456 First Ave", null, "Albuquerque", "NM", "87109");
 		$this->venue->insert($this->mysqli);
 
@@ -58,8 +61,6 @@ class TicketTest extends UnitTestCase {
 		$this->event	= new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(), "Creedence Clearwater Revival", "2014-12-12 12:00:00", "25.00");
 		$this->event->insert($this->mysqli);
 
-		$this->transaction = new Transaction(null, $this->profile->getProfileId(), "20.00", "2014-11-15 12:00:00");
-		$this->transaction->insert($this->mysqli);
 	}
 
 	// tearDown() is a method that is run after each test
@@ -67,9 +68,10 @@ class TicketTest extends UnitTestCase {
 	public function tearDown() {
 		// delete the ticket if we can
 		// for the foreign keys MAKE SURE TO DELETE IN REVERSE ORDER!
-		if($this->transaction !== null) {
-			$this->transaction->delete($this->mysqli);
-			$this->transaction = null;
+
+		if($this->ticket !== null) {
+			$this->ticket->delete($this->mysqli);
+			$this->ticket = null;
 		}
 
 		if($this->event !== null) {
@@ -77,14 +79,19 @@ class TicketTest extends UnitTestCase {
 			$this->event = null;
 		}
 
+		if($this->eventCategory !== null) {
+			$this->eventCategory->delete($this->mysqli);
+			$this->eventCategory = null;
+		}
+
 		if($this->venue !== null) {
 			$this->venue->delete($this->mysqli);
 			$this->venue = null;
 		}
 
-		if($this->eventCategory !== null) {
-			$this->eventCategory->delete($this->mysqli);
-			$this->eventCategory = null;
+		if($this->transaction !== null) {
+			$this->transaction->delete($this->mysqli);
+			$this->transaction = null;
 		}
 
 		if($this->profile !== null) {
@@ -96,12 +103,6 @@ class TicketTest extends UnitTestCase {
 			$this->user->delete($this->mysqli);
 			$this->user = null;
 		}
-
-		if($this->ticket !== null) {
-			$this->ticket->delete($this->mysqli);
-			$this->ticket = null;
-		}
-
 
 		// tear down the objects
 	}
