@@ -25,7 +25,7 @@ class ProfileTest extends unitTestCase {
 	private $GENDER			= "M";
 
 	// create state variables for the objects
-
+	private $user           = null;
 
 	// setUp() is a method that is run before each test & connnect to mySQl
 	public function setUp()
@@ -39,8 +39,8 @@ class ProfileTest extends unitTestCase {
 		$salt = bin2hex(openssl_random_pseudo_bytes(32));
 		$authToken = bin2hex(openssl_random_pseudo_bytes(16));
 		$passwordHash = hash_pbkdf2("sha512", "password123", $salt, 2048, 128);
-		$this->profile = new User(null, "randomemail@yahoo.com", $passwordHash, $salt, $authToken);
-		$this->profile->insert($this->mysqli);
+		$this->user = new User(null, "randomemail@yahoo.com", $passwordHash, $salt, $authToken);
+		$this->user->insert($this->mysqli);
 	}
 
 	// tearDown() is a method that is run after each test
