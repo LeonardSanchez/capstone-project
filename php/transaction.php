@@ -162,7 +162,7 @@ class Transaction {
 		}
 
 		// take the date out of quarantine
-		$newDateApproved = DateTime::createFromFormat("Y-d-m H:i:s", $newDateApproved);
+		$newDateApproved = DateTime::createFromFormat("Y-m-d H:i:s", $newDateApproved);
 		$this->dateApproved = $newDateApproved;
 	}
 
@@ -224,7 +224,7 @@ class Transaction {
 		if($this->dateApproved === null) {
 			$dateApproved = null;
 		} else {
-			$dateApproved = $this->dateApproved->format("Y-d-m H:i:s");
+			$dateApproved = $this->dateApproved->format("Y-m-d H:i:s");
 		}
 
 			// create query template
@@ -302,7 +302,7 @@ class Transaction {
 		if($this->dateApproved === null) {
 			$dateApproved = null;
 		} else {
-			$dateApproved = $this->dateApproved->format("Y-d-m H:i:s");
+			$dateApproved = $this->dateApproved->format("Y-m-d H:i:s");
 		}
 
 				// create query template

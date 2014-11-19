@@ -10,8 +10,9 @@ require_once("/usr/lib/php5/simpletest/autorun.php");
 
 // next, require the class to be tested
 require_once("../php/transaction.php");
-require_once("../php/user.php");
 require_once("../php/profile.php");
+require_once("../php/user.php");
+
 
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 
@@ -44,7 +45,7 @@ class TransactionTest extends UnitTestCase {
 		$this->user 	= new User(null, $email, $passwordHash, $salt, $authToken);
 		$this->user->insert($this->mysqli);
 
-		$this->profile = new Profile(null, $this->user->getUserId(), "Jack", "Sparrow", "1972-05-21 12:00:00", "m");
+		$this->profile = new Profile(null, $this->user->getUserId(), "Jack", "Sparrow", "1972-05-05 12:00:00", "m");
 		$this->profile->insert($this->mysqli);
 
 	}
@@ -133,7 +134,7 @@ class TransactionTest extends UnitTestCase {
 		$this->transaction = null;
 
 		// try to get the transaction and assert we didn't get a thing
-		$hopefulTransaction = Transaction::getTransactionByProfileId($this->mysqli, $this->profileId);
+		$hopefulTransaction = Transaction::getTransactionByProfileId($this->mysqli, $this->profile->getProfileId);
 		$this->assertNull($hopefulTransaction);
 	}
 

@@ -34,7 +34,7 @@ class UserTest extends UnitTestCase {
 	// here, we use it to delete the test record and disconnect from mySQL
 	public function tearDown() {
 		// delete the user if we can
-		if($this->user !== null) {
+	if($this->user !== null) {
 			$this->user->delete($this->mysqli);
 			$this->user = null;
 		}
