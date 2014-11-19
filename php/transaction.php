@@ -263,7 +263,7 @@ class Transaction {
 		}
 
 		// create query template
-		$query     = "DELETE FROM Transaction WHERE transactionId = ?";
+		$query     = "DELETE FROM transaction WHERE transactionId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -306,7 +306,7 @@ class Transaction {
 		}
 
 				// create query template
-		$query     = "UPDATE Transaction SET amount = ?, dateApproved = ?, profileId = ? WHERE transactionId = ?";
+		$query     = "UPDATE transaction SET amount = ?, dateApproved = ?, profileId = ? WHERE transactionId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
