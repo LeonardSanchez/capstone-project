@@ -56,7 +56,6 @@ class Profile
 			throw(new UnexpectedValueException("Unable to construct Profile", 0, $unexpectedValue));
 		} catch(RangeException $range) {
 			//rethrow to the caller
-			var_dump($this);
 			throw(new RangeException("Unable to construct Profile", 0, $range));
 		}
 	}
@@ -201,7 +200,7 @@ class Profile
 		}
 		// second, treat the date as a mySQL date string
 		$newDateOfBirth = trim($newDateOfBirth);
-		if((preg_match("/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/", $newDateOfBirth, $matches)) !== 1) {
+		if((preg_match("/^(\d{4})-(\d{2})-(\d{2})$/", $newDateOfBirth, $matches)) !== 1) {
 			throw(new RangeException("$newDateOfBirth is not a valid date"));
 		}
 		// third, verify the date is really a valid calendar date
@@ -212,7 +211,7 @@ class Profile
 			throw(new RangeException("$newDateOfBirth is not a Gregorian date"));
 		}
 		// finally, take the date out of quarantine
-		$newDateOfBirth = DateTime::createFromFormat("Y-m-d H:i:s", $newDateOfBirth);
+		$newDateOfBirth = DateTime::createFromFormat("Y-m-d", $newDateOfBirth);
 		$this->dateOfBirth = $newDateOfBirth;
 	}
 	/**
@@ -351,7 +350,7 @@ class Profile
 		}
 	}
 	/**
-	 * gets the Profile by Pro fileId
+	 * gets the Profile by ProfileId
 	 *
 	 * @param resource $mysqli pointer to mySQL connection, by reference
 	 * @param string $profileId profileId to search for
@@ -360,7 +359,7 @@ class Profile
 	 **/
 	public static function getProfileByProfileId(&$mysqli, $profileId) {
 		// handle degenerate cases
-		if(gettype($mysqli) !== "object" || get_class(mysqli) !== "mysqli") {
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 		// sanitize the Profile before searching
@@ -392,10 +391,13 @@ class Profile
 		// 2) if there's no result, we can just return null
 		$row = $result->fetch_assoc(); // fetch_assoc() returns a row as an associative array
 		// convert the associative array to a Profile
+
 		if($row !== null) {
 			try {
 				$profileId = new Profile($row["profileId"], $row["userId"], $row["firstName"], $row["lastName"], $row["dateOfBirth"], $row["gender"]);
-			} catch(Exception $exception) {
+				$profileIds[] = $profileId;
+			} catch(Exception $exception)
+			{
 				// if the row couldn't be converted, rethrow it
 				throw(new mysqli_sql_exception("Unable to convert row to Profile", 0, $exception));
 			}

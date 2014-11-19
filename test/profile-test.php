@@ -21,7 +21,7 @@ class ProfileTest extends unitTestCase {
 	// a few "global" variables for creating test data
 	private $FIRST_NAME		= "Mr";
 	private $LAST_NAME		= "Peabody";
-	private $DATE_OF_BIRTH	= "1977-05-27 00:00:01";
+	private $DATE_OF_BIRTH	= "1977-05-27";
 	private $GENDER			= "M";
 
 	// create state variables for the objects
@@ -70,7 +70,7 @@ class ProfileTest extends unitTestCase {
 		// 3rd, insert the user to mySQL
 		$this->profile->insert($this->mysqli);
 
-		$tempDate = DateTime::createFromFormat('Y-m-d H:i:s', $this->DATE_OF_BIRTH);
+		$tempDate = DateTime::createFromFormat('Y-m-d', $this->DATE_OF_BIRTH);
 
 		// finally, compare the fields
 		$this->assertNotNull($this->profile->getProfileId());
@@ -97,7 +97,8 @@ class ProfileTest extends unitTestCase {
 		$newFirstName = "Sherman";
 		$this->profile->setFirstName($newFirstName);
 		$this->profile->update($this->mysqli);
-		$tempDate = DateTime::createFromFormat('Y-m-d H:i:s', $this->DATE_OF_BIRTH);
+
+		$tempDate = DateTime::createFromFormat('Y-m-d', $this->DATE_OF_BIRTH);
 
 		//finally, compare the fields
 		$this->assertNotNull($this->profile->getProfileId());
@@ -125,11 +126,12 @@ class ProfileTest extends unitTestCase {
 		$this->assertTrue($this->profile->getProfileId() >0);
 
 		//5th, delete the profile
+		$destroyedProfileId = $this->profile->getProfileId();
 		$this->profile->delete($this->mysqli);
 		$this->profile = null;
 
 		// finally, try to get the profile and assert we didn't get anything
-		$staticProfile = Profile::getProfileByFirstName($this->mysqli, $this->FIRST_NAME);
+		$staticProfile = Profile::getProfileByProfileId($this->mysqli, $destroyedProfileId);
 		$this->assertNull($staticProfile);
 	}
 
@@ -145,8 +147,8 @@ class ProfileTest extends unitTestCase {
 		$this->profile->insert($this->mysqli);
 
 		// 4th, get the profile using the static method
-		$staticProfile = Profile::getProfileByFirstName($this->mysqli, $this->FIRST_NAME);
-		$tempDate = DateTime::createFromFormat('Y-m-d H:i:s', $this->DATE_OF_BIRTH);
+		$staticProfile = Profile::getProfileByProfileId($this->mysqli, $this->profile->getProfileId());
+		$tempDate = DateTime::createFromFormat('Y-m-d', $this->DATE_OF_BIRTH);
 
 		// finally, compare the fields
 		$this->assertNotNull($staticProfile->getProfileId());
