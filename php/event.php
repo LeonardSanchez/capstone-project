@@ -360,7 +360,7 @@ class Event{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
-		$wasClean = $statement->bind_param("ssd", $this->eventName, $eventDateTime, $this->ticketPrice);
+		$wasClean = $statement->bind_param("ssdi", $this->eventName, $eventDateTime, $this->ticketPrice, $this->eventId);
 
 		if($wasClean === false)	{
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
@@ -392,7 +392,7 @@ class Event{
 		}
 
 		if($statement->execute() === false)	{
-			throw(new mysqli_sql_exception("Unable to execute statement"))
+			throw(new mysqli_sql_exception("Unable to execute statement"));
 		}
 
 		$result = $statement->get_results();
@@ -422,6 +422,45 @@ class Event{
 		}
 	}
 
-	public function getEventByEventDateTime(&$mysqli,)
+	public function getEventByEventDateTime(&$mysqli, $startDate, $endDate)	{
+		if(gettype($mysqli) !== "object"	||	get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		if(gettype($startDate) !== "object"	||	get_class($startDate) !== "Date")	{
+			throw(new mysqli_sql_exception("input is not a Date object"));
+		}
+		if($startDate === null) {
+			$startDate = null;
+		} else {
+			$startDate = $startDate->format("Y-m-d");
+		}
+
+		if(gettype($endDate) !== "object"	||	get_class($endDate) !== "Date")	{
+			throw(new mysqli_sql_exception("input is not a Date object"));
+		}
+		if($endDate === null) {
+			$endDate = null;
+		} else {
+			$endDate = $endDate->format("Y-m-d");
+		}
+
+
+		$query = "SELECT eventId, eventCategoryId, venueId, eventName, eventDateTime, ticketPrice FROM event WHERE eventDateTime >= ? AND eventDateTime <= ?";
+		$statement = $mysqli->prepare($query);
+		if($statement === false)	{
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		$wasClean = $statement->bind_param("ss", $startDate, $endDate);
+
+		if($wasClean === false)	{
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		if($statement->execute() === false)	{
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+	}
 }
 ?>
