@@ -2,9 +2,9 @@
 
 // THIS HAS PASSED UNIT TEST AGAIN ON 2014-11-17 22:33:00 MST
 
-// first require the SimpleTest framework
+// 1st require the SimpleTest framework
 require_once("/usr/lib/php5/simpletest/autorun.php");
-// then require the class under scrutiny
+// then require the class in question
 require_once("../php/user.php");
 // require mySQLI
 require_once("/etc/apache2/capstone-mysql/rgevents.php");

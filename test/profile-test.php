@@ -21,7 +21,7 @@ class ProfileTest extends unitTestCase {
 	// a few "global" variables for creating test data
 	private $FIRST_NAME		= "Mr";
 	private $LAST_NAME		= "Peabody";
-	private $DATE_OF_BIRTH	= "1977-05-27";
+	private $DATE_OF_BIRTH	= "1977-05-27 00:00:01";
 	private $GENDER			= "M";
 
 	// create state variables for the objects
@@ -53,7 +53,7 @@ class ProfileTest extends unitTestCase {
 			$this->profile->delete($this->mysqli);
 			$this->profile = null;
 		}
-		if($this->user !== null) {
+		if($this->user    !== null) {
 			$this->user->delete($this->mysqli);
 			$this->user = null;
 		}
@@ -70,13 +70,15 @@ class ProfileTest extends unitTestCase {
 		// 3rd, insert the user to mySQL
 		$this->profile->insert($this->mysqli);
 
+		$tempDate = DateTime::createFromFormat('Y-m-d H:i:s', $this->DATE_OF_BIRTH);
+
 		// finally, compare the fields
 		$this->assertNotNull($this->profile->getProfileId());
 		$this->assertTrue($this->profile->getProfileId() > 0);
 		$this->assertIdentical($this->profile->getUserId(),			$this->profile->getUserId());
 		$this->assertIdentical($this->profile->getFirstName(),		$this->FIRST_NAME);
 		$this->assertIdentical($this->profile->getLastName(),			$this->LAST_NAME);
-		$this->assertIdentical($this->profile->getDateOfBirth(),		$this->DATE_OF_BIRTH);
+		$this->assertIdentical($this->profile->getDateOfBirth(),		$tempDate);
 		$this->assertIdentical($this->profile->getGender(),			$this->GENDER);
 	}
 
@@ -86,7 +88,7 @@ class ProfileTest extends unitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// 2nd, create a profile to post to mySQL
-		$this->profile = new Profile(null, $this->profile->getUserId(), $this->FIRST_NAME, $this->LAST_NAME, $this->DATE_OF_BIRTH, $this->GENDER);
+		$this->profile = new Profile(null, $this->user->getUserId(), $this->FIRST_NAME, $this->LAST_NAME, $this->DATE_OF_BIRTH, $this->GENDER);
 
 		// 3rd, insert the profile to mySQL
 		$this->profile->insert($this->mysqli);
@@ -95,14 +97,15 @@ class ProfileTest extends unitTestCase {
 		$newFirstName = "Sherman";
 		$this->profile->setFirstName($newFirstName);
 		$this->profile->update($this->mysqli);
+		$tempDate = DateTime::createFromFormat('Y-m-d H:i:s', $this->DATE_OF_BIRTH);
 
 		//finally, compare the fields
 		$this->assertNotNull($this->profile->getProfileId());
 		$this->assertTrue($this->profile->getProfileId() > 0);
-		$this->assertIdentical($this->profile->getUserId(),			$this->userId);
-		$this->assertIdentical($this->profile->getFirstName(),		$this->firstName);
+		$this->assertIdentical($this->profile->getUserId(),			$this->user->getUserId());
+		$this->assertIdentical($this->profile->getFirstName(),		$newFirstName);
 		$this->assertIdentical($this->profile->getLastName(),			$this->LAST_NAME);
-		$this->assertIdentical($this->profile->getDateOfBirth(),		$this->DATE_OF_BIRTH);
+		$this->assertIdentical($this->profile->getDateOfBirth(),		$tempDate);
 		$this->assertIdentical($this->profile->getGender(),			$this->GENDER);
 	}
 
@@ -112,7 +115,7 @@ class ProfileTest extends unitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// 2nd, create a profile to post to mySql
-		$this->profile = new Profile(null, $this->profile->getUserId(), $this->FIRST_NAME, $this->LAST_NAME, $this->DATE_OF_BIRTH, $this->GENDER);
+		$this->profile = new Profile(null, $this->user->getUserId(), $this->FIRST_NAME, $this->LAST_NAME, $this->DATE_OF_BIRTH, $this->GENDER);
 
 		// 3rd, insert the profile to mySQL
 		$this->profile->insert($this->mysqli);
@@ -126,7 +129,7 @@ class ProfileTest extends unitTestCase {
 		$this->profile = null;
 
 		// finally, try to get the profile and assert we didn't get anything
-		$staticProfile = Profile::getProfileByProfileId($this->mysqli, $this->PROFILE_ID);
+		$staticProfile = Profile::getProfileByFirstName($this->mysqli, $this->FIRST_NAME);
 		$this->assertNull($staticProfile);
 	}
 
@@ -136,13 +139,14 @@ class ProfileTest extends unitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// 2nd, create a profile to post to mySQL
-		$this->profile = new Profile(null, $this->profile->getUserId(), $this->FIRST_NAME, $this->LAST_NAME, $this->DATE_OF_BIRTH, $this->GENDER);
+		$this->profile = new Profile(null, $this->user->getUserId(), $this->FIRST_NAME, $this->LAST_NAME, $this->DATE_OF_BIRTH, $this->GENDER);
 
 		// 3rd, insert the profile to mySQL
 		$this->profile->insert($this->mysqli);
 
 		// 4th, get the profile using the static method
-		$staticProfile = Profile::getProfileByProfileId($this->mysqli, $this->PROFILE_ID);
+		$staticProfile = Profile::getProfileByFirstName($this->mysqli, $this->FIRST_NAME);
+		$tempDate = DateTime::createFromFormat('Y-m-d H:i:s', $this->DATE_OF_BIRTH);
 
 		// finally, compare the fields
 		$this->assertNotNull($staticProfile->getProfileId());
@@ -151,7 +155,7 @@ class ProfileTest extends unitTestCase {
 		$this->assertIdentical($staticProfile->getUserId(),			$this->user->getUserId());
 		$this->assertIdentical($staticProfile->getFirstName(),		$this->FIRST_NAME);
 		$this->assertIdentical($staticProfile->getLastName(),			$this->LAST_NAME);
-		$this->assertIdentical($staticProfile->getDateOfBirth(),		$this->DATE_OF_BIRTH);
+		$this->assertIdentical($staticProfile->getDateOfBirth(),		$tempDate);
 		$this->assertIdentical($staticProfile->getGender(),			$this->GENDER);
 	}
 }

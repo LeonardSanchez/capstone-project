@@ -56,6 +56,7 @@ class Profile
 			throw(new UnexpectedValueException("Unable to construct Profile", 0, $unexpectedValue));
 		} catch(RangeException $range) {
 			//rethrow to the caller
+			var_dump($this);
 			throw(new RangeException("Unable to construct Profile", 0, $range));
 		}
 	}
@@ -299,6 +300,12 @@ class Profile
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
+
+		$wasClean = $statement->bind_param("i", $this->profileId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("unable to bind paramaters"));
+		}
+
 		// execute the statement
 		if($statement->execute() === false) {
 			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
