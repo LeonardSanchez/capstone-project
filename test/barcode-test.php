@@ -8,9 +8,17 @@
 // lets start by requiring the simple test framework
 require_once("/usr/lib/php5/simpletest/autorun.php");
 
-// next, require the class to be tested
+// next, require the class to be tested and others that the class is dependent upon
 require_once("../php/barcode.php");
+require_once("../php/ticket.php");
+require_once("../php/event.php");
+require_once("../php/event-Category.php");
+require_once("../php/venue.php");
+require_once("../php/transaction.php");
+require_once("../php/profile.php");
+require_once("../php/user.php");
 
+// centralized mySQL configuration class
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 
 // the barcodeTest is a container for all of our tests
@@ -20,15 +28,46 @@ class BarcodeTest extends UnitTestCase {
 	// variable to hold the test database row
 	private $barcode = null;
 
-	// a global variable for creating test data
-	private $ticketId		 = 1;
+	// create state variables for creating test data
+	private $user          = null;
+	private $profile       = null;
+	private $transaction   = null;
+	private $venue         = null;
+	private $eventCategory = null;
+	private $event         = null;
+	private $ticket		  = null;
 
 	// now to create the setUp
 	public function setUp() {
 		//connect to mySQL
 		$this->mysqli = MysqliConfiguration::getMysqli();
 
-		// no need to randomize anything
+		// time to create the objects from the foreign key paths
+		$password      = "abc1234";
+		$email         = "email2@gmail.com";
+		$salt       	= bin2hex(openssl_random_pseudo_bytes(32));
+		$authToken 		= bin2hex(openssl_random_pseudo_bytes(16));
+		$passwordHash 	= hash_pbkdf2("sha512", $password, $salt, 2048, 128);
+		$this->user 	= new User(null, $email, $passwordHash, $salt, $authToken);
+		$this->user->insert($this->mysqli);
+
+		$this->profile = new Profile(null, $this->user->getUserId(), "Brendan", "Slevin", "1987-11-07", "m");
+		$this->profile->insert($this->mysqli);
+
+		$this->transaction = new Transaction(null, "25.00", "2014-08-08 12:00:02", $this->profile->getProfileId());
+		$this->transaction->insert($this->mysqli);
+
+		$this->venue = new Venue(null, "SunshineTheater", 10, "505-505-5055", "www.sunshine.com", "Central ave", "", "Albuquerque", "NM", "87108");
+		$this->venue->insert($this->mysqli);
+
+		$this->eventCategory = new EventCategory(null, "rock");
+		$this->eventCategory->insert($this->mysqli);
+
+		$this->event = new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(), "First Event", "2014-01-01 07:07:07", "15.00");
+		$this->event->insert($this->mysqli);
+
+		$this->ticket = new Ticket(null, $this->profile->getProfileId(), $this->event->getEventId(), $this->transaction->getTransactionId());
+		$this->transaction->insert($this->mysqli);
 	}
 
 	// now for the tear down after each test
@@ -36,6 +75,41 @@ class BarcodeTest extends UnitTestCase {
 		if($this->barcode !== null){
 			$this->barcode->delete($this->mysqli);
 			$this->barcode = null;
+		}
+
+		if($this->ticket !== null){
+			$this->ticket->delete($this->mysqli);
+			$this->ticket = null;
+		}
+
+		if($this->event !== null) {
+			$this->event->delete($this->mysqli);
+			$this->event = null;
+		}
+
+		if($this->eventCategory !== null) {
+			$this->eventCategory->delete($this->mysqli);
+			$this->eventCategory = null;
+		}
+
+		if($this->venue !== null) {
+			$this->venue->delete($this->mysqli);
+			$this->venue = null;
+		}
+
+		if($this->transaction !== null) {
+			$this->transaction->delete($this->mysqli);
+			$this->transaction = null;
+		}
+
+		if($this->profile !== null) {
+			$this->profile->delete($this->mysqli);
+			$this->profile = null;
+		}
+
+		if($this->user !== null) {
+			$this->user->delete($this->mysqli);
+			$this->user = null;
 		}
 
 		// no need to disconnect with new mysqliConfiguration class added YAY!
