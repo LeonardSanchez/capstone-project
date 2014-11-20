@@ -21,6 +21,10 @@ class Transaction {
 	 * the profile id links to the transaction class/table and is a foreign key
 	 **/
 	private $profileId;
+	/**
+	 * the ticket id links to the transaction class and is a foreign key
+	 */
+	private $ticketId;
 
 	/**
 	 * constructor for the Transaction class
@@ -32,12 +36,13 @@ class Transaction {
 	 * @throws UnexpectedValueException when a parameter is not the right type
 	 * @throws RangeException when a parameter is invalid
 	 **/
-	public function __construct($newTransactionId, $newAmount, $newDateApproved, $newProfileId) {
+	public function __construct($newTransactionId, $newAmount, $newDateApproved, $newProfileId, $newTicketId) {
 		try {
 			$this->setTransactionId($newTransactionId);
 			$this->setAmount($newAmount);
 			$this->setDateApproved($newDateApproved);
 			$this->setProfileId($newProfileId);
+			$this->setTicketId($newTicketId);
 		} catch(UnexpectedValueException $unexpectedValue) {
 			// rethrow to caller
 			throw(new UnexpectedValueException("Unable to construct Transaction", 0, $unexpectedValue));
@@ -204,6 +209,43 @@ class Transaction {
 	}
 
 	/**
+	 * gets the value of the ticket id
+	 *
+	 * @return mixed ticket id
+	 **/
+	public function getTicketId() {
+		return($this->ticketId);
+	}
+
+	/**
+	 * sets the value of the ticket id
+	 * @param mixed $newTicketId
+	 * @throws UnexpectedValueException if not an integer or null
+	 * @throws RangeException if profile id is not positive
+	 **/
+	public function setTicketId($newTicketId) {
+		// allow the ticket id to be null if a new object
+		if($newTicketId === null) {
+			$this->ticketId = null;
+			return;
+		}
+
+		// ensure the ticket id is an integer
+		if(filter_var($newTicketId, FILTER_VALIDATE_INT) === false) {
+			throw(new UnexpectedValueException("ticket id $newTicketId is not numeric"));
+		}
+
+		// convert the ticket id to an integer and enforce that it is positive
+		$newTicketId = intval($newTicketId);
+		if($newTicketId <= 0) {
+			throw(new RangeException("ticket id $newTicketId is not positive"));
+		}
+
+		// take the ticket id out of quarantine and assign it
+		$this->ticketId = $newTicketId;
+	}
+
+	/**
 	 * inserts this transaction to mySQL
 	 *
 	 * @param resource $mysqli pointer to mySQL connection, by reference
@@ -228,14 +270,14 @@ class Transaction {
 		}
 
 			// create query template
-		$query		= "INSERT INTO transaction(amount, dateApproved, profileId) VALUES(?, ?, ?)";
+		$query		= "INSERT INTO transaction(amount, dateApproved, profileId, ticketId) VALUES(?, ?, ?, ?)";
 		$statement  = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("dsi", $this->amount, $dateApproved, $this->profileId);
+		$wasClean = $statement->bind_param("dsii", $this->amount, $dateApproved, $this->profileId, $this->ticketId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -314,15 +356,15 @@ class Transaction {
 		}
 
 				// create query template
-		$query     = "UPDATE transaction SET amount = ?, dateApproved = ?, profileId = ? WHERE transactionId = ?";
+		$query     = "UPDATE transaction SET amount = ?, dateApproved = ?, profileId = ?, ticketId = ? WHERE transactionId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("dsii",  $this->amount, $dateApproved,
-			$this->profileId, $this->transactionId);
+		$wasClean = $statement->bind_param("dsiii",  $this->amount, $dateApproved,
+			$this->profileId, $this->transactionId, $this->ticketId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -351,7 +393,7 @@ class Transaction {
 		$profileId = filter_var($profileId, FILTER_SANITIZE_NUMBER_INT);
 
 		// create query template
-		$query		= "SELECT transactionId, amount, dateApproved, profileId FROM transaction WHERE profileId = ?";
+		$query		= "SELECT transactionId, amount, dateApproved, profileId, ticketId FROM transaction WHERE profileId = ?";
 		$statement  = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -382,7 +424,7 @@ class Transaction {
 		// convert the associative array to a Transaction
 		if($row !== null) {
 			try{
-				$transaction = new Transaction($row["transactionId"], $row["amount"], $row["dateApproved"], $row["profileId"]);
+				$transaction = new Transaction($row["transactionId"], $row["amount"], $row["dateApproved"], $row["profileId"], $row["ticketId"]);
 			}
 			catch(Exception $exception) {
 				// if row couldn't be converted, rethrow it
