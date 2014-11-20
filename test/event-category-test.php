@@ -3,13 +3,13 @@
  *
  */
 // first require the SimpleTest framework
-require_once("/ust/lib/php5/simpletest/autorun.php");
+require_once("/usr/lib/php5/simpletest/autorun.php");
 
 // then require the class under scrutiny
 require_once("../php/event-category.php");
 
 // require mySQLI
-require_once("/etc/apache2/capstone-mysqli/regevents.php");
+require_once("/etc/apache2/capstone-mysql/rgevents.php");
 
 // the EventCategoryTest is a container for all our tests
 class EventCategoryTest extends UnitTestCase {
@@ -92,11 +92,11 @@ class EventCategoryTest extends UnitTestCase {
 		$this->assertTrue($this->eventCategory->getEventCategoryId() > 0);
 
 		// fifth, delete the eventCategory
-		$this->eventCategory->delet($this->mysqli);
+		$this->eventCategory->delete($this->mysqli);
 		$this->eventCategory = null;
 
 		// finally, try to get the eventCategory and assert we didn't get a thing
-		$hopefulEventCategory = EventCategory::getEventCategorybyEventCategory($this->mysqli, $this->EVENT_CATEGORY);
+		$hopefulEventCategory = EventCategory::getEventCategoryByEventCategory($this->mysqli, $this->EVENT_CATEGORY);
 		$this->assertNull($hopefulEventCategory);
 	}
 

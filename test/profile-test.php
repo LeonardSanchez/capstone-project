@@ -27,7 +27,7 @@ class ProfileTest extends unitTestCase {
 	// create state variables for the objects
 	private $user           = null;
 
-	// setUp() is a method that is run before each test & connnect to mySQl
+	// setUp() is a method that is run before each test & connect to mySQl
 	public function setUp()
 	// connect to mySQL
 	{
