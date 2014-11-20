@@ -67,7 +67,7 @@ class BarcodeTest extends UnitTestCase {
 		$this->event->insert($this->mysqli);
 
 		$this->ticket = new Ticket(null, $this->profile->getProfileId(), $this->event->getEventId(), $this->transaction->getTransactionId());
-		$this->transaction->insert($this->mysqli);
+		$this->ticket->insert($this->mysqli);
 	}
 
 	// now for the tear down after each test
@@ -121,7 +121,7 @@ class BarcodeTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// now, create a barcode to post to mySQL
-		$this->barcode = new Barcode(null, $this->ticketId);
+		$this->barcode = new Barcode(null, $this->ticket->getTicketId);
 
 		// insert the barcode to mySQL
 		$this->barcode->insert($this->mysqli);
@@ -129,7 +129,7 @@ class BarcodeTest extends UnitTestCase {
 		// and now, compare the fields
 		$this->assertNotNull($this->barcode->getBarcodeId());
 		$this->assertTrue($this->barcode->getBarcodeId() > 0);
-		$this->assertIdentical($this->barcode->getTicketId(),				$this->ticketId);
+		$this->assertIdentical($this->barcode->getTicketId(),				$this->ticket->getTicketId);
 	}
 
 	// test updating a barcode in mySQL
@@ -138,7 +138,7 @@ class BarcodeTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// create a barcode to post to mySQL
-		$this->barcode = new Barcode(null, $this->ticketId);
+		$this->barcode = new Barcode(null, $this->ticket->getTicketId);
 
 		// insert the barcode to mySQL
 		$this->barcode->insert($this->mysqli);
@@ -151,7 +151,7 @@ class BarcodeTest extends UnitTestCase {
 		// now, compare the fields
 		$this->assertNotNull($this->barcode->getBarcodeId());
 		$this->assertTrue($this->barcode->getBarcodeId() > 0);
-		$this->assertIdentical($this->barcode->getTicketId(),				$newTicketId);
+		$this->assertIdentical($this->barcode->getTicketId(),				$this->ticket->getTicketId);
 
 	}
 
@@ -161,7 +161,7 @@ class BarcodeTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// create a barcode to post to mySQL
-		$this->barcode = new Barcode(null, $this->ticketId);
+		$this->barcode = new Barcode(null, $this->ticket->getTicketId);
 
 		// insert the barcode to mySQL
 		$this->barcode->insert($this->mysqli);
@@ -175,7 +175,7 @@ class BarcodeTest extends UnitTestCase {
 		$this->barcode = null;
 
 		// try to get the barcode and assert we didn't get a thing
-		$hopefulBarcode = Barcode::getBarcodeByTicketId($this->mysqli, $this->ticketId);
+		$hopefulBarcode = Barcode::getBarcodeByTicketId($this->mysqli, $this->ticket->getTicketId);
 		$this->assertNull($hopefulBarcode);
 	}
 }
