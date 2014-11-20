@@ -251,6 +251,14 @@ class Transaction {
 
 	}
 
+	/**
+	 * Deletes this transaction from mySQL
+	 *
+	 * Here you go SCRUM Master
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 */
 	public function delete(&$mysqli) {
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
