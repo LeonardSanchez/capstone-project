@@ -38,6 +38,10 @@ class EventTest extends UnitTestCase	{
 	}
 
 	public function tearDown()	{
+		if($this->event !== null)	{
+			$this->event->delete($this->mysqli);
+			$this->event = null;
+		}
 
 		if($this->eventCategory !== null)	{
 			$this->eventCategory->delete($this->mysqli);
@@ -49,10 +53,6 @@ class EventTest extends UnitTestCase	{
 			$this->venue = null;
 		}
 
-		if($this->event !== null)	{
-			$this->event->delete($this->mysqli);
-			$this->event = null;
-		}
 	}
 
 	public function testInsertNewEvent()	{
@@ -63,12 +63,14 @@ class EventTest extends UnitTestCase	{
 
 		$this->event->insert($this->mysqli);
 
+		$tempDate = DateTime::createFromFormat("Y-m-d H:i:s", $this->EVENT_DATE_TIME);
+
 		$this->assertNotNull($this->event->getEventId());
 		$this->assertTrue($this->event->getEventId() > 0);
 		$this->assertIdentical($this->event->getVenueId(),				$this->venue->getVenueId());
 		$this->assertIdentical($this->event->getEventCategoryId(), 	$this->eventCategory->getEventCategoryId());
 		$this->assertIdentical($this->event->getEventName(), 			$this->EVENT_NAME);
-		$this->assertIdentical($this->event->getEventDateTime(), 	$this->EVENT_DATE_TIME);
+		$this->assertIdentical($this->event->getEventDateTime(), 	$tempDate);
 		$this->assertIdentical($this->event->getTicketPrice(), 		$this->TICKET_PRICE);
 	}
 
@@ -79,16 +81,18 @@ class EventTest extends UnitTestCase	{
 
 		$this->event->insert($this->mysqli);
 
+		$tempDate = DateTime::createFromFormat("Y-m-d H:i:s", $this->EVENT_DATE_TIME);
+
 		$newEventName = "Wub n' Fiddle";
 		$this->event->setEventName($newEventName);
 		$this->event->update($this->mysqli);
 
 		$this->assertNotNull($this->event->getEventId());
 		$this->assertTrue($this->event->getEventId() > 0);
-		$this->assertIdentical($this->event->getVenueId(), 			$this->getVenueId());
-		$this->assertIdentical($this->event->getEventCategoryId(), 	$this->getEventCategoryId());
-		$this->assertIdentical($this->event->getEventName(), 			$this->$newEventName);
-		$this->assertIdentical($this->event->getEventDateTime(), 	$this->EVENT_DATE_TIME);
+		$this->assertIdentical($this->event->getVenueId(), 			$this->venue->getVenueId());
+		$this->assertIdentical($this->event->getEventCategoryId(), 	$this->eventCategory->getEventCategoryId());
+		$this->assertIdentical($this->event->getEventName(), 			$newEventName);
+		$this->assertIdentical($this->event->getEventDateTime(), 	$tempDate);
 		$this->assertIdentical($this->event->getTicketPrice(), 		$this->TICKET_PRICE);
 	}
 
@@ -123,6 +127,8 @@ class EventTest extends UnitTestCase	{
 		// fourth, get the event using the static method
 		$staticEvent = Event::getEventByEventName($this->mysqli, $this->EVENT_NAME);
 
+		$tempDate = DateTime::createFromFormat("Y-m-d H:i:s", $this->EVENT_DATE_TIME);
+
 		// finally, compare the fields
 		$this->assertNotNull($staticEvent->getEventId());
 		$this->assertTrue($staticEvent->getEventId() > 0);
@@ -130,7 +136,7 @@ class EventTest extends UnitTestCase	{
 		$this->assertIdentical($staticEvent->getVenueId(),				$this->venue->getVenueId());
 		$this->assertIdentical($staticEvent->getEventCategoryId(),	$this->eventCategory->getEventCategoryId());
 		$this->assertIdentical($staticEvent->getEventName(),			$this->EVENT_NAME);
-		$this->assertIdentical($staticEvent->getEventDatTime(),		$this->EVENT_DATE_TIME);
+		$this->assertIdentical($staticEvent->getEventDatTime(),		$tempDate);
 		$this->assertIdentical($staticEvent->getTicketPrice(),		$this->TICKET_PRICE);
 
 	}

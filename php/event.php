@@ -343,7 +343,7 @@ class Event{
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
-		if($this->eventId)	{
+		if($this->eventId === null)	{
 			throw(new mysqli_sql_exception("Unable to update an event that does not exist"));
 		}
 
@@ -395,13 +395,13 @@ class Event{
 			throw(new mysqli_sql_exception("Unable to execute statement"));
 		}
 
-		$result = $statement->get_results();
+		$result = $statement->get_result();
 		if($result === false)	{
 			throw(new mysqli_sql_exception("Unable to get result sets"));
 		}
 
 		$events = array();
-		while(($row = $result->fetch_assoc()) === null)	{
+		while(($row = $result->fetch_assoc()) !== null)	{
 			try	{
 				$event		= new Event($row["eventId"], $row["eventCategoryId"], $row["venueId"],
 												$row["eventName"], $row["eventDateTime"], $row["ticketPrice"]);
