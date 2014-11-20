@@ -29,8 +29,8 @@ class EventTest extends UnitTestCase	{
 	public function setUp()	{
 		$this->mysqli = MysqliConfiguration::getMysqli();
 
-		$this->venue = new Venue(null, "Swee", 3, "555-234-3456", "www.swee.com", "1 That St NW", null,
-			"Albuquerque", "NM", "87651");
+		$this->venue = new Venue(null, "Swee Amphitheater", 150, "505-234-3456", "http://www.holdmyticket.com", "124 Central Ave NW", null,
+			"Albuquerque", "NM", "87102");
 		$this->venue->insert($this->mysqli);
 
 		$this->eventCategory = new EventCategory(null, "Folk Dubstep");
@@ -108,7 +108,8 @@ class EventTest extends UnitTestCase	{
 	}
 
 	// test grabbing an Event from mySQL
-	public function testGetEventbyEventName() {
+
+	public function testGetEventByEventName() {
 		// first, verify mySQL connected OK
 		$this->assertNotNull($this->mysqli);
 
