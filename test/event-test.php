@@ -130,7 +130,7 @@ class EventTest extends UnitTestCase	{
 		$tempDate = DateTime::createFromFormat("Y-m-d H:i:s", $this->EVENT_DATE_TIME);
 
 		// finally, compare the fields
-		$this->assertNotNull($staticEvent->getEven tId());
+		$this->assertNotNull($staticEvent->getEventId());
 		$this->assertTrue($staticEvent->getEventId() > 0);
 		$this->assertIdentical($staticEvent->getEventId(),				$this->event->getEventId());
 		$this->assertIdentical($staticEvent->getVenueId(),				$this->venue->getVenueId());
