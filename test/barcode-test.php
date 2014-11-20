@@ -12,7 +12,7 @@ require_once("/usr/lib/php5/simpletest/autorun.php");
 require_once("../php/barcode.php");
 require_once("../php/ticket.php");
 require_once("../php/event.php");
-require_once("../php/event-Category.php");
+require_once("../php/event-category.php");
 require_once("../php/venue.php");
 require_once("../php/transaction.php");
 require_once("../php/profile.php");
