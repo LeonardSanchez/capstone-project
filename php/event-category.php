@@ -139,5 +139,54 @@ private $eventCategory;
 			throw(new mysqli_sql_exception("Unable to execute statement"));
 		}
 	}
+
+	public function getEventCategoryByEventCategory(&$mysqli, $eventCategory)	{
+		if(gettype($mysqli) !== "object"	|| get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("Input is not a mysqli object"));
+		}
+
+		$eventCategory = trim($eventCategory);
+		$eventCategory = filter_var($eventCategory, FILTER_SANITIZE_STRING);
+
+		$query = "SELECT eventCategoryId, eventCategory FROM eventCategory WHERE eventCategory = ?";
+		$statement = $mysqli->prepare($query);
+		if($statement === false)	{
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		$wasClean = $statement->bind_param("s", $eventCategory);
+		if($wasClean === false)	{
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		if($statement->execute() === false)	{
+			throw(new mysqli_sql_exception("Unable to execute statement"));
+		}
+
+		$result = $statement->get_result();
+		if($result === false)	{
+			throw(new mysqli_sql_exception("Unable to get result set"));
+		}
+
+		$eventCategories = array();
+		while(($row = $result->fetch_assoc()) !== null)	{
+			try	{
+				$eventCategory = new EventCategory($row["eventCategoryId"], $row["eventCategory"]);
+				$eventCategories[]	=	$eventCategory;
+			}
+			catch(Exception $exception)	{
+				throw(new mysqli_sql_exception("Unable to convert row to eventCategory", 0, $exception));
+			}
+		}
+
+		$numberOfEventCategories = count($eventCategories);
+		if($numberOfEventCategories === 0)	{
+			return(null);
+		} else if($numberOfEventCategories === 1){
+			return($eventCategories[0]);
+		}	else	{
+			return($eventCategories);
+		}
+	}
 }
 ?>
