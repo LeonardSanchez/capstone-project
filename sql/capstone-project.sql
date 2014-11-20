@@ -7,8 +7,8 @@
 --
 
 DROP TABLE IF EXISTS barcode;
-DROP TABLE IF EXISTS ticket;
 DROP TABLE IF EXISTS transaction;
+DROP TABLE IF EXISTS ticket;
 DROP TABLE IF EXISTS eventLink;
 DROP TABLE IF EXISTS event;
 DROP TABLE IF EXISTS venue;
@@ -134,23 +134,6 @@ CREATE TABLE eventLink(
 	FOREIGN KEY(eventId) REFERENCES event(eventId)
 );
 
--- create transaction table
-CREATE TABLE transaction (
-	-- PRIMARY KEY
-   transactionId 	INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	-- FOREIGN KEY
-	profileId 		INT UNSIGNED NOT NULL,
-   amount 			DECIMAL(9, 2) UNSIGNED NOT NULL,
-   dateApproved 	DATETIME NOT NULL,
---	cardToken 		VARCHAR(128) NOT NULL,
---	customerToken 	VARCHAR(35) NOT NULL,
-	-- indexing for foreign key
-	INDEX (profileId),
-   PRIMARY KEY(transactionId),
-	-- call to profile table for foreign key
-   FOREIGN KEY(profileId) REFERENCES profile(profileId)
-);
-
 -- create ticket table
 CREATE TABLE ticket (
 -- PRIMARY KEY
@@ -159,20 +142,37 @@ CREATE TABLE ticket (
 	profileId     INT UNSIGNED NOT NULL,
 -- FOREIGN KEY
 	eventId       INT UNSIGNED NOT NULL,
--- FOREIGN KEY
-	transactionId INT UNSIGNED NOT NULL,
 -- seat 				VARCHAR(10),
 
 	PRIMARY KEY (ticketId),
 -- indexing for foreign keys
 	INDEX (profileId),
 	INDEX (eventId),
-	INDEX (transactionId),
 
 -- calling to profile, event, transaction, and barcode tables
 	FOREIGN KEY (profileId) REFERENCES profile (profileId),
-	FOREIGN KEY (eventId) REFERENCES event (eventId),
-	FOREIGN KEY (transactionId) REFERENCES transaction (transactionId)
+	FOREIGN KEY (eventId) REFERENCES event (eventId)
+);
+
+-- create transaction table
+CREATE TABLE transaction (
+	-- PRIMARY KEY
+   transactionId 	INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	-- FOREIGN KEY
+	profileId 		INT UNSIGNED NOT NULL,
+	-- FOREIGN KEY
+	ticketId			INT UNSIGNED NOT NULL,
+   amount 			DECIMAL(9, 2) UNSIGNED NOT NULL,
+   dateApproved 	DATETIME NOT NULL,
+--	cardToken 		VARCHAR(128) NOT NULL,
+--	customerToken 	VARCHAR(35) NOT NULL,
+	-- indexing for foreign key
+	INDEX (profileId),
+	INDEX (ticketId),
+   PRIMARY KEY(transactionId),
+	-- call to profile table for foreign key
+   FOREIGN KEY(profileId) REFERENCES profile(profileId),
+	FOREIGN KEY(ticketId) REFERENCES ticket(ticketId)
 );
 
 -- milestone project
