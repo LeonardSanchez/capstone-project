@@ -274,7 +274,7 @@ class Event{
 			throw(new RangeException("ticketPrice $newTicketPrice is not a positive dollar value"));
 		}
 
-		$this->ticketPrice = $newTicketPrice;
+		$this->ticketPrice = floatval($newTicketPrice);
 	}
 
 	public function insert(&$mysqli)	{

@@ -128,7 +128,6 @@ class EventTest extends UnitTestCase	{
 
 		// fourth, get the event using the static method
 		$staticEvent = Event::getEventByEventName($this->mysqli, $this->EVENT_NAME);
-
 		$tempDate = DateTime::createFromFormat("Y-m-d H:i:s", $this->EVENT_DATE_TIME);
 
 		// finally, compare the fields
@@ -138,7 +137,7 @@ class EventTest extends UnitTestCase	{
 		$this->assertIdentical($staticEvent->getVenueId(),				$this->venue->getVenueId());
 		$this->assertIdentical($staticEvent->getEventCategoryId(),	$this->eventCategory->getEventCategoryId());
 		$this->assertIdentical($staticEvent->getEventName(),			$this->EVENT_NAME);
-		$this->assertIdentical($staticEvent->getEventDatTime(),		$tempDate);
+		$this->assertIdentical($staticEvent->getEventDateTime(),		$tempDate);
 		$this->assertIdentical($staticEvent->getTicketPrice(),		$this->TICKET_PRICE);
 
 	}
