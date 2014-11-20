@@ -32,7 +32,7 @@ class Transaction {
 	 * @throws UnexpectedValueException when a parameter is not the right type
 	 * @throws RangeException when a parameter is invalid
 	 **/
-	public function __constuct($newTransactionId, $newAmount, $newDateApproved, $newProfileId) {
+	public function __construct($newTransactionId, $newAmount, $newDateApproved, $newProfileId) {
 		try {
 			$this->setTransactionId($newTransactionId);
 			$this->setAmount($newAmount);
@@ -313,8 +313,8 @@ class Transaction {
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("dsi",  $this->amount, $this->dateApproved,
-			$this->profileId);
+		$wasClean = $statement->bind_param("dsii",  $this->amount, $dateApproved,
+			$this->profileId, $this->transactionId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}

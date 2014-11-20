@@ -45,7 +45,7 @@ class TransactionTest extends UnitTestCase {
 		$this->user 	= new User(null, $email, $passwordHash, $salt, $authToken);
 		$this->user->insert($this->mysqli);
 
-		$this->profile = new Profile(null, $this->user->getUserId(), "Jack", "Sparrow", "1972-06-05 12:00:00", "f");
+		$this->profile = new Profile(null, $this->user->getUserId(), "Jack", "Sparrow", "1972-06-05", "f");
 		$this->profile->insert($this->mysqli);
 
 	}
@@ -81,12 +81,16 @@ class TransactionTest extends UnitTestCase {
 		// insert the transaction to mySQL
 		$this->transaction->insert($this->mysqli);
 
+		$testAmount = floatval($this->amount);
+		$testDate = DateTime::createFromFormat('Y-m-d H:i:s',$this->dateApproved);
+
 		// and now, compare the fields
 		$this->assertNotNull($this->transaction->getTransactionId());
 		$this->assertTrue($this->transaction->getTransactionId() > 0);
-		$this->assertIdentical($this->transaction->getAmount(),				$this->amount);
-		$this->assertIdentical($this->transaction->getDateApproved(),	   $this->dateApproved);
+		$this->assertIdentical($this->transaction->getAmount(),				$testAmount);
+		$this->assertIdentical($this->transaction->getDateApproved(),	   $testDate);
 		$this->assertIdentical($this->transaction->getProfileId(),			$this->profile->getProfileId());
+
 	}
 
 	// test updating a Transaction in mySQL
@@ -101,15 +105,18 @@ class TransactionTest extends UnitTestCase {
 		$this->transaction->insert($this->mysqli);
 
 		// update the transaction and post the changes to mySQL
-		$newAmount = "40.00";
+		$newAmount = "30.00";
 		$this->transaction->setAmount($newAmount);
 		$this->transaction->update($this->mysqli);
+
+		$testAmount = floatval($newAmount);
+		$testDate = DateTime::createFromFormat('Y-m-d H:i:s',$this->dateApproved);
 
 		// now, compare the fields
 		$this->assertNotNull($this->transaction->getTransactionId());
 		$this->assertTrue($this->transaction->getTransactionId() > 0);
-		$this->assertIdentical($this->transaction->getAmount(),				$newAmount);
-		$this->assertIdentical($this->transaction->getDateApproved(),	   $this->dateApproved);
+		$this->assertIdentical($this->transaction->getAmount(),				$testAmount);
+		$this->assertIdentical($this->transaction->getDateApproved(),	   $testDate);
 		$this->assertIdentical($this->transaction->getProfileId(),			$this->profile->getProfileId());
 
 	}
@@ -152,12 +159,15 @@ class TransactionTest extends UnitTestCase {
 		// get the transaction by using the static method
 		$staticTransaction = Transaction::getTransactionByProfileId($this->mysqli, $this->profile->getProfileId());
 
+		$testAmount = floatval($this->amount);
+		$testDate = DateTime::createFromFormat('Y-m-d H:i:s',$this->dateApproved);
+
 		// compare fields
 		$this->assertNotNull($staticTransaction->getTransactionId());
 		$this->assertTrue($staticTransaction->getTransactionId() > 0);
 		$this->assertIdentical($staticTransaction->getTransactionId(),						$this->transaction->getTransactionId());
-		$this->assertIdentical($staticTransaction->getAmount(),								$this->amount);
-		$this->assertIdentical($staticTransaction->getDateApproved(),						$this->dateApproved);
+		$this->assertIdentical($staticTransaction->getAmount(),								$testAmount);
+		$this->assertIdentical($staticTransaction->getDateApproved(),						$testDate);
 		$this->assertIdentical($staticTransaction->getProfileId(),							$this->profile->getProfileId());
 	}
 }
