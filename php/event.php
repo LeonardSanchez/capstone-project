@@ -386,7 +386,7 @@ class Event{
 		}
 
 		$eventName = "%$eventName%";
-		$wasClean = $statement->bind_param("s", $this->$eventName);
+		$wasClean = $statement->bind_param("s", $eventName);
 		if($wasClean === false)	{
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}

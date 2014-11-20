@@ -109,6 +109,8 @@ class EventTest extends UnitTestCase	{
 
 		$this->event->delete($this->mysqli);
 		$this->event = null;
+
+
 	}
 
 	// test grabbing an Event from mySQL
