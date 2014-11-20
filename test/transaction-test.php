@@ -91,7 +91,7 @@ class TransactionTest extends UnitTestCase {
 		$this->assertIdentical($this->transaction->getDateApproved(),	   $testDate);
 		$this->assertIdentical($this->transaction->getProfileId(),			$this->profile->getProfileId());
 
-	}
+	 }
 
 	// test updating a Transaction in mySQL
 	public function testUpdateTransaction() {

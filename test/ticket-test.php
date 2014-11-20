@@ -49,7 +49,7 @@ class TicketTest extends UnitTestCase {
 		$this->profile = new Profile(null, $this->user->getUserId(), "Bill", "Murray", "1972-05-21", "m");
 		$this->profile->insert($this->mysqli);
 
-		$this->transaction = new Transaction(null, $this->profile->getProfileId(), "20.00", "2014-11-15 12:00:00");
+		$this->transaction = new Transaction(null, "20.00", "2014-11-15 12:00:00", $this->profile->getProfileId());
 		$this->transaction->insert($this->mysqli);
 
 		$this->venue	= new Venue(null, "The Place To Be", 500, "505-765-4321", "http://www.theplacetobe.com", "456 First Ave", null, "Albuquerque", "NM", "87109");

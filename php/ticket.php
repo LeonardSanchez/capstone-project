@@ -52,9 +52,7 @@ class Ticket
 			$this->setTransactionId($newTransactionId);
 			// PLACE HOLDER FOR PHASE 2 $this->setSeat($newSeat);
 		} catch(UnexpectedValueException $unexpectedValue) {
-			// rethrow to the caller
-			var_dump($newTicketId);
-			var_dump($unexpectedValue);
+			// rethrow to the called
 			throw(new UnexpectedValueException("Unable to construct Ticket", 0, $unexpectedValue));
 		} catch(RangeException $range) {
 			// rethrow to the caller
@@ -334,7 +332,7 @@ class Ticket
 
 		// create query template
 		// ADD SEAT DURING PHASE 2
-		$query		= "UPDATE ticket SET profileId = ?, eventId = ?, transactionId = ?, WHERE ticketId = ?";
+		$query		= "UPDATE ticket SET profileId = ?, eventId = ?, transactionId = ? WHERE ticketId = ?";
 		$statement	= $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -342,7 +340,7 @@ class Ticket
 
 		// bind the member variables to the place holders in the template
 		// ADD SEAT DURING PHASE 2
-		$wasClean = $statement->bind_param("iiii",	$this->profileId,	$this->eventId, $this->transactionId, $this->ticketId);
+		$wasClean = $statement->bind_param("iiii", $this->profileId, $this->eventId, $this->transactionId, $this->ticketId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind the parameters"));
 		}
