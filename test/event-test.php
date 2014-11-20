@@ -110,7 +110,8 @@ class EventTest extends UnitTestCase	{
 		$this->event->delete($this->mysqli);
 		$this->event = null;
 
-
+		$hopefulEvent = Event::getEventByEventName($this->mysqli, $this->EVENT_NAME);
+		$this->assertNull($hopefulEvent);
 	}
 
 	// test grabbing an Event from mySQL
