@@ -427,7 +427,7 @@ class Event{
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
-		if(gettype($startDate) !== "object"	||	get_class($startDate) !== "Date")	{
+		if(gettype($startDate) !== "object"	||	get_class($startDate) !== "DateTime")	{
 			throw(new mysqli_sql_exception("input is not a Date object"));
 		}
 		if($startDate === null) {
@@ -436,7 +436,7 @@ class Event{
 			$startDate = $startDate->format("Y-m-d");
 		}
 
-		if(gettype($endDate) !== "object"	||	get_class($endDate) !== "Date")	{
+		if(gettype($endDate) !== "object"	||	get_class($endDate) !== "DateTime")	{
 			throw(new mysqli_sql_exception("input is not a Date object"));
 		}
 		if($endDate === null) {
@@ -445,6 +445,7 @@ class Event{
 			$endDate = $endDate->format("Y-m-d");
 		}
 
+		var_dump($startDate,$endDate);
 
 		$query = "SELECT eventId, eventCategoryId, venueId, eventName, eventDateTime, ticketPrice FROM event WHERE eventDateTime >= ? AND eventDateTime <= ?";
 		$statement = $mysqli->prepare($query);
@@ -460,6 +461,32 @@ class Event{
 
 		if($statement->execute() === false)	{
 			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+
+		$result = $statement->get_result();
+		if($result === false)	{
+			throw(new mysqli_sql_exception("Unable to get result sets"));
+		}
+
+		$events = array();
+		while(($row = $result->fetch_assoc()) !== null)	{
+			try	{
+				$event		= new Event($row["eventId"], $row["eventCategoryId"], $row["venueId"],
+					$row["eventName"], $row["eventDateTime"], $row["ticketPrice"]);
+				$events[]	=	$event;
+			}	catch(Exception $exception)	{
+				// if the row was not able to be converted rethrow
+				throw(new mysqli_sql_exception("Unable to convert row to Event", 0, $exception));
+			}
+		}
+
+		$numberOfEvents = count($events);
+		if($numberOfEvents === 0)	{
+			return(null);
+		}	else if($numberOfEvents === 1)	{
+			return($events[0]);
+		}	else	{
+			return($events);
 		}
 	}
 }

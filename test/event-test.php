@@ -129,6 +129,7 @@ class EventTest extends UnitTestCase	{
 
 		// fourth, get the event using the static method
 		$staticEvent = Event::getEventByEventName($this->mysqli, $this->EVENT_NAME);
+		var_dump($staticEvent);
 		$tempDate = DateTime::createFromFormat("Y-m-d H:i:s", $this->EVENT_DATE_TIME);
 
 		// finally, compare the fields
@@ -141,6 +142,38 @@ class EventTest extends UnitTestCase	{
 		$this->assertIdentical($staticEvent->getEventDateTime(),		$tempDate);
 		$this->assertIdentical($staticEvent->getTicketPrice(),		$this->TICKET_PRICE);
 
+	}
+
+	public function testGetEventByEventDateTime()	{
+		// verify mySQL connection
+		$this->assertNotNull($this->mysqli);
+
+		$testTime1 ="2014-11-24 17:30:00";
+		$testTime1 = DateTime::createFromFormat("Y-m-d H:i:s", $testTime1);
+		$testTime2 ="2014-11-25 19:30:00";
+		$testTime2 = DateTime::createFromFormat("Y-m-d H:i:s", $testTime2);
+
+		var_dump($testTime1, $testTime2);
+
+		$searchTime1 = "2014-11-23";
+		$searchTime1 = DateTime::createFromFormat("Y-m-d", $searchTime1);
+		$searchTime2 = "2014-11-26";
+		$searchTime2 = DateTime::createFromFormat("Y-m-d", $searchTime2);
+
+		// create event to post to mySQL
+		$this->event	=	new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(),
+			$this->EVENT_NAME, $this->EVENT_DATE_TIME, $this->TICKET_PRICE);
+		$this->event	=	new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(),
+			$this->EVENT_NAME, $testTime1, $this->TICKET_PRICE);
+		$this->event	=	new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(),
+			$this->EVENT_NAME, $testTime2, $this->TICKET_PRICE);
+
+		// insert event into mySQL
+		$this->event->insert($this->mysqli);
+
+		// get event using static method
+		$staticEvent = Event::getEventByEventDateTime($this->mysqli, $searchTime1, $searchTime2);
+		var_dump($staticEvent);
 	}
 
 
