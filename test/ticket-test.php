@@ -46,7 +46,7 @@ class TicketTest extends UnitTestCase {
 		$this->user 	= new User(null, "someemail@gmail.com", $passwordHash, $salt, $authToken);
 		$this->user->insert($this->mysqli);
 
-		$this->profile = new Profile(null, $this->user->getUserId(), "Bill", "Murray", "1972-05-21 12:00:00", "m");
+		$this->profile = new Profile(null, $this->user->getUserId(), "Bill", "Murray", "1972-05-21", "m");
 		$this->profile->insert($this->mysqli);
 
 		$this->transaction = new Transaction(null, $this->profile->getProfileId(), "20.00", "2014-11-15 12:00:00");
