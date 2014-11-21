@@ -22,10 +22,6 @@ class Ticket
 	 * event id for the Ticket; this is a foreign key
 	 */
 	private $eventId;
-	/**
-	 * transaction id for the Ticket; this is a foreign key
-	 */
-	private $transactionId;
 
 	/**
 	 * PLACEHOLDER FOR PHASE 2
@@ -40,16 +36,14 @@ class Ticket
 	 * @param mixed  $newTicketId      ticket id (or null if new object), this is the primary key
 	 * @param mixed  $newProfileId     profile id, a foreign key
 	 * @param mixed  $newEventId       event id, a foreign key
-	 * @param mixed  $newTransactionId transaction id, a foreign key
 	 * // PLACE HOLDER FOR PHASE 2 @param string $newSeat          seat
 	 */
-	public function __construct($newTicketId, $newProfileId, $newEventId, $newTransactionId)
+	public function __construct($newTicketId, $newProfileId, $newEventId)
 	{
 		try {
 			$this->setTicketId($newTicketId);
 			$this->setProfileId($newProfileId);
 			$this->setEventId($newEventId);
-			$this->setTransactionId($newTransactionId);
 			// PLACE HOLDER FOR PHASE 2 $this->setSeat($newSeat);
 		} catch(UnexpectedValueException $unexpectedValue) {
 			// rethrow to the called
@@ -167,39 +161,6 @@ class Ticket
 	}
 
 	/**
-	 * gets value of transaction id
-	 *
-	 * @return mixed transaction id
-	 */
-	public function getTransactionId() {
-		return ($this->transactionId);
-	}
-
-	/**
-	 * sets the value of transaction id
-	 *
-	 * @param mixed $newTransactionId transaction id
-	 * @throws UnexpectedValueException if not an integer
-	 * @throws RangeException if transaction id is not positive
-	 */
-	public function setTransactionId($newTransactionId) {
-
-		// first, ensure the transaction id is an integer
-		if(filter_var($newTransactionId, FILTER_VALIDATE_INT) === false) {
-			throw(new UnexpectedValueException("transaction id $newTransactionId is not numeric"));
-		}
-
-		// second, convert the transaction id to an integer and enforce it is positive
-		$newTransactionId = intval($newTransactionId);
-		if($newTransactionId <= 0) {
-			throw(new RangeException("transaction id $newTransactionId is not positive"));
-		}
-
-		//finally, take the transaction id out of quarantine and assign it
-		$this->transactionId = $newTransactionId;
-	}
-
-	/**
 	 * THIS IS A PLACE HOLDER FOR SEAT TO BE INCLUDED IN PHASE 2 OF SITE
 	 *
 	 * gets the value of seat
@@ -250,7 +211,7 @@ class Ticket
 
 		// create query template
 		// ADD SEAT DURING PHASE 2
-		$query = "INSERT INTO ticket(ticketId, profileId, eventId, transactionId) VALUES(?, ?, ?, ?)";
+		$query = "INSERT INTO ticket(ticketId, profileId, eventId) VALUES(?, ?, ?)";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -258,8 +219,7 @@ class Ticket
 
 		// bind the member variables to the place holders in the template
 		// ADD SEAT DURING PHASE 2
-		$wasClean = $statement->bind_param("iiii", 	$this->ticketId,			$this->profileId,		$this->eventId,
-																		$this->transactionId);
+		$wasClean = $statement->bind_param("iii", $this->ticketId, $this->profileId, $this->eventId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -332,7 +292,7 @@ class Ticket
 
 		// create query template
 		// ADD SEAT DURING PHASE 2
-		$query		= "UPDATE ticket SET profileId = ?, eventId = ?, transactionId = ? WHERE ticketId = ?";
+		$query		= "UPDATE ticket SET profileId = ?, eventId = ? WHERE ticketId = ?";
 		$statement	= $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -340,7 +300,7 @@ class Ticket
 
 		// bind the member variables to the place holders in the template
 		// ADD SEAT DURING PHASE 2
-		$wasClean = $statement->bind_param("iiii", $this->profileId, $this->eventId, $this->transactionId, $this->ticketId);
+		$wasClean = $statement->bind_param("iii", $this->profileId, $this->eventId, $this->ticketId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind the parameters"));
 		}
@@ -351,6 +311,68 @@ class Ticket
 		}
 	}
 
+	/**
+	 * gets the Ticket by Ticket Id
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @param int $ticketId to search for
+	 * @return mixed ticket found or null if not found
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 */
+	public static function getTicketByTicketId(&$mysqli, $ticketId) {
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
 
+		// sanitize the TicketId before searching
+		$ticketId = filter_var($ticketId, FILTER_VALIDATE_INT);
 
+		// create query template
+		$query		= "SELECT ticketId, profileId, eventId FROM ticket WHERE ticketId = ?";
+		$statement	= $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind the ticketId to the place holder in the template
+		$wasClean = $statement->bind_param("i", $ticketId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+
+		// get results from the SELECT query
+		$result = $statement->get_result();
+		if($result === false) {
+			throw(new mysqli_sql_exception("Unable to get result set"));
+		}
+
+		// since this is a unique field, this will only return 0 or 1 result. So..
+		// 1) if there's a result, we can make it into a Ticket object manuall
+		// 2) if there's o result, we can just return null
+		$row = $result->fetch_assoc(); // fetch_assoc returns a row as an associative array
+
+		// convert the associative array to a Ticket
+		if($row !== null) {
+			try {
+				$ticket = new Ticket($row["ticketId"], $row["profileId"], $row["eventId"]);
+			}
+			catch(Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new mysqli_sql_exception("Unable to convert row to Ticket"));
+			}
+
+			// if we got here, the Ticket is good - return it
+			return($ticket);
+		} else {
+			// 404 Ticket not fond - return null instead
+			return(null);
+		}
+	}
 }
+?>
