@@ -445,9 +445,8 @@ class Event{
 			$endDate = $endDate->format("Y-m-d");
 		}
 
-		var_dump($startDate,$endDate);
 
-		$query = "SELECT eventId, eventCategoryId, venueId, eventName, eventDateTime, ticketPrice FROM event WHERE eventDateTime >= ? AND eventDateTime <= ?";
+		$query = "SELECT eventId, eventCategoryId, venueId, eventName, eventDateTime, ticketPrice FROM event WHERE CAST(eventDateTime AS DATE) >= ? AND CAST(eventDateTime AS DATE) <= ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false)	{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));

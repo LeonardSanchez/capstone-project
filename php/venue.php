@@ -657,7 +657,7 @@ class Venue
 	 * gets the Venue by Venue City
 	 *
 	 * @param resource $mysqli pointer to mySQL connection, by reference
-	 * @param string $venueState venueCity to search for
+	 * @param string $venueCity venueCity to search for
 	 * @return Venue if found, or null if not
 	 * @throws mysqli_sql_exception when mySQL related errors occur
 	 */

@@ -53,7 +53,7 @@ class TicketTest extends UnitTestCase {
 		$this->eventCategory	= new EventCategory(null, "concert");
 		$this->eventCategory->insert($this->mysqli);
 
-		$this->event	= new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(), "Creedence Clearwater Revival", "2014-12-12 12:00:00", "25.00");
+		$this->event	= new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(), "Creedence Clearwater Revival", "2014-12-12 12:00:00", 25.00);
 		$this->event->insert($this->mysqli);
 
 	}
@@ -127,15 +127,20 @@ class TicketTest extends UnitTestCase {
 		$this->ticket->insert($this->mysqli);
 
 		// fourth, update the ticket and post the changes to mySQL
-		$newEventId = "9999";
-		$this->ticket->setEventId($newEventId);
+		$newEventTest = new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(), "Pandora", "2014-12-18 19:00:00", 19.00);
+		$newEventTest->insert($this->mysqli);
+		$this->ticket->setEventId($newEventTest->getEventId());
 		$this->ticket->update($this->mysqli);
 
 		// finally, compare the fields
 		$this->assertNotNull($this->ticket->getTicketId());
 		$this->assertTrue($this->ticket->getTicketId() > 0);
 		$this->assertIdentical($this->ticket->getProfileId(),			$this->profile->getProfileId());
-		$this->assertIdentical($this->ticket->getEventId(),			$newEventId);
+		$this->assertIdentical($this->ticket->getEventId(),			$newEventTest->getEventId());
+
+		$this->ticket->delete($this->mysqli);
+		$newEventTest->delete($this->mysqli);
+
 	}
 
 	// test deleting a Ticket
@@ -177,7 +182,7 @@ class TicketTest extends UnitTestCase {
 		// fourth, get the venue using the static method
 		$staticTicket = Ticket::getTicketByTicketId($this->mysqli, $this->ticket->getTicketId());
 
-		// finally, compare the fields
+		// finally, compare the field
 		$this->assertNotNull($staticTicket->getTicketId());
 		$this->assertTrue($staticTicket->getTicketId() > 0);
 		$this->assertIdentical($staticTicket->getTicketId(),			$this->ticket->getTicketId());
