@@ -450,7 +450,7 @@ class Ticket
 	 */
 	public static function getTicketByEventId(&$mysqli, $eventId) {
 		// handle degenerate cases
-		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "object") {
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 

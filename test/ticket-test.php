@@ -127,7 +127,7 @@ class TicketTest extends UnitTestCase {
 		$this->ticket->insert($this->mysqli);
 
 		// fourth, update the ticket and post the changes to mySQL
-		$newEventTest = new Event(null, $this->eventCategory->getEventCategoryId(), $this->venue->getVenueId(), "Pandora", "2014-12-18 19:00:00", 19.00);
+		$newEventTest = new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(), "Pandora", "2014-12-18 19:00:00", 19.00);
 		$newEventTest->insert($this->mysqli);
 		$this->ticket->setEventId($newEventTest->getEventId());
 		$this->ticket->update($this->mysqli);
