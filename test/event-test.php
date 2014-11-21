@@ -14,20 +14,28 @@ require_once("../php/event-category.php");
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 
 class EventTest extends UnitTestCase	{
- // NEED comments regarding the state variables
+ 	// mysqli pointer for connection and event object for testing
 	private $mysqli = null;
 	private $event = null;
 
-
+	// test variables
 	private $EVENT_NAME			=	"Wobsky";
 	private $EVENT_DATE_TIME	=	"2014-11-24 19:30:00";
 	private $TICKET_PRICE		=	7000.00;
 
+	// objects for venue and eventCategory
 	private $venue				=	null;
 	private $eventCategory	=	null;
+	// objects for multiple results on getEventByEventDateTime
 	private $newEvent			=	null;
 	private $newEvent1		=	null;
 
+	/**
+	 * setup
+	 * venue for venueId
+	 * eventCategory for eventCategoryId
+	 * newEvent for testing
+	 */
 	public function setUp()	{
 		$this->mysqli = MysqliConfiguration::getMysqli();
 
@@ -38,6 +46,7 @@ class EventTest extends UnitTestCase	{
 		$this->eventCategory = new EventCategory(null, "Folk Dubstep");
 		$this->eventCategory->insert($this->mysqli);
 
+		// converting to DateTime object
 		$testTime1 ="2014-11-24 17:30:00";
 		$testTime1 = DateTime::createFromFormat("Y-m-d H:i:s", $testTime1);
 		$testTime2 ="2014-11-25 19:30:00";
@@ -51,20 +60,29 @@ class EventTest extends UnitTestCase	{
 		$this->newEvent1->insert($this->mysqli);
 	}
 
+	/**
+	 * tearDown
+	 *	reverse order
+	 * event
+	 * newEvent1
+	 * newEvent
+	 * eventCategory
+	 * venue
+	 */
 	public function tearDown()	{
 		if($this->event !== null)	{
 			$this->event->delete($this->mysqli);
 			$this->event = null;
 		}
 
-		if($this->newEvent !== null)	{
-			$this->newEvent->delete($this->mysqli);
-			$this->newEvent = null;
-		}
-
 		if($this->newEvent1 !== null)	{
 			$this->newEvent1->delete($this->mysqli);
 			$this->newEvent1 = null;
+		}
+
+		if($this->newEvent !== null)	{
+			$this->newEvent->delete($this->mysqli);
+			$this->newEvent = null;
 		}
 
 		if($this->eventCategory !== null)	{
@@ -79,16 +97,21 @@ class EventTest extends UnitTestCase	{
 
 	}
 
+	// testInsertNewEvent
 	public function testInsertNewEvent()	{
+		// test connection
 		$this->assertNotNull($this->mysqli);
 
+		// create test object
 		$this->event = new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(),
 			$this->EVENT_NAME, $this->EVENT_DATE_TIME, $this->TICKET_PRICE);
-
+		// insert test object
 		$this->event->insert($this->mysqli);
 
+		// create DateTime object
 		$tempDate = DateTime::createFromFormat("Y-m-d H:i:s", $this->EVENT_DATE_TIME);
 
+		//run tests
 		$this->assertNotNull($this->event->getEventId());
 		$this->assertTrue($this->event->getEventId() > 0);
 		$this->assertIdentical($this->event->getVenueId(),				$this->venue->getVenueId());
@@ -98,19 +121,26 @@ class EventTest extends UnitTestCase	{
 		$this->assertIdentical($this->event->getTicketPrice(), 		$this->TICKET_PRICE);
 	}
 
-	public function testUpdateUser()	{
+	// test update event
+	public function testUpdateEvent()	{
+		// test mysqli connection
 		$this->assertNotNull($this->mysqli);
 
+		// setup test case
 		$this->event = new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(), $this->EVENT_NAME, $this->EVENT_DATE_TIME, $this->TICKET_PRICE);
-
+		// insert test case
 		$this->event->insert($this->mysqli);
 
+		// create DateTime object
 		$tempDate = DateTime::createFromFormat("Y-m-d H:i:s", $this->EVENT_DATE_TIME);
 
+		// get change
 		$newEventName = "Wub n' Fiddle";
 		$this->event->setEventName($newEventName);
+		// update
 		$this->event->update($this->mysqli);
 
+		// run tests
 		$this->assertNotNull($this->event->getEventId());
 		$this->assertTrue($this->event->getEventId() > 0);
 		$this->assertIdentical($this->event->getVenueId(), 			$this->venue->getVenueId());
@@ -120,20 +150,26 @@ class EventTest extends UnitTestCase	{
 		$this->assertIdentical($this->event->getTicketPrice(), 		$this->TICKET_PRICE);
 	}
 
-	public function testDeleteUser()	{
+	// test delete event
+	public function testDeleteEvent()	{
+		// test mysqli connection
 		$this->assertNotNull($this->mysqli);
 
+		// setup test case
 		$this->event = new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(),
 			$this->EVENT_NAME, $this->EVENT_DATE_TIME, $this->TICKET_PRICE);
-
+		// insert test case
 		$this->event->insert($this->mysqli);
 
+		// test insert passed
 		$this->assertNotNull($this->event->getEventId());
 		$this->assertTrue($this->event->getEventId() > 0);
 
+		// delete event
 		$this->event->delete($this->mysqli);
 		$this->event = null;
 
+		// test if delete was successful
 		$hopefulEvent = Event::getEventByEventName($this->mysqli, $this->EVENT_NAME);
 		$this->assertNull($hopefulEvent);
 	}
@@ -171,8 +207,10 @@ class EventTest extends UnitTestCase	{
 		// verify mySQL connection
 		$this->assertNotNull($this->mysqli);
 
+		// create DateTime object
 		$tempDate = DateTime::createFromFormat("Y-m-d H:i:s", $this->EVENT_DATE_TIME);
 
+		// create testing Date objects
 		$searchTime1 = "2014-11-24";
 		$searchTime1 = DateTime::createFromFormat("Y-m-d", $searchTime1);
 		$searchTime2 = "2014-11-25";
@@ -189,6 +227,7 @@ class EventTest extends UnitTestCase	{
 		// get event using static method
 		$staticEvent = Event::getEventByEventDateTime($this->mysqli, $searchTime1, $searchTime2);
 
+		// test normal test case
 		$this->assertNotNull($staticEvent[0]->getEventId());
 		$this->assertTrue($staticEvent[0]->getEventId() > 0);
 		$this->assertIdentical($staticEvent[0]->getEventId(),				$this->newEvent->getEventId());
@@ -198,6 +237,7 @@ class EventTest extends UnitTestCase	{
 		$this->assertIdentical($staticEvent[0]->getEventDateTime(),		$this->newEvent->getEventDateTime());
 		$this->assertIdentical($staticEvent[0]->getTicketPrice(),		$this->newEvent->getTicketPrice());
 
+		// test newEvent
 		$this->assertNotNull($staticEvent[1]->getEventId());
 		$this->assertTrue($staticEvent[1]->getEventId() > 0);
 		$this->assertIdentical($staticEvent[1]->getEventId(),				$this->newEvent1->getEventId());
@@ -207,6 +247,7 @@ class EventTest extends UnitTestCase	{
 		$this->assertIdentical($staticEvent[1]->getEventDateTime(),		$this->newEvent1->getEventDateTime());
 		$this->assertIdentical($staticEvent[1]->getTicketPrice(),		$this->newEvent1->getTicketPrice());
 
+		// test newEvent1
 		$this->assertNotNull($staticEvent[2]->getEventId());
 		$this->assertTrue($staticEvent[2]->getEventId() > 0);
 		$this->assertIdentical($staticEvent[2]->getEventId(),				$this->event->getEventId());

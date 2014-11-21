@@ -281,7 +281,7 @@ class Event{
 	 * insert Event into mySQL database
 	 */
 	public function insert(&$mysqli)	{
-		// ensure mysqli connection
+		// ensure mysqli object
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("not a valid mysqli object"));
 		}
@@ -327,38 +327,54 @@ class Event{
 	}
 
 	/**
-	 * Delete
+	 * Delete an Event from mySQL database
+	 * @param resource $mysqli pointer at mySQL connection, pointer by reference
+	 * @throws mysqli_sql_exception when SQL errors occur
 	 */
 	public function delete(&$mysqli)	{
+		// ensure mysqli object
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
+		// check if event exists
 		if($this->eventId === null)	{
-			throw(new mysqli_sql_exception("Unable to prepare statement"));
+			throw(new mysqli_sql_exception("Unable to delete an event that doesn't exist"));
 		}
 
+		// query template
 		$query = "DELETE FROM event WHERE eventId = ?";
 		$statement = $mysqli->prepare($query);
+		// check prepared statement
 		if($statement === false)	{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
+		// bind parameters
 		$wasClean = $statement->bind_param("i", $this->eventId);
 		if($wasClean === false)	{
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
 
+		//execute statement
 		if($statement->execute() === false)	{
 			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
 		}
 
 	}
+
+	/**
+	 * update a field in an event
+	 * @param resource $mysqli pointer at mySQL connection, pointer by reference
+	 * @throws mysqli_sql_exception when SQL errors occur
+	 */
 	public function update(&$mysqli)	{
+		// ensure input is mysqli object
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
+		// check if event exists
 		if($this->eventId === null)	{
 			throw(new mysqli_sql_exception("Unable to update an event that does not exist"));
 		}
@@ -370,57 +386,77 @@ class Event{
 			$eventDateTime = $this->eventDateTime->format("Y-m-d H:i:s");
 		}
 
+		// setup query
 		$query = "UPDATE event SET eventName = ?, eventDateTime = ?, ticketPrice = ? WHERE eventId = ?";
 		$statement = $mysqli->prepare($query);
+		// prepare statement
 		if($statement === false)	{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
+		// bind parameters
 		$wasClean = $statement->bind_param("ssdi", $this->eventName, $eventDateTime, $this->ticketPrice, $this->eventId);
-
 		if($wasClean === false)	{
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
 
+		// execute statement
 		if($statement->execute() === false)	{
 			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
 		}
 	}
 
+	/**
+	 * @param resource $mysqli pointer to mysqli connection, by reference
+	 * @param string $eventName event name for search
+	 * @throws mysqli_mysql_exception for sql errors
+	 * @return array|object
+	 */
 	public function getEventByEventName(&$mysqli, $eventName)	{
+		// check mysqli object
 		if(gettype($mysqli) !== "object"	||	get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
+		// trim and sanitize string
 		$eventName	=	trim($eventName);
 		$eventName	=	filter_var($eventName, FILTER_SANITIZE_STRING);
 
+		// setup query
 		$query = "SELECT eventId, eventCategoryId, venueId, eventName, eventDateTime, ticketPrice FROM event WHERE eventName LIKE ?";
 		$statement = $mysqli->prepare($query);
+		// prepare statement
 		if($statement === false)	{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		$eventName = "%$eventName%";
 		$wasClean = $statement->bind_param("s", $eventName);
+		// check bound parameters
 		if($wasClean === false)	{
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
 
+		// execute statement
 		if($statement->execute() === false)	{
 			throw(new mysqli_sql_exception("Unable to execute statement"));
 		}
 
+		// get results
 		$result = $statement->get_result();
 		if($result === false)	{
 			throw(new mysqli_sql_exception("Unable to get result sets"));
 		}
 
+		// create events array for return
 		$events = array();
+		// get associative array
 		while(($row = $result->fetch_assoc()) !== null)	{
 			try	{
+				// insert elements into rows
 				$event		= new Event($row["eventId"], $row["eventCategoryId"], $row["venueId"],
 												$row["eventName"], $row["eventDateTime"], $row["ticketPrice"]);
+				// set to $events[] array
 				$events[]	=	$event;
 			}	catch(Exception $exception)	{
 				// if the row was not able to be converted rethrow
@@ -428,6 +464,7 @@ class Event{
 			}
 		}
 
+		// count result set and return
 		$numberOfEvents = count($events);
 		if($numberOfEvents === 0)	{
 			return(null);
@@ -438,20 +475,30 @@ class Event{
 		}
 	}
 
+	/**
+	 * @param resource $mysqli	pointer to mysqli
+	 * @param DateTime $startDate start date for search
+	 * @param Datetime $endDate	end date for search
+	 * @return array|object
+	 */
 	public function getEventByEventDateTime(&$mysqli, $startDate, $endDate)	{
+		// check mysqli object
 		if(gettype($mysqli) !== "object"	||	get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
+		// check DateTime object
 		if(gettype($startDate) !== "object"	||	get_class($startDate) !== "DateTime")	{
 			throw(new mysqli_sql_exception("input is not a Date object"));
 		}
 		if($startDate === null) {
 			$startDate = null;
 		} else {
+			// format as DATE
 			$startDate = $startDate->format("Y-m-d");
 		}
 
+		// repeat for endDate
 		if(gettype($endDate) !== "object"	||	get_class($endDate) !== "DateTime")	{
 			throw(new mysqli_sql_exception("input is not a Date object"));
 		}
@@ -461,29 +508,35 @@ class Event{
 			$endDate = $endDate->format("Y-m-d");
 		}
 
-
+		// setup query
 		$query = "SELECT eventId, eventCategoryId, venueId, eventName, eventDateTime, ticketPrice FROM event WHERE CAST(eventDateTime AS DATE) >= ? AND CAST(eventDateTime AS DATE) <= ?";
 		$statement = $mysqli->prepare($query);
+		// check prepare statement
 		if($statement === false)	{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
+		// bind parameter
 		$wasClean = $statement->bind_param("ss", $startDate, $endDate);
 
 		if($wasClean === false)	{
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
 
+		// execute mysqli statement
 		if($statement->execute() === false)	{
 			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
 		}
 
+		// get results
 		$result = $statement->get_result();
 		if($result === false)	{
 			throw(new mysqli_sql_exception("Unable to get result sets"));
 		}
 
+		// create array for results
 		$events = array();
+		// fetch associative array and set it to events array
 		while(($row = $result->fetch_assoc()) !== null)	{
 			try	{
 				$event		= new Event($row["eventId"], $row["eventCategoryId"], $row["venueId"],
@@ -495,6 +548,7 @@ class Event{
 			}
 		}
 
+		// check number of events and return
 		$numberOfEvents = count($events);
 		if($numberOfEvents === 0)	{
 			return(null);
