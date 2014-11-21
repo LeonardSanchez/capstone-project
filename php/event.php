@@ -218,7 +218,7 @@ class Event{
 		}
 
 		/**
-		 *
+		 * ensure $newEventDateTime is a DateTime object
 		 */
 		if(gettype($newEventDateTime) === "object" && get_class($newEventDateTime) === "DateTime")	{
 			$this->eventDateTime = $newEventDateTime;
@@ -277,11 +277,16 @@ class Event{
 		$this->ticketPrice = floatval($newTicketPrice);
 	}
 
+	/**
+	 * insert Event into mySQL database
+	 */
 	public function insert(&$mysqli)	{
+		// ensure mysqli connection
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("not a valid mysqli object"));
 		}
 
+		// check for existing events; throw exception if it exists
 		if($this->eventId !== null) {
 			throw(new mysqli_sql_exception("not a new event"));
 		}
@@ -293,26 +298,37 @@ class Event{
 			$eventDateTime = $this->eventDateTime->format("Y-m-d H:i:s");
 		}
 
+		/**
+		 * query insert venueId, eventCategoryId, eventName, eventDateTime, ticketPrice
+		 */
 		$query = "INSERT INTO event(venueId, eventCategoryId, eventName, eventDateTime, ticketPrice) VALUES(?, ?, ?, ?, ?)";
 		$statement = $mysqli->prepare($query);
+		// check if $statement is prepared
 		if($statement === false)	{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
+		// bind parameters to statement
 		$wasClean = $statement->bind_param("iissd", $this->venueId, $this->eventCategoryId, $this->eventName, $eventDateTime, $this->ticketPrice);
 
+		// check if parameters were bound
 		if($wasClean === false)	{
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
 
+		//check if the statement was executed
 		if($statement->execute() === false)	{
 			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
 		}
 
+		// set eventId as mysqli insert id; AUTO_INCREMENT
 		$this->eventId = $mysqli->insert_id;
 
 	}
 
+	/**
+	 * Delete
+	 */
 	public function delete(&$mysqli)	{
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
