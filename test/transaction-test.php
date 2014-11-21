@@ -9,14 +9,13 @@
 require_once("/usr/lib/php5/simpletest/autorun.php");
 
 // next, require the class to be tested
-require_once("../php/transaction.php");
-require_once("../php/profile.php");
 require_once("../php/user.php");
-require_once("../php/ticket.php");
+require_once("../php/profile.php");
+require_once("../php/venue.php");
 require_once("../php/event.php");
 require_once("../php/event-category.php");
-require_once("../php/venue.php");
-
+require_once("../php/ticket.php");
+require_once("../php/transaction.php");
 
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 
@@ -28,8 +27,8 @@ class TransactionTest extends UnitTestCase {
 	private $transaction = null;
 
 	// a few global variables for creating test data
-	private $amount		 = "40.00";
-	private $dateApproved = "2014-11-10 00:00:00";
+	private $amount		 = "41.00";
+	private $dateApproved = "2014-07-10 00:00:00";
 
 	//create state variables for the objects
 	private $user          = null;
