@@ -188,7 +188,6 @@ class EventTest extends UnitTestCase	{
 
 		// get event using static method
 		$staticEvent = Event::getEventByEventDateTime($this->mysqli, $searchTime1, $searchTime2);
-		var_dump($staticEvent);
 
 		$this->assertNotNull($staticEvent[0]->getEventId());
 		$this->assertTrue($staticEvent[0]->getEventId() > 0);
