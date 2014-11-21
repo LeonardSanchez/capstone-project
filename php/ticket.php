@@ -307,7 +307,7 @@ class Ticket
 
 		// execute the statement
 		if($statement->execute() === false) {
-			var_dump($statement);
+			var_dump($mysqli->error);
 			throw(new mysqli_sql_exception("Unable to execute statement"));
 		}
 	}
@@ -390,7 +390,7 @@ class Ticket
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
-		// sanitize the TicketId before searching
+		// sanitize the ProfileId before searching
 		$profileId = filter_var($profileId, FILTER_VALIDATE_INT);
 
 		// create query template
@@ -400,7 +400,7 @@ class Ticket
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
-		// bind the ticketId to the place holder in the template
+		// bind the profileId to the place holder in the template
 		$wasClean = $statement->bind_param("i", $profileId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
@@ -439,5 +439,24 @@ class Ticket
 			return(null);
 		}
 	}
+
+	/**
+	 * gets the Ticket by Event Id
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @param int $eventId to search for
+	 * @return mixed ticket found or null if not found
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 */
+	public static function getTicketByEventId(&$mysqli, $eventId) {
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "object") {
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		//
+
+	}
+
 }
 ?>

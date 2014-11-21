@@ -14,7 +14,7 @@ require_once("../php/event-category.php");
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 
 class EventTest extends UnitTestCase	{
-
+ // NEED comments regarding the state variables
 	private $mysqli = null;
 	private $event = null;
 
