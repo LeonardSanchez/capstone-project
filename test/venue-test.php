@@ -136,18 +136,18 @@ class VenueTest extends UnitTestCase {
 		$staticVenue = Venue::getVenueByVenueName($this->mysqli, $this->VENUE_NAME);
 
 		// finally, compare the fields
-		$this->assertNotNull($staticVenue->getVenueId());
-		$this->assertTrue($staticVenue->getVenueId() > 0);
-		$this->assertIdentical($staticVenue->getVenueId(),				$this->venue->getVenueId());
-		$this->assertIdentical($staticVenue->getVenueName(),			$this->VENUE_NAME);
-		$this->assertIdentical($staticVenue->getVenueCapacity(),		$this->VENUE_CAPACITY);
-		$this->assertIdentical($staticVenue->getVenuePhone(),			$this->VENUE_PHONE);
-		$this->assertIdentical($staticVenue->getVenueWebsite(),		$this->VENUE_WEBSITE);
-		$this->assertIdentical($staticVenue->getVenueAddress1(),		$this->VENUE_ADDRESS_1);
-		$this->assertIdentical($staticVenue->getVenueAddress2(),		$this->VENUE_ADDRESS_2);
-		$this->assertIdentical($staticVenue->getVenueCity(),			$this->VENUE_CITY);
-		$this->assertIdentical($staticVenue->getVenueState(),			$this->VENUE_STATE);
-		$this->assertIdentical($staticVenue->getVenueZipCode(),		$this->VENUE_ZIP_CODE);
+		$this->assertNotNull($staticVenue[0]->getVenueId());
+		$this->assertTrue($staticVenue[0]->getVenueId() > 0);
+		$this->assertIdentical($staticVenue[0]->getVenueId(),				$this->venue->getVenueId());
+		$this->assertIdentical($staticVenue[0]->getVenueName(),			$this->VENUE_NAME);
+		$this->assertIdentical($staticVenue[0]->getVenueCapacity(),		$this->VENUE_CAPACITY);
+		$this->assertIdentical($staticVenue[0]->getVenuePhone(),			$this->VENUE_PHONE);
+		$this->assertIdentical($staticVenue[0]->getVenueWebsite(),		$this->VENUE_WEBSITE);
+		$this->assertIdentical($staticVenue[0]->getVenueAddress1(),		$this->VENUE_ADDRESS_1);
+		$this->assertIdentical($staticVenue[0]->getVenueAddress2(),		$this->VENUE_ADDRESS_2);
+		$this->assertIdentical($staticVenue[0]->getVenueCity(),			$this->VENUE_CITY);
+		$this->assertIdentical($staticVenue[0]->getVenueState(),			$this->VENUE_STATE);
+		$this->assertIdentical($staticVenue[0]->getVenueZipCode(),		$this->VENUE_ZIP_CODE);
 	}
 }
 ?>

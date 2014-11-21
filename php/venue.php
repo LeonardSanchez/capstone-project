@@ -639,7 +639,7 @@ class Venue
 			}
 			foreach($results as $index => $row){
 
-				$results[$index] = new Venue($row["venueId"], $row["venueName"], $row["venueCapacity"], $row["venuePhone"], $row["venueWebsite"], $row["venueAddress1"], $row["venueAddress2"], $row["venueCity"], $row["venueCity"], $row["venueState"], $row["venueZipCode"]);
+				$results[$index] = new Venue($row["venueId"], $row["venueName"], $row["venueCapacity"], $row["venuePhone"], $row["venueWebsite"], $row["venueAddress1"], $row["venueAddress2"], $row["venueCity"], $row["venueState"], $row["venueZipCode"]);
 			}
 			return($results);
 		} else {
