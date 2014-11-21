@@ -135,14 +135,18 @@ class BarcodeTest extends UnitTestCase {
 		$this->barcode->insert($this->mysqli);
 
 		// update the Barcode and post the changes to mySQL
-		$newTicketId = 1;
-		$this->barcode->setTicketId($newTicketId);
+		$newTicketTest = new Ticket(null, $this->profile->getProfileId(), $this->event->getEventId());
+		$newTicketTest->insert($this->mysqli);
+		$this->barcode->setTicketId($newTicketTest->getTicketId());
 		$this->barcode->update($this->mysqli);
 
 		// now, compare the fields
 		$this->assertNotNull($this->barcode->getBarcodeId());
 		$this->assertTrue($this->barcode->getBarcodeId() > 0);
-		$this->assertIdentical($this->barcode->getTicketId(),				$this->ticket->getTicketId());
+		$this->assertIdentical($this->barcode->getTicketId(),				$newTicketTest->getTicketId());
+
+		$this->barcode->delete($this->mysqli);
+		$newTicketTest->delete($this->mysqli);
 
 	}
 
