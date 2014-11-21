@@ -12,6 +12,7 @@ require_once("/usr/lib/php5/simpletest/autorun.php");
 require_once("../php/transaction.php");
 require_once("../php/profile.php");
 require_once("../php/user.php");
+require_once("../php/ticket.php");
 
 
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
