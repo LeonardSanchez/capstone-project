@@ -53,7 +53,7 @@ class TicketTest extends UnitTestCase {
 		$this->eventCategory	= new EventCategory(null, "concert");
 		$this->eventCategory->insert($this->mysqli);
 
-		$this->event	= new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(), "Creedence Clearwater Revival", "2014-12-12 12:00:00", "25.00");
+		$this->event	= new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(), "Creedence Clearwater Revival", "2014-12-12 12:00:00", 25.00);
 		$this->event->insert($this->mysqli);
 
 	}
@@ -127,7 +127,7 @@ class TicketTest extends UnitTestCase {
 		$this->ticket->insert($this->mysqli);
 
 		// fourth, update the ticket and post the changes to mySQL
-		$newEventTest = new Event(null, $this->eventCategory->getEventCategoryId(), $this->venue->getVenueId(), "Pandora", "2014-12-18 19:00:00", "19.00");
+		$newEventTest = new Event(null, $this->eventCategory->getEventCategoryId(), $this->venue->getVenueId(), "Pandora", "2014-12-18 19:00:00", 19.00);
 		$newEventTest->insert($this->mysqli);
 		$this->ticket->setEventId($newEventTest->getEventId());
 		$this->ticket->update($this->mysqli);

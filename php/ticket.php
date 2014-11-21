@@ -394,7 +394,7 @@ class Ticket
 		$profileId = filter_var($profileId, FILTER_VALIDATE_INT);
 
 		// create query template
-		$query		= "SELECT ticketId, profileId, eventId FROM ticket WHERE ticketId = ?";
+		$query		= "SELECT ticketId, profileId, eventId FROM ticket WHERE profileId = ?";
 		$statement	= $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -454,8 +454,51 @@ class Ticket
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
-		//
+		// sanitize the EventId before searching
+		$eventId= filter_var($eventId, FILTER_VALIDATE_INT);
 
+		// create query template
+		$query		= "SELECT ticketId, eventId, profileId FROM ticket WHERE eventId = ?";
+		$statement	= $mysqli->prepare($query);
+
+		// bind the eventId to the placeholder in the template
+		$wasClean		= $statement->bind_param("i", $eventId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute statement"));
+		}
+
+		// get results from SELECT query
+		$result = $statement->get_result();
+		if($result === false) {
+			throw(new mysqli_sql_exception("Unable to get result set"));
+		}
+
+		// since this is a unique field, this will only return 0 or 1 result, so...
+		// 1) if there is a result, we can make it into a Ticket object manually
+		// 2) if there is no result, we can just return null
+		$row = $result->fetch_assoc(); // fetch_assoc will return a row as an associative array
+
+		// convert the associative array to a Ticket
+		if($row !== null) {
+			try {
+				$ticket = new Ticket($row["ticketId"], $row["profileId"], $row["eventId"]);
+			}
+			catch(Exception $exception) {
+				// if row couldn't be converted, rethrow it
+				throw(new mysqli_sql_exception("Unable to convert row to a Ticket"));
+			}
+
+			// if we got here, Ticket is good, return it
+			return($ticket);
+		} else {
+			// 404 Ticket not found, return null
+			return(null);
+		}
 	}
 
 }
