@@ -9,14 +9,14 @@
 require_once("/usr/lib/php5/simpletest/autorun.php");
 
 // next, require the class to be tested and others that the class is dependent upon
-require_once("../php/barcode.php");
-require_once("../php/ticket.php");
-require_once("../php/event.php");
-require_once("../php/event-category.php");
-require_once("../php/venue.php");
-require_once("../php/transaction.php");
-require_once("../php/profile.php");
 require_once("../php/user.php");
+require_once("../php/profile.php");
+require_once("../php/venue.php");
+require_once("../php/event-category.php");
+require_once("../php/event.php");
+require_once("../php/ticket.php");
+require_once("../php/transaction.php");
+require_once("../php/barcode.php");
 
 // centralized mySQL configuration class
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
@@ -31,11 +31,11 @@ class BarcodeTest extends UnitTestCase {
 	// create state variables for creating test data
 	private $user          = null;
 	private $profile       = null;
-	private $transaction   = null;
 	private $venue         = null;
 	private $eventCategory = null;
 	private $event         = null;
 	private $ticket		  = null;
+	private $transaction   = null;
 
 	// now to create the setUp
 	public function setUp() {
@@ -54,20 +54,20 @@ class BarcodeTest extends UnitTestCase {
 		$this->profile = new Profile(null, $this->user->getUserId(), "Brendan", "Slevin", "1987-11-07", "m");
 		$this->profile->insert($this->mysqli);
 
-		$this->transaction = new Transaction(null, "25.00", "2014-08-08 12:00:02", $this->profile->getProfileId());
-		$this->transaction->insert($this->mysqli);
-
 		$this->venue = new Venue(null, "SunshineTheater", 10, "505-505-5055", "http://www.sunshine.com", "Central ave", "s", "Albuquerque", "NM", "87108");
 		$this->venue->insert($this->mysqli);
 
 		$this->eventCategory = new EventCategory(null, "rock");
 		$this->eventCategory->insert($this->mysqli);
 
-		$this->event = new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(), "First Event", "2014-01-01 07:07:07", "15.00");
+		$this->event = new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(), "New Event", "2014-01-01 07:07:07", "17.00");
 		$this->event->insert($this->mysqli);
 
 		$this->ticket = new Ticket(null, $this->profile->getProfileId(), $this->event->getEventId(), $this->transaction->getTransactionId());
 		$this->ticket->insert($this->mysqli);
+
+		$this->transaction = new Transaction(null, "25.00", "2014-08-08 12:00:02", $this->profile->getProfileId(), $this->ticket->getTicketId());
+		$this->transaction->insert($this->mysqli);
 	}
 
 	// now for the tear down after each test
@@ -75,6 +75,11 @@ class BarcodeTest extends UnitTestCase {
 		if($this->barcode !== null){
 			$this->barcode->delete($this->mysqli);
 			$this->barcode = null;
+		}
+
+		if($this->transaction !== null) {
+			$this->transaction->delete($this->mysqli);
+			$this->transaction = null;
 		}
 
 		if($this->ticket !== null){
@@ -95,11 +100,6 @@ class BarcodeTest extends UnitTestCase {
 		if($this->venue !== null) {
 			$this->venue->delete($this->mysqli);
 			$this->venue = null;
-		}
-
-		if($this->transaction !== null) {
-			$this->transaction->delete($this->mysqli);
-			$this->transaction = null;
 		}
 
 		if($this->profile !== null) {
