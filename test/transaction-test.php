@@ -168,7 +168,7 @@ class TransactionTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// create a transaction to post to mySQL
-		$this->transaction = new Transaction(null, $this->amount, $this->dateApproved, $this->profile->getProfileId(), $this->ticket->getTicketId9());
+		$this->transaction = new Transaction(null, $this->amount, $this->dateApproved, $this->profile->getProfileId(), $this->ticket->getTicketId());
 
 		// insert the transaction to mySQL
 		$this->transaction->insert($this->mysqli);
