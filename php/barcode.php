@@ -277,7 +277,7 @@ class Barcode
 		// if there's no result, we can just return null
 		$row = $result->fetch_assoc(); // fetch assoc() returns a row as an associative array
 
-		// convert the associative array to a Transaction
+		// convert the associative array to a Barcode
 		if($row !== null) {
 			try {
 				$barcode = new Barcode($row["barcodeId"], $row["ticketId"]);
@@ -289,7 +289,7 @@ class Barcode
 			// if we get here, the Barcode is good return it
 			return ($barcode);
 		} else {
-			// 404 Transaction not found return null
+			// 404 Barcode not found return null
 			return (null);
 		}
 
