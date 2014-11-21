@@ -21,7 +21,7 @@ require_once("../php/barcode.php");
 // centralized mySQL configuration class
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 
-// the barcodeTest is a container for all of our tests
+// the BarcodeTest is a container for all of our tests
 class BarcodeTest extends UnitTestCase {
 	// variable to hold the mySQL connection
 	private $mysqli = null;
@@ -115,15 +115,15 @@ class BarcodeTest extends UnitTestCase {
 		// no need to disconnect with new mysqliConfiguration class added YAY!
 	}
 
-	// test creating a new barcode inserting it to mySQL
+	// test creating a new Barcode inserting it to mySQL
 	public function testInsertNewBarcode() {
 		// verify mySQL connected Ok
 		$this->assertNotNull($this->mysqli);
 
-		// now, create a barcode to post to mySQL
+		// now, create a Barcode to post to mySQL
 		$this->barcode = new Barcode(null, $this->ticket->getTicketId);
 
-		// insert the barcode to mySQL
+		// insert the Barcode to mySQL
 		$this->barcode->insert($this->mysqli);
 
 		// and now, compare the fields
@@ -132,18 +132,18 @@ class BarcodeTest extends UnitTestCase {
 		$this->assertIdentical($this->barcode->getTicketId(),				$this->ticket->getTicketId);
 	}
 
-	// test updating a barcode in mySQL
+	// test updating a Barcode in mySQL
 	public function testUpdateBarcode() {
 		// test mySQL connected ok
 		$this->assertNotNull($this->mysqli);
 
-		// create a barcode to post to mySQL
+		// create a Barcode to post to mySQL
 		$this->barcode = new Barcode(null, $this->ticket->getTicketId);
 
-		// insert the barcode to mySQL
+		// insert the Barcode to mySQL
 		$this->barcode->insert($this->mysqli);
 
-		// update the barcode and post the changes to mySQL
+		// update the Barcode and post the changes to mySQL
 		$newTicketId = 1;
 		$this->barcode->setTicketId($newTicketId);
 		$this->barcode->update($this->mysqli);
@@ -155,28 +155,49 @@ class BarcodeTest extends UnitTestCase {
 
 	}
 
-	// test deleting a barcode
+	// test deleting a Barcode
 	public function testDeleteBarcode() {
 		// test mySQL connected ok
 		$this->assertNotNull($this->mysqli);
 
-		// create a barcode to post to mySQL
+		// create a Barcode to post to mySQL
 		$this->barcode = new Barcode(null, $this->ticket->getTicketId);
 
-		// insert the barcode to mySQL
+		// insert the Barcode to mySQL
 		$this->barcode->insert($this->mysqli);
 
-		// verify the barcode was inserted
+		// verify the Barcode was inserted
 		$this->assertNotNull($this->barcode->getBarcodeId());
 		$this->assertTrue($this->barcode->getBarcodeId() > 0);
 
-		// delete barcode
+		// delete Barcode
 		$this->barcode->delete($this->mysqli);
 		$this->barcode = null;
 
-		// try to get the barcode and assert we didn't get a thing
+		// try to get the Barcode and assert we didn't get a thing
 		$hopefulBarcode = Barcode::getBarcodeByTicketId($this->mysqli, $this->ticket->getTicketId);
 		$this->assertNull($hopefulBarcode);
+	}
+
+	// test grabbing a Barcode from mySQL
+	public function testGetBarcodeByTicketId() {
+		// test mySQL connected ok
+		$this->assertNotNull($this->mysqli);
+
+		// create a Barcode to post to mySQL
+		$this->barcode = new Barcode(null, $this->ticket->getTicketId());
+
+		// insert the Barcode to mySQL
+		$this->barcode->insert($this->mysqli);
+
+		// get the Barcode by using the static method
+		$staticBarcode = Barcode::getBarcodeByTicketId($this->mysqli, $this->ticket->getTicketID());
+
+		// compare fields
+		$this->assertNotNull($staticBarcode->getBarcodeId());
+		$this->assertTrue($staticBarcode->getBarcodeId() > 0);
+		$this->assertIdentical($staticBarcode->getBarcodeId(),						  $this->barcode->getBarcodeId());
+		$this->assertIdentical($staticBarcode->getTicketId(),                     $this->ticket->getTicketId());
 	}
 }
 ?>
