@@ -307,6 +307,7 @@ class Ticket
 
 		// execute the statement
 		if($statement->execute() === false) {
+			var_dump($statement);
 			throw(new mysqli_sql_exception("Unable to execute statement"));
 		}
 	}
@@ -353,7 +354,71 @@ class Ticket
 		}
 
 		// since this is a unique field, this will only return 0 or 1 result. So..
-		// 1) if there's a result, we can make it into a Ticket object manuall
+		// 1) if there's a result, we can make it into a Ticket object manually
+		// 2) if there's o result, we can just return null
+		$row = $result->fetch_assoc(); // fetch_assoc returns a row as an associative array
+
+		// convert the associative array to a Ticket
+		if($row !== null) {
+			try {
+				$ticket = new Ticket($row["ticketId"], $row["profileId"], $row["eventId"]);
+			}
+			catch(Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new mysqli_sql_exception("Unable to convert row to Ticket"));
+			}
+
+			// if we got here, the Ticket is good - return it
+			return($ticket);
+		} else {
+			// 404 Ticket not fond - return null instead
+			return(null);
+		}
+	}
+
+	/**
+	 * gets the Ticket by Profile Id
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @param int $profileId to search for
+	 * @return mixed ticket found or null if not found
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 */
+	public static function getTicketByProfileId(&$mysqli, $profileId) {
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		// sanitize the TicketId before searching
+		$profileId = filter_var($profileId, FILTER_VALIDATE_INT);
+
+		// create query template
+		$query		= "SELECT ticketId, profileId, eventId FROM ticket WHERE ticketId = ?";
+		$statement	= $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind the ticketId to the place holder in the template
+		$wasClean = $statement->bind_param("i", $profileId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute mySQL statement"));
+		}
+
+		// get results from the SELECT query
+		$result = $statement->get_result();
+		if($result === false) {
+			throw(new mysqli_sql_exception("Unable to get result set"));
+		}
+
+		// since this is a unique field, this will only return 0 or 1 result. So..
+		// 1) if there's a result, we can make it into a Ticket object manually
 		// 2) if there's o result, we can just return null
 		$row = $result->fetch_assoc(); // fetch_assoc returns a row as an associative array
 

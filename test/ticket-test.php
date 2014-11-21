@@ -116,8 +116,6 @@ class TicketTest extends UnitTestCase {
 	}
 
 	// test updating a Ticket in mySQL
-	// Possibly delete the update method, question on the table is, in what scenario would you update a ticketId
-	// Create second venue, insert it,
 	public function testUpdateTicket() {
 		// first, verify mySQL connected OK
 		$this->assertNotNull($this->mysqli);
@@ -140,7 +138,7 @@ class TicketTest extends UnitTestCase {
 		$this->assertIdentical($this->ticket->getEventId(),			$newEventId);
 	}
 
-	// test deleting a Venue
+	// test deleting a Ticket
 	public function testDeleteTicket() {
 		// first, verify mySQL connected OK
 		$this->assertNotNull($this->mysqli);
@@ -156,11 +154,12 @@ class TicketTest extends UnitTestCase {
 		$this->assertTrue($this->ticket->getTicketId() > 0);
 
 		// fifth, delete the ticket
+		$destroyedTicketId = $this->ticket->getTicketId();
 		$this->ticket->delete($this->mysqli);
 		$this->ticket = null;
 
 		// finally, try to get the ticket and assert we didn't get a thing
-		$hopefulTicket = Ticket::getTicketByTicketId($this->mysqli);
+		$hopefulTicket = Ticket::getTicketByTicketId($this->mysqli, $destroyedTicketId);
 		$this->assertNull($hopefulTicket);
 	}
 
@@ -176,7 +175,7 @@ class TicketTest extends UnitTestCase {
 		$this->ticket->insert($this->mysqli);
 
 		// fourth, get the venue using the static method
-		$staticTicket = Venue::getTicketByTicketId($this->mysqli, $this->ticket->getTicketId());
+		$staticTicket = Ticket::getTicketByTicketId($this->mysqli, $this->ticket->getTicketId());
 
 		// finally, compare the fields
 		$this->assertNotNull($staticTicket->getTicketId());
@@ -199,7 +198,7 @@ class TicketTest extends UnitTestCase {
 		$this->ticket->insert($this->mysqli);
 
 		// fourth, get the venue using the static method
-		$staticTicket = Venue::getTicketByEventId($this->mysqli, $this->event->getEventId());
+		$staticTicket = Ticket::getTicketByEventId($this->mysqli, $this->event->getEventId());
 
 		// finally, compare the fields
 		$this->assertNotNull($staticTicket->getTicketId());
@@ -221,7 +220,7 @@ class TicketTest extends UnitTestCase {
 		$this->ticket->insert($this->mysqli);
 
 		// fourth, get the venue using the static method
-		$staticTicket = Venue::getTicketByProfileId($this->mysqli, $this->profile->getProfileId());
+		$staticTicket = Ticket::getTicketByProfileId($this->mysqli, $this->profile->getProfileId());
 
 		// finally, compare the fields
 		$this->assertNotNull($staticTicket->getTicketId());

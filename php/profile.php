@@ -95,9 +95,9 @@ class Profile
 		$this->profileId = $newProfileId;
 	}
 	/**
-	 * gets the value of profile id
+	 * gets the value of user id
 	 *
-	 * @return mixed profile id
+	 * @return mixed user id
 	 **/
 	public function getUserId()
 	{
