@@ -324,8 +324,8 @@ class EventLink	{
 		}
 
 		// sanitize Ids and ensure they are positive
-		$eventId = filter_var($eventId, FILTER_SANITIZE_NUMBER_INT);
-		if($eventId <= 0)	{
+		$eventCategoryId = filter_var($eventId, FILTER_SANITIZE_NUMBER_INT);
+		if($eventCategoryId <= 0)	{
 			throw(new RangeException("Input eventId is not positive"));
 		}
 		$eventId = filter_var($eventId, FILTER_SANITIZE_NUMBER_INT);
