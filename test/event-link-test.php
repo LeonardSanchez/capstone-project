@@ -144,7 +144,7 @@ class EventLinkTest extends UnitTestCase {
 		// third insert the eventLink to mySQL
 		$this->eventLink->insert($this->mysqli);
 
-		// fourth, get the evenLink using a static method
+		// fourth, get the eventLink using a static method
 		$staticEventLink = EventLink::getEventLinkByEventCategoryId($this->eventCategory->getEventCategoryId());
 
 		// finally, compare the fields
@@ -157,9 +157,18 @@ class EventLinkTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// second, create an eventLink to post to mySQL
-		$this->eventLink = new EventLink($this->eventCategory)
-	}
+		$this->eventLink = new EventLink($this->eventCategory->getEventCategoryId(), $this->event->getEventId());
 
+		// third, insert the eventLink to mySQL
+		$this->eventLink->insert($this->mysqli);
+
+		// fourth, get the eventLink using a static method
+		$staticEventLink = EventLink::getEventLinkByEventCategoryIdAndEventId($this->eventCategory->getEventCategoryId(), $this->event->getEventId());
+
+		// finally, compare the fields
+		$this->assertIdentical($staticEventLink->getEventCategoryId(),		$this->eventCategory->getEventCategoryId());
+		$this->assertIdentical($staticEventLink->getEventId(),				$this->event->getEventId());
+	}
 }
 
 
