@@ -357,24 +357,6 @@ class EventLink	{
 			throw(new mysqli_sql_exception("Unable to get result set"));
 		}
 
-		// create an array to return all instances of search match
-		$eventLinks = array();
-		while($row =$result->fetch_assoc() !== null)	{
-			try	{
-				$eventLink = new EventLink($row["eventCategoryId"], $row["eventId"]);
-				$eventLinks[] = $eventLink;
-			}
-			catch(Exception $exception)	{
-				// if the row could not be converted, rethrow it
-				throw(new mysqli_sql_exception("Unable to convert row to eventLink", 0, $exception));
-			}
-		}
-
-		$numberOfEventLinks = count($eventLinks);
-		if($numberOfEventLinks === 0)	{
-			return(null);
-		}	else if($numberOfEventLinks === 1) {
-			return ($eventLinks[0]);
-		}
+		return($result);
 	}
 }
