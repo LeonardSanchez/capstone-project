@@ -131,14 +131,14 @@ class EventLinkTest extends UnitTestCase {
 		$staticEventLink = EventLink::getEventLinkByEventId($this->mysqli, $this->event->getEventId());
 
 		// finally compare the fields
-		$this->assertIdentical($staticEventLink->getEventCategoryId(),	$this->eventCategory->getEventCategoryId());
-		$this->assertIdentical($staticEventLink->getEventId(),			$this->event->getEventId());
+		$this->assertIdentical($staticEventLink[0]->getEventCategoryId(),	$this->eventCategory->getEventCategoryId());
+		$this->assertIdentical($staticEventLink[0]->getEventId(),			$this->event->getEventId());
 	}
 
 	// test grabbing an EventLink from mySQL by EventCategoryId
 	public function testGetEventLinkByEventCategoryId() {
 		// first, verify mySQL connected OK
-		$this->assertNotNll($this->mysqli);
+		$this->assertNotNull($this->mysqli);
 
 		// second create an eventLink to post to mySQL
 		$this->eventLink = new EventLink($this->eventCategory->getEventCategoryId(), $this->event->getEventId());
@@ -150,8 +150,8 @@ class EventLinkTest extends UnitTestCase {
 		$staticEventLink = EventLink::getEventLinkByEventCategoryId($this->mysqli, $this->eventCategory->getEventCategoryId());
 
 		// finally, compare the fields
-		$this->assertIdentical($staticEventLink->getEventCategoryId(),		$this->eventCategory->getEventCategoryId());
-		$this->assertIdentical($staticEventLink->getEventId(),				$this->event->getEventId());
+		$this->assertIdentical($staticEventLink[0]->getEventCategoryId(),		$this->eventCategory->getEventCategoryId());
+		$this->assertIdentical($staticEventLink[0]->getEventId(),				$this->event->getEventId());
 	}
 
 	public function testGetEventLinkByEventCategoryIdAndEventId() {
@@ -165,11 +165,11 @@ class EventLinkTest extends UnitTestCase {
 		$this->eventLink->insert($this->mysqli);
 
 		// fourth, get the eventLink using a static method
-		$staticEventLink = EventLink::getEventLinkByEventCategoryIdAndEventId($this->eventCategory->getEventCategoryId(), $this->event->getEventId());
+		$staticEventLink = EventLink::getEventLinkByEventCategoryIdAndEventId($this->mysqli, $this->eventCategory->getEventCategoryId(), $this->event->getEventId());
 
 		// finally, compare the fields
-		$this->assertIdentical($staticEventLink->getEventCategoryId(),		$this->eventCategory->getEventCategoryId());
-		$this->assertIdentical($staticEventLink->getEventId(),				$this->event->getEventId());
+		$this->assertIdentical($staticEventLink[0]->getEventCategoryId(),		$this->eventCategory->getEventCategoryId());
+		$this->assertIdentical($staticEventLink[0]->getEventId(),				$this->event->getEventId());
 	}
 }
 

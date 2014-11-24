@@ -112,11 +112,11 @@ class EventLink	{
 	public function insert(&$mysqli)	{
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
-			throw(new mysqli_sql_exception("input is not a mysqli object"));
+			throw(new UnexpectedValueException("input is not a mysqli object"));
 		}
 
 		// assert this eventLink doesn't exist
-		var_dump($this);
+
 		if($this->eventCategoryId === null && $this->eventId === null)	{
 			throw(new UnexpectedValueException("Not a new event link"));
 		}
@@ -237,8 +237,6 @@ class EventLink	{
 		$numberOfEventLinks = count($eventLinks);
 		if($numberOfEventLinks === 0)	{
 			return(null);
-		}	else if($numberOfEventLinks === 1)	{
-			return($eventLinks[0]);
 		}	else	{
 			return($eventLinks);
 		}
@@ -290,7 +288,7 @@ class EventLink	{
 
 		// create an array to return all instances of search match
 		$eventLinks = array();
-		while($row =$result->fetch_assoc() !== null)	{
+		while(($row =$result->fetch_assoc()) !== null)	{
 			try	{
 				$eventLink = new EventLink($row["eventCategoryId"], $row["eventId"]);
 				$eventLinks[] = $eventLink;
@@ -304,8 +302,6 @@ class EventLink	{
 		$numberOfEventLinks = count($eventLinks);
 		if($numberOfEventLinks === 0)	{
 			return(null);
-		}	else if($numberOfEventLinks === 1)	{
-			return($eventLinks[0]);
 		}	else	{
 			return($eventLinks);
 		}
