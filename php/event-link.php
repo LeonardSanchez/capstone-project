@@ -116,8 +116,9 @@ class EventLink	{
 		}
 
 		// assert this eventLink doesn't exist
-		if($this->eventCategoryId !== null && $this->eventId !== null)	{
-			throw(new mysqli_sql_exception("Not a new event link"));
+		var_dump($this);
+		if($this->eventCategoryId === null && $this->eventId === null)	{
+			throw(new UnexpectedValueException("Not a new event link"));
 		}
 
 		// create query
