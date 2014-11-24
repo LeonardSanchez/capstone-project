@@ -223,7 +223,7 @@ class EventLink	{
 
 		// create an array to return all instances of search match
 		$eventLinks = array();
-		while($row =$result->fetch_assoc() !== null)	{
+		while(($row =$result->fetch_assoc()) !== null)	{
 			try	{
 				$eventLink = new EventLink($row["eventCategoryId"], $row["eventId"]);
 				$eventLinks[] = $eventLink;
