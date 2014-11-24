@@ -131,7 +131,10 @@ CREATE TABLE eventLink(
 
 -- calling to tables with foreign keys
 	FOREIGN KEY(eventCategoryId) REFERENCES eventCategory(eventCategoryId),
-	FOREIGN KEY(eventId) REFERENCES event(eventId)
+	FOREIGN KEY(eventId) REFERENCES event(eventId),
+
+	-- guarantee all combinations are unique
+	PRIMARY KEY (eventCategoryId, eventId)
 );
 
 -- create ticket table

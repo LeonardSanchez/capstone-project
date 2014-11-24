@@ -81,14 +81,14 @@ class EventLinkTest extends UnitTestCase {
 			$this->assertNotNull($this->mysqli);
 
 			// second, create a ticket to post to mySQL
-			$this->eventLink = new EventLink($this->event->getEventId(), $this->eventCategory->getEventCategoryId());
+			$this->eventLink = new EventLink($this->eventCategory->getEventCategoryId(), $this->event->getEventId());
 
 			// third, insert the ticket to mySQL
 			$this->eventLink->insert($this->mysqli);
 
 			// finally, compare the fields
-			$this->assertIdentical($this->eventLink->getEventId(), $this->event->getEventId());
 			$this->assertIdentical($this->eventLink->getEventCategoryId(), $this->eventCategory->getEventCategoryId());
+			$this->assertIdentical($this->eventLink->getEventId(), $this->event->getEventId());
 		}
 		// test deleting an EventLink
 		public function testDeleteEventLink() {
@@ -96,21 +96,23 @@ class EventLinkTest extends UnitTestCase {
 			$this->assertNotNull($this->mysqli);
 
 			// second, create an eventLink to post to mySQL
-			$this->eventLink = new EventLink(null, $this->event->getEventId(), $this->eventCategory->getEventCategoryId());
+			$this->eventLink = new EventLink($this->event->getEventId(), $this->eventCategory->getEventCategoryId());
 
 			// third, insert the eventLik to mySQL
 			$this->eventLink->insert($this->mysqli);
 
 			// fourth, verify the eventLink was inserted
-			$this->assertNotNull($this->eventLink->getEventLinkByEventId());
-			$this->assertTrue($this->eventLink->getEventLinkByEventId() > 0);
+			$this->assertNotNull($this->eventCategory->getEventCategoryId());
+			$this->assertTrue($this->eventCategory->getEventCategoryId() > 0);
+			$this->assertNotNull($this->event->getEventId());
+			$this->assertTrue($this->event->getEventId() > 0);
 
 			// fifth, delete the eventLink
 			$this->eventLink->delete($this->mysqli);
 			$this->eventLink = null;
 
 			// finally, try to get the eventLink and assert we didn't get a thing
-			$hopefulEventLink = EventLink::getEventLinkByEventId($this->mysqli);
+			$hopefulEventLink = EventLink::getEventLinkByEventCategoryIdAndEventId($this->mysqli, $this->eventCategory->getEventCategoryId(), $this->event->getEventId());
 			$this->assertNull($hopefulEventLink);
 		}
 
@@ -126,7 +128,7 @@ class EventLinkTest extends UnitTestCase {
 		$this->eventLink->insert($this->mysqli);
 
 		// fourth, get the eventLink using a static method
-		$staticEventLink = EventLink::getEventLinkByEventId($this->event->getEventId());
+		$staticEventLink = EventLink::getEventLinkByEventId($this->mysqli, $this->event->getEventId());
 
 		// finally compare the fields
 		$this->assertIdentical($staticEventLink->getEventCategoryId(),	$this->eventCategory->getEventCategoryId());
@@ -145,7 +147,7 @@ class EventLinkTest extends UnitTestCase {
 		$this->eventLink->insert($this->mysqli);
 
 		// fourth, get the eventLink using a static method
-		$staticEventLink = EventLink::getEventLinkByEventCategoryId($this->eventCategory->getEventCategoryId());
+		$staticEventLink = EventLink::getEventLinkByEventCategoryId($this->mysqli, $this->eventCategory->getEventCategoryId());
 
 		// finally, compare the fields
 		$this->assertIdentical($staticEventLink->getEventCategoryId(),		$this->eventCategory->getEventCategoryId());
