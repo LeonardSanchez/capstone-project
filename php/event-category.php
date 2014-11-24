@@ -219,7 +219,9 @@ private $eventCategory;
 	/**
 	 * gets the EventCategory by EventCategory
 	 *
-	 * @param resouce $mysqli pointer to mySQL connection, by reference
+	 * @param resour
+	 *
+	 * ce $mysqli pointer to mySQL connection, by reference
 	 * @param string $eventCategory Event Category to search for
 	 * @return array|null
 	 * @return EventCategory found or null if not found
