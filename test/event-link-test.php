@@ -113,6 +113,7 @@ class EventLinkTest extends UnitTestCase {
 
 			// finally, try to get the eventLink and assert we didn't get a thing
 			$hopefulEventLink = EventLink::getEventLinkByEventCategoryIdAndEventId($this->mysqli, $this->eventCategory->getEventCategoryId(), $this->event->getEventId());
+			var_dump($hopefulEventLink);
 			$this->assertNull($hopefulEventLink);
 		}
 
