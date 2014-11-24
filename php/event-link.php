@@ -199,7 +199,7 @@ class EventLink	{
 		// create query template
 		$query = "SELECT eventCategoryId, eventId FROM eventLink WHERE eventCategoryId = ?";
 		$statement = $mysqli->prepare($query);
-		if($statement = false)	{
+		if($statement === false)	{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
@@ -243,5 +243,141 @@ class EventLink	{
 		}
 	}
 
-	public
+	/**
+	 * gets eventLink by eventId
+	 *
+	 * @param resource $mysqli pointer to mysql connection
+	 * @param int $eventId eventId that is being searched
+	 * @return array|object results
+	 * @return eventLink by eventId or null if no results
+	 * @throws mysqli_sql_exception when mysql error occurs
+	 */
+	public function getEventLinkByEventId(&$mysqli, $eventId)	{
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("Input is not a mysqli object"));
+		}
+
+		$eventId = filter_var($eventId, FILTER_SANITIZE_NUMBER_INT);
+		if($eventId <= 0)	{
+			throw(new RangeException("Input eventId is not positive"));
+		}
+
+		// create query template
+		$query = "SELECT eventCategoryId, eventId FROM eventLink WHERE eventId = ?";
+		$statement = $mysqli->prepare($query);
+		if($statement === false)	{
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind parameters
+		$wasClean = $statement->bind_param("i", $eventId);
+		if($wasClean === false)	{
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute statement
+		if($statement->execute() === false)	{
+			throw(new mysqli_sql_exception("Unable to execute statement"));
+		}
+
+		// get results
+		$result = $statement->get_result();
+		if($result === false)	{
+			throw(new mysqli_sql_exception("Unable to get result set"));
+		}
+
+		// create an array to return all instances of search match
+		$eventLinks = array();
+		while($row =$result->fetch_assoc() !== null)	{
+			try	{
+				$eventLink = new EventLink($row["eventCategoryId"], $row["eventId"]);
+				$eventLinks[] = $eventLink;
+			}
+			catch(Exception $exception)	{
+				// if the row could not be converted, rethrow it
+				throw(new mysqli_sql_exception("Unable to convert row to eventLink", 0, $exception));
+			}
+		}
+
+		$numberOfEventLinks = count($eventLinks);
+		if($numberOfEventLinks === 0)	{
+			return(null);
+		}	else if($numberOfEventLinks === 1)	{
+			return($eventLinks[0]);
+		}	else	{
+			return($eventLinks);
+		}
+	}
+
+	/**
+	 * gets eventLink by eventId
+	 *
+	 * @param resource $mysqli pointer to mysql connection
+	 * @param int $eventCategoryId eventCategoryId that is being searched
+	 * @param int $eventId eventId that is being searched
+	 * @return array|object results
+	 * @return eventLink by eventId or null if no results
+	 * @throws mysqli_sql_exception when mysql error occurs
+	 */
+	public function getEventLinkByEventCategoryIdAndEventId(&$mysqli, $eventCategoryId, $eventId)	{
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("Input is not a mysqli object"));
+		}
+
+		// sanitize Ids and ensure they are positive
+		$eventId = filter_var($eventId, FILTER_SANITIZE_NUMBER_INT);
+		if($eventId <= 0)	{
+			throw(new RangeException("Input eventId is not positive"));
+		}
+		$eventId = filter_var($eventId, FILTER_SANITIZE_NUMBER_INT);
+		if($eventId <= 0)	{
+			throw(new RangeException("Input eventId is not positive"));
+		}
+
+		// create query template
+		$query = "SELECT eventCategoryId, eventId FROM eventLink WHERE eventCategoryId = ? AND eventId = ?";
+		$statement = $mysqli->prepare($query);
+		if($statement === false)	{
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind parameters
+		$wasClean = $statement->bind_param("ii", $eventCategoryId, $eventId);
+		if($wasClean === false)	{
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute statement
+		if($statement->execute() === false)	{
+			throw(new mysqli_sql_exception("Unable to execute statement"));
+		}
+
+		// get results
+		$result = $statement->get_result();
+		if($result === false)	{
+			throw(new mysqli_sql_exception("Unable to get result set"));
+		}
+
+		// create an array to return all instances of search match
+		$eventLinks = array();
+		while($row =$result->fetch_assoc() !== null)	{
+			try	{
+				$eventLink = new EventLink($row["eventCategoryId"], $row["eventId"]);
+				$eventLinks[] = $eventLink;
+			}
+			catch(Exception $exception)	{
+				// if the row could not be converted, rethrow it
+				throw(new mysqli_sql_exception("Unable to convert row to eventLink", 0, $exception));
+			}
+		}
+
+		$numberOfEventLinks = count($eventLinks);
+		if($numberOfEventLinks === 0)	{
+			return(null);
+		}	else if($numberOfEventLinks === 1) {
+			return ($eventLinks[0]);
+		}
+	}
 }
