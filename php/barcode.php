@@ -125,7 +125,7 @@ class Barcode
 	/**
 	 * insert this Barcode into mySQL
 	 *
-	 * @param resource $mySQL pointer to mySQL connection, by reference
+	 * @param resource mySQL pointer to mySQL connection, by reference
 	 * @throws mysqli_sql_exception when mySQL related errors
 	 **/
 	public function insert(&$mysqli)

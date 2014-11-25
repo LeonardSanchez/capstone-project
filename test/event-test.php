@@ -181,7 +181,7 @@ class EventTest extends UnitTestCase	{
 		$this->assertNotNull($this->mysqli);
 
 		// second, create an event to post to mySQL
-		$this->event = new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(),
+		$this->event = new Event(null, $this->eventCategory->getEventCategoryId(), $this->venue->getVenueId(),
 			$this->EVENT_NAME, $this->EVENT_DATE_TIME, $this->TICKET_PRICE);
 
 		// third, insert the event to mySQL
@@ -195,8 +195,8 @@ class EventTest extends UnitTestCase	{
 		$this->assertNotNull($staticEvent->getEventId());
 		$this->assertTrue($staticEvent->getEventId() > 0);
 		$this->assertIdentical($staticEvent->getEventId(),				$this->event->getEventId());
-		$this->assertIdentical($staticEvent->getVenueId(),				$this->venue->getVenueId());
 		$this->assertIdentical($staticEvent->getEventCategoryId(),	$this->eventCategory->getEventCategoryId());
+		$this->assertIdentical($staticEvent->getVenueId(),				$this->venue->getVenueId());
 		$this->assertIdentical($staticEvent->getEventName(),			$this->EVENT_NAME);
 		$this->assertIdentical($staticEvent->getEventDateTime(),		$tempDate);
 		$this->assertIdentical($staticEvent->getTicketPrice(),		$this->TICKET_PRICE);

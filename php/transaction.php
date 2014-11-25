@@ -38,14 +38,14 @@ class Transaction
 	 * @throws UnexpectedValueException when a parameter is not the right type
 	 * @throws RangeException when a parameter is invalid
 	 **/
-	public function __construct($newTransactionId, $newAmount, $newDateApproved, $newProfileId, $newTicketId)
+	public function __construct($newTransactionId, $newProfileId, $newTicketId, $newAmount, $newDateApproved)
 	{
 		try {
 			$this->setTransactionId($newTransactionId);
-			$this->setAmount($newAmount);
-			$this->setDateApproved($newDateApproved);
 			$this->setProfileId($newProfileId);
 			$this->setTicketId($newTicketId);
+			$this->setAmount($newAmount);
+			$this->setDateApproved($newDateApproved);
 		} catch(UnexpectedValueException $unexpectedValue) {
 			// rethrow to caller
 			throw(new UnexpectedValueException("Unable to construct Transaction", 0, $unexpectedValue));
@@ -372,15 +372,14 @@ class Transaction
 		}
 
 		// create query template
-		$query = "UPDATE transaction SET amount = ?, dateApproved = ?, profileId = ?, ticketId = ? WHERE transactionId = ?";
+		$query = "UPDATE transaction SET profileId = ?, ticketId = ?, amount = ?, dateApproved = ? WHERE transactionId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("dsiii", $this->amount, $dateApproved,
-			$this->profileId, $this->transactionId, $this->ticketId);
+		$wasClean = $statement->bind_param("iidsi", $this->profileId, $this->transactionId, $this->amount, $dateApproved, $this->ticketId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -410,7 +409,7 @@ class Transaction
 		$profileId = filter_var($profileId, FILTER_SANITIZE_NUMBER_INT);
 
 		// create query template
-		$query = "SELECT transactionId, amount, dateApproved, profileId, ticketId FROM transaction WHERE profileId = ?";
+		$query = "SELECT transactionId, profileId, ticketId, amount, dateApproved FROM transaction WHERE profileId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -441,7 +440,7 @@ class Transaction
 		// convert the associative array to a Transaction
 		if($row !== null) {
 			try {
-				$transaction = new Transaction($row["transactionId"], $row["amount"], $row["dateApproved"], $row["profileId"], $row["ticketId"]);
+				$transaction = new Transaction($row["transactionId"], $row["profileId"], $row["ticketId"], $row["amount"], $row["dateApproved"]);
 			} catch(Exception $exception) {
 				// if row couldn't be converted, rethrow it
 				throw(new mysqli_sql_exception("Unable to convert row to Transaction", 0, $exception));
@@ -474,7 +473,7 @@ class Transaction
 		$ticketId = filter_var($ticketId, FILTER_SANITIZE_NUMBER_INT);
 
 		// create query template
-		$query = "SELECT transactionId, amount, dateApproved, profileId, ticketId FROM transaction WHERE ticketId = ?";
+		$query = "SELECT transactionId, profileId, ticketId, amount, dateApproved FROM transaction WHERE ticketId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -505,7 +504,7 @@ class Transaction
 		// convert the associative array to a Transaction
 		if($row !== null) {
 			try {
-				$transaction = new Transaction($row["transactionId"], $row["amount"], $row["dateApproved"], $row["profileId"], $row["ticketId"]);
+				$transaction = new Transaction($row["transactionId"], $row["profileId"], $row["ticketId"], $row["amount"], $row["dateApproved"]);
 			} catch(Exception $exception) {
 				// if row couldn't be converted, rethrow it
 				throw(new mysqli_sql_exception("Unable to convert row to Transaction", 0, $exception));

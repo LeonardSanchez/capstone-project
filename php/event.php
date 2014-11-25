@@ -301,7 +301,7 @@ class Event{
 		/**
 		 * query insert venueId, eventCategoryId, eventName, eventDateTime, ticketPrice
 		 */
-		$query = "INSERT INTO event(venueId, eventCategoryId, eventName, eventDateTime, ticketPrice) VALUES(?, ?, ?, ?, ?)";
+		$query = "INSERT INTO event(eventCategoryId, venueId, eventName, eventDateTime, ticketPrice) VALUES(?, ?, ?, ?, ?)";
 		$statement = $mysqli->prepare($query);
 		// check if $statement is prepared
 		if($statement === false)	{
@@ -309,7 +309,7 @@ class Event{
 		}
 
 		// bind parameters to statement
-		$wasClean = $statement->bind_param("iissd", $this->venueId, $this->eventCategoryId, $this->eventName, $eventDateTime, $this->ticketPrice);
+		$wasClean = $statement->bind_param("iissd", $this->eventCategoryId, $this->venueId, $this->eventName, $eventDateTime, $this->ticketPrice);
 
 		// check if parameters were bound
 		if($wasClean === false)	{
@@ -387,7 +387,7 @@ class Event{
 		}
 
 		// setup query
-		$query = "UPDATE event SET eventName = ?, eventDateTime = ?, ticketPrice = ? WHERE eventId = ?";
+		$query = "UPDATE event SET eventCategoryId = ?, venueId = ?, eventName = ?, eventDateTime = ?, ticketPrice = ? WHERE eventId = ?";
 		$statement = $mysqli->prepare($query);
 		// prepare statement
 		if($statement === false)	{
@@ -395,7 +395,7 @@ class Event{
 		}
 
 		// bind parameters
-		$wasClean = $statement->bind_param("ssdi", $this->eventName, $eventDateTime, $this->ticketPrice, $this->eventId);
+		$wasClean = $statement->bind_param("iissdi", $this->eventCategoryId, $this->venueId, $this->eventName, $eventDateTime, $this->ticketPrice, $this->eventId);
 		if($wasClean === false)	{
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}

@@ -135,7 +135,7 @@ class EventLink	{
 		}
 
 		// execute statement
-		if($statement->execute() === false)	{
+		if($statement->execute() === false)	{ var_dump($statement->error); var_dump($this);
 			throw(new mysqli_sql_exception("Unable to execute statement"));
 		}
 	}

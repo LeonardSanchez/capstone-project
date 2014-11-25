@@ -82,7 +82,6 @@ class EventLinkTest extends UnitTestCase {
 
 			// second, create a ticket to post to mySQL
 			$this->eventLink = new EventLink($this->eventCategory->getEventCategoryId(), $this->event->getEventId());
-
 			// third, insert the ticket to mySQL
 			$this->eventLink->insert($this->mysqli);
 
@@ -96,7 +95,7 @@ class EventLinkTest extends UnitTestCase {
 			$this->assertNotNull($this->mysqli);
 
 			// second, create an eventLink to post to mySQL
-			$this->eventLink = new EventLink($this->event->getEventId(), $this->eventCategory->getEventCategoryId());
+			$this->eventLink = new EventLink($this->eventCategory->getEventCategoryId(), $this->event->getEventId());
 
 			// third, insert the eventLik to mySQL
 			$this->eventLink->insert($this->mysqli);
