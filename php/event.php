@@ -11,13 +11,13 @@ class Event{
 	 */
 	private $eventId;
 	/**
-	 * venueId to create a 1 to n relationship; foreign key
-	 */
-	private $venueId;
-	/**
 	 * eventCategoryId from eventCategory; used for category searching
 	 */
 	private $eventCategoryId;
+	/**
+	 * venueId to create a 1 to n relationship; foreign key
+	 */
+	private $venueId;
 	/**
 	 * eventName for Event; Indexed for searching
 	 */
@@ -35,12 +35,12 @@ class Event{
 	 * constructor for Event
 	 *
 	 */
-	public function __construct($newEventId, $newVenueId, $newEventCategoryId,
+	public function __construct($newEventId, $newEventCategoryId, $newVenueId,
 										 $newEventName, $newEventDateTime, $newTicketPrice){
 		try{
 			$this->setEventId($newEventId);
-			$this->setVenueId($newVenueId);
 			$this->setEventCategoryId($newEventCategoryId);
+			$this->setVenueId($newVenueId);
 			$this->setEventName($newEventName);
 			$this->setEventDateTime($newEventDateTime);
 			$this->setTicketPrice($newTicketPrice);
@@ -93,6 +93,46 @@ class Event{
 	}
 
 	/**
+	 * get eventCategoryId
+	 */
+	public function getEventCategoryId()	{
+		return($this->eventCategoryId);
+	}
+
+	/**
+	 * set eventCategoryId
+	 */
+	public function setEventCategoryId($newEventCategoryId)	{
+		/**
+		 * set to null if eventCategoryId does not exist
+		 */
+		if($newEventCategoryId === null)	{
+			$this->eventCategoryId = null;
+			return;
+		}
+
+		/**
+		 * validate eventCategoryId as int
+		 */
+		if(filter_var($newEventCategoryId, FILTER_VALIDATE_INT) === false)	{
+			throw(new UnexpectedValueException("eventCategoryId $newEventCategoryId is not numeric"));
+		}
+
+		/**
+		 * ensure the eventCategoryId is positive
+		 */
+		$newEventCategoryId = intval(($newEventCategoryId));
+		if($newEventCategoryId <= 0)	{
+			throw(new RangeException("eventCategoryId $newEventCategoryId is not positive"));
+		}
+
+		/**
+		 * passed all set to eventCategoryId
+		 */
+		$this->eventCategoryId = $newEventCategoryId;
+	}
+
+	/**
 	 *get venueId
 	 * FOREIGN KEY
 	 */
@@ -132,46 +172,6 @@ class Event{
 		 * all tests pass assign to venueId
 		 */
 		$this->venueId = $newVenueId;
-	}
-
-	/**
-	 * get eventCategoryId
-	 */
-	public function getEventCategoryId()	{
-		return($this->eventCategoryId);
-	}
-
-	/**
-	 * set eventCategoryId
-	 */
-	public function setEventCategoryId($newEventCategoryId)	{
-		/**
-		 * set to null if eventCategoryId does not exist
-		 */
-		if($newEventCategoryId === null)	{
-			$this->eventCategoryId = null;
-			return;
-		}
-
-		/**
-		 * validate eventCategoryId as int
-		 */
-		if(filter_var($newEventCategoryId, FILTER_VALIDATE_INT) === false)	{
-			throw(new UnexpectedValueException("eventCategoryId $newEventCategoryId is not numeric"));
-		}
-
-		/**
-		 * ensure the eventCategoryId is positive
-		 */
-		$newEventCategoryId = intval(($newEventCategoryId));
-		if($newEventCategoryId <= 0)	{
-			throw(new RangeException("eventCategoryId $newEventCategoryId is not positive"));
-		}
-
-		/**
-		 * passed all set to eventCategoryId
-		 */
-		$this->eventCategoryId = $newEventCategoryId;
 	}
 
 	/**
@@ -299,7 +299,7 @@ class Event{
 		}
 
 		/**
-		 * query insert venueId, eventCategoryId, eventName, eventDateTime, ticketPrice
+		 * query insert eventCategoryId, venueId, eventName, eventDateTime, ticketPrice
 		 */
 		$query = "INSERT INTO event(eventCategoryId, venueId, eventName, eventDateTime, ticketPrice) VALUES(?, ?, ?, ?, ?)";
 		$statement = $mysqli->prepare($query);

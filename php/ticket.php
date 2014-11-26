@@ -211,7 +211,7 @@ class Ticket
 
 		// create query template
 		// ADD SEAT DURING PHASE 2
-		$query = "INSERT INTO ticket(ticketId, profileId, eventId) VALUES(?, ?, ?)";
+		$query = "INSERT INTO ticket(profileId, eventId) VALUES(?, ?)";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -219,7 +219,7 @@ class Ticket
 
 		// bind the member variables to the place holders in the template
 		// ADD SEAT DURING PHASE 2
-		$wasClean = $statement->bind_param("iii", $this->ticketId, $this->profileId, $this->eventId);
+		$wasClean = $statement->bind_param("ii", $this->profileId, $this->eventId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -307,7 +307,7 @@ class Ticket
 
 		// execute the statement
 		if($statement->execute() === false) {
-			var_dump($mysqli->error);
+
 			throw(new mysqli_sql_exception("Unable to execute statement"));
 		}
 	}
@@ -458,7 +458,7 @@ class Ticket
 		$eventId= filter_var($eventId, FILTER_VALIDATE_INT);
 
 		// create query template
-		$query		= "SELECT ticketId, eventId, profileId FROM ticket WHERE eventId = ?";
+		$query		= "SELECT ticketId, profileId, eventId  FROM ticket WHERE eventId = ?";
 		$statement	= $mysqli->prepare($query);
 
 		// bind the eventId to the placeholder in the template

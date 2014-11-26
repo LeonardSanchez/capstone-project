@@ -27,7 +27,7 @@ class TransactionTest extends UnitTestCase {
 	private $transaction = null;
 
 	// a few global variables for creating test data
-	private $amount		 = "41.00";
+	private $amount		 = 41.00;
 	private $dateApproved = "2014-07-10 00:00:00";
 
 	//create state variables for the objects
