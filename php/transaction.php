@@ -407,7 +407,7 @@ class Transaction
 		}
 
 		// sanitize the profileId before searching
-		$profileId = filter_var($profileId, FILTER_SANITIZE_NUMBER_INT);
+		$profileId = filter_var($profileId, FILTER_VALIDATE_INT);
 
 		// create query template
 		$query = "SELECT transactionId, profileId, ticketId, amount, dateApproved FROM transaction WHERE profileId = ?";

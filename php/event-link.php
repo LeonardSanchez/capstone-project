@@ -191,7 +191,7 @@ class EventLink	{
 	 * @return eventLink by eventCategoryId or null if no results
 	 * @throws mysqli_sql_exception when mysql error occurs
 	 */
-	public function getEventLinkByEventCategoryId(&$mysqli, $eventCategoryId)	{
+	public static function getEventLinkByEventCategoryId(&$mysqli, $eventCategoryId)	{
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("Input is not a mysqli object"));
@@ -257,7 +257,7 @@ class EventLink	{
 	 * @return eventLink by eventId or null if no results
 	 * @throws mysqli_sql_exception when mysql error occurs
 	 */
-	public function getEventLinkByEventId(&$mysqli, $eventId)	{
+	public static function getEventLinkByEventId(&$mysqli, $eventId)	{
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("Input is not a mysqli object"));
@@ -323,7 +323,7 @@ class EventLink	{
 	 * @return eventLink by eventId or null if no results
 	 * @throws mysqli_sql_exception when mysql error occurs
 	 */
-	public function getEventLinkByEventCategoryIdAndEventId(&$mysqli, $eventCategoryId, $eventId)
+	public static function getEventLinkByEventCategoryIdAndEventId(&$mysqli, $eventCategoryId, $eventId)
 	{
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {

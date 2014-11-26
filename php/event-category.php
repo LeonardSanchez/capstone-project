@@ -227,7 +227,7 @@ private $eventCategory;
 	 * @return EventCategory found or null if not found
 	 * @throws mysqli_sql_exception when mySQL related errors occur
 	 */
-	public function getEventCategoryByEventCategory(&$mysqli, $eventCategory)	{
+	public static function getEventCategoryByEventCategory(&$mysqli, $eventCategory)	{
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object"	|| get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("Input is not a mysqli object"));

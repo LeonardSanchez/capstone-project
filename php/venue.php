@@ -523,7 +523,7 @@ class Venue
 	 * @return mixed Venue found or null if not found
 	 * @throws mysqli_sql_exception when mySQL related errors occur
 	 */
-	public function getVenueByVenueId(&$mysqli, $venueId)
+	public static function getVenueByVenueId(&$mysqli, $venueId)
 	{
 
 		// handle degenerate cases

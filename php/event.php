@@ -412,7 +412,7 @@ class Event{
 	 * @throws mysqli_mysql_exception for sql errors
 	 * @return array|object
 	 */
-	public function getEventByEventName(&$mysqli, $eventName)	{
+	public static function getEventByEventName(&$mysqli, $eventName)	{
 		// check mysqli object
 		if(gettype($mysqli) !== "object"	||	get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
@@ -481,7 +481,7 @@ class Event{
 	 * @param Datetime $endDate	end date for search
 	 * @return array|object
 	 */
-	public function getEventByEventDateTime(&$mysqli, $startDate, $endDate)	{
+	public static function getEventByEventDateTime(&$mysqli, $startDate, $endDate)	{
 		// check mysqli object
 		if(gettype($mysqli) !== "object"	||	get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("input is not a mysqli object"));

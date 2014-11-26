@@ -220,14 +220,14 @@ class Barcode
 		}
 
 		// create query template
-		$query = "UPDATE barcode SET ticketId = ?";
+		$query = "UPDATE barcode SET ticketId = ? WHERE barcodeId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("i", $this->ticketId);
+		$wasClean = $statement->bind_param("ii", $this->ticketId, $this->barcodeId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}

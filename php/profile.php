@@ -363,10 +363,9 @@ class Profile
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
-		// sanitize the Profile before searching
-		if(($profileId = filter_var($profileId, FILTER_SANITIZE_NUMBER_INT)) == false) {
-			throw(new mysqli_sql_exception("Profile does not appear to be an integer"));
-		}
+		// sanitize the profileId before searching
+		$profileId = filter_var($profileId, FILTER_VALIDATE_INT);
+
 		// create query template
 		$query = "SELECT profileId, userId, firstName, lastName, dateOfBirth, gender FROM profile WHERE profileId = ?";
 		$statement = $mysqli->prepare($query);
