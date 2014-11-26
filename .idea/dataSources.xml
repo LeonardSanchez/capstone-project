@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3456137112">
+  <component name="DataSourceManagerImpl" format="xml" hash="3818614804">
     <data-source source="LOCAL" name="rgevents-dba" uuid="78751e0e-c5ba-45d2-ab05-fb54501a60c1">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
