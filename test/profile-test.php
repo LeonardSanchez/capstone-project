@@ -71,6 +71,7 @@ class ProfileTest extends unitTestCase {
 		$this->profile->insert($this->mysqli);
 
 		$tempDate = DateTime::createFromFormat('Y-m-d', $this->DATE_OF_BIRTH);
+		$tempDate->setTime(0, 0, 0);
 
 		// finally, compare the fields
 		$this->assertNotNull($this->profile->getProfileId());
@@ -99,6 +100,7 @@ class ProfileTest extends unitTestCase {
 		$this->profile->update($this->mysqli);
 
 		$tempDate = DateTime::createFromFormat('Y-m-d', $this->DATE_OF_BIRTH);
+		$tempDate->setTime(0, 0, 0);
 
 		//finally, compare the fields
 		$this->assertNotNull($this->profile->getProfileId());
@@ -149,6 +151,7 @@ class ProfileTest extends unitTestCase {
 		// 4th, get the profile using the static method
 		$staticProfile = Profile::getProfileByProfileId($this->mysqli, $this->profile->getProfileId());
 		$tempDate = DateTime::createFromFormat('Y-m-d', $this->DATE_OF_BIRTH);
+		$tempDate->setTime(0, 0, 0);
 
 		// finally, compare the fields
 		$this->assertNotNull($staticProfile->getProfileId());

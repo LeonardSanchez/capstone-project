@@ -212,6 +212,7 @@ class Profile
 		}
 		// finally, take the date out of quarantine
 		$newDateOfBirth = DateTime::createFromFormat("Y-m-d", $newDateOfBirth);
+		$newDateOfBirth->setTime(0, 0, 0);
 		$this->dateOfBirth = $newDateOfBirth;
 	}
 	/**

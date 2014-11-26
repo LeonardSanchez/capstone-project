@@ -285,14 +285,14 @@ class Transaction
 		}
 
 		// create query template
-		$query = "INSERT INTO transaction(amount, dateApproved, profileId, ticketId) VALUES(?, ?, ?, ?)";
+		$query = "INSERT INTO transaction(profileId, ticketId, amount, dateApproved) VALUES(?, ?, ?, ?)";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("dsii", $this->amount, $dateApproved, $this->profileId, $this->ticketId);
+		$wasClean = $statement->bind_param("iids", $this->profileId, $this->ticketId, $this->amount, $dateApproved);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -380,7 +380,7 @@ class Transaction
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("iidsi", $this->profileId, $this->transactionId, $this->amount, $dateApproved, $this->ticketId);
+		$wasClean = $statement->bind_param("iidsi", $this->profileId, $this->ticketId, $this->amount, $dateApproved, $this->transactionId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
