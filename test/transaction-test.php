@@ -61,7 +61,7 @@ class TransactionTest extends UnitTestCase {
 		$this->eventCategory = new EventCategory(null, "hip hop");
 		$this->eventCategory->insert($this->mysqli);
 
-		$this->event   = new Event(null, $this->eventCategory->getEventCategoryId(), $this->venue->getVenueId(), "First Show", 5.00, "2014-10-10 12:00:00");
+		$this->event   = new Event(null, $this->eventCategory->getEventCategoryId(), $this->venue->getVenueId(), "First Show", "2014-10-10 12:00:00", 5.00);
 		$this->event->insert($this->mysqli);
 
 		$this->ticket  = new Ticket(null, $this->profile->getProfileId(), $this->event->getEventId());
@@ -145,7 +145,7 @@ class TransactionTest extends UnitTestCase {
 		$this->transaction->insert($this->mysqli);
 
 		// update the transaction and post the changes to mySQL
-		$newAmount = "30.00";
+		$newAmount = 30.00;
 		$this->transaction->setAmount($newAmount);
 		$this->transaction->update($this->mysqli);
 
