@@ -40,7 +40,7 @@ class EventLinkTest extends UnitTestCase {
 		$this->eventCategory	= new EventCategory(null, "theatre");
 		$this->eventCategory->insert($this->mysqli);
 
-		$this->event	= new Event(null, $this->venue->getVenueId(), $this->eventCategory->getEventCategoryId(), "A Christmas Carol: Patrick Stewart One Man Show", "2014-12-19 12:30:00", 25.00);
+		$this->event	= new Event(null, $this->eventCategory->getEventCategoryId(), $this->venue->getVenueId(), "A Christmas Carol: Patrick Stewart One Man Show", "2014-12-19 12:30:00", 25.00);
 		$this->event->insert($this->mysqli);
 
 	}

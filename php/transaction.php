@@ -11,14 +11,6 @@ class Transaction
 	 **/
 	private $transactionId;
 	/**
-	 * the monetary amount for the transaction
-	 **/
-	private $amount;
-	/*
-	 * the date that the transaction was approved
-	 **/
-	private $dateApproved;
-	/**
 	 * the profile id links to the transaction class/table and is a foreign key
 	 **/
 	private $profileId;
@@ -26,6 +18,15 @@ class Transaction
 	 * the ticket id links to the transaction class and is a foreign key
 	 */
 	private $ticketId;
+	/**
+	 * the monetary amount for the transaction
+	 **/
+	private $amount;
+	/*
+	 * the date that the transaction was approved
+	 **/
+	private $dateApproved;
+
 
 	/**
 	 * constructor for the Transaction class
