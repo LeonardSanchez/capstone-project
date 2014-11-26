@@ -109,6 +109,12 @@ class EventLink	{
 		$this->eventId = $newEventId;
 	}
 
+	/**
+	 * inserts this eventLink to mySQL
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 **/
 	public function insert(&$mysqli)	{
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli")	{
