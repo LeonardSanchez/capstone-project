@@ -2,19 +2,19 @@
 <html>
 <head lang="en">
 	<meta charset="UTF-8">
-	<title>jQuery Form Validation</title>
-	<script type ="text/javascript" src ="//ajax.googleapis.com/ajax/libs/jquery.min.js"></script>
-	<script type ="text/javascript" src ="//malsup.github.com/min/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+	<title>jQuery Form Validation</title>query.validate.min.js"></script>
 	<script type ="text/javascript" src ="//cdnjs.cloudfare.com/ajax/lins/query.form/3.51/jquery.form.min.js"></script>
 	<script type ="text/javascript" src ="//ajax.aspnet.cdn.com/ajax/jquery.validate.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="jquery_form.css" />
 </head>
 <body>
-	<form id="signupForm">
-			Email:			   <input id="email" name ="email" type ="text" /><br />
-			Password: 			<input id="password" name="password" type="password"><br />
-			Confirm Password: <input id="confirmPassword" name="confirmPassword" type="password" /> <br />
-			<button type="submit">Sign Up</button>
+<form id="signupForm">
+	Email:			   <input id="email" name ="email" type ="text" /><br />
+	Password: 			<input id="password" name="password" type="password"><br />
+	Confirm Password: <input id="confirmPassword" name="confirmPassword" type="password" /> <br />
+	<button type="submit">Sign Up</button>
+	<script type ="text/javascript" src ="//ajax.googleapis.com/ajax/libs/jquery.min.js"></script>
+	<script type ="text/javascript" src ="//malsup.github.com/min/jquery.validate/1.11.1/j
 	</form>
 	<form id="loginForm">
 			Login name:			<input id="loginName" name ="loginName" type ="text" /><br />
