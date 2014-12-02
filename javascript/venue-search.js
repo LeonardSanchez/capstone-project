@@ -2,7 +2,7 @@
 $(document).ready(function()
 {
 	// setup the form validation
-	$("venueSearch").validate({
+	$("venueSearchForm").validate({
 		// debug option in jQuery's validator
 		debug: true,
 		// rules dictate what is (in)valid

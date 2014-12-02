@@ -689,30 +689,29 @@ class Venue
 		}
 
 		// get result from the SELECT query
-		$result = $statement->get_result();
-		if($result === false) {
+		$results = $statement->get_result();
+		if($results === false) {
 			throw(new mysqli_sql_exception("Unable to get result set"));
 		}
 
 		// since this is not a unique field, this can return many results. So...
 		// 1) if there's more than 1 result, we can make all into Venue objects
 		// 2) if there's no result, we can just return null
-		$row = $result->fetch_assoc(); // fetch_assoc returns a row as an associative array
+		//$row = $results->fetch_assoc(); // fetch_assoc returns a row as an associative array
 
 		// convert the associative array to a Venue
-		if($row !== null) {
-			try {
-				$venue = new Venue($row["venueId"], $row["venueName"], $row["venueCapacity"], $row["venuePhone"], $row["venueWebsite"], $row["venueAddress1"], $row["venueAddress2"], $row["venueCity"], $row["venueState"], $row["venueZipCode"]);
-			} catch(Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new mysqli_sql_exception("Unable to convert row to Venue", 0, $exception));
+		if ($results->num_rows > 0){
+			$results = $results->fetch_all(MYSQL_ASSOC);
+			if($results === false){
+				throw(new mysqli_sql_exception("Unable to get result set"));
 			}
+			foreach($results as $index => $row){
 
-			// if we got here, the venue is good - return it
-			return ($venue);
+				$results[$index] = new Venue($row["venueId"], $row["venueName"], $row["venueCapacity"], $row["venuePhone"], $row["venueWebsite"], $row["venueAddress1"], $row["venueAddress2"], $row["venueCity"], $row["venueState"], $row["venueZipCode"]);
+			}
+			return($results);
 		} else {
-			// 404 Venue not found - return null instead
-			return (null);
+			return(null);
 		}
 	}
 
@@ -756,30 +755,29 @@ class Venue
 		}
 
 		// get result from the SELECT query
-		$result = $statement->get_result();
-		if($result === false) {
+		$results = $statement->get_result();
+		if($results === false) {
 			throw(new mysqli_sql_exception("Unable to get result set"));
 		}
 
 		// since this is not a unique field, this can return many results. So...
 		// 1) if there's more than 1 result, we can make all into Venue objects
 		// 2) if there's no result, we can just return null
-		$row = $result->fetch_assoc(); // fetch_assoc returns a row as an associative array
+		// $row = $results->fetch_assoc(); // fetch_assoc returns a row as an associative array
 
 		// convert the associative array to a Venue
-		if($row !== null) {
-			try {
-				$venue = new Venue($row["venueId"], $row["venueName"], $row["venueCapacity"], $row["venuePhone"], $row["venueWebsite"], $row["venueAddress1"], $row["venueAddress2"], $row["venueCity"], $row["venueState"], $row["venueZipCode"]);
-			} catch(Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new mysqli_sql_exception("Unable to convert row to Venue", 0, $exception));
+		if ($results->num_rows > 0){
+			$results = $results->fetch_all(MYSQL_ASSOC);
+			if($results === false){
+				throw(new mysqli_sql_exception("Unable to get result set"));
 			}
+			foreach($results as $index => $row){
 
-			// if we got here, the venue is good - return it
-			return ($venue);
+				$results[$index] = new Venue($row["venueId"], $row["venueName"], $row["venueCapacity"], $row["venuePhone"], $row["venueWebsite"], $row["venueAddress1"], $row["venueAddress2"], $row["venueCity"], $row["venueState"], $row["venueZipCode"]);
+			}
+			return($results);
 		} else {
-			// 404 Venue not found - return null instead
-			return (null);
+			return(null);
 		}
 	}
 
@@ -823,30 +821,29 @@ class Venue
 		}
 
 		// get result from the SELECT query
-		$result = $statement->get_result();
-		if($result === false) {
+		$results = $statement->get_result();
+		if($results === false) {
 			throw(new mysqli_sql_exception("Unable to get result set"));
 		}
 
 		// since this is not a unique field, this can return many results. So...
 		// 1) if there's more than 1 result, we can make all into Venue objects
 		// 2) if there's no result, we can just return null
-		$row = $result->fetch_assoc(); // fetch_assoc returns a row as an associative array
+		// $row = $results->fetch_assoc(); // fetch_assoc returns rows as an associative array
 
 		// convert the associative array to a Venue
-		if($row !== null) {
-			try {
-				$venue = new Venue($row["venueId"], $row["venueName"], $row["venueCapacity"], $row["venuePhone"], $row["venueWebsite"], $row["venueAddress1"], $row["venueAddress2"], $row["venueCity"], $row["venueState"], $row["venueZipCode"]);
-			} catch(Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new mysqli_sql_exception("Unable to convert row to Venue", 0, $exception));
+		if ($results->num_rows > 0){
+			$results = $results->fetch_all(MYSQL_ASSOC);
+			if($results === false){
+				throw(new mysqli_sql_exception("Unable to get result set"));
 			}
+			foreach($results as $index => $row){
 
-			// if we got here, the venue is good - return it
-			return ($venue);
+				$results[$index] = new Venue($row["venueId"], $row["venueName"], $row["venueCapacity"], $row["venuePhone"], $row["venueWebsite"], $row["venueAddress1"], $row["venueAddress2"], $row["venueCity"], $row["venueState"], $row["venueZipCode"]);
+			}
+			return($results);
 		} else {
-			// 404 Venue not found - return null instead
-			return (null);
+			return(null);
 		}
 	}
 }
