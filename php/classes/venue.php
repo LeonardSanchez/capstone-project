@@ -661,7 +661,7 @@ class Venue
 	public static function getVenueByVenueCity(&$mysqli, $venueCity)
 	{
 		// handle degenerate cases
-		if(gettype($mysqli) !== "object" || get_class($mysqli !== "mysqli")) {
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 		// sanitize the Venue City before searching
@@ -726,7 +726,7 @@ class Venue
 	public static function getVenueByVenueState(&$mysqli, $venueState)
 	{
 		// handle degenerate cases
-		if(gettype($mysqli) !== "object" || get_class($mysqli !== "mysqli")) {
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
@@ -792,7 +792,7 @@ class Venue
 	public static function getVenueByVenueZipCode(&$mysqli, $venueZipCode)
 	{
 		// handle degenerate cases
-		if(gettype($mysqli) !== "object" || get_class($mysqli !== "mysqli")) {
+		if(gettype($mysqli) !== "object" || get_class($mysqli) !== "mysqli") {
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
