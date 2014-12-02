@@ -3,7 +3,7 @@
 require_once("/usr/lib/php5/simpletest/autorun.php");
 
 // then require the class under scrutiny
-require_once("../php/venue.php");
+require_once("../classes/venue.php");
 
 // require mySQLI
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
