@@ -2,7 +2,7 @@
 // TODO: ask Dylan if a session is needed for searching
 session_start();
 // TODO: set up the needed "require_once"s
-require_once("etc/apache2/");
+require_once("/etc/apache2/");
 // centralized mySQL configuration class
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 

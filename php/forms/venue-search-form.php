@@ -13,7 +13,7 @@
 		<script type="text/javascript" src="venue-search.js"></script>
 	</head>
 	<body>
-		<form id="venueSearchForm" method="get" action="venue-search-form-processor.php">
+		<form id="venueSearchForm" method="get" action="../../form-processors/venue-search-form-processor.php">
 			<label for="venue">Venue</label>
 			<input type="text" id="venue" name="venue" /><br />
 			<button id="search" type="submit">Search</button>
