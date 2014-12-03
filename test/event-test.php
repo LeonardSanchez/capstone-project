@@ -43,7 +43,7 @@ class EventTest extends UnitTestCase	{
 			"Albuquerque", "NM", "87102");
 		$this->venue->insert($this->mysqli);
 
-		$this->eventCategory = new EventCategory(null, "Folk Dubstep");
+		$this->eventCategory = new EventCategory(null, "Folk Dubstep", null);
 		$this->eventCategory->insert($this->mysqli);
 
 		// converting to DateTime object

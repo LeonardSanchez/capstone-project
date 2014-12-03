@@ -20,7 +20,7 @@ class EventCategoryTest extends UnitTestCase {
 
 	// a few "global" variables for creating test data
 	private $EVENT_CATEGORY	=  "Concert";
-	private $PARENT_CATEGORY = 12;
+	private $PARENT_CATEGORY = null;
 
 	// setUp() is a method that is run before each test
 	// connect to mySQL

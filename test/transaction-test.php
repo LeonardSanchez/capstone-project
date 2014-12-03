@@ -58,7 +58,7 @@ class TransactionTest extends UnitTestCase {
 		$this->venue   = new Venue(null, "Sister Bar", 15, "505-550-1111", "http://www.sisterbar.com", "515 Central ave. SE", "blah", "Albuquerque", "NM", "87106");
 		$this->venue->insert($this->mysqli);
 
-		$this->eventCategory = new EventCategory(null, "hip hop");
+		$this->eventCategory = new EventCategory(null, "hip hop", null);
 		$this->eventCategory->insert($this->mysqli);
 
 		$this->event   = new Event(null, $this->eventCategory->getEventCategoryId(), $this->venue->getVenueId(), "First Show", "2014-10-10 12:00:00", 5.00);

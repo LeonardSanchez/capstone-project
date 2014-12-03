@@ -50,7 +50,7 @@ class TicketTest extends UnitTestCase {
 		$this->venue	= new Venue(null, "The Place To Be", 500, "505-765-4321", "http://www.theplacetobe.com", "456 First Ave", null, "Albuquerque", "NM", "87109");
 		$this->venue->insert($this->mysqli);
 
-		$this->eventCategory	= new EventCategory(null, "concert");
+		$this->eventCategory	= new EventCategory(null, "concert", null);
 		$this->eventCategory->insert($this->mysqli);
 
 		$this->event	= new Event(null, $this->eventCategory->getEventCategoryId(), $this->venue->getVenueId(), "Creedence Clearwater Revival", "2014-12-12 12:00:00", 25.00);

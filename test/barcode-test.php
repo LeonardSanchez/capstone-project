@@ -56,7 +56,7 @@ class BarcodeTest extends UnitTestCase {
 		$this->venue = new Venue(null, "SunshineTheater", 10, "505-505-5055", "http://www.sunshine.com", "128 Central ave", "Apt 212", "Albuquerque", "NM", "87108");
 		$this->venue->insert($this->mysqli);
 
-		$this->eventCategory = new EventCategory(null, "rock");
+		$this->eventCategory = new EventCategory(null, "rock", null);
 		$this->eventCategory->insert($this->mysqli);
 
 		$this->event = new Event(null, $this->eventCategory->getEventCategoryId(), $this->venue->getVenueId(), "New Event", "2014-01-01 07:07:07", 17.00);
