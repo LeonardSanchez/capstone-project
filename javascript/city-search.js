@@ -2,7 +2,7 @@
 $(document).ready(function() {
 
 	// setup the form validation
-	$("citySearchForm").validate({
+	$("#citySearchForm").validate({
 		// debug option in jQuery's validator
 		debug: true,
 		// rules that dictate what is (in)valid
@@ -25,10 +25,10 @@ $(document).ready(function() {
 				type: "GET",
 				url: "city-search.php",
 				success: function(ajaxOutput) {
-					$("outputArea").html(ajaxOutput);
+					$("#outputArea").html(ajaxOutput);
 				}
 			});
 		}
 	})
-});
+}) ;
 

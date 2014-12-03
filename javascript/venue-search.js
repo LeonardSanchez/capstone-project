@@ -2,7 +2,7 @@
 $(document).ready(function()
 {
 	// setup the form validation
-	$("venueSearchForm").validate({
+	$("#venueSearchForm").validate({
 		// debug option in jQuery's validator
 		debug: true,
 		// rules dictate what is (in)valid
@@ -25,7 +25,7 @@ $(document).ready(function()
 					url: "venue-search-form.php",
 					data: $(form).serialize(),
 					success: function(ajaxOutput) {
-						$("outputArea").html(ajaxOutput);
+						$("#outputArea").html(ajaxOutput);
 					}
 				});
 		}
