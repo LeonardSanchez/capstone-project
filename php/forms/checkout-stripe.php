@@ -16,8 +16,8 @@
 			src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 			data-key="pk_test_zqXDIk9h00Tk0kLxXw0UrENB"
 			data-amount="2000"
-			data-name="Demo Site"
-			data-description="2 widgets ($20.00)"
+			data-name="RG Events"
+			data-description="Test Ticket"
 			data-image="/128x128.png">
 		</script>
 	</form>
