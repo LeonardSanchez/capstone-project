@@ -20,6 +20,7 @@ class EventCategoryTest extends UnitTestCase {
 
 	// a few "global" variables for creating test data
 	private $EVENT_CATEGORY	=  "Concert";
+	private $PARENT_CATEGORY = 12;
 
 	// setUp() is a method that is run before each test
 	// connect to mySQL
@@ -43,7 +44,7 @@ class EventCategoryTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// second, create a venue to post to mySQL
-		$this->eventCategory = new EventCategory(null, $this->EVENT_CATEGORY);
+		$this->eventCategory = new EventCategory(null, $this->EVENT_CATEGORY, $this->PARENT_CATEGORY);
 
 		// third, insert the eventCategory to mySQL
 		$this->eventCategory->insert($this->mysqli);
@@ -52,6 +53,7 @@ class EventCategoryTest extends UnitTestCase {
 		$this->assertNotNull($this->eventCategory->getEventCategoryId());
 		$this->assertTrue($this->eventCategory->getEventCategoryId() > 0);
 		$this->assertIdentical($this->eventCategory->getEventCategory(),		$this->EVENT_CATEGORY);
+		$this->assertIdentical($this->eventCategory->getParentCategory(),		$this->PARENT_CATEGORY);
 	}
 
 	// test updating an EventCategory to post to mySQL
@@ -60,13 +62,13 @@ class EventCategoryTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// second, create an eventCategory to post to mySQL
-		$this->eventCategory = new EventCategory(null, $this->EVENT_CATEGORY);
+		$this->eventCategory = new EventCategory(null, $this->EVENT_CATEGORY, $this->PARENT_CATEGORY);
 
 		// third, insert the eventCategory to mySQL
 		$this->eventCategory->insert($this->mysqli);
 
 		// fourth, update the eventCategory and post the changes to mySQL
-		$newEventCategory = "Sporting";
+		$newEventCategory = "Sports";
 		$this->eventCategory->setEventCategory($newEventCategory);
 		$this->eventCategory->update($this->mysqli);
 
@@ -74,6 +76,7 @@ class EventCategoryTest extends UnitTestCase {
 		$this->assertNotNull($this->eventCategory->getEventCategoryId());
 		$this->assertTrue($this->eventCategory->getEventCategoryId() > 0);
 		$this->assertIdentical($this->eventCategory->getEventCategory(),		$newEventCategory);
+		$this->assertIdentical($this->eventCategory->getParentCategory(),		$this->PARENT_CATEGORY);
 	}
 
 	// test deleting an EventCategory
@@ -82,7 +85,7 @@ class EventCategoryTest extends UnitTestCase {
 		$this->assertNotNull($this->mysqli);
 
 		// second, create an eventCategory to post to mySQL
-		$this->eventCategory = new EventCategory(null, $this->EVENT_CATEGORY);
+		$this->eventCategory = new EventCategory(null, $this->EVENT_CATEGORY, $this->PARENT_CATEGORY);
 
 		// third, insert the eventCategory to mySQL
 		$this->eventCategory->insert($this->mysqli);
@@ -100,13 +103,34 @@ class EventCategoryTest extends UnitTestCase {
 		$this->assertNull($hopefulEventCategory);
 	}
 
+	// test grabbing an eventCategoryId from mySQL
+	public function testGetEventCategoryByEventCategoryId() {
+		// first, verify mySQL connected OK
+		$this->assertNotNull($this->mysqli);
+
+		// second, create an eventCategory to post to mySQL
+		$this->eventCategory = new EventCategory(null, $this->EVENT_CATEGORY, $this->PARENT_CATEGORY);
+
+		// third, insert the eventCategory to mySQL
+		$this->eventCategory->insert($this->mysqli);
+
+		// fourth, get the eventCategory using the static method
+		$staticEventCategory = EventCategory::getEventCategoryByEventCategoryId($this->mysqli, $this->eventCategory-getEventCategoryId);
+
+		// finally, compare the fields
+		$this->assertNotNull($staticEventCategory->getEventCategoryId());
+		$this->assertTrue($staticEventCategory->getEventCategoryId() > 0);
+		$this->assertIdentical($staticEventCategory->getEventCategory(),			$this->EVENT_CATEGORY);
+		$this->assertIdentical($staticEventCategory->getParentCategory(),			$this->PARENT_CATEGORY);
+	}
+
 	// test grabbing an eventCategory from mySQL
 	public function testGetEventCategoryByEventCategory() {
 		// first, verify mySQL connected OK
 		$this->assertNotNull($this->mysqli);
 
 		// second, create an eventCategory to post to mySQL
-		$this->eventCategory = new EventCategory(null, $this->EVENT_CATEGORY);
+		$this->eventCategory = new EventCategory(null, $this->EVENT_CATEGORY, $this->PARENT_CATEGORY);
 
 		// third, insert the eventCategory to mySQL
 		$this->eventCategory->insert($this->mysqli);
@@ -118,6 +142,9 @@ class EventCategoryTest extends UnitTestCase {
 		$this->assertNotNull($staticEventCategory->getEventCategoryId());
 		$this->assertTrue($staticEventCategory->getEventCategoryId() > 0);
 		$this->assertIdentical($staticEventCategory->getEventCategory(),			$this->EVENT_CATEGORY);
+		$this->assertIdentical($staticEventCategory->getParentCategory(),			$this->PARENT_CATEGORY);
 	}
+
+	// test grabbing an
 
 }

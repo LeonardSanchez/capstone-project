@@ -133,7 +133,7 @@ private $parentCategory;
 
 		// second, convert the parentCategory to an integer and enforce it's positive
 		$newParentCategory = intval($newParentCategory);
-		if($newParentCategory <=0) {
+		if($newParentCategory <= 0) {
 			throw(new RangeException("parentCategory $newParentCategory is not positive"));
 		}
 
