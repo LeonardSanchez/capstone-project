@@ -20,7 +20,6 @@ $events = Event::getEventByEventName($mysqli, $eventName);
 /**
  * return the result set to the user
  */
-var_dump($events);
 $resultCount = count($events);
 for($i = 0; $i < $resultCount; $i++)	{
 	$event = $events[$i];
@@ -34,8 +33,8 @@ for($i = 0; $i < $resultCount; $i++)	{
 	$venue = Venue::getVenueByVenueId($mysqli,$venueId);
 	// display results
 	echo "<p><strong>" . $event->getEventName() . "</strong><br/>" .
-		$eventCategory->getEventCategory()	.	"<br/>"	.
+		//$eventCategory->getEventCategory()	.	"<br/>"	.
 		$venue->getVenueName()	.	"<br/>"	.
-		$event->getEventDateTime()	.	"<br/>"	.
+		$event->getEventDateTime()->format("m-d-Y H:i")	.	"<br/>$"	.
 		$event->getTicketPrice() 	.	"</p>";
 }
