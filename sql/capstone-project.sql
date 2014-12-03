@@ -54,7 +54,9 @@ CREATE TABLE eventCategory(
 	-- PRIMARY KEY
 	eventCategoryId INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	-- not indexing because it will be searched by eventCategoryId
-	eventCategory VARCHAR(50),
+	eventCategory VARCHAR(50) NOT NULL,
+	parentCategory INT NULL,
+
 	PRIMARY KEY(eventCategoryId)
 );
 

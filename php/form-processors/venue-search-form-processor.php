@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // require the needed class to run search against
 require_once("../classes/venue.php");
 
