@@ -14,6 +14,10 @@ private $eventCategoryId;
 	 * eventCategory for eventCategory
 	 */
 private $eventCategory;
+	/**
+	 * parentCategory for eventCategory; can be null
+	 */
+private $parentCategory;
 
 
 	/**
@@ -21,10 +25,11 @@ private $eventCategory;
 	 * @param mixed $newEventCategoryId event category id (or null if new object)
 	 * @param string $newEventCategory event category
 	 */
-	public function __construct($newEventCategoryId, $newEventCategory)	{
+	public function __construct($newEventCategoryId, $newEventCategory, $newParentCategory)	{
 		try	{
 			$this->setEventCategoryId($newEventCategoryId);
 			$this->setEventCategory($newEventCategory);
+			$this->setParentCategory($newParentCategory);
 		}
 		catch(UnexpectedValueException $unexpectedValue)	{
 			// rethrow to the caller
@@ -83,7 +88,7 @@ private $eventCategory;
 	/**
 	 * sets the value of event category
 	 * @param  string $newEventCategory event category
-	 * @throws UnexpectedValueException if the input doesn't appear to be a event category string
+	 * @throws UnexpectedValueException if the input doesn't appear to be an event category string
 	 */
 	public function setEventCategory($newEventCategory)	{
 		// zeroth, set allow the event category to be null if new object
@@ -99,6 +104,41 @@ private $eventCategory;
 
 		// finally, take the event category out of quarantine and assign it
 		$this->eventCategory = $newEventCategory;
+	}
+
+	/**
+	 * get the value of parent category
+	 * @return int value of parent category
+	 */
+	public function getParentCategory() {
+		return($this->parentCategory);
+	}
+
+	/**
+	 * sets the value of parent category
+	 * @param int $newParentCategory parent category
+	 * @throws UnexpectedValueException if the input doesn't appear to be a parent category int
+	 */
+	public function setParentCategory($newParentCategory) {
+		// zeroth, set allow the parent category to be null if it is a parent category
+		if($newParentCategory === null) {
+			$this->parentCategory = null;
+			return;
+		}
+
+		// first, ensure the parent category is an integer
+		if(filter_var($newParentCategory, FILTER_VALIDATE_INT) === false) {
+			throw(new UnexpectedValueException("parentCategory $newParentCategory is not numeric"));
+		}
+
+		// second, convert the parentCategory to an integer and enforce it's positive
+		$newParentCategory = intval($newParentCategory);
+		if($newParentCategory <=0) {
+			throw(new RangeException("parentCategory $newParentCategory is not positive"));
+		}
+
+		// finally, take the parentCategory out of quarantine
+		$this->parentCategory = $newParentCategory;
 	}
 
 	/**
@@ -120,14 +160,14 @@ private $eventCategory;
 		}
 
 		// create query template
-		$query = "INSERT INTO eventCategory(eventCategory) VALUES(?)";
+		$query = "INSERT INTO eventCategory(eventCategory, parentCategory) VALUES(?, ?)";
 		$statement = $mysqli->prepare($query);
 		if($statement === false)	{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("s", $this->eventCategory);
+		$wasClean = $statement->bind_param("si", $this->eventCategory, $this->parentCategory);
 		if($wasClean === false)	{
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -197,7 +237,7 @@ private $eventCategory;
 
 
 		// create query template
-		$query = "UPDATE eventCategory SET eventCategory = ?";
+		$query = "UPDATE eventCategory SET eventCategory = ?, parentCategory = ? WHERE eventCategoryId = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false)	{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -205,7 +245,7 @@ private $eventCategory;
 
 
 		// bind member variables to the place holders in the template
-		$wasClean = $statement->bind_param("s", $this->eventCategory);
+		$wasClean = $statement->bind_param("sii", $this->eventCategory, $this->parentCategory, $this->eventCategoryId);
 		if($wasClean === false)	{
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -217,11 +257,76 @@ private $eventCategory;
 	}
 
 	/**
+	 * gets the EventCategory by EventCategoryId
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @param mixed $eventCategoryId Event Category Id to search for
+	 * @return array|null
+	 * @return EventCategory found or null if not found
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 */
+	public static function getEventCategoryByEventCategoryId(&$mysqli, $eventCategoryId){
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object" | get_class($mysqli) !== "mysqli") {
+			throw(new mysqli_sql_exception("Input is not a mysqli object"));
+		}
+
+		// sanitize the eventCategoryId before searching
+		if($eventCategoryId = filter_var($eventCategoryId, FILTER_VALIDATE_INT) == false) {
+			throw(new mysqli_sql_exception("Event Category does not appear to be an integer"));
+		}
+
+		// create query template
+		$query = "SELECT eventCategoryId, eventCategory, parentCategory FROM eventCategory WHERE eventCategoryId = ?";
+		$statement = $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind the member variables to the place holder in the template
+		$wasClean = $statement->bind_param("i", $eventCategoryId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute statement"));
+		}
+
+		// get result from the SELECT query *pounds fists*
+		$result = $statement->get_result();
+		if($result === false) {
+			throw(new mysqli_sql_exception("Unable to get result set"));
+		}
+
+		// since this is a primary key, this will only return 0 or 1 results. So...
+		// 1) if there's a result, we can make it into an Event Category object normally
+		// 2) if there's no result, we can just return null
+		$row = $result->fetch_assoc(); // fetch_assoc returns a row as an associative array
+
+		// convert the associative array to an Event Category
+		if($row !== null) {
+			try {
+				$eventCategory = new EventCategory($row["eventCategoryId"], $row["eventCategory"], $row["parentCategory"]);
+			} catch(Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new mysqli_sql_exception("Unable to convert row to Event Category", 0, $exception));
+			}
+
+			// if we got here, the Event Category is good - return it
+			return ($eventCategory);
+		} else {
+			// 404 venue not found - return null instead
+			return (null);
+		}
+	}
+
+
+	/**
 	 * gets the EventCategory by EventCategory
 	 *
-	 * @param resour
-	 *
-	 * ce $mysqli pointer to mySQL connection, by reference
+	 * @param resource $mysqli pointer to mySQL connection, by reference
 	 * @param string $eventCategory Event Category to search for
 	 * @return array|null
 	 * @return EventCategory found or null if not found
@@ -238,7 +343,7 @@ private $eventCategory;
 		$eventCategory = filter_var($eventCategory, FILTER_SANITIZE_STRING);
 
 		// create query template
-		$query = "SELECT eventCategoryId, eventCategory FROM eventCategory WHERE eventCategory = ?";
+		$query = "SELECT eventCategoryId, eventCategory, parentCategory FROM eventCategory WHERE eventCategory = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false)	{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
@@ -256,32 +361,205 @@ private $eventCategory;
 		}
 
 		// get result from the SELECT query
-		$result = $statement->get_result();
-		if($result === false)	{
+		$results = $statement->get_result();
+		if($results === false)	{
 			throw(new mysqli_sql_exception("Unable to get result set"));
 		}
-
-		// create an array to return all instances of search match
-		$eventCategories = array();
-		while(($row = $result->fetch_assoc()) !== null)	{
-			try	{
-				$eventCategory = new EventCategory($row["eventCategoryId"], $row["eventCategory"]);
-				$eventCategories[]	=	$eventCategory;
+		// since this is not a unique field, this can return many results. So...
+		// 1) if there's more than 1 result, we can make all into Event Category objects
+		// 2) if there's no result, we can just return null
+		if($results->num_rows > 0) {
+			$results = $results->fetch_all(MYSQLI_ASSOC);
+			if($results === false) {
+				throw(new mysqli_sql_exception("Unable to get result set"));
 			}
-			catch(Exception $exception)	{
-				// if the row couldn't be converted, rethrow it
-				throw(new mysqli_sql_exception("Unable to convert row to eventCategory", 0, $exception));
+			foreach($results as $index => $row) {
+				$results[$index] = new EventCategory($row["eventCategoryId"], $row["eventCategory"], $row["parentCategory"]);
 			}
+			return($results);
+		} else {
+			return(null);
 		}
 
-		// get the count of number of matches from array
-		$numberOfEventCategories = count($eventCategories);
-		if($numberOfEventCategories === 0)	{
+	}
+
+	/**
+	 * gets Event Category by Parent Category
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @param int $parentCategory Parent Category to search by
+	 * @return array | null
+	 * @return EventCategory found or null if not found
+	 * @throws mysqli_sql_exception when mySQL related errors occur
+	 */
+	public static function getEventCategoryByParentCategory(&$mysqli, $parentCategory) {
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object"	|| get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("Input is not a mysqli object"));
+		}
+
+		// sanitize the Parent Category before searching
+		if($parentCategory = filter_var($parentCategory, FILTER_VALIDATE_INT) == false) {
+			throw(new mysqli_sql_exception("Parent Category does not appear to be an integer"));
+		}
+
+		// create query template
+		$query = "SELECT eventCategoryId, eventCategory, parentCategory FROM eventCategory WHERE parentCategory = ?";
+		$statement = $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare query"));
+		}
+
+		// bind member variables to the place holder in the statement
+		$wasClean = $statement->bind_param("i", $parentCategory);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute statement"));
+		}
+
+		// get result from the SELECT query
+		$results = $statement->get_result();
+		if($results === false)	{
+			throw(new mysqli_sql_exception("Unable to get result set"));
+		}
+		// since this is not a unique field, this can return many results. So...
+		// 1) if there's more than 1 result, we can make all into Event Category objects
+		// 2) if there's no result, we can just return null
+		if($results->num_rows > 0) {
+			$results = $results->fetch_all(MYSQLI_ASSOC);
+			if($results === false) {
+				throw(new mysqli_sql_exception("Unable to get result set"));
+			}
+			foreach($results as $index => $row) {
+				$results[$index] = new EventCategory($row["eventCategoryId"], $row["eventCategory"], $row["parentCategory"]);
+			}
+			return($results);
+		} else {
 			return(null);
-		} else if($numberOfEventCategories === 1){
-			return($eventCategories[0]);
-		}	else	{
-			return($eventCategories);
+		}
+	}
+
+	/**
+	 * get Event Category by All Parent Categories
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @param int $parentCategory Parent Category search by all values equivalent to null
+	 * @return array | null
+	 * @return Event Category found or null if not found
+	 * @throw mysqli_sql_exception when mySQL related errors occur
+	 */
+	public static function getEventCategoryByAllParentEvents(&$mysqli, $parentCategory) {
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object"	|| get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("Input is not a mysqli object"));
+		}
+
+		// sanitize the Parent Category before searching
+		if($parentCategory = filter_var($parentCategory, FILTER_VALIDATE_INT) == false) {
+			throw(new mysqli_sql_exception("Parent Category does not appear to be an integer"));
+		}
+
+		// create query template
+		$query = "SELECT eventCategoryId, eventCategory, parentCategory FROM eventCategory WHERE parentCategory === null";
+		$statement = $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind member variables to the place holder in the statement
+		$wasClean = $statement->bind_param("i", $parentCategory);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute statement"));
+		}
+
+		// get result from the SELECT query
+		$results = $statement->get_result();
+		if($results === false)	{
+			throw(new mysqli_sql_exception("Unable to get result set"));
+		}
+		// since this is not a unique field, this can return many results. So...
+		// 1) if there's more than 1 result, we can make all into Event Category objects
+		// 2) if there's no result, we can just return null
+		if($results->num_rows > 0) {
+			$results = $results->fetch_all(MYSQLI_ASSOC);
+			if($results === false) {
+				throw(new mysqli_sql_exception("Unable to get result set"));
+			}
+			foreach($results as $index => $row) {
+				$results[$index] = new EventCategory($row["eventCategoryId"], $row["eventCategory"], $row["parentCategory"]);
+			}
+			return($results);
+		} else {
+			return(null);
+		}
+	}
+
+	/**
+	 * gets Event Category by All Children of Parent Categories
+	 *
+	 * @param resource $mysqli pointer to mySQL connection, by reference
+	 * @param mixed eventCategoryId Event Category Id where it equals itself
+	 * @return array | null
+	 * @return Event Category found or null if not found
+	 * @throw mysqli_sql_exception when mySQL related errors occur
+	 */
+	public static function GetEventCategoryByAllChildEvents(&$mysqli, $eventCategoryId) {
+		// handle degenerate cases
+		if(gettype($mysqli) !== "object"	|| get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("Input is not a mysqli object"));
+		}
+
+		// sanitize the eventCategoryId before searching
+		if($eventCategoryId = filter_var($eventCategoryId, FILTER_VALIDATE_INT) == false) {
+			throw(new mysqli_sql_exception("Event Category does not appear to be an integer"));
+		}
+
+		// create query template
+		$query = "SELECT eventCategoryId, eventCategory, parentCategory FROM eventCategory WHERE eventCategoryId = $eventCategoryId";
+		$statement = $mysqli->prepare($query);
+		if($statement === false) {
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind member variables to the place holders in template
+		$wasClean = $statement->bind_param("i", $eventCategoryId);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute the statement
+		if($statement->execute() === false) {
+			throw(new mysqli_sql_exception("Unable to execute the statement"));
+		}
+
+		// get result from the SELECT query
+		$results = $statement->get_result();
+		if($results === false)	{
+			throw(new mysqli_sql_exception("Unable to get result set"));
+		}
+		// since this is not a unique field, this can return many results. So...
+		// 1) if there's more than 1 result, we can make all into Event Category objects
+		// 2) if there's no result, we can just return null
+		if($results->num_rows > 0) {
+			$results = $results->fetch_all(MYSQLI_ASSOC);
+			if($results === false) {
+				throw(new mysqli_sql_exception("Unable to get result set"));
+			}
+			foreach($results as $index => $row) {
+				$results[$index] = new EventCategory($row["eventCategoryId"], $row["eventCategory"], $row["parentCategory"]);
+			}
+			return($results);
+		} else {
+			return(null);
 		}
 	}
 }
