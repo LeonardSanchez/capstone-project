@@ -1,24 +1,34 @@
 <?php
-
-// require the needed class to run search against
-require_once("../php/classes/venue.php");
-// require mySQLI
+// TODO: ask Dylan if a session is needed for searching
+session_start();
+// TODO: set up the needed "require_once"s
+require_once("/etc/apache2/");
+// centralized mySQL configuration class
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
-$mysqli = MysqliConfiguration::getMysqli();
 
-// use filter_input to sanitize the venue name
-$venueName = filter_input(INPUT_GET, 'venue', FILTER_SANITIZE_STRING);
-// once sanitized, the variable is ready to go
+// variable to hold the mySQL connection
+private $mysqli = null;
 
-// third, grab the mySQL data
-$venues = Venue::getVenueByVenueName($mysqli, $venueName);
+try {
+	// verify the form was submitted OK
+	if(@isset($_GET["venueName"]) === false) {
+		throw(new RuntimeException("Form variables incomplete or missing"));
+	}
 
-// the obvious solution: use a foreach loop!
-foreach($venues as $venue) {
-	echo 	"<p><strong>" . $venue->getVenueName() . "</strong><br />" .
-			$venue->getVenueAddress1() . "<br />" .
-			$venue->getVenueAddress2() . "<br />" .
-			$venue->getVenueCity() . ", " . $venue->getVenueState() . " " . $venue->getVenueZipCode() . "<br />" .
-			$venue->getVenuePhone() . "</p>";
+	//connect to mySQL
+	$this->mysqli = MysqliConfiguration::getMysqli();
+
+	if ($statement = $mysqli->prepare("SELECT venueName, venueCapacity, venuePhone, venueWebsite, venueAddress1, venueAddress2, venueCity, venueState, venueZipCode")) {
+		$statement->bind_results($venNameArray);
+		$OK = $statement->execute();
+	}
+	// put all of the resulting fields into a PHP array
+	$result_array = MyArray();
+	while($statement->fetch_assoc()) {
+		$result_array[] = $venNameArray;
+	}
+	// convert the PHP array into JSON format, so it works with javascript
+	$json_array = json_encode($result_array);
 }
+
 ?>
