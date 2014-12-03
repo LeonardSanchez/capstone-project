@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
    <head lang="en">
@@ -11,8 +14,19 @@
       <link rel="stylesheet" type="text/css" />
    </head>
    <body>
-      <form id="shoppingCart">
-         Ticket Quantity: <input id="quantity" name="quantity" type="integer" /><br />
+      <form id="shoppingCart" action="transaction.php" method="POST">
+         Ticket Quantity:<select>
+									 <option>1</option>
+									 <option>2</option>
+									 <option>3</option>
+									 <option>4</option>
+									 <option>5</option>
+									 <option>6</option>
+									 <option>7</option>
+									 <option>8</option>
+									 <option>9</option>
+									 <option>10</option>
+								 </select> <input id="quantity" name="quantity" type="integer" /><br />
          <button type="button">Empty Cart</button>
          <button type="button">Update Cart</button>
          <button type="button">Continue Shopping</button>

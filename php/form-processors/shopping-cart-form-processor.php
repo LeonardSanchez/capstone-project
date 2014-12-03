@@ -6,5 +6,8 @@
  *
  * Created by Brendan Slevin
  */
+session_start();
+// require the event class to get the event data including the event/ticket price
+require_once("../classes/event.php");
 
 ?>
