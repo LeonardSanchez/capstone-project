@@ -17,5 +17,5 @@ $(document).ready(function()
 		messages: {
 			venue: "Please enter a Venue to search by"
 			}
-	})
+	});
 })

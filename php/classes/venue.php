@@ -604,13 +604,14 @@ class Venue
 		}
 
 		// create query template
-		$query = "SELECT venueId, venueName, venueCapacity, venuePhone, venueWebsite, venueAddress1, venueAddress2, venueCity, venueState, venueZipCode FROM venue WHERE venueName = ?";
+		$query = "SELECT venueId, venueName, venueCapacity, venuePhone, venueWebsite, venueAddress1, venueAddress2, venueCity, venueState, venueZipCode FROM venue WHERE venueName LIKE ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the venueName to the place holder in the template
+		$venueName = "%$venueName%";
 		$wasClean = $statement->bind_param("s", $venueName);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
