@@ -9,13 +9,13 @@
 require_once("/usr/lib/php5/simpletest/autorun.php");
 
 // next, require the class to be tested
-require_once("../php/user.php");
-require_once("../php/profile.php");
-require_once("../php/venue.php");
-require_once("../php/event.php");
-require_once("../php/event-category.php");
-require_once("../php/ticket.php");
-require_once("../php/transaction.php");
+require_once("../php/classes/user.php");
+require_once("../php/classes/profile.php");
+require_once("../php/classes/venue.php");
+require_once("../php/classes/event.php");
+require_once("../php/classes/event-category.php");
+require_once("../php/classes/ticket.php");
+require_once("../php/classes/transaction.php");
 
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 

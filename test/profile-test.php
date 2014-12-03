@@ -3,10 +3,10 @@
 require_once("/usr/lib/php5/simpletest/autorun.php");
 
 // then require the class in question
-require_once("../php/profile.php");
+require_once("../php/classes/profile.php");
 
 // require the classes for poor man's dependency injection
-require_once("../php/user.php");
+require_once("../php/classes/user.php");
 
 // require mySQLI
 require_once("/etc/apache2/capstone-mysql/rgevents.php");

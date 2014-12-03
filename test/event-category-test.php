@@ -6,7 +6,7 @@
 require_once("/usr/lib/php5/simpletest/autorun.php");
 
 // then require the class under scrutiny
-require_once("../php/event-category.php");
+require_once("../php/classes/event-category.php");
 
 // require mySQLI
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
