@@ -115,7 +115,7 @@ class EventCategoryTest extends UnitTestCase {
 		$this->eventCategory->insert($this->mysqli);
 
 		// fourth, get the eventCategory using the static method
-		$staticEventCategory = EventCategory::getEventCategoryByEventCategoryId($this->mysqli, $this->eventCategory-getEventCategoryId);
+		$staticEventCategory = EventCategory::getEventCategoryByEventCategoryId($this->mysqli, $this->eventCategory->getEventCategoryId());
 
 		// finally, compare the fields
 		$this->assertNotNull($staticEventCategory->getEventCategoryId());
@@ -157,13 +157,13 @@ class EventCategoryTest extends UnitTestCase {
 		$this->eventCategory->insert($this->mysqli);
 
 		// fourth, get the eventCategory using the static method
-		$staticEventCategory = EventCategory::getEventCategoryByParentCategory($this->mysqli, $this->PARENT_CATEGORY);
+		$EventCategory = $this->eventCategory->getEventCategoryByParentCategory($this->mysqli);
 
 		// finally, compare the fields
-		$this->assertNotNull($staticEventCategory->getEventCategoryId());
-		$this->assertTrue($staticEventCategory->getEventCategoryId() > 0);
-		$this->assertIdentical($staticEventCategory->getEventCategory(),			$this->EVENT_CATEGORY);
-		$this->assertIdentical($staticEventCategory->getParentCategory(),			$this->PARENT_CATEGORY);
+		$this->assertNotNull($EventCategory->getEventCategoryId());
+		$this->assertTrue($EventCategory->getEventCategoryId() > 0);
+		$this->assertIdentical($EventCategory->getEventCategory(),			$this->EVENT_CATEGORY);
+		$this->assertIdentical($EventCategory->getParentCategory(),			$this->PARENT_CATEGORY);
 	}
 
 	// test grabbing an eventCategory that are Parent events from mySQL
@@ -178,13 +178,13 @@ class EventCategoryTest extends UnitTestCase {
 		$this->eventCategory->insert($this->mysqli);
 
 		// fourth, get the eventCategory by the static method
-		$staticEventCategory = EventCategory::getEventCategoryByAllParentEvents($this->mysqli, $this->PARENT_CATEGORY === null);
+		$staticEventCategory = EventCategory::getEventCategoryByAllParentEvents($this->mysqli);
 
 		// finally, compare the fields
 		$this->assertNotNull($staticEventCategory->getEventCategoryId());
 		$this->assertTrue($staticEventCategory->getEventCategoryId() > 0);
 		$this->assertIdentical($staticEventCategory->getEventCategory(),			$this->EVENT_CATEGORY);
-		$this->assertIdentical($staticEventCategory->getParentCategory(),			$this->PARENT_CATEGORY);
+		$this->assertNull($staticEventCategory->getParentCategory());
 	}
 
 	// test grabbing an Event Category that is a Child of another Event Category from mySQL
@@ -199,13 +199,13 @@ class EventCategoryTest extends UnitTestCase {
 		$this->eventCategory->insert($this->mysqli);
 
 		// fourth, get the eventCategory using the static method
-		$staticEventCategory = EventCategory::GetEventCategoryByAllChildEvents($this->mysqli, $this->PARENT_CATEGORY = $this->eventCategory->getEventCategoryId());
+		$EventCategory = $this->eventCategory->getEventCategoryByAllChildEvents($this->mysqli);
 
 		// finally, compare the fields
-		$this->assertNotNull($staticEventCategory->getEventCategoryId());
-		$this->assertTrue($staticEventCategory->getEventCategoryId() > 0);
-		$this->assertIdentical($staticEventCategory->getEventCategory(),			$this->EVENT_CATEGORY);
-		$this->assertIdentical($staticEventCategory->getParentCategory(),			$this->PARENT_CATEGORY);
+		$this->assertNotNull($EventCategory->getEventCategoryId());
+		$this->assertTrue($EventCategory->getEventCategoryId() > 0);
+		$this->assertIdentical($EventCategory->getEventCategory(),			$this->EVENT_CATEGORY);
+		$this->assertNotNull($EventCategory->getParentCategory());
 	}
 
 }

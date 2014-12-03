@@ -392,15 +392,15 @@ private $parentCategory;
 	 * @return EventCategory found or null if not found
 	 * @throws mysqli_sql_exception when mySQL related errors occur
 	 */
-	public static function getEventCategoryByParentCategory(&$mysqli, $parentCategory) {
+	public function getEventCategoryByParentCategory(&$mysqli) {
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object"	|| get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("Input is not a mysqli object"));
 		}
 
-		// sanitize the Parent Category before searching
-		if($parentCategory = filter_var($parentCategory, FILTER_VALIDATE_INT) == false) {
-			throw(new mysqli_sql_exception("Parent Category does not appear to be an integer"));
+		// throw an exception when parentCategory is null
+		if($this->parentCategory === null) {
+			throw(new mysqli_sql_exception("Object is a Parent Event"));
 		}
 
 		// create query template
@@ -411,7 +411,7 @@ private $parentCategory;
 		}
 
 		// bind member variables to the place holder in the statement
-		$wasClean = $statement->bind_param("i", $parentCategory);
+		$wasClean = $statement->bind_param("i", $this->parentCategory);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -452,28 +452,17 @@ private $parentCategory;
 	 * @return Event Category found or null if not found
 	 * @throw mysqli_sql_exception when mySQL related errors occur
 	 */
-	public static function getEventCategoryByAllParentEvents(&$mysqli, $parentCategory) {
+	public static function getEventCategoryByAllParentEvents(&$mysqli) {
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object"	|| get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("Input is not a mysqli object"));
 		}
 
-		// sanitize the Parent Category before searching
-		if($parentCategory = filter_var($parentCategory, FILTER_VALIDATE_INT) == false) {
-			throw(new mysqli_sql_exception("Parent Category does not appear to be an integer"));
-		}
-
 		// create query template
-		$query = "SELECT eventCategoryId, eventCategory, parentCategory FROM eventCategory WHERE parentCategory === null";
+		$query = "SELECT eventCategoryId, eventCategory, parentCategory FROM eventCategory WHERE parentCategory IS NULL";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
-		}
-
-		// bind member variables to the place holder in the statement
-		$wasClean = $statement->bind_param("i", $parentCategory);
-		if($wasClean === false) {
-			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
 
 		// execute the statement
@@ -512,26 +501,25 @@ private $parentCategory;
 	 * @return Event Category found or null if not found
 	 * @throw mysqli_sql_exception when mySQL related errors occur
 	 */
-	public static function GetEventCategoryByAllChildEvents(&$mysqli, $eventCategoryId) {
+	public function getEventCategoryByAllChildEvents(&$mysqli) {
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object"	|| get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("Input is not a mysqli object"));
 		}
 
-		// sanitize the eventCategoryId before searching
-		if($eventCategoryId = filter_var($eventCategoryId, FILTER_VALIDATE_INT) == false) {
-			throw(new mysqli_sql_exception("Event Category does not appear to be an integer"));
+		if($this->parentCategory !== null) {
+			throw(new mysqli_sql_exception("Object is a Parent Event"));
 		}
 
 		// create query template
-		$query = "SELECT eventCategoryId, eventCategory, parentCategory FROM eventCategory WHERE eventCategoryId = $eventCategoryId";
+		$query = "SELECT eventCategoryId, eventCategory, parentCategory FROM eventCategory WHERE parentCategory = ?";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind member variables to the place holders in template
-		$wasClean = $statement->bind_param("i", $eventCategoryId);
+		$wasClean = $statement->bind_param("i", $this->eventCategoryId);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
