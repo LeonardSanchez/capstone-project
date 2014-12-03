@@ -15,7 +15,7 @@ $(document).ready(function()
 
 		// messages are what are displayed to the user
 		messages: {
-			venue: "Please enter a Venue to search by"
+			required: "Please enter a Venue to search by"
 			},
 
 		submitHandler: function(form)

@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+session_start();
+?>
 <html>
 	<head>
 		<meta charset="UTF-8" />
@@ -14,6 +16,7 @@
 	</head>
 	<body>
 		<form id="venueSearchForm" method="get" action="../form-processors/venue-search-form-processor.php">
+
 			<label for="venue">Venue</label>
 			<input type="text" id="venue" name="venue" /><br />
 			<button id="search" type="submit">Search</button>

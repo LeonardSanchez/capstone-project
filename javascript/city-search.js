@@ -8,8 +8,8 @@ $(document).ready(function() {
 		// rules that dictate what is (in)valid
 		rules: {
 			city: {
-
-			pattern: /^[^";@#\$&\*]+$/
+				pattern: /^[^";@#\$&\*]+$/,
+				required: true
 			}
 			},
 
