@@ -42,7 +42,7 @@ $(document).ready(function() {
 				gender         : "Please enter a valid gender",
 				email          : "Please enter a valid email",
 				password       : "Please enter a valid password",
-				confirmPassword: {
+				confirmPassword: "Please {
 					// confirmPassword was empty
 					required: "Please confirm the password",
 					// passwords did not match
