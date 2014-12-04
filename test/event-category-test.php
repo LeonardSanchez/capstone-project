@@ -209,7 +209,7 @@ class EventCategoryTest extends UnitTestCase {
 
 		// fourth, get the eventCategory using the static method
 		$EventCategory = $this->eventCategory->getEventCategoryByAllChildEvents($this->mysqli);
-		var_dump($EventCategory);
+
 		foreach($EventCategory as $index => $element) {
 			// finally ,compare the fields
 			$this->assertNotNull($EventCategory[$index]->getEventCategoryId());
