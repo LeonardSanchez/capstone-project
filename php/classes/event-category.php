@@ -554,9 +554,9 @@ private $parentCategory;
 				throw(new mysqli_sql_exception("Unable to get result set"));
 			} else {
 			foreach($results as $row) {
-				$results[] = new EventCategory($row["eventCategoryId"], $row["eventCategory"], $row["parentCategory"]);
+				$eventArray[] = new EventCategory($row["eventCategoryId"], $row["eventCategory"], $row["parentCategory"]);
 			}
-			return($results);
+			return($eventArray);
 		}}
 	}
 }
