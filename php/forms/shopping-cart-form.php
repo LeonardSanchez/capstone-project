@@ -15,6 +15,8 @@ session_start();
    </head>
    <body>
       <form id="shoppingCart" action="../classes/transaction.php" method="POST">
+			<h1>Shopping Cart</h1> <br /> <br />
+			<h3>Event Name
          Ticket Quantity:<select>
 									 <option>0</option>
 									 <option>1</option>
@@ -27,7 +29,9 @@ session_start();
 									 <option>8</option>
 									 <option>9</option>
 									 <option>10</option>
-								 </select><br />
+								  </select>
+			Ticket Price Each</h3>
+			<br />
          <button id="empty" type="button">Empty Cart</button>
          <button id="update" type="button">Update Cart</button>
          <button id="continue shopping" type="button">Continue Shopping</button>
