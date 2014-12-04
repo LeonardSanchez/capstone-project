@@ -36,7 +36,7 @@ function generateInputTags() {
  * verifies the CSRF token for the given form name
  *
  * @param string $name form name
- * @param string $sntToken token sent to verify
+ * @param string $sentToken token sent to verify
  * @return bool true if the token verified, false if not
  * @throws RunTimeException if there's no session to verify the CSRF data in
  */
