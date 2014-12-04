@@ -10,6 +10,7 @@ session_start();
       <script type="text/javascript" src="//malsup.github.com/min/jquery.form.min.js"></script>
       <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
       <script type="text/javascript" src="//cdnjs.clooudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+		<script type="text/javascript" src="/javascript/shopping-cart.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" />
    </head>
@@ -32,10 +33,10 @@ session_start();
 								  </select>
 			Ticket Price Each</h3>
 			<br />
-			<input id="empty" type="button" value="Empty Cart" onclick="doFunction();" />
-			<input id="update" type="button" value="Update Cart" onclick="doFunction();" />
-			<input id="contiueShopping" type="button" value="Continue Shopping" onclick="doFunction();" />
-			<input id="checkout" type="button" value="Checkout" onclick="doFunction();" />
+			<input id="empty" type="button" value="Empty Cart" onclick="emptyFunction();" />
+			<input id="update" type="button" value="Update Cart" onclick="updatFunction();" />
+			<input id="contiueShopping" type="button" value="Continue Shopping" onclick="continueShoppingFunction();" />
+			<input id="checkout" type="button" value="Checkout" onclick="checkoutFunction();" />
       </form>
    </body>
 </html>
