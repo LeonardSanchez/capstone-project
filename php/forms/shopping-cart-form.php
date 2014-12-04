@@ -28,10 +28,10 @@ session_start();
 									 <option>9</option>
 									 <option>10</option>
 								 </select><br />
-         <button type="button">Empty Cart</button>
-         <button type="button">Update Cart</button>
-         <button type="button">Continue Shopping</button>
-         <button type="submit" <a href="../checkout-stripe.php">Checkout</a></button>
+         <button id="empty" type="button">Empty Cart</button>
+         <button id="update" type="button">Update Cart</button>
+         <button id="continue shopping" type="button">Continue Shopping</button>
+         <button id="checkout" type="submit" <a href="../checkout-stripe.php">Checkout</a></button>
       </form>
    </body>
 </html>
