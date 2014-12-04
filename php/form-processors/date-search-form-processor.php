@@ -1,25 +1,21 @@
 <?php
 
-// require event class for getEventByEventName
+// require Event class once for getEventByEventDateTime
 require_once("../classes/event.php");
-//require Event-Category for getEventCategory
-require_once("../classes/event-category.php");
-// require Venue for getVenueName
+// require Venue class for venue name
 require_once("../classes/venue.php");
-
-// require mysqli
+// require EventCategory class for event category
+require_once("../classes/event-category.php");
+//require mysqli
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 $mysqli = MysqliConfiguration::getMysqli();
 
-// use filter_input to sanitize event name
-$eventName = (filter_input(INPUT_GET, "event", FILTER_SANITIZE_STRING));
+$startDate = filter_input(INPUT_GET, "startDate", FILTER_SANITIZE_STRING);
+$endDate = filter_input(INPUT_GET, "endDate", FILTER_SANITIZE_STRING);
 
 // grab mysql data
-$events = Event::getEventByEventName($mysqli, $eventName);
+$events = Event::getEventByEventDateTime($mysqli, $startDate, $endDate);
 
-/**
- * return the result set to the user
- */
 $resultCount = count($events);
 for($i = 0; $i < $resultCount; $i++)	{
 	$event = $events[$i];

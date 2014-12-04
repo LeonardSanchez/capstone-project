@@ -10,11 +10,14 @@
 		<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap.3.3.1/js/bootstrap.min.js"></script>
+
 	</head>
 	<body>
 		<form id="dateSearchForm" method="get" action="../form-processors/event-date-search-form-processor.php">
-			<label for="eventDate">Event Date</label>
-			<input type="date" id="eventDate" name="eventDate"/><br/>
+			<label for="startDate">Start Date</label>
+			<input type="text" id="startDate" name="startDate" placeholder="yyyy-mm-dd"/><br/>
+			<label for="endDate">End Date</label>
+			<input type="text" id="endDate" name="endDate" placeholder="yyyy-mm-dd"><br/>
 			<button id="search" type="submit">Search</button>
 		</form>
 	</body>
