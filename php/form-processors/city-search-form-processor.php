@@ -2,12 +2,23 @@
 session_start();
 // require the needed class to run search against
 require_once("../classes/venue.php");
+require_once("/etc/apache2/capstone-mysql/rgevents.php");
+require_once("../forms/csrf.php");
 
 try {
 
 	// require mySQLI
-	require_once("/etc/apache2/capstone-mysql/rgevents.php");
 	$mysqli = MysqliConfiguration::getMysqli();
+
+	// verify the form was submitted OK
+	if(@isset($_GET["city"]) === false) {
+		throw(new RuntimeException("Form variables incomplete or missing"));
+	}
+
+	// verify the CSRF tokens
+	if(verifyCsrf($_POST["csrfName"], $_POST["csrfToken"]) === false) {
+		throw(new RuntimeException("CSRF tokens incorrect or missing. Make sure cookies are enabled."));
+	}
 
 	// use filter_input to sanitize the city
 	$venueCity = filter_input(INPUT_GET, 'city', FILTER_SANITIZE_STRING);
@@ -26,5 +37,7 @@ try {
 			$venue->getVenueWebsite() . "</p>";
 	}
 
-}
+} catch(Exception $exception) {
+	echo "div class=\"alert alert-danger\" role=\"alert\"><strong>Oh snap!</strong>Unable to search city: " . $exception->getMessage() . "</div>";
+	}
 ?>
