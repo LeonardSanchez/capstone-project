@@ -272,7 +272,7 @@ private $parentCategory;
 		}
 
 		// sanitize the eventCategoryId before searching
-		if($eventCategoryId = filter_var($eventCategoryId, FILTER_VALIDATE_INT) == false) {
+		if(($eventCategoryId = filter_var($eventCategoryId, FILTER_VALIDATE_INT)) == false) {
 			throw(new mysqli_sql_exception("Event Category does not appear to be an integer"));
 		}
 
@@ -447,15 +447,20 @@ private $parentCategory;
 	 * get Event Category by All Parent Categories
 	 *
 	 * @param resource $mysqli pointer to mySQL connection, by reference
-	 * @param int $parentCategory Parent Category search by all values equivalent to null
+	 * @param int $parentCategory Parent Category where values equivalent to null
 	 * @return array | null
 	 * @return Event Category found or null if not found
 	 * @throw mysqli_sql_exception when mySQL related errors occur
 	 */
-	public static function getEventCategoryByAllParentEvents(&$mysqli) {
+	public static function getEventCategoryByAllParentEvents(&$mysqli, $parentCategory) {
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object"	|| get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("Input is not a mysqli object"));
+		}
+
+		// sanitize the parentCategory
+		if(($parentCategory = filter_var($parentCategory, FILTER_VALIDATE_INT)) == false) {
+			throw(new mysqli_sql_exception("Parent Category does not appear to be an integer"));
 		}
 
 		// create query template
@@ -463,6 +468,12 @@ private $parentCategory;
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind member variables to place holder in statement
+		$wasClean = $statement->bind_param("i", $parentCategory);
+		if($wasClean === false) {
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
 
 		// execute the statement
