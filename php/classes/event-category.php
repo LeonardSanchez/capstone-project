@@ -155,6 +155,7 @@ private $parentCategory;
 		}
 
 		// enforce the eventCategoryId is null (i.e. don't insert an eventCategory that already exist
+		var_dump($this->eventCategoryId);
 		if($this->eventCategoryId !== null)	{
 			throw(new mysqli_sql_exception("Not a new event category"));
 		}
@@ -452,16 +453,16 @@ private $parentCategory;
 	 * @return Event Category found or null if not found
 	 * @throw mysqli_sql_exception when mySQL related errors occur
 	 */
-	public static function getEventCategoryByAllParentEvents(&$mysqli, $parentCategory) {
+	public static function getEventCategoryByAllParentEvents(&$mysqli) {
 		// handle degenerate cases
 		if(gettype($mysqli) !== "object"	|| get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("Input is not a mysqli object"));
 		}
 
 		// sanitize the parentCategory
-		if(($parentCategory = filter_var($parentCategory, FILTER_VALIDATE_INT)) == false) {
-			throw(new mysqli_sql_exception("Parent Category does not appear to be an integer"));
-		}
+		//if(($parentCategory = filter_var($parentCategory, FILTER_VALIDATE_INT)) == false) {
+			//throw(new mysqli_sql_exception("Parent Category does not appear to be an integer"));
+		//}
 
 		// create query template
 		$query = "SELECT eventCategoryId, eventCategory, parentCategory FROM eventCategory WHERE parentCategory IS NULL";
@@ -471,10 +472,10 @@ private $parentCategory;
 		}
 
 		// bind member variables to place holder in statement
-		$wasClean = $statement->bind_param("i", $parentCategory);
-		if($wasClean === false) {
-			throw(new mysqli_sql_exception("Unable to bind parameters"));
-		}
+		//$wasClean = $statement->bind_param("i", $parentCategory);
+		//if($wasClean === false) {
+		//	throw(new mysqli_sql_exception("Unable to bind parameters"));
+		//}
 
 		// execute the statement
 		if($statement->execute() === false) {
@@ -493,13 +494,12 @@ private $parentCategory;
 			$results = $results->fetch_all(MYSQLI_ASSOC);
 			if($results === false) {
 				throw(new mysqli_sql_exception("Unable to get result set"));
+			} else {
+				foreach($results as $index => $row) {
+					$results[$index] = new EventCategory($row["eventCategoryId"], $row["eventCategory"], $row["parentCategory"]);
+				}
+				return($results);
 			}
-			foreach($results as $index => $row) {
-				$results[$index] = new EventCategory($row["eventCategoryId"], $row["eventCategory"], $row["parentCategory"]);
-			}
-			return($results);
-		} else {
-			return(null);
 		}
 	}
 
@@ -552,14 +552,12 @@ private $parentCategory;
 			$results = $results->fetch_all(MYSQLI_ASSOC);
 			if($results === false) {
 				throw(new mysqli_sql_exception("Unable to get result set"));
-			}
-			foreach($results as $index => $row) {
-				$results[$index] = new EventCategory($row["eventCategoryId"], $row["eventCategory"], $row["parentCategory"]);
+			} else {
+			foreach($results as $row) {
+				$results[] = new EventCategory($row["eventCategoryId"], $row["eventCategory"], $row["parentCategory"]);
 			}
 			return($results);
-		} else {
-			return(null);
-		}
+		}}
 	}
 }
 ?>
