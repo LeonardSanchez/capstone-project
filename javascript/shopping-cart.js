@@ -8,7 +8,7 @@
 
 // The function for emptying the cart
 function emptyCart() {
-
+   document.getElementById("empty")
 }
 
 // The function for updating the cart
