@@ -155,7 +155,7 @@ private $parentCategory;
 		}
 
 		// enforce the eventCategoryId is null (i.e. don't insert an eventCategory that already exist
-		var_dump($this->eventCategoryId);
+
 		if($this->eventCategoryId !== null)	{
 			throw(new mysqli_sql_exception("Not a new event category"));
 		}
