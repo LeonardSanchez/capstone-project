@@ -32,10 +32,10 @@ session_start();
 								  </select>
 			Ticket Price Each</h3>
 			<br />
-         <button id="empty" type="button">Empty Cart</button>
-         <button id="update" type="button">Update Cart</button>
-         <button id="continue shopping" type="button">Continue Shopping</button>
-         <button id="checkout" type="submit" <a href="../checkout-stripe.php">Checkout</a></button>
+			<input id="empty" type="button" value="Empty Cart" onclick="doFunction();" />
+			<input id="update" type="button" value="Update Cart" onclick="doFunction();" />
+			<input id="contiueShopping" type="button" value="Continue Shopping" onclick="doFunction();" />
+			<input id="checkout" type="button" value="Checkout" onclick="doFunction();" />
       </form>
    </body>
 </html>
