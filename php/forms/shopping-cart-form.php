@@ -33,10 +33,10 @@ session_start();
 								  </select>
 			Ticket Price Each</h3>
 			<br />
-			<input id="empty" type="button" value="Empty Cart" onclick="emptyFunction();" />
-			<input id="update" type="button" value="Update Cart" onclick="updatFunction();" />
-			<input id="contiueShopping" type="button" value="Continue Shopping" onclick="continueShoppingFunction();" />
-			<input id="checkout" type="button" value="Checkout" onclick="checkoutFunction();" />
+			<input id="empty" type="button" value="Empty Cart" onclick="emptyCart();" />
+			<input id="update" type="button" value="Update Cart" onclick="updateCart();" />
+			<input id="contiueShopping" type="button" value="Continue Shopping" onclick="continueShopping();" />
+			<input id="checkout" type="button" value="Checkout" onclick="checkout();" />
       </form>
    </body>
 </html>
