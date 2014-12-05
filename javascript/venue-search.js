@@ -3,8 +3,7 @@ $(document).ready(function()
 {
 	// setup the form validation
 	$("#venueSearchForm").validate({
-		// debug option in jQuery's validator
-		debug: true,
+
 		// rules dictate what is (in)valid
 		rules: {
 			venue: {

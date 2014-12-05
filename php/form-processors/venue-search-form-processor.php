@@ -15,7 +15,7 @@ try {
 	}
 
 	// verify the CSRF tokens
-	if(verifyCsrf($_POST["csrfName"], $_POST["csrfToken"]) === false) {
+	if(verifyCsrf($_GET["csrfName"], $_GET["csrfToken"]) === false) {
 		throw(new RuntimeException("CSRF tokens incorrect or missing. Make sure cookies are enabled."));
 	}
 	// use filter_input to sanitize the venue name
@@ -35,6 +35,6 @@ try {
 			$venue->getVenueWebsite() . "</p>";
 	}
 } catch(Exception $exception) {
-	echo "div class=\"alert alert-danger\" role=\"alert\"><strong>Oh snap!</strong>Unable to search venue: " . $exception->getMessage() . "</div>";
+	echo "div class=\"alert alert-danger\" role=\"alert\"><strong>Oh snap!</strong>Unable to search venue: " . $exception->getMessage() .  "</div>";
 }
 ?>
