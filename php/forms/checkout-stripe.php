@@ -12,10 +12,12 @@
 </head>
 <body>
 	<h1>My shopping cart</h1>
-		<h3><ol>
-			<li>Item 1</li>
-			<li>Item 2</li>
-		</ol></h3>
+		<h3>
+			<ol>
+				<li>Item 1</li>
+				<li>Item 2</li>
+			</ol>
+		</h3>
 	<form action="" method="POST">
 		<script
 			src="https://checkout.stripe.com/checkout.js" class="stripe-button"
