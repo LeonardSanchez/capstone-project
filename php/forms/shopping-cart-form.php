@@ -20,16 +20,16 @@ session_start();
 			<h1>Shopping Cart</h1> <br /> <br />
 			<h3>Event Name
          Ticket Quantity:<select>
-									 <option>1</option>
-									 <option>2</option>
-									 <option>3</option>
-									 <option>4</option>
-									 <option>5</option>
-									 <option>6</option>
-									 <option>7</option>
-									 <option>8</option>
-									 <option>9</option>
-									 <option>10</option>
+									 <option value="1" selected>1</option>
+									 <option value="2">2</option>
+									 <option value="3">3</option>
+									 <option value="4">4</option>
+									 <option value="5">5</option>
+									 <option value="6">6</option>
+									 <option value="7">7</option>
+									 <option value="8">8</option>
+									 <option value="9">9</option>
+									 <option value="10">10</option>
 								  </select>
 			Ticket Price Each</h3>
 			<br />
