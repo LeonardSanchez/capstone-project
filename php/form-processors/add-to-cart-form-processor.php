@@ -14,20 +14,7 @@ require_once("/etc/apache2/capstone-mysql/rgevents.php");
 // require for the csrf protection
 require_once("../forms/csrf.php");
 
-// assign the session to our cart
-$_SESSION["cart"]=$cart;
 
-$cart = array(
-
-);
-if (quantity < 0){
-	throw(RangeException("This is a negative quantity."));
-	(qunatity === 0);
-		unset:
-}
-
-// empty cart
-unset($_SESSION["cart"]);
 ?>
 <form method="post" action="add-to-cart.php">
 	<input type="hidden" name="eventId" value="<?php echo $event->getEventId(); ?>" />
