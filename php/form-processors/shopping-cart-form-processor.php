@@ -1,11 +1,11 @@
 <?php
 /**
- * Shopping cart form
- *
+* Shopping cart form
+*
  * This form will be used to collect quantity of tickets desired and allow the user to see a preview of the order before checkout
- *
+*
  * Created by Brendan Slevin
- */
+*/
 // Make sure to start a session
 session_start();
 // require the transaction class so we can pull the ticket id which will have the event price and such
@@ -19,7 +19,7 @@ require_once("../forms/csrf.php");
 $_SESSION["cart"]=$cart;
 
 $cart = array(
-	
+
 );
 if (quantity < 0){
 	throw(RangeException("This is a negative quantity."));
