@@ -8,25 +8,27 @@ $(document).ready(function()
 		rules: {
 			venue: {
 				required: true,
-				venue: true
+				pattern: /^[^";@#\$&\*]+$/
 			}
 		},
 
 		// messages are what are displayed to the user
 		messages: {
-			required: "Please enter a Venue to search by"
+			venue: {
+				required: "Please enter a Venue to search by",
+				pattern: "Illegal characters detected. Please re-enter a valid VenueName."
+			}
 			},
 
 		submitHandler: function(form)
 		{
 			$(form).ajaxSubmit ({
 					type: "GET",
-					url: "venue-search-form.php",
-					data: $(form).serialize(),
+					url: "../form-processors/venue-search-form-processor.php",
 					success: function(ajaxOutput) {
-						$("#outputArea").html(ajaxOutput);
+						$("#outputVenueSearch").html(ajaxOutput);
 					}
 				});
 		}
-	})
+	});
 });

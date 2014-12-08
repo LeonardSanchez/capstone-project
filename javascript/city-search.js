@@ -3,8 +3,7 @@ $(document).ready(function() {
 
 	// setup the form validation
 	$("#citySearchForm").validate({
-		// debug option in jQuery's validator
-		debug: true,
+
 		// rules that dictate what is (in)valid
 		rules: {
 			city: {
@@ -15,7 +14,7 @@ $(document).ready(function() {
 
 		messages: {
 			city: {
-				pattern: "Illegal characters detected",
+				pattern: "Illegal characters detected. Please re-enter a valid City.",
 				required: "Please enter a city"
 			}
 		},
@@ -23,12 +22,12 @@ $(document).ready(function() {
 		submitHandler: function(form) {
 			$(form).ajaxSubmit ({
 				type: "GET",
-				url: "city-search.php",
+				url: "../form-processors/city-search-form-processor.php",
 				success: function(ajaxOutput) {
-					$("#outputArea").html(ajaxOutput);
+					$("#outputCitySearch").html(ajaxOutput);
 				}
 			});
 		}
-	})
+	});
 }) ;
 
