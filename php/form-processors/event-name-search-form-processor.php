@@ -6,6 +6,7 @@ require_once("../classes/event.php");
 require_once("../classes/event-category.php");
 // require Venue for getVenueName
 require_once("../classes/venue.php");
+// require add to cart for add to cart form
 
 // require mysqli
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
@@ -32,9 +33,11 @@ for($i = 0; $i < $resultCount; $i++)	{
 	// grabbing venueName from Venue class
 	$venue = Venue::getVenueByVenueId($mysqli,$venueId);
 	// display results
-	echo "<p><strong>" . $event->getEventName() . "</strong><br/>" .
+	echo "<p class=\"col-sm-6\"><strong>" . $event->getEventName() . "</strong><br/>" .
 		$eventCategory->getEventCategory()	.	"<br/>"	.
 		$venue->getVenueName()	.	"<br/>"	.
-		$event->getEventDateTime()->format("m-d-Y H:i")	.	"<br/>$"	.
-		$event->getTicketPrice() 	.	"</p>";
+		$event->getEventDateTime()->format("m-d-Y h:i")	.	"<br/>$"	.
+		$event->getTicketPrice() 	.	"</p>";"<p class=\"col-sm-6\">";
+	echo file_get_contents("../forms/add-to-cart-form.php");
+	echo "</p><br/><br/><br/><br/><br/>";
 }
