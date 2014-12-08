@@ -62,8 +62,12 @@ class EventCategoryTest extends UnitTestCase {
 		$this->newEventCatChild3 = new EventCategory(null, "Ballet", $this->newEventCatParent2->getEventCategoryId());
 		$this->newEventCatChild3->insert($this->mysqli);
 
+		$this->childArray[] = $this->newEventCatChild3;
+
 		$this->newEventCatChild4 = new EventCategory(null, "Musical", $this->newEventCatParent2->getEventCategoryId());
 		$this->newEventCatChild4->insert($this->mysqli);
+
+		$this->childArray[] = $this->newEventCatChild4;
 
 	}
 	// tearDown() is a method that is run after each test
@@ -97,7 +101,7 @@ class EventCategoryTest extends UnitTestCase {
 
 		if($this->newEventCatParent2 !== null) {
 			$this->newEventCatParent2->delete($this->mysqli);
-			$this->newEventCatParent1->delete($this->mysqli);
+			$this->newEventCatParent2 = null;
 		}
 
 		if($this->newEventCatParent1 !== null) {
@@ -267,14 +271,18 @@ class EventCategoryTest extends UnitTestCase {
 			// but first, create 2 parents and 4 children
 			// second, create an eventCategory to post to mySQL
 			$this->eventCategory = new EventCategory(null, $this->EVENT_CATEGORY, null);
+			$this->childArray[] = $this->eventCategory;
 
 			// third, insert the eventCategory to mySQL
 			$this->eventCategory->insert($this->mysqli);
 
 			// fourth, get the eventCategory using the static method
-			$EventCategory = $this->parentArray[0]->getEventCategoryByAllChildEvents($this->mysqli);
+			$eventCategory	=	$this->parentArray[0]->getEventCategoryByAllChildEvents($this->mysqli);
+			$eventCategory2	=	$this->parentArray[1]->getEventCategoryByAllChildEvents($this->mysqli);
+			$eventCategory	=	array_merge($eventCategory,$eventCategory2);
+			$eventCategory[]	=	$this->eventCategory;
 
-			$this->assertEqual($EventCategory, $this->childArray);
+			$this->assertEqual($eventCategory, $this->childArray);
 		}
 
 }

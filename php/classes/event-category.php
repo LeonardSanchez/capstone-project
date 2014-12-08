@@ -550,14 +550,17 @@ private $parentCategory;
 		// 2) if there's no result, we can just return null
 		if($results->num_rows > 0) {
 			$results = $results->fetch_all(MYSQLI_ASSOC);
+
 			if($results === false) {
 				throw(new mysqli_sql_exception("Unable to get result set"));
 			} else {
-			foreach($results as $row) {
-				$eventArray[] = new EventCategory($row["eventCategoryId"], $row["eventCategory"], $row["parentCategory"]);
+				foreach($results as $row) {
+					$eventArray[] = new EventCategory($row["eventCategoryId"], $row["eventCategory"], $row["parentCategory"]);
+				}
+				var_dump($eventArray);
+				return($eventArray);
 			}
-			return($eventArray);
-		}}
+		}
 	}
 }
 ?>
