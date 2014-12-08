@@ -34,8 +34,8 @@ session_start();
 			Ticket Price Each</h3>
 			<br />
 			<input id="empty" type="button" value="Empty Cart" onclick="emptyCart();" />
-			<input id="update" type="button" value="Update Cart" onclick="updateCart();" />
 			<input id="remove" type="button" value="Remove from" onclick="removeFromCart"();/>
+			<input id="update" type="button" value="Update Cart" onclick="updateCart();" />
 			<input id="continueShopping" type="button" value="Continue Shopping" onclick="continueShopping();" />
 			<input id="checkout" type="button" value="Checkout" onclick="checkout();" />
       </form>
