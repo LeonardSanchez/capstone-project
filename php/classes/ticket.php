@@ -500,6 +500,5 @@ class Ticket
 			return(null);
 		}
 	}
-
 }
 ?>
