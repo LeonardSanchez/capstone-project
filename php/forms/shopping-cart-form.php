@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once("../forms/csrf.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,6 +18,7 @@ session_start();
    </head>
    <body>
       <form id="shoppingCart" action="../classes/transaction.php" method="POST">
+			// get input methods
 			<h1>Shopping Cart</h1> <br /> <br />
 			<h3>Event Name
          Ticket Quantity:<select>
