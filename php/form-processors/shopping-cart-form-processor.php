@@ -18,9 +18,11 @@ require_once("../forms/csrf.php");
 // assign the session to our cart
 $_SESSION["cart"]=$cart;
 
+// declare the cart array
 $cart = array(
 	
 );
+
 if (quantity < 0){
 	throw(RangeException("This is a negative quantity."));
 	(qunatity === 0)
@@ -29,5 +31,9 @@ if (quantity < 0){
 
 // empty cart
 unset($_SESSION["cart"]);
+
+
+
+
 ?>
 

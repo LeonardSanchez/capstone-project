@@ -19,7 +19,6 @@ session_start();
 			<h1>Shopping Cart</h1> <br /> <br />
 			<h3>Event Name
          Ticket Quantity:<select>
-									 <option>0</option>
 									 <option>1</option>
 									 <option>2</option>
 									 <option>3</option>
@@ -34,7 +33,7 @@ session_start();
 			Ticket Price Each</h3>
 			<br />
 			<input id="empty" type="button" value="Empty Cart" onclick="emptyCart();" />
-			<input id="remove" type="button" value="Remove from" onclick="removeFromCart"();/>
+			<input id="remove" type="button" value="Remove from" onclick="removeFromCart();"/>
 			<input id="update" type="button" value="Update Cart" onclick="updateCart();" />
 			<input id="continueShopping" type="button" value="Continue Shopping" onclick="continueShopping();" />
 			<input id="checkout" type="button" value="Checkout" onclick="checkout();" />
