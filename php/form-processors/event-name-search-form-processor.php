@@ -12,11 +12,11 @@ require_once("/etc/apache2/capstone-mysql/rgevents.php");
 $mysqli = MysqliConfiguration::getMysqli();
 
 // use filter_input to sanitize event name
-$eventName = (filter_input(INPUT_GET, "event", FILTER_SANITIZE_STRING));
+$eventName = (filter_input(INPUT_GET, "eventName", FILTER_SANITIZE_STRING));
 
 // grab mysql data
 $events = Event::getEventByEventName($mysqli, $eventName);
-
+var_dump($events);
 /**
  * return the result set to the user
  */
@@ -26,7 +26,7 @@ for($i = 0; $i < $resultCount; $i++)	{
 	// set linked eventCategoryId to separate variable
 	$eventCategoryId = $event->getEventCategoryId();
 	// grabbing eventCategory from EventCategory class
-	$eventCategory = (EventCategory::getEventCategoryByEventCategoryId($mysqli, $eventCategoryId));
+	$eventCategory = EventCategory::getEventCategoryByEventCategoryId($mysqli, $eventCategoryId);
 	// set linked venueId to separate variable
 	$venueId = $event->getVenueId();
 	// grabbing venueName from Venue class

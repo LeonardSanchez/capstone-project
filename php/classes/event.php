@@ -468,8 +468,6 @@ class Event{
 		$numberOfEvents = count($events);
 		if($numberOfEvents === 0)	{
 			return(null);
-		}	else if($numberOfEvents === 1)	{
-			return($events[0]);
 		}	else	{
 			return($events);
 		}

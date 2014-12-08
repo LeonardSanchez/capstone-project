@@ -2,13 +2,13 @@
 $(document).ready(function()	{
 
 	// setup form validation
-	$("#eventName").validate({
+	$("#eventNameSearchForm").validate({
 		// debug option in validate
 		debug: true,
 
 		// rules that are dictated
 		rules:	{
-			event:	{
+			eventName:	{
 				required: true,
 				event: true
 			}
@@ -21,12 +21,13 @@ $(document).ready(function()	{
 		submitHandler: function(form)	{
 			$(form).ajaxSubmit	({
 				type: "GET",
-				url: "event-name-search.php",
+				url: "../php/form-processors/event-name-search.php",
 				date: $(form).serialize(),
 				success:	function(ajaxOutput)	{
-					$("#outputArea").html(ajaxOutput);
+					document.getElementById("")
 				}
 			})
 		}
 	});
 });
+
