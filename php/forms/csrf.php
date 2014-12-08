@@ -24,7 +24,7 @@ function generateInputTags() {
 	// randomize the form name generate the token and form inputs
 	$name		= "csrfName" . mt_rand(0, mt_getrandmax());
 	$token 	= generateToken();
-	$tags		= "<input name=\"csrfName\" type=\"hidden\" value=\"$name\" />\n" . "<input name=\"csrfName\" type=\"hidden\" value=\"$token\" />n";
+	$tags		= "<input name=\"csrfName\" type=\"hidden\" value=\"$name\" />\n" . "<input name=\"csrfToken\" type=\"hidden\" value=\"$token\" />";
 
 	// save the token to the session
 	$_SESSION[$name] = $token;

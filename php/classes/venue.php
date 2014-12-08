@@ -631,8 +631,9 @@ class Venue
 		// since this is not a unique field, this can return many results. So...
 		// 1) if there's more than 1 result, we can make all into Venue objects
 		// 2) if there's no result, we can just return null
-//		$row = $result->fetch_assoc(); // fetch_assoc returns a row as an associative array
+		//$row = $results->fetch_assoc(); // fetch_assoc returns a row as an associative array
 
+		// convert the associative array to a Venue
 		if ($results->num_rows > 0){
 			$results = $results->fetch_all(MYSQL_ASSOC);
 			if($results === false){

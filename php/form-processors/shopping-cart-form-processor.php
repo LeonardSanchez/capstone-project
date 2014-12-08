@@ -18,9 +18,11 @@ require_once("../forms/csrf.php");
 // assign the session to our cart
 $_SESSION["cart"]=$cart;
 
+// declare the cart array
 $cart = array(
 
 );
+
 if (quantity < 0){
 	throw(RangeException("This is a negative quantity."));
 	(qunatity === 0)
@@ -29,15 +31,9 @@ if (quantity < 0){
 
 // empty cart
 unset($_SESSION["cart"]);
+
+
+
+
 ?>
 
-<form method="post" action="quien-sabe.php">
-	<input type="hidden" name="eventId" value="<?php echo $event->getEventId(); ?>" />
-	<select name="quantity">
-		<option value="1" selected>1</option>
-		<option value="2">2</option>
-		<option value="3">3</option>
-		<option value="4">4</option>
-	</select>
-	<button type="submit">Add to Cart</button>
-</form>

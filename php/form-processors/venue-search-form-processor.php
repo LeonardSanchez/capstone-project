@@ -3,7 +3,6 @@ session_start();
 // require the needed class to run search against
 require_once("../classes/venue.php");
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
-require_once("../forms/csrf.php");
 
 try {
 	// require mySQLI
@@ -14,10 +13,6 @@ try {
 		throw(new RuntimeException("Form variables incomplete or missing"));
 	}
 
-	// verify the CSRF tokens
-	if(verifyCsrf($_GET["csrfName"], $_GET["csrfToken"]) === false) {
-		throw(new RuntimeException("CSRF tokens incorrect or missing. Make sure cookies are enabled."));
-	}
 	// use filter_input to sanitize the venue name
 	$venueName = filter_input(INPUT_GET, 'venue', FILTER_SANITIZE_STRING);
 	// once sanitized, the variable is ready to go
@@ -34,7 +29,9 @@ try {
 			$venue->getVenuePhone() . "<br />" .
 			$venue->getVenueWebsite() . "</p>";
 	}
+	// this is how you redirect with PHP
+	// header("Location: ../forms/venue-search-form.php");
 } catch(Exception $exception) {
-	echo "div class=\"alert alert-danger\" role=\"alert\"><strong>Oh snap!</strong>Unable to search venue: " . $exception->getMessage() .  "</div>";
-}
+	echo "<div class=\"alert alert-danger\" role=\"alert\"><strong>Oh snap!</strong>Unable to search venue: " . $exception->getMessage() .  "</div>";
+	}
 ?>

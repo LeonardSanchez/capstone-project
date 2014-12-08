@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+session_start();
+?>
 <html>
 	<head>
 		<meta charset="UTF-8" />
@@ -10,7 +12,7 @@
 		<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap.3.3.1/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="city-search.js"></script>
+		<script type="text/javascript" src="../../javascript/city-search.js"></script>
 	</head>
 	<body>
 		<form id="citySearchForm" method="get" action="../form-processors/city-search-form-processor.php">
@@ -18,6 +20,6 @@
 			<input type="text" id="city" name="city" /><br />
 			<button id="search" type="submit">Search</button>
 		</form>
-		<p id="outputArea"></p>
+		<p id="outputCitySearch"></p>
 	</body>
 </html>

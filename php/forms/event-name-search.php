@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -19,6 +22,7 @@
 			<input type="text" id="eventName" name="eventName"/><br/>
 			<button id="search" type="submit">Search</button>
 		</form>
+		<p id="outputEventSearch"></p>
 	</body>
 
 </html>

@@ -11,16 +11,15 @@ session_start();
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
 		<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
-		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap.3.3.1/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="venue-search.js"></script>
+		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../javascript/venue-search.js"></script>
 	</head>
 	<body>
 		<form id="venueSearchForm" method="get" action="../form-processors/venue-search-form-processor.php">
-
 			<label for="venue">Venue</label>
 			<input type="text" id="venue" name="venue" /><br />
 			<button id="search" type="submit">Search</button>
 		</form>
-		<p id="outputArea"></p>
+		<p id="outputVenueSearch"></p>
 	</body>
 </html>
