@@ -26,7 +26,7 @@ $cart = array(
 if ($qty <= 0){
 	throw(RangeException("This is a negative quantity."));
 } else if ()
-
+if ()
 // empty cart
 unset($_SESSION["cart"]);
 

@@ -1,7 +1,9 @@
 <?php
 session_start();
 require_once("../forms/csrf.php");
+require_once("../classes/event.php");
 ?>
+
 <!DOCTYPE html>
 <html>
    <head lang="en">
@@ -18,7 +20,7 @@ require_once("../forms/csrf.php");
    </head>
    <body>
       <form id="shoppingCart" action="../classes/transaction.php" method="POST">
-
+			<?php echo generateInputTags();?>
 			<h1>Shopping Cart</h1> <br /> <br />
 			<h3>Event Name
          Qty:<select name="ticketQuantity">
@@ -36,7 +38,7 @@ require_once("../forms/csrf.php");
 			Ticket Price Each</h3>
 			<br />
 			<input id="empty" type="button" value="Empty Cart" onclick="emptyCart()" />
-			<input id="remove" type="button" onclick="removeFromCart()"/><span class="glyphicon glyphicon-rempove" aria-hidden="true">::before</span>
+			<input id="remove" type="button" value="remove" onclick="removeFromCart()"/>
 			<input id="update" type="button" value="Update Cart" onclick="updateCart()" />
 			<input id="continueShopping" type="button" value="Continue Shopping" onclick="continueShopping()" />
 			<input id="checkout" type="button" value="Checkout" onclick="checkout()" />
