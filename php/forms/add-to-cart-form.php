@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once("../classes/event.php")
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,12 +19,12 @@ session_start();
 <body>
 	<form id="addToCart" action="../form-processors/add-to-cart-form-processor.php" method="post">
 		<input type="hidden" name="eventId" value="<?php echo $event->getEventId(); ?>" />
-		<select name="quantity">
+		Ticket Quantity:<select name="quantity">
 			<option value="1">1</option>
 			<option value="2">2</option>
 			<option value="3">3</option>
 			<option value="4">4</option>
-			<option value="5">5</option>
+			<option value="5">5</option> 
 			<option value="6">6</option>
 			<option value="7">7</option>
 			<option value="8">8</option>
