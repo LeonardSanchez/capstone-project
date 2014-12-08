@@ -27,6 +27,17 @@ if (quantity < 0){
 		unset
 }
 
-
-
+// empty cart
+unset($_SESSION["cart"]);
 ?>
+
+<form method="post" action="quien-sabe.php">
+	<input type="hidden" name="eventId" value="<?php echo $event->getEventId(); ?>" />
+	<select name="quantity">
+		<option value="1" selected>1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+	</select>
+	<button type="submit">Add to Cart</button>
+</form>
