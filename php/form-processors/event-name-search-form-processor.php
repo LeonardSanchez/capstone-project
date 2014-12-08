@@ -16,7 +16,7 @@ $eventName = (filter_input(INPUT_GET, "eventName", FILTER_SANITIZE_STRING));
 
 // grab mysql data
 $events = Event::getEventByEventName($mysqli, $eventName);
-var_dump($events);
+
 /**
  * return the result set to the user
  */

@@ -3,28 +3,25 @@ $(document).ready(function()	{
 
 	// setup form validation
 	$("#eventNameSearchForm").validate({
-		// debug option in validate
-		debug: true,
 
 		// rules that are dictated
 		rules:	{
 			eventName:	{
-				required: true,
-				event: true
+				required: true
 			}
 		},
 
 		messages:	{
-			event: "Please enter an event to search by"
+			event: "Please enter an Event to search by"
 		},
 
 		submitHandler: function(form)	{
 			$(form).ajaxSubmit	({
 				type: "GET",
-				url: "../php/form-processors/event-name-search.php",
+				url: "../form-processors/event-name-search-form-processor.php",
 				date: $(form).serialize(),
 				success:	function(ajaxOutput)	{
-					document.getElementById("")
+					$("#outputEventSearch").html(ajaxOutput);
 				}
 			})
 		}
