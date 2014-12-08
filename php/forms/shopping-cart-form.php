@@ -35,7 +35,8 @@ session_start();
 			<br />
 			<input id="empty" type="button" value="Empty Cart" onclick="emptyCart();" />
 			<input id="update" type="button" value="Update Cart" onclick="updateCart();" />
-			<input id="contiueShopping" type="button" value="Continue Shopping" onclick="continueShopping();" />
+			<input id="remove" type="button" value="Remove from" onclick="removeFromCart"();/>
+			<input id="continueShopping" type="button" value="Continue Shopping" onclick="continueShopping();" />
 			<input id="checkout" type="button" value="Checkout" onclick="checkout();" />
       </form>
    </body>
