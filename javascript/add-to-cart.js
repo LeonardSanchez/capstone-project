@@ -23,7 +23,7 @@ $(document).ready(function(){
 		{
 			$(form).ajaxSubmit({
 				type: "POST",
-				url: "../form-processors/add-to-cart-form-processor.php",
+				url: "../php/form-processors/add-to-cart-form-processor.php",
 				success: function(ajaxOutput) {
 					$("#outputAddToCart").html(ajaxOutput);
 				}
