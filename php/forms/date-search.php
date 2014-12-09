@@ -20,6 +20,6 @@
 			<input type="text" id="endDate" name="endDate" placeholder="mm-dd-yyyy"><br/>
 			<button id="search" type="submit">Search</button>
 		</form>
-		<p id="outputArea"></p>
+		<p id="outputDateSearch"></p>
 	</body>
 </html>
