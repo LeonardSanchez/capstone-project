@@ -18,8 +18,9 @@ require_once("../classes/event.php")
 </head>
 <body>
 	<form id="addToCart" action="../form-processors/add-to-cart-form-processor.php" method="post">
-		<input type="hidden" name="eventId" value="<?php echo $event->getEventId(); var_dump($event); ?>" />
-		Ticket Quantity:<select>
+
+		<input type="hidden" name="eventId" value="<?php echo $event->getEventId(); ?>" />
+		Ticket Qty:<select>
 			<option value="1" selected>1</option>
 			<option value="2">2</option>
 			<option value="3">3</option>
@@ -33,7 +34,7 @@ require_once("../classes/event.php")
 		</select>
 
 		<br />
-		<input id="addToCart" type="button" value="Add to Cart" onclick="addToCart()" />
+		<input id="addToCart" type="submit" name="addToCart" value="Add to Cart" onclick="addToCart()" />
 
 	</form>
 </body>
