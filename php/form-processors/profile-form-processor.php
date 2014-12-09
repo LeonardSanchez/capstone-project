@@ -15,9 +15,12 @@ try {
 	}
 
     // verify the CSRF tokens
-    if(verifyCsrf($_POST["csrfName"], $_POST["csrfToken"]) === false) {
-		 throw(new RuntimeException("CSRF tokens incorrect or missing. Make sure cookies are enabled."));
-	 }
+	$csrfName = isset($_POST["csrfName"]) ? $_POST["csrfName"] : false;
+	$csrfToken = isset($_POST["csrfToken"]) ? $_POST["csrfToken"] : false;
+
+	if(verifyCsrf($_POST["csrfName"], $_POST["csrfToken"]) === false) {
+		throw(new Exception("external source violation"));
+	}
 
     // create a new object and insert it to mySQL
     $authToken = bin2hex(openssl_random_pseudo_bytes(16));

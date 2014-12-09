@@ -1,30 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="">
-		<meta name="author" content="">
-		<link rel="icon" href="../../favicon.ico">
-
-		<title>Sign in</title>
-
-			<!-- Bootstrap core CSS -->
-		<link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
-
-			<!-- Custom styles for this template -->
-		<link href="signin.css" rel="stylesheet">
-
-
-		<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-
-		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-		<!--[if lt IE 9]>
-		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->
-	</head>
+<?php
+session_start();
+require_once("csrf.php");
+?>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<title></title>
+	<link type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
+	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../javascript/sign-up.js"></script>
+</head>
+<body>
+<form id="loginForm">
+	<?php generateInputTags() ?>;
 
 	<body>
 
@@ -49,9 +42,3 @@
 	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 	</body>
 </html>
-/**
-* Created by PhpStorm.
-* User: Leonard
-* Date: 12/1/2014
-* Time: 5:50 PM
-*/
