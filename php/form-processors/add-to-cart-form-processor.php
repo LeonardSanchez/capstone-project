@@ -16,6 +16,7 @@ try {
 		throw(new RuntimeException("Form variable incomplete or missing"));
 	}
 
+
 	$csrfName = isset($_POST["csrfName"]) ? $_POST["csrfName"] : false;
 	$csrfToken = isset($_POST["csrfToken"]) ? $_POST["csrfToken"] : false;
 
@@ -31,8 +32,7 @@ try {
 	$_SESSION['cart_items'][$eventId] = array('eventName' => $_POST['eventName'], 'eventDateTime' => $_POST['eventDateTime'], 'ticketPrice' => $_POST['ticketPrice'], 'qty' => $_POST['qty']);
 	echo "<div class=\"alert alert-success\" role=\"alert\">Item added to cart</div>";
 
-} catch (Exception $exception){
+} catch (Exception $exception) {
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Unable to update cart: " . $exception->getMessage() . "</div>";
-
 }
 ?>

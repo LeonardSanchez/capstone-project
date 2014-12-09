@@ -15,7 +15,7 @@ $(document).ready(function(){
 		messages: {
 			qty: {
 				required: "Please enter a ticket qty",
-				range: "You must select a ticket qty from 1-10 tickets"
+				range: "You must select a qty of 1-10 tickets"
 			}
 		},
 
