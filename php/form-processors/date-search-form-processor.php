@@ -11,7 +11,9 @@ require_once("/etc/apache2/capstone-mysql/rgevents.php");
 $mysqli = MysqliConfiguration::getMysqli();
 
 $startDate = filter_input(INPUT_GET, "startDate", FILTER_SANITIZE_STRING);
+$startDate	=	DateTime::createFromFormat("m-d-Y",$startDate);
 $endDate = filter_input(INPUT_GET, "endDate", FILTER_SANITIZE_STRING);
+$endDate	=	DateTime::createFromFormat("m-d-Y", $endDate);
 
 // grab mysql data
 $events = Event::getEventByEventDateTime($mysqli, $startDate, $endDate);
@@ -33,4 +35,6 @@ for($i = 0; $i < $resultCount; $i++)	{
 		$venue->getVenueName()	.	"<br/>"	.
 		$event->getEventDateTime()->format("m-d-Y H:i")	.	"<br/>$"	.
 		$event->getTicketPrice() 	.	"</p>";
+	echo include("../forms/add-to-cart-form.php");
+	echo "<br/><br/><br/><br/><br/>";
 }

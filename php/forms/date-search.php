@@ -13,12 +13,13 @@
 
 	</head>
 	<body>
-		<form id="dateSearchForm" method="get" action="../form-processors/event-date-search-form-processor.php">
+		<form id="dateSearchForm" method="get" action="../form-processors/date-search-form-processor.php">
 			<label for="startDate">Start Date</label>
-			<input type="text" id="startDate" name="startDate" placeholder="yyyy-mm-dd"/><br/>
+			<input type="text" id="startDate" name="startDate" placeholder="mm-dd-yyyy"/><br/>
 			<label for="endDate">End Date</label>
-			<input type="text" id="endDate" name="endDate" placeholder="yyyy-mm-dd"><br/>
+			<input type="text" id="endDate" name="endDate" placeholder="mm-dd-yyyy"><br/>
 			<button id="search" type="submit">Search</button>
 		</form>
+		<p id="outputArea"></p>
 	</body>
 </html>
