@@ -14,6 +14,8 @@ require_once("../classes/event.php");
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 // require for the csrf protection
 require_once("../forms/csrf.php");
+// require for add to cart data to be dropped into the cart
+require_once("../forms/add-to-cart-form.php");
 
 try {
 	// require mySQLI
@@ -27,6 +29,9 @@ try {
 		throw(new Exception("external source violation"));
 	}
 
+
+}
+
 	// assign the session to our cart
 	$_SESSION["cart"]=$cart;
 
@@ -35,23 +40,23 @@ try {
 
 	);
 
-}
-
-// verify the update was submitted OK
-	if(@isset($_POST["update"]) === false) {
-		throw(new RuntimeException("Form variable incomplete or missing"));
-	}
-// verify remove was submitted OK
-	if(@isset($_POST["remove"]) === false) {
-		throw(new RuntimeException("Form variable incomplete or missing"));
-	}
-
-
 // check to see how many remaining tickets there are for the event
 $ticket = Ticket::getTicketByEventId($mysqli, $eventId);
 
+//
+
 // make sure the quantity selected is a integer
 $qty = filter_var($qty, FILTER_VALIDATE_INT);
+
+	// verify the update was submitted OK
+	//if(@isset($_POST["update"]) === false) {
+		//throw(new RuntimeException("Form variable incomplete or missing"));
+	//}
+	// verify remove was submitted OK
+	//if(@isset($_POST["remove"]) === false) {
+		//throw(new RuntimeException("Form variable incomplete or missing"));
+	//}
+
 
 // add ticket to cart
 if ($qty <= 0){
