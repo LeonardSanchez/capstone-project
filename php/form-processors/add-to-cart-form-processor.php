@@ -49,7 +49,8 @@ try {
 		// redirect to event search results and tell the user it was added to cart
 		header('Location: event-search-form.php?action=added&eventId' . $eventId . '&eventName=' . $eventName);
 	}
-} catch {
+} catch (Exception $exception){
+	echo "<div class=\"alert alert-danger\" role=\"alert\">Unable to update cart: " . $exception->getMessage() . "</div>";
 
 }
 ?>
