@@ -558,14 +558,17 @@ class Event{
 	}
 
 	public static function getEventByEventId(&$mysqli, $eventId)	{
+		// check mysqli object
 		if(gettype($mysqli) !== "object"	||	get_class($mysqli) !== "mysqli")	{
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
+		// check to see if Id is an int
 		if(filter_var($eventId, FILTER_VALIDATE_INT)	=== false)	{
 			throw(new UnexpectedValueException("input is not an int"));
 		}
 
+		// prepare query for mysql
 		$query = "SELECT eventId, eventCategoryId, venueId, eventName, eventDateTime, ticketPrice FROM event WHERE eventId = ?";
 		$statement = $mysqli->prepare($query);
 		// prepare statement
@@ -573,6 +576,7 @@ class Event{
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
+		// bind parameters
 		$wasClean = $statement->bind_param("i", $eventId);
 		// check bound parameters
 		if($wasClean === false)	{
@@ -605,6 +609,129 @@ class Event{
 			}
 		}
 
+		// return results or null
+		$numberOfEvents = count($events);
+		if($numberOfEvents === 0)	{
+			return(null);
+		}	else	{
+			return($events);
+		}
+	}
+
+	public static function getEventByVenueId(&$mysqli, $venueId)	{
+		// check mysqli object
+		if(gettype($mysqli) !== "object"	||	get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		// check to see if Id is an int
+		if(filter_var($venueId, FILTER_VALIDATE_INT)	=== false)	{
+			throw(new UnexpectedValueException("input is not an int"));
+		}
+
+		// prepare query for mysql
+		$query = "SELECT eventId, eventCategoryId, venueId, eventName, eventDateTime, ticketPrice FROM event WHERE venueId = ?";
+		$statement = $mysqli->prepare($query);
+		// prepare statement
+		if($statement === false)	{
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind parameters
+		$wasClean = $statement->bind_param("i", $venueId);
+		// check bound parameters
+		if($wasClean === false)	{
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute statement
+		if($statement->execute() === false)	{
+			throw(new mysqli_sql_exception("Unable to execute statement"));
+		}
+
+		// get results
+		$result = $statement->get_result();
+		if($result === false)	{
+			throw(new mysqli_sql_exception("Unable to get result sets"));
+		}
+
+		$events = array();
+		// get associative array
+		while(($row = $result->fetch_assoc()) !== null)	{
+			try	{
+				// insert elements into rows
+				$event		= new Event($row["eventId"], $row["eventCategoryId"], $row["venueId"],
+					$row["eventName"], $row["eventDateTime"], $row["ticketPrice"]);
+				// set to $events[] array
+				$events[]	=	$event;
+			}	catch(Exception $exception)	{
+				// if the row was not able to be converted rethrow
+				throw(new mysqli_sql_exception("Unable to convert row to Event", 0, $exception));
+			}
+		}
+
+		// return results or null
+		$numberOfEvents = count($events);
+		if($numberOfEvents === 0)	{
+			return(null);
+		}	else	{
+			return($events);
+		}
+	}
+
+	public static function getEventByEventCategoryId(&$mysqli, $eventCategoryId)	{
+		// check mysqli object
+		if(gettype($mysqli) !== "object"	||	get_class($mysqli) !== "mysqli")	{
+			throw(new mysqli_sql_exception("input is not a mysqli object"));
+		}
+
+		// check to see if Id is an int
+		if(filter_var($eventCategoryId, FILTER_VALIDATE_INT)	=== false)	{
+			throw(new UnexpectedValueException("input is not an int"));
+		}
+
+		// prepare query for mysql
+		$query = "SELECT eventId, eventCategoryId, venueId, eventName, eventDateTime, ticketPrice FROM event WHERE eventCategoryId = ?";
+		$statement = $mysqli->prepare($query);
+		// prepare statement
+		if($statement === false)	{
+			throw(new mysqli_sql_exception("Unable to prepare statement"));
+		}
+
+		// bind parameters
+		$wasClean = $statement->bind_param("i", $eventCategoryId);
+		// check bound parameters
+		if($wasClean === false)	{
+			throw(new mysqli_sql_exception("Unable to bind parameters"));
+		}
+
+		// execute statement
+		if($statement->execute() === false)	{
+			throw(new mysqli_sql_exception("Unable to execute statement"));
+		}
+
+		// get results
+		$result = $statement->get_result();
+		if($result === false)	{
+			throw(new mysqli_sql_exception("Unable to get result sets"));
+		}
+
+		$events = array();
+		// get associative array
+		while(($row = $result->fetch_assoc()) !== null)	{
+			try	{
+				// insert elements into rows
+				$event		= new Event($row["eventId"], $row["eventCategoryId"], $row["venueId"],
+					$row["eventName"], $row["eventDateTime"], $row["ticketPrice"]);
+				// set to $events[] array
+				$events[]	=	$event;
+			}	catch(Exception $exception)	{
+				// if the row was not able to be converted rethrow
+				throw(new mysqli_sql_exception("Unable to convert row to Event", 0, $exception));
+			}
+		}
+
+		// return results or null
 		$numberOfEvents = count($events);
 		if($numberOfEvents === 0)	{
 			return(null);

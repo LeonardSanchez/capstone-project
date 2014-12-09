@@ -283,5 +283,54 @@ class EventTest extends UnitTestCase	{
 		$this->assertIdentical($staticEvent[0]->getTicketPrice(),		$this->TICKET_PRICE);
 	}
 
+	public function testGetEventByVenueId()	{
+		// verify mysqli connection
+		$this->assertNotNull($this->mysqli);
+
+		// create date time object
+		$tempDate = DateTime::createFromFormat("Y-m-d H:i:s", $this->EVENT_DATE_TIME);
+
+		// create event to post to mySQL
+		$this->event	=	new Event(null, $this->eventCategory->getEventCategoryId(), $this->venue->getVenueId(),
+			$this->EVENT_NAME, $tempDate, $this->TICKET_PRICE);
+
+		$this->event->insert($this->mysqli);
+
+		$staticEvent	=	Event::getEventByVenueId($this->mysqli, $this->venue->getVenueId());
+
+		$this->assertNotNull($staticEvent[2]->getEventId());
+		$this->assertTrue($staticEvent[2]->getEventId() > 0);
+		$this->assertIdentical($staticEvent[2]->getEventId(),				$this->event->getEventId());
+		$this->assertIdentical($staticEvent[2]->getEventCategoryId(),	$this->eventCategory->getEventCategoryId());
+		$this->assertIdentical($staticEvent[2]->getVenueId(),				$this->venue->getVenueId());
+		$this->assertIdentical($staticEvent[2]->getEventName(),			$this->EVENT_NAME);
+		$this->assertIdentical($staticEvent[2]->getEventDateTime(),		$tempDate);
+		$this->assertIdentical($staticEvent[2]->getTicketPrice(),		$this->TICKET_PRICE);
+	}
+
+	public function testGetEventByEventCategoryId()	{
+		// verify mysqli connection
+		$this->assertNotNull($this->mysqli);
+
+		// create date time object
+		$tempDate = DateTime::createFromFormat("Y-m-d H:i:s", $this->EVENT_DATE_TIME);
+
+		// create event to post to mySQL
+		$this->event	=	new Event(null, $this->eventCategory->getEventCategoryId(), $this->venue->getVenueId(),
+			$this->EVENT_NAME, $tempDate, $this->TICKET_PRICE);
+
+		$this->event->insert($this->mysqli);
+
+		$staticEvent	=	Event::getEventByEventCategoryId($this->mysqli, $this->eventCategory->getEventCategoryId());
+
+		$this->assertNotNull($staticEvent[2]->getEventId());
+		$this->assertTrue($staticEvent[2]->getEventId() > 0);
+		$this->assertIdentical($staticEvent[2]->getEventId(),				$this->event->getEventId());
+		$this->assertIdentical($staticEvent[2]->getEventCategoryId(),	$this->eventCategory->getEventCategoryId());
+		$this->assertIdentical($staticEvent[2]->getVenueId(),				$this->venue->getVenueId());
+		$this->assertIdentical($staticEvent[2]->getEventName(),			$this->EVENT_NAME);
+		$this->assertIdentical($staticEvent[2]->getEventDateTime(),		$tempDate);
+		$this->assertIdentical($staticEvent[2]->getTicketPrice(),		$this->TICKET_PRICE);
+	}
 }
 ?>
