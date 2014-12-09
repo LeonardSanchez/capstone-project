@@ -2,6 +2,7 @@
 session_start();
 // require the transaction class so we can pull the ticket id which will have the event price and such
 require_once("../classes/event.php");
+require_once("../forms/event-name-search.php");
 // require to connect to our server I believe
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 // require for the csrf protection

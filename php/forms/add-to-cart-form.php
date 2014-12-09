@@ -2,6 +2,7 @@
 
 require_once("../forms/csrf.php");
 require_once("../classes/event.php");
+require_once("event-name-search.php")
 ?>
 <form class="addToCart" action="../form-processors/add-to-cart-form-processor.php" method="post">
 	<?php echo generateInputTags(); ?>
