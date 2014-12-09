@@ -557,7 +557,6 @@ private $parentCategory;
 				foreach($results as $row) {
 					$eventArray[] = new EventCategory($row["eventCategoryId"], $row["eventCategory"], $row["parentCategory"]);
 				}
-				var_dump($eventArray);
 				return($eventArray);
 			}
 		}
