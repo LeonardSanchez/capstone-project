@@ -30,11 +30,11 @@ for($i = 0; $i < $resultCount; $i++)	{
 	// grabbing venueName from Venue class
 	$venue = Venue::getVenueByVenueId($mysqli,$venueId);
 	// display results
-	echo "<p class=\"col-sm-4\"><strong>" . $event->getEventName() . "</strong><br/>" .
+	echo "<p class=\"col-sm-6\"><strong>" . $event->getEventName() . "</strong><br/>" .
 		$eventCategory->getEventCategory()	.	"<br/>"	.
 		$venue->getVenueName()	.	"<br/>"	.
 		$event->getEventDateTime()->format("m-d-Y h:i")	.	"<br/>$"	.
 		$event->getTicketPrice() 	.	"</p>"	.	"<p class=\"col-sm-6\">";
 	include("../forms/add-to-cart-form.php");
-	echo "</p><br/><br/><br/><br/><br/>";
+	echo "</p><p id=\"outputAddToCart\"></p><br/><br/><br/><br/>";
 }
