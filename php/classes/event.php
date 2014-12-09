@@ -562,11 +562,11 @@ class Event{
 			throw(new mysqli_sql_exception("input is not a mysqli object"));
 		}
 
-		if(filter_var($eventId, FILTER_VALIDATE_INT))	{
+		if(filter_var($eventId, FILTER_VALIDATE_INT)	=== false)	{
 			throw(new UnexpectedValueException("input is not an int"));
 		}
 
-		$query = "SELECT eventId, eventCategoryId, venueId, eventName, eventDateTime, ticketPrice FROM event WHERE eventId ?";
+		$query = "SELECT eventId, eventCategoryId, venueId, eventName, eventDateTime, ticketPrice FROM event WHERE eventId = ?";
 		$statement = $mysqli->prepare($query);
 		// prepare statement
 		if($statement === false)	{
