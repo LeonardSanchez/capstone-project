@@ -24,5 +24,4 @@ require_once("../classes/event.php");
 
 	<br />
 	<input id="addToCart" type="submit" name="addToCart" value="Add to Cart" onclick="addToCart()" />
-	<p id="outputAddToCart"></p>
 </form>
