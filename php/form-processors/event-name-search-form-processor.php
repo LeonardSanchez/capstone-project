@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // require event class for getEventByEventName
 require_once("../classes/event.php");
 //require Event-Category for getEventCategory

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // require Event class once for getEventByEventDateTime
 require_once("../classes/event.php");
 // require Venue class for venue name
