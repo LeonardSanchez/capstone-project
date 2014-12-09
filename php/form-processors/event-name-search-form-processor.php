@@ -38,6 +38,6 @@ for($i = 0; $i < $resultCount; $i++)	{
 		$venue->getVenueName()	.	"<br/>"	.
 		$event->getEventDateTime()->format("m-d-Y h:i")	.	"<br/>$"	.
 		$event->getTicketPrice() 	.	"</p>";"<p class=\"col-sm-6\">";
-	echo file_get_contents("../forms/add-to-cart-form.php");
+	include("../forms/add-to-cart-form.php");
 	echo "</p><br/><br/><br/><br/><br/>";
 }

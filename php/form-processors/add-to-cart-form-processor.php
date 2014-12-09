@@ -23,32 +23,15 @@ try {
 		throw(new Exception("external source violation"));
 	}
 
-	// get the event id
-	$eventId = isset($_POST['eventId']) ? $_POST['eventId'] : "";
-	$eventName = isset($_POST['eventName']) ? $_POST['eventName'] : "";
-	$eventDateTime = isset($_POST['eventDateTime']) ? $_POST['eventDateTime'] : "";
-	$ticketPrice = isset($_POST['ticketPrice']) ? $_POST['ticketPrice'] : "";
-	$quantity = isset($_POST['quantity']) ? $_POST['quantity'] : "";
-
-	/*
-	 * check if the 'cart' session array was created
-	 * if it is NOT, create the 'cart' session array
-	 */
-	if(!isset($_SESSION['cart_items'])) {
-		$_SESSION['cart_items'] = array();
+	// check the event id
+	if($eventId = isset($_POST['eventId']) === false) {
+		throw(new ErrorException("Event Id not found"));
 	}
 
-	// check if the item is in the array, if it is, do not add
-	if(array_key_exists($eventId, $_SESSION['cart_items'])) {
-		// redirect to event search results and tell the user it was added to cart
-		header('Location: event-category-search.php?action=exists&eventId' . $eventId . '&eventName=' . $eventName);
-	} // else, add the item to the array
-	else {
-		$_SESSION['cart_items'][$eventId] = $eventName;
+	$_SESSION['cart_items'][$eventId] = array('eventName' => $_POST['eventName'], 'eventDateTime' => $_POST['eventDateTime'], 'ticketPrice' => $_POST['ticketPrice'], 'qty' => $_POST['qty']);
 
-		// redirect to event search results and tell the user it was added to cart
-		header('Location: event-search-form.php?action=added&eventId' . $eventId . '&eventName=' . $eventName);
-	}
+
+
 } catch (Exception $exception){
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Unable to update cart: " . $exception->getMessage() . "</div>";
 
