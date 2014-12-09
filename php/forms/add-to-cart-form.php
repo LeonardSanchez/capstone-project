@@ -6,10 +6,10 @@ require_once("../classes/event.php");
 	<?php echo generateInputTags(); ?>
 	<input type="hidden" name="eventId" value="<?php echo $event->getEventId(); ?>" />
 	<input type="hidden" name="eventName" value="<?php echo $event->getEventName(); ?>" />
-	<input type="hidden" name="eventDateTime" value="<?php echo $event->getEventDateTime(); ?>" />
+	<input type="hidden" name="eventDateTime" value="<?php echo $event->getEventDateTime()->format("Y-m-d H:i:s"); ?>" />
 	<input type="hidden" name="ticketPrice" value="<?php echo $event->getTicketPrice(); ?>" />
 	Ticket Qty:<select name="qty">
-		<option value="1">1</option>
+		<option value="1">selected 1</option>
 		<option value="2">2</option>
 		<option value="3">3</option>
 		<option value="4">4</option>

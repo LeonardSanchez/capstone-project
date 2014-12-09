@@ -31,7 +31,6 @@ try {
 	$_SESSION['cart_items'][$eventId] = array('eventName' => $_POST['eventName'], 'eventDateTime' => $_POST['eventDateTime'], 'ticketPrice' => $_POST['ticketPrice'], 'qty' => $_POST['qty']);
 
 
-
 } catch (Exception $exception){
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Unable to update cart: " . $exception->getMessage() . "</div>";
 
