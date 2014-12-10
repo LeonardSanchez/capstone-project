@@ -33,28 +33,26 @@ try {
 	$salt = bin2hex(openssl_random_pseudo_bytes(32));
 	$passwordHash = hash_pbkdf2("sha512", $_POST["password"], $salt, 2048, 128);
 	$user = new User(null, $_POST["email"], $passwordHash, $salt, $authToken);
-	$mysqli = MysqliConfiguration::getMysqli();
 	$user->insert($mysqli);
 	$profile = new Profile(null, $user->getUserId(), $_POST["firstName"], $_POST["lastName"], $_POST["dateOfBirth"], $_POST["gender"]);
 	$profile->insert($mysqli);
 
 	// email the user with an activation message
 	$to 	= $user->getEmail();
-	// FIXME: need to create an email from our server to replace personal email below
-	$from	= "james.mistalski@gmail.com";
+	$from	= "info@rgevents.com";
 
 	// build headers
 	$headers 					= array();
 	$headers["To"] 			= $to;
 	$headers["From"] 			= $from;
-	$headers["Reply-To"] 		= $from;
+	$headers["Reply-To"] 	= $from;
 	$headers["Subject"] 		= $profile->getFirstName() . " " . $profile->getLastName() . ", Activate your RGEvents Login";
 	$headers["MIME-Version"] = "1.0";
 	$headers["Content-Type"] = "text/html; charset=UTF-8";
 
 	// build message
 	$pageName 	= end(explode("/", $_SERVER["PHP_SELF"]));
-	$url 			= "http://" . $_SERVER["https://bootcamp-coders.cnm.edu"] . $_SERVER["PHP_SELF"];
+	$url 			= "https://" . $_SERVER["SERVER_NAME"] . $_SERVER["PHP_SELF"];
 	$url 			= str_replace($pageName, "activate.php", $url);
 	$url 			= "$url?authToken=$authToken";
 	$message 	= <<< EOF

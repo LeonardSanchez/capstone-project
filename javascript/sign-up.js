@@ -25,7 +25,6 @@ $(document).ready(function() {
 			},
 			password       : {
 				required : true,
-				password : true,
 				minlength: 8
 			},
 			confirmPassword: {
@@ -40,7 +39,10 @@ $(document).ready(function() {
 				dateOfBirth    : "Please enter a valid date of birth",
 				gender         : "Please enter a single character gender",
 				email          : "Please enter a valid email",
-				password       : "Please enter a valid password",
+				password: {
+					require: "Please enter a valid password",
+					minlength: "Your password must be at least 8 characters"
+				},
 				confirmPassword: {
 					// confirmPassword was empty
 					required: "Please confirm the password",
