@@ -52,11 +52,10 @@ $(document).ready(function() {
 			submitHandler  : function(form) {
 				$(form).ajaxSubmit({
 					type   : "POST",
-					url    : "sign-up.php",
+					url    : "../php/form-processors/sign-up-form-processor.php",
 					data   : $(form).serialize(),
 					success: function(ajaxOutput) {
-						$("outputArea").css("display", "");
-						$("outputArea").html(ajaxOutput);
+						$("#outputArea").html(ajaxOutput);
 
 						if($(".alert-success").length >= 1) {
 							$(form).reset();
@@ -66,7 +65,7 @@ $(document).ready(function() {
 			}
 
 
-		}
+		});
 	});
 	/* verifies if the passwords match
 	 * input: n/a

@@ -18,23 +18,28 @@ require_once("csrf.php");
 		<body>
 		<form id="signupForm">
 			<?php generateInputTags() ?>;
-			First name: 		<input id="firstName"       name="firstname"       type="text"     /><br />
-			Last name:			<input id="lastName"        name="lastName"        type="text"     /><br />
-			Date of birth:		<input id="dateOfBirth"     name="dateOfBirth"     type="text"     /><br />
-			Gender:				<input id="gender"          name="gender"          type="gender"   /><br />
-			Email:			   <input id="email"           name="email"           type="text"     /><br />
-			Password: 			<input id="password"        name="password"        type="password" /><br />
-			Confirm Password: <input id="confirmPassword" name="confirmPassword" type="password" /><br />
-				<button type="submit">Sign Up</button>
-				<script type ="text/javascript" src ="//ajax.googleapis.com/ajax/libs/jquery.min.js"></script>
-				<script type ="text/javascript" src ="//malsup.github.com/min/jquery.validate/1.11.1/j
-				</form>
+			<div class="container">
+
+				<form class="form-signin" role="form">
+					<h2 class="form-signin-heading">Please complete the form to sign up for an account</h2>
+					<label for="inputFirstName" class="sr-only">First Name</label>
+					<input type="firstName" id="inputFirstName" class="form-control" placeholder="First Name">
+					<label for="inputLastName" class="sr-only">Last Name</label>
+					<input type="lastName" id="inputLastName" class="form-control" placeholder="Last Name">
+					<label for="inputDateOfBirth" class="sr-only">Date of Birth</label>
+					<input type="dateOfBirth" id="inputDateOfBirth" class="form-control" placeholder="Date of Birth (MM-DD-YYYY format)">
+					<label for="inputGender" class="sr-only">Gender</label>
+					<input type="gender" id="inputGender" class="form-control" placeholder="Gender (M, F, O)">
+					<label for="inputEmail" class="sr-only">Email</label>
+					<input type="email" id="inputEmail" class="form-control" placeholder="Email">
+					<label for="inputPassword" class="sr-only">Password</label>
+					<input type="password" id="inputPassword" class="form-control" placeholder="Password">
+					<label for="inputConfirmPassword" class="sr-only">Confirm Password</label>
+					<input type="confirmPassword" id="inputConfirmPassword" class="form-control" placeholder="Confirm Password">
+
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+
+				</div>
+			</form>
 		</body>
 </html>
-
-/**
- * Created by PhpStorm.
- * User: Leonard
- * Date: 12/1/2014
- * Time: 5:47 PM
- */ 

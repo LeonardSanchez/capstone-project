@@ -44,13 +44,14 @@ session_start();
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.php"><h4><strong>Red or Green Events</strong></h4></a>
+			<a class="navbar-brand" href="index.php"><h4><strong>Red or Green Events</strong>	-	Your Guide To New Mexico Events and Attractions</h4></a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
+				<li><a href="php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
 				<li><a href="php/forms/login-form.php">Login</a></li>
 				<li><a href="php/forms/signup-form.php">Sign Up</a></li>
-				<li><a href="php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
+				<li><a href="#">Log Out</a></li>
 			</ul>
 			<form class="navbar-form navbar-right">
 				<input type="text" class="form-control" placeholder="Search By City...">
@@ -74,11 +75,13 @@ session_start();
 				<h5><strong>Find Local Events</strong></h5>
 				<li><a href="php/forms/event-name-search.php">Search By Events</a></li>
 				<li><a href="php/forms/venue-search-form.php">Search By Venues</a></li>
+				<li><a href="php/forms/event-category-search.php">Search Event Categories (THIS WILL BE A DROP DOWN)</a></li>
+				<li><a href="#">Search Event Sub-Categories (THIS WILL BE A DROP DOWN)</a></li>
 				<li><a href="php/forms/city-search.php">Search By City</a></li>
+				<li><a href="php/forms/date-search.php">Search Events By Date</a></li>
 			</ul>
 			<br>
 			<ul class="nav nav-sidebar">
-				<li><a href="">PLACEHOLDER</a></li>
 				<li><a href="">PLACEHOLDER</a></li>
 				<li><a href="">PLACEHOLDER</a></li>
 				<li><a href="">PLACEHOLDER</a></li>
