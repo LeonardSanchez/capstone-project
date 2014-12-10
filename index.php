@@ -6,7 +6,7 @@ session_start();
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<!-- create and add a favicon for our site <link rel="icon" href="#"> -->
-	<title>Red or Green Events Main Page</title>
+	<title>RGEvents Main</title>
 	<link type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
@@ -50,7 +50,8 @@ session_start();
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
 				<li><a href="php/forms/login-form.php">Login</a></li>
-				<li><a href="php/forms/signup-form.php">Sign Up</a></li>
+				<li><a href="php/forms/profile-form.php">Update Profile</a></li>
+				<li><a href="php/forms/signup-form.php">Sign Up!</a></li>
 				<li><a href="#">Log Out</a></li>
 			</ul>
 			<form class="navbar-form navbar-right">

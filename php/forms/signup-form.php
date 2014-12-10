@@ -14,32 +14,34 @@ require_once("csrf.php");
 	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
 	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../../javascript/sign-up.js"></script>
-	</head>
-		<body>
-		<form id="signupForm">
-			<?php generateInputTags() ?>;
-			<div class="container">
+</head>
+<body>
+	<form id="signupForm" method="post" action="../form-processors/signup-form-processor.php">
+		<?php generateInputTags() ?>;
+		<div class="container">
 
-				<form class="form-signin" role="form">
-					<h2 class="form-signin-heading">Please complete the form to sign up for an account</h2>
-					<label for="inputFirstName" class="sr-only">First Name</label>
-					<input type="firstName" id="inputFirstName" class="form-control" placeholder="First Name">
-					<label for="inputLastName" class="sr-only">Last Name</label>
-					<input type="lastName" id="inputLastName" class="form-control" placeholder="Last Name">
-					<label for="inputDateOfBirth" class="sr-only">Date of Birth</label>
-					<input type="dateOfBirth" id="inputDateOfBirth" class="form-control" placeholder="Date of Birth (MM-DD-YYYY format)">
-					<label for="inputGender" class="sr-only">Gender</label>
-					<input type="gender" id="inputGender" class="form-control" placeholder="Gender (M, F, O)">
-					<label for="inputEmail" class="sr-only">Email</label>
-					<input type="email" id="inputEmail" class="form-control" placeholder="Email">
-					<label for="inputPassword" class="sr-only">Password</label>
-					<input type="password" id="inputPassword" class="form-control" placeholder="Password">
-					<label for="inputConfirmPassword" class="sr-only">Confirm Password</label>
-					<input type="confirmPassword" id="inputConfirmPassword" class="form-control" placeholder="Confirm Password">
+			<form class="form-signup" role="form">
+				<h2 class="form-signin-heading">Please complete the form to sign up for an account</h2>
+				<label for="firstName" class="sr-only">First Name</label>
+				<input type="text" id="firstName" name="firstName" class="form-control" placeholder="First Name">
+				<label for="lastName" class="sr-only">Last Name</label>
+				<input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last Name">
+				<label for="dateOfBirth" class="sr-only">Date of Birth</label>
+				<!--FIXME: need to have Date of Birth displayed in field, but since it is set as type="date" it seems to be overriding it-->
+				<input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="Date of Birth">
+				<label for="gender" class="sr-only">Gender</label>
+				<input type="text" id="gender" name="gender" class="form-control" placeholder="Gender (M, F, O)">
+				<label for="email" class="sr-only">Email</label>
+				<input type="email" id="email" name="email" class="form-control" placeholder="Email">
+				<label for="password" class="sr-only">Password</label>
+				<input type="password" id="password" name="password" class="form-control" placeholder="Password">
+				<label for="confirmPassword" class="sr-only">Confirm Password</label>
+				<input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm Password">
 
-					<button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
 
-				</div>
-			</form>
-		</body>
+		</div>
+	</form>
+	<p id="outputSignUp"></p>s
+</body>
 </html>

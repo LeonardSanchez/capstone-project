@@ -1,9 +1,6 @@
-/**
-* Created by Leonard on 12/1/2014.
-*/
 <?php
 session_start();
-require_once("/etc/apache2/capstone-mysql/prework.php");
+require_once("/etc/apache2/capstone-mysql/rgevents.php");
 require_once("../lib/csrf.php");
 require_once("login.php");
 try {

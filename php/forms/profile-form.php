@@ -33,9 +33,3 @@ require_once("csrf.php");
 
 	</body>
 </html>
-/**
- * Created by PhpStorm.
- * User: Leonard
- * Date: 12/1/2014
- * Time: 5:52 PM
- */ 
