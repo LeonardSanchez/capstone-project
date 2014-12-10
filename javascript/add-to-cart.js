@@ -2,7 +2,7 @@
 $(document).ready(function(){
 
 	// setup the form validation
-	$("#addToCart").validate({
+	$("#addToCartForm").validate({
 
 		// rules dictate what is (in)valid
 		rules: {
@@ -22,16 +22,12 @@ $(document).ready(function(){
 		submitHandler: function(form)
 		{
 			$(form).ajaxSubmit({
-				type: "POST",
+				type: "GET",
 				url: "../php/form-processor/add-to-cart-form-processor.php",
 				date: $(form).serialize(),
-				success: function() {
-					(function ()	{
-							var eventId = document.getElementById('eventId').value;
-							document.getElementById("#outputAddToCart"+eventId).onload.innerHTML("<div class=\"alert alert-success\" role=\"alert\">Item added to cart</div>");
-						})	();
-
-
+				success: function(ajaxoutput) {
+					var eventId = document.getElementById('eventId').value;
+					$("#outputDateSearch"+eventId).html(ajaxoutput);
 				}
 			});
 		}

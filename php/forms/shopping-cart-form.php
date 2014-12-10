@@ -1,7 +1,19 @@
 <?php
-session_start();
 require_once("../forms/csrf.php");
 require_once("../classes/event.php");
+require_once("/etc/apache2/capstone-mysql/rgevents.php");
+// require_once("../form-processors/add-to-cart-form-processor.php");
+var_dump(session_status());
+try {
+	if(session_status() === PHP_SESSION_NONE) {
+		session_start();
+	}
+
+} catch (Exception $exception)	{
+	echo "<div>Unable to verify csrf</div>";
+}
+$mysqli = MysqliConfiguration::getMysqli();
+$itemCount = count($_SESSION["cartItems"]);
 ?>
 
 <!DOCTYPE html>
@@ -16,32 +28,37 @@ require_once("../classes/event.php");
 		<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/javascript/shopping-cart.js"></script>
-		<link rel="stylesheet" type="text/css" />
+		<!-- link rel="stylesheet" type="text/css" / -->
    </head>
    <body>
       <form id="shoppingCart" action="../classes/transaction.php" method="POST">
 			<?php echo generateInputTags();?>
-			<h1>Shopping Cart</h1> <br /> <br />
-			<h3>Event Name
-         Qty:<select name="ticketQuantity">
-									 <option value="1" selected>1</option>
-									 <option value="2">2</option>
-									 <option value="3">3</option>
-									 <option value="4">4</option>
-									 <option value="5">5</option>
-									 <option value="6">6</option>
-									 <option value="7">7</option>
-									 <option value="8">8</option>
-									 <option value="9">9</option>
-									 <option value="10">10</option>
-								  </select>
-			Ticket Price Each</h3>
-			<br />
-			<input id="empty" type="button" value="Empty Cart" onclick="emptyCart()" />
-			<input id="remove" type="button" value="remove" onclick="removeFromCart()"/>
-			<input id="update" type="button" value="Update Cart" onclick="updateCart()" />
-			<input id="continueShopping" type="button" value="Continue Shopping" onclick="continueShopping()" />
+			<h1>Shopping Cart: <?php echo $itemCount; ?></h1> <br /> <br /><p class=\"col-sm-6\">
+				<?php
+					foreach($_SESSION["cartItems"] as $item)	{
+						var_dump($item['qty']);
+						echo "<h5>" . $item['eventName'] . "</h5><br/>"	. $item['eventDateTime']	.	"<br/>"	.
+							$item['ticketPrice']	.	"<br/>";
+							echo	"<label for=\"ticketQuantity"	.	$item['eventId']	.
+								"\">Ticket Quantity: </label><select name=\"ticketQuantity"	.	$item['eventId']	.
+								"\" id=\"ticketQuantity"	.	$item['eventId']	.	"\">";
+
+						for($i=1;$i<=10;$i++)	{
+							if($i != $item['qty']) {
+								echo "<option value=\"" . $i . "\">" . $i . "</option>";
+							}	else	{
+								echo "<option value=\"" . $i . "\" selected>" . $i . "</option>";
+							}
+							}
+						echo "</select></p>";
+					}
+				?>
+				</p>
 			<input id="checkout" type="button" value="Checkout" onclick="checkout()" />
-      </form>
-   </body>
+		</form>
+		<input id="empty" type="button" value="Empty Cart" onclick="emptyCart()" />
+		<input id="remove" type="button" value="remove" onclick="removeFromCart()"/>
+		<input id="update" type="button" value="Update Cart" onclick="updateCart()" />
+		<input id="continueShopping" type="button" value="Continue Shopping" onclick="continueShopping()" />
+	</body>
 </html>

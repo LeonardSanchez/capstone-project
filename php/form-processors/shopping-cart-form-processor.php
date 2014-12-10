@@ -30,6 +30,8 @@ try {
 	}
 
 
+}	catch(Exception $exception)	{
+	echo "Unable to verify csrf";
 }
 
 	// assign the session to our cart

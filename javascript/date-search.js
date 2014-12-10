@@ -10,12 +10,12 @@ $(document).ready(function()	{
 				required:	true
 			},
 			endDate:		{
-				required:	true
+				required:	false
 			}
 		},
 
 		messages:	{
-			event: "Please enter an Event to search by"
+			startDate:	{	required: "Please enter a date to search by"}
 		},
 
 		submitHandler: function(form)	{

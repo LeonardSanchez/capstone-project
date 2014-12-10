@@ -22,21 +22,22 @@ try {
 		throw(new RuntimeException("Form variable incomplete or missing"));
 	}
 
-
 	$csrfName = isset($_POST["csrfName"]) ? $_POST["csrfName"] : false;
 	$csrfToken = isset($_POST["csrfToken"]) ? $_POST["csrfToken"] : false;
 
-	if(verifyCsrf($_POST["csrfName"], $_POST["csrfToken"]) === false) {
+	if((verifyCsrf($_POST["csrfName"], $_POST["csrfToken"])) === false) {
 		throw(new Exception("external source violation"));
 	}
 
 	// check the event id
-	if($eventId = isset($_POST['eventId']) === false) {
+	if(($eventId = isset($_POST["eventId"])) === false) {
 		throw(new ErrorException("Event Id not found"));
 	}
 
-	$_SESSION['cart_items'][$eventId] = array('eventName' => $_POST['eventName'], 'eventDateTime' => $_POST['eventDateTime'], 'ticketPrice' => $_POST['ticketPrice'], 'qty' => $_POST['qty']);
-	//echo "<div class=\"alert alert-success\" role=\"alert\">Item added to cart</div>";
+	var_dump(session_status());
+	$_SESSION["cartItems"][] = array('eventId' => $_POST['eventId'], 'eventName' => $_POST['eventName'], 'eventDateTime' => $_POST['eventDateTime'], 'ticketPrice' => $_POST['ticketPrice'], 'qty' => $_POST['qty']);
+	var_dump($_SESSION['cartItems']);
+	echo "<div class=\"alert alert-success\" role=\"alert\">Item added to cart</div><a href='../forms/shopping-cart-form.php'>Cart</a> ";
 
 } catch (Exception $exception) {
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Unable to update cart: " . $exception->getMessage() . "</div>";

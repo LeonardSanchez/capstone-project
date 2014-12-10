@@ -1,16 +1,17 @@
 <?php
-
+require_once("../form-processors/date-search-form-processor.php");
 require_once("../forms/csrf.php");
 require_once("../classes/event.php");
 
 ?>
-<form class="addToCart col-sm-6" action="../form-processors/add-to-cart-form-processor.php" method="post">
+<form id="addToCartForm" class="addToCartForm col-sm-6" action="../form-processors/add-to-cart-form-processor.php" method="post">
 	<?php echo generateInputTags(); ?>
 	<input type="hidden" name="eventId" id="eventId" value="<?php echo $event->getEventId(); ?>" />
 	<input type="hidden" name="eventName" value="<?php echo $event->getEventName(); ?>" />
 	<input type="hidden" name="eventDateTime" value="<?php echo $event->getEventDateTime()->format("Y-m-d H:i:s"); ?>" />
 	<input type="hidden" name="ticketPrice" value="<?php echo $event->getTicketPrice(); ?>" />
-	Ticket Qty:<select name="qty">
+	<label for="qty">Ticket Quantity: </label>
+	<select id="qty" name="qty">
 		<option value="1">1</option>
 		<option value="2">2</option>
 		<option value="3">3</option>
@@ -25,5 +26,5 @@ require_once("../classes/event.php");
 
 	<br />
 	<input id="addToCart" type="submit" name="addToCart" value="Add to Cart" /><br/>
-	<?php echo "<p id=\"outputAddToCart". $event->getEventId() . "\"></p><br/><br/><br/><br/>"; ?>
 </form>
+<?php echo "<p id=\"outputAddToCart". $event->getEventId() . "\"></p><br/><br/><br/><br/>"; ?>

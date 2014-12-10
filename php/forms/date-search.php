@@ -18,6 +18,7 @@ if(session_status() === PHP_SESSION_NONE)	{
 		<script type="text/javascript" src="../../javascript/date-search.js"></script>
 		<script type="text/javascript" src="../../javascript/add-to-cart.js"></script>
 
+
 	</head>
 	<body>
 		<form id="dateSearchForm" method="get" action="../form-processors/date-search-form-processor.php">
