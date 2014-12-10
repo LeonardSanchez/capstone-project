@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("csrf.php");
+require_once("../forms/csrf.php");
 ?>
 <html>
 <head>
@@ -26,7 +26,7 @@ require_once("csrf.php");
 		<form class="form-signin" role="form">
 			<h2 class="form-signin-heading">Please Login</h2>
 			<label for="inputEmail" class="sr-only">Email address</label>
-			<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+			<input type="email" id="inputEmail" class="form-control" placeholder="Login with your email address" required autofocus>
 			<label for="inputPassword" class="sr-only">Password</label>
 			<input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
 			<div class="checkbox">

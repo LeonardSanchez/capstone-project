@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// create the white list of allowed types
+// create the list of allowed types
 $goodExtensions = array("jpg", "jpeg", "png");
 $goodMimes      = array("image/jpeg", "image/png");
 
