@@ -50,7 +50,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
 				<li><a href="php/forms/login-form.php">Login</a></li>
-				<li><a href="php/forms/profile-form.php">Update Profile</a></li>
+				<li><a href="php/forms/edit-profile.php">Update Profile</a></li>
 				<li><a href="php/forms/signup-form.php">Sign Up!</a></li>
 				<li><a href="#">Log Out</a></li>
 			</ul>

@@ -66,10 +66,3 @@ echo <<<EOF
 </ul>
 EOF;
 ?>
-
-/**
- * Created by PhpStorm.
- * User: Leonard
- * Date: 12/1/2014
- * Time: 1:29 PM
- */ 
