@@ -46,9 +46,9 @@ try {
 										$(':input').attr('disabled', true);
 									 	$('#login').hide();
 									});
-								</script>";
+								</script>"; }
 
-		}
-	}}
+
+
 
 
