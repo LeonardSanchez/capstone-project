@@ -1,6 +1,9 @@
 <?php
-session_start();
-require_once("csrf.php");
+    if(!isset($_SESSION))
+	 {
+		 session_start();
+	 }
+require_once("../forms/csrf.php");
 ?>
 <html>
 <head>
@@ -17,7 +20,7 @@ require_once("csrf.php");
 </head>
 <body>
 	<form id="signupForm" method="post" action="../form-processors/signup-form-processor.php">
-		<?php generateInputTags() ?>;
+		<?php echo generateInputTags(); ?>
 		<div class="container">
 
 			<form class="form-signup" role="form">

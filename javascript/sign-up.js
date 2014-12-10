@@ -7,44 +7,44 @@ $(document).ready(function() {
 		// rules that dictate whats (in)valid
 		rules: {
 			firstName      : {
-				required : true,
-				FirstName: true
+				required: true
 			},
 			lastName       : {
-				required: true,
-				LastName: true
+				required: true
 			},
 			dateOfBirth    : {
-				required   : true,
-				dateOfBirth: true
+				required: true
 			},
 			gender         : {
-				required: true,
-				gender  : true
+				required : true,
+				maxlength: 1
 			},
 			email          : {
 				required: true,
 				email   : true
 			},
 			password       : {
-				required: true,
-				password: true
+				required : true,
+				password : true,
+				minlength: 8
 			},
 			confirmPassword: {
 				required: true,
-				equalTo : "password"
-			},
+				equalTo : "#password"
+			}
+		},
 			// messages that are displayed to the user
-			messages       : {
-				firstName      : "Please enter a valid name in the field",
-				lastName       : "Please enter a valid name in the field",
+			messages: {
+				firstName      : "Please enter your first name in the field",
+				lastName       : "Please enter your last name in the field",
 				dateOfBirth    : "Please enter a valid date of birth",
-				gender         : "Please enter a valid gender",
+				gender         : "Please enter a single character gender",
 				email          : "Please enter a valid email",
 				password       : "Please enter a valid password",
-				confirmPassword: "Please {
+				confirmPassword: {
 					// confirmPassword was empty
 					required: "Please confirm the password",
+					minlength: "Your password must be at least 8 characters",
 					// passwords did not match
 					equalTo : "Passwords did not match"
 				}
@@ -52,10 +52,10 @@ $(document).ready(function() {
 			submitHandler  : function(form) {
 				$(form).ajaxSubmit({
 					type   : "POST",
-					url    : "../php/form-processors/sign-up-form-processor.php",
+					url    : "../form-processors/signup-form-processor.php",
 					data   : $(form).serialize(),
 					success: function(ajaxOutput) {
-						$("#outputArea").html(ajaxOutput);
+						$("#outputSignUp").html(ajaxOutput);
 
 						if($(".alert-success").length >= 1) {
 							$(form).reset();
@@ -63,10 +63,9 @@ $(document).ready(function() {
 					}
 				});
 			}
-
-
 		});
-	});
+});
+
 	/* verifies if the passwords match
 	 * input: n/a
 	 * output: (boolean) true if they matched, false if not */
@@ -76,10 +75,9 @@ $(document).ready(function() {
 		// see if they match and blame the user!
 		if(firstPassword != secondPassword) {
 			alert("Passwords do not match");
-			return (false);
+			return(false);
 		}
 		else {
-			return (true);
+			return(true);
 		}
-	}
-})
+}
