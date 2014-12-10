@@ -48,7 +48,6 @@ try	{
 	if($_POST['action']	===	"update") {
 		foreach($_SESSION['cartItems'] as $processItem ) {
 			// check quantity for update
-			var_dump($_POST['selected']);
 			if($_POST['selected'] === $processItem['eventId']) {
 				if($_POST["ticketQuantity" . $_POST['selected']] !== $processItem['qty']) {
 					$_SESSION['cartItems'][$processItem['eventId']]['qty'] = $_POST["ticketQuantity" . $_POST['selected']];
