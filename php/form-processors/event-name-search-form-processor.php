@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
 // require event class for getEventByEventName
 require_once("../classes/event.php");
 //require Event-Category for getEventCategory

@@ -34,9 +34,8 @@ try {
 		throw(new ErrorException("Event Id not found"));
 	}
 
-	var_dump(session_status());
-	$_SESSION["cartItems"][] = array('eventId' => $_POST['eventId'], 'eventName' => $_POST['eventName'], 'eventDateTime' => $_POST['eventDateTime'], 'ticketPrice' => $_POST['ticketPrice'], 'qty' => $_POST['qty']);
-	var_dump($_SESSION['cartItems']);
+	$_SESSION["cartItems"][$_POST["eventId"]] = array('eventId' => $_POST['eventId'], 'eventName' => $_POST['eventName'], 'eventDateTime' => $_POST['eventDateTime'],
+												'ticketPrice' => $_POST['ticketPrice'], 'qty' => $_POST['qty']);
 	echo "<div class=\"alert alert-success\" role=\"alert\">Item added to cart</div><a href='../forms/shopping-cart-form.php'>Cart</a> ";
 
 } catch (Exception $exception) {

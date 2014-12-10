@@ -7,7 +7,9 @@
  *
  * Created by Brendan Slevin
  */
-session_start();
+if(session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
 // require the transaction class so we can pull the ticket id which will have the event price and such
 require_once("../classes/event.php");
 // require to connect to our server I believe
@@ -15,7 +17,7 @@ require_once("/etc/apache2/capstone-mysql/rgevents.php");
 // require for the csrf protection
 require_once("../forms/csrf.php");
 // require for add to cart data to be dropped into the cart
-require_once("../forms/add-to-cart-form.php");
+//require_once("../forms/add-to-cart-form.php");
 
 try {
 	// require mySQLI
@@ -29,24 +31,52 @@ try {
 		throw(new Exception("external source violation"));
 	}
 
-
 }	catch(Exception $exception)	{
 	echo "Unable to verify csrf";
 }
 
-	// assign the session to our cart
-	$_SESSION["cart"]=$cart;
-
-	// declare the cart array
-	$cart = array(
-
-	);
-
 // check to see how many remaining tickets there are for the event
-$ticket = Ticket::getTicketByEventId($mysqli, $eventId);
+// TODO: tickets remaining
+//$ticket = Ticket::getTicketByEventId($mysqli, $_SESSION['cartItems']['eventId']);
 
-//
+/**
+ * update cart
+ * TODO:complete update cart
+ */
+try	{
+	// check each cartItem for changes in cart form
+	if($_POST['action']	===	"update") {
+		foreach($_SESSION['cartItems'] as $processItem) {
+			// check quantity for update
+			if($_POST["ticketQuantity" . $_POST['selected']] !== $processItem['qty']) {
+				$_SESSION['cartItems'][$processItem['eventId']]['qty'] = $_POST["ticketQuantity" . $_POST['selected']];
+			}
+		}
+	}	else if($_POST['action']	===	"remove")	{
 
+		unset($_SESSION['cartItems'][$_POST['selected']]);
+
+	}	else{
+
+		throw(new UnexpectedValueException("Not a selectable action"));
+	}
+
+	// echo link back to cart
+	echo "<a href='../forms/shopping-cart-form.php'>Back to cart</a>";
+
+}	catch(Exception $exception)	{
+	echo "unable to update cart";
+}
+
+
+
+
+
+
+
+
+
+/**
 // make sure the quantity selected is a integer
 $qty = filter_var($qty, FILTER_VALIDATE_INT);
 
@@ -71,9 +101,9 @@ if ($qty > 0){
 
 // remove ticket/s
 
-
+*/
 // empty cart
-unset($_SESSION["cart"]);
+//unset($_SESSION['cartItems']);
 
 
 

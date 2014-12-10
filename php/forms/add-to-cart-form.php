@@ -1,5 +1,4 @@
 <?php
-require_once("../form-processors/date-search-form-processor.php");
 require_once("../forms/csrf.php");
 require_once("../classes/event.php");
 

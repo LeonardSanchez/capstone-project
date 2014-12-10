@@ -41,6 +41,7 @@ try	{
 			$event->getEventDateTime()->format("m-d-Y h:i") . "<br/>$" .
 			$event->getTicketPrice() . "</p>";
 		include("../forms/add-to-cart-form.php");
+		echo "<br/><br/><br/>";
 	}
 } catch (Exception $exception) {
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Unable to search: " . $exception->getMessage() . "</div>";

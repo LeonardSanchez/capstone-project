@@ -3,7 +3,6 @@ require_once("../forms/csrf.php");
 require_once("../classes/event.php");
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 // require_once("../form-processors/add-to-cart-form-processor.php");
-var_dump(session_status());
 try {
 	if(session_status() === PHP_SESSION_NONE) {
 		session_start();
@@ -31,13 +30,12 @@ $itemCount = count($_SESSION["cartItems"]);
 		<!-- link rel="stylesheet" type="text/css" / -->
    </head>
    <body>
-      <form id="shoppingCart" action="../classes/transaction.php" method="POST">
+      <form id="shoppingCart" action="../form-processors/shopping-cart-form-processor.php" method="POST">
 			<?php echo generateInputTags();?>
-			<h1>Shopping Cart: <?php echo $itemCount; ?></h1> <br /> <br /><p class=\"col-sm-6\">
+			<h1>Shopping Cart: <?php echo $itemCount; ?> Item(s)</h1> <br /> <br />
 				<?php
 					foreach($_SESSION["cartItems"] as $item)	{
-						var_dump($item['qty']);
-						echo "<h5>" . $item['eventName'] . "</h5><br/>"	. $item['eventDateTime']	.	"<br/>"	.
+						echo "<h5>" . $item['eventName'] . "</h5>"	. $item['eventDateTime']	.	"<br/>$"	.
 							$item['ticketPrice']	.	"<br/>";
 							echo	"<label for=\"ticketQuantity"	.	$item['eventId']	.
 								"\">Ticket Quantity: </label><select name=\"ticketQuantity"	.	$item['eventId']	.
@@ -50,15 +48,18 @@ $itemCount = count($_SESSION["cartItems"]);
 								echo "<option value=\"" . $i . "\" selected>" . $i . "</option>";
 							}
 							}
-						echo "</select></p>";
+						echo "</select><br/>"	. "Select: <input type='checkbox' name='selected' value=\""	.	$item['eventId']	.	"\"></p><hr/>";
 					}
 				?>
-				</p>
-			<input id="checkout" type="button" value="Checkout" onclick="checkout()" />
+			<input type='radio' name='action' value='update'>update<br/>
+			<input type='radio' name='action' value='remove'>remove<br/>
+			<input id="checkout" type="submit" value="Submit Changes"/>
 		</form>
-		<input id="empty" type="button" value="Empty Cart" onclick="emptyCart()" />
+		<br/><a href="../forms/event-name-search.php">Event Name Search</a>
+		<br/><a href="../forms/date-search.php">Event Date Search</a>
+		<!--<input id="empty" type="button" value="Empty Cart" onclick="emptyCart()" />
 		<input id="remove" type="button" value="remove" onclick="removeFromCart()"/>
 		<input id="update" type="button" value="Update Cart" onclick="updateCart()" />
-		<input id="continueShopping" type="button" value="Continue Shopping" onclick="continueShopping()" />
+		<input id="continueShopping" type="button" value="Continue Shopping" onclick="continueShopping()" /> -->
 	</body>
 </html>
