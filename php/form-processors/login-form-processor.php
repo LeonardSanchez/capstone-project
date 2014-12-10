@@ -30,11 +30,12 @@ if((verifyCsrf($_POST["csrfName"], $_POST["csrfToken"])) === false) {
 	}
 //verify the correct password
 
-	if (isset$password) === false) {
+	if (isset($password) === false) {
 // use bootstrap div to alert
 		echo "<div class=\"alert alert-danger\" role=\"alert\"><p>Invalid Password/p></p></div>";
 	}
 
 
-
+}
 ?>
+}
