@@ -21,9 +21,10 @@ require_once("../forms/csrf.php");
 <body>
 	<form id="signupForm" method="post" action="../form-processors/signup-form-processor.php">
 		<?php echo generateInputTags(); ?>
+
 		<div class="container">
 
-			<form class="form-signup" role="form">
+			<form id="signup-form" class="signup-form" role="form">
 				<h2 class="form-signin-heading">Please complete the form to sign up for an account</h2>
 				<label for="firstName" class="sr-only">First Name</label>
 				<input type="text" id="firstName" name="firstName" class="form-control" placeholder="First Name">

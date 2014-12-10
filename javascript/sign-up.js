@@ -1,7 +1,7 @@
 // validate the form using jQuery
 $(document).ready(function() {
 	// set up the form validation
-	$("#signUp").validate({
+	$("#signupForm").validate({
 		// debug option in jQuery's validator
 		debug: true,
 		// rules that dictate whats (in)valid

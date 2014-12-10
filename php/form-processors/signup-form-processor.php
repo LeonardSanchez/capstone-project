@@ -35,7 +35,7 @@ try {
 	$user = new User(null, $_POST["email"], $passwordHash, $salt, $authToken);
 	$mysqli = MysqliConfiguration::getMysqli();
 	$user->insert($mysqli);
-	$profile = new Profile(null, $this->user->getUserId(), $_POST["firstName"], $_POST["lastName"], $_POST["dateOfBirth"], $_POST["gender"]);
+	$profile = new Profile(null, $user->getUserId(), $_POST["firstName"], $_POST["lastName"], $_POST["dateOfBirth"], $_POST["gender"]);
 	$profile->insert($mysqli);
 
 	// email the user with an activation message
