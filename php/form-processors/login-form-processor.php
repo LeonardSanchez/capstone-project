@@ -1,41 +1,54 @@
 <?php
-if(!isset($_SESSION))
-{
-	session_start();
-}
+session_start();
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
-require_once("../classes/login.php");
-require_once("../classes/user.php");
-require_once("../classes/profile.php");
-require_once("../forms/csrf.php");
+require_once("../lib/csrf.php");
+require_once("login.php");
 
 try {
 
-// connect to mySQL
 	$mysqli = MysqliConfiguration::getMysqli();
-// verify the CSRF tokens
-if((verifyCsrf($_POST["csrfName"], $_POST["csrfToken"])) === false) {
-	throw(new Exception("external source violation"));
-}
-//obtain email from $_SESSION
-	$email = $_POST["email"];
-	$password = $_POST["password"];
-
-//obtain user by email
-	$user = User::getUserByEmail($mysqli, $email);
-
-	if(isset($user) === false) {
-//use bootstrap div alert
-		echo "<div class=\"alert alert-danger\" role=\"alert\"><p>No Such User Found/p></div>";
+	$sessionName = $_POST["csrfName"];
+	$sessionToken = $_POST["csrfToken"];
+	if(verifyCsrf($_POST["csrfName"], $_POST["csrfToken"]) === false) {
+		throw(new RuntimeException("Make sure cookies are enabled"));
 	}
-//verify the correct password
-
-	if (isset($password) === false) {
-// use bootstrap div to alert
-		echo "<div class=\"alert alert-danger\" role=\"alert\"><p>Invalid Password/p></p></div>";
+	//filter sanitize email and password
+	$email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
+	$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
+	if(isset($_SESSION['userId'])) {
+		echo "<script>
+					$(document).ready(function() {
+						$(':input').attr('disabled', true);
+						$('#login').hide();
+					});
+				</script>";
+		throw(new ErrorException("You are already signed in"));
+	} else {
+		//get user by email
+		$user = User::getUserByEmail($mysqli, $email);
+		if($user === null) {
+			throw(new ErrorException("User not found"));
+			echo "<div class=\"alert alert-danger\" role=\"alert\"><p>User not found!/p></div>";
+		}
+		if($user->getAuthenticationToken() === null) {
+			throw(new ErrorException("Not Valid"));
+			echo "<div class=\"alert alert-danger\" role=\"alert\"><p>Not Valid/p></div>";
+		}
+		$passwordHash = hash_pbkdf2("sha512", $password, $user->getSalt(), 2048, 128);
+		if(!($passwordHash === $user->getPassword())) {
+			throw(new UnexpectedValueException("Email or Password is not correct"));
+			echo "<div class=\"alert alert-danger\" role=\"alert\"><p>Email or Password Not Valid/p></div>";
+		} else {
+			$_SESSION["userId"] = $user->getUserId();
+			echo "<div class=\"alert alert-success\" role=\"alert\">Successful Sign In</div>
+						      <script>
+									$(document).ready(function() {
+										$(':input').attr('disabled', true);
+									 	$('#login').hide();
+									});
+								</script>";
+		}
 	}
-
 
 }
 ?>
-}
