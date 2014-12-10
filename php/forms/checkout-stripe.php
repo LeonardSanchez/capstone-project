@@ -14,15 +14,15 @@
 </head>
 <body>
 	<form id="checkout-form" action="checkout-stripe.php" method="post">
-		<label>Card Number</label>
-		<input type="text" size="20" autocomplete="off">
-		<span>Please enter the number without spaces or hyphens.</span>
-		<label>CVC</label>
-		<input type="text" size="4" autocomplete="off">
-		<label>Expiration (MM/YYYY)</label>
+		<label>Card Number</label><br />
+		<input type="text" size="20" autocomplete="off"><br />
+		<span>Please enter the number without spaces or hyphens.</span><br />
+		<label>CVC</label><br />
+		<input type="text" size="4" autocomplete="off"><br />
+		<label>Expiration (MM/YYYY)</label><br />
 		<input type="text" size="2">
 		<span> / </span>
-		<input type="text" size="4"
+		<input type="text" size="4"><br />
 		<div id="payment-errors"></div>
 	</form>
 </body>
