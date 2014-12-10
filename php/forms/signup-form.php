@@ -32,7 +32,7 @@ require_once("../forms/csrf.php");
 				<input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last Name">
 				<label for="dateOfBirth" class="sr-only">Date of Birth</label>
 				<!--FIXME: need to have Date of Birth displayed in field, but since it is set as type="date" it seems to be overriding it-->
-				<input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="Date of Birth">
+				<input type="text" id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="Date of Birth mm-dd-yyy">
 				<label for="gender" class="sr-only">Gender</label>
 				<input type="text" id="gender" name="gender" class="form-control" placeholder="Gender (M, F, O)">
 				<label for="email" class="sr-only">Email</label>

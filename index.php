@@ -44,7 +44,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.php"><h4><strong>Red or Green Events</strong>	-	Your Guide To New Mexico Events and Attractions</h4></a>
+			<a class="navbar-brand" href="index.php"><h4><strong>Red or Green Events</strong>	-	Find Events With A Local Flavor</h4></a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
