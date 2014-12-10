@@ -52,7 +52,7 @@
 				<li><a href="php/forms/login-form.php">Login</a></li>
 				<li><a href="php/forms/edit-profile.php">Update Profile</a></li>
 				<li><a href="php/forms/signup-form.php">Sign Up!</a></li>
-				<li><a href="#">Log Out</a></li>
+				<li><a href="php/forms/log-out.php/">Log Out</a></li>
 			</ul>
 			<form class="navbar-form navbar-right">
 				<input type="text" class="form-control" placeholder="Search By City...">
