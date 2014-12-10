@@ -1,12 +1,17 @@
 <?php
-
+if(session_status() === PHP_SESSION_NONE)	{
+	session_start();
+}
 // require the transaction class so we can pull the ticket id which will have the event price and such
 require_once("../classes/event.php");
+//require_once("../forms/date-search.php");
+
 
 // require to connect to our server I believe
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 // require for the csrf protection
 require_once("../forms/csrf.php");
+
 
 try {
 	// require mySQLI
@@ -31,7 +36,7 @@ try {
 	}
 
 	$_SESSION['cart_items'][$eventId] = array('eventName' => $_POST['eventName'], 'eventDateTime' => $_POST['eventDateTime'], 'ticketPrice' => $_POST['ticketPrice'], 'qty' => $_POST['qty']);
-	echo "<div class=\"alert alert-success\" role=\"alert\">Item added to cart</div>";
+	//echo "<div class=\"alert alert-success\" role=\"alert\">Item added to cart</div>";
 
 } catch (Exception $exception) {
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Unable to update cart: " . $exception->getMessage() . "</div>";

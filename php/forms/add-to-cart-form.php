@@ -2,10 +2,11 @@
 
 require_once("../forms/csrf.php");
 require_once("../classes/event.php");
+
 ?>
-<form class="addToCart" action="../form-processors/add-to-cart-form-processor.php" method="post">
+<form class="addToCart col-sm-6" action="../form-processors/add-to-cart-form-processor.php" method="post">
 	<?php echo generateInputTags(); ?>
-	<input type="hidden" name="eventId" value="<?php echo $event->getEventId(); ?>" />
+	<input type="hidden" name="eventId" id="eventId" value="<?php echo $event->getEventId(); ?>" />
 	<input type="hidden" name="eventName" value="<?php echo $event->getEventName(); ?>" />
 	<input type="hidden" name="eventDateTime" value="<?php echo $event->getEventDateTime()->format("Y-m-d H:i:s"); ?>" />
 	<input type="hidden" name="ticketPrice" value="<?php echo $event->getTicketPrice(); ?>" />
@@ -23,5 +24,6 @@ require_once("../classes/event.php");
 	</select>
 
 	<br />
-	<input id="addToCart" type="submit" name="addToCart" value="Add to Cart" onclick="addToCart()" />
+	<input id="addToCart" type="submit" name="addToCart" value="Add to Cart" /><br/>
+	<?php echo "<p id=\"outputAddToCart". $event->getEventId() . "\"></p><br/><br/><br/><br/>"; ?>
 </form>

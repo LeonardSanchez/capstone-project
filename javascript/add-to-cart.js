@@ -23,9 +23,15 @@ $(document).ready(function(){
 		{
 			$(form).ajaxSubmit({
 				type: "POST",
-				url: "../form-processors/event-name-search-form-processor.php",
-				success: function(ajaxOutput) {
-					$("#outputAddToCart").html(ajaxOutput);
+				url: "../php/form-processor/add-to-cart-form-processor.php",
+				date: $(form).serialize(),
+				success: function() {
+					(function ()	{
+							var eventId = document.getElementById('eventId').value;
+							document.getElementById("#outputAddToCart"+eventId).onload.innerHTML("<div class=\"alert alert-success\" role=\"alert\">Item added to cart</div>");
+						})	();
+
+
 				}
 			});
 		}

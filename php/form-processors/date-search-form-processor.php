@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(session_status() === PHP_SESSION_NONE)	{
+	session_start();
+}
 // require Event class once for getEventByEventDateTime
 require_once("../classes/event.php");
 // require EventCategory class for event category
@@ -17,10 +19,8 @@ $endDate	=	DateTime::createFromFormat("m-d-Y", $endDate);
 
 // grab mysql data
 $events = Event::getEventByEventDateTime($mysqli, $startDate, $endDate);
-
 $resultCount = count($events);
-for($i = 0; $i < $resultCount; $i++)	{
-	$event = $events[$i];
+foreach($events as $event)	{
 	// set linked eventCategoryId to separate variable
 	$eventCategoryId = $event->getEventCategoryId();
 	// grabbing eventCategory from EventCategory class
@@ -34,7 +34,7 @@ for($i = 0; $i < $resultCount; $i++)	{
 		$eventCategory->getEventCategory()	.	"<br/>"	.
 		$venue->getVenueName()	.	"<br/>"	.
 		$event->getEventDateTime()->format("m-d-Y h:i")	.	"<br/>$"	.
-		$event->getTicketPrice() 	.	"</p>"	.	"<p class=\"col-sm-6\">";
+		$event->getTicketPrice() 	.	"</p>";
 	include("../forms/add-to-cart-form.php");
-	echo "</p><p id=\"outputAddToCart\"></p><br/><br/><br/><br/>";
 }
+
