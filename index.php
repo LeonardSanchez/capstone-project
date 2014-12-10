@@ -44,7 +44,7 @@ session_start();
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.php">Red or Green Events</a>
+			<a class="navbar-brand" href="index.php"><h4><strong>Red or Green Events</strong></h4></a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
@@ -71,11 +71,13 @@ session_start();
 			<ul class="nav nav-sidebar">
 				<li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
 				<br>
-				<li><a href="#">PLACEHOLDER</a></li>
-				<li><a href="#">PLACEHOLDER</a></li>
+				<h5><strong>Find Local Events</strong></h5>
+				<li><a href="php/forms/event-name-search.php">Search By Events</a></li>
+				<li><a href="php/forms/venue-search-form.php">Search By Venues</a></li>
+				<li><a href="php/forms/city-search.php">Search By City</a></li>
 			</ul>
+			<br>
 			<ul class="nav nav-sidebar">
-				<li><a href="">PLACEHOLDER</a></li>
 				<li><a href="">PLACEHOLDER</a></li>
 				<li><a href="">PLACEHOLDER</a></li>
 				<li><a href="">PLACEHOLDER</a></li>
@@ -84,6 +86,7 @@ session_start();
 		</div>
 	</div>
 </div>
+
 
 <!-- Bootstrap core JavaScript
  ================================================== -->
