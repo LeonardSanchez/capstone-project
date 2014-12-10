@@ -48,7 +48,7 @@ $itemCount = count($_SESSION["cartItems"]);
 								echo "<option value=\"" . $i . "\" selected>" . $i . "</option>";
 							}
 							}
-						echo "</select><br/>"	. "Select: <input type='checkbox' name='selected' value=\""	.	$item['eventId']	.	"\"></p><hr/>";
+						echo "</select><br/>"	. "Select: <input type='checkbox' name=\"selected\" value=\""	.	$item['eventId']	.	"\"></p><hr/>";
 					}
 				?>
 			<input type='radio' name='action' value='update'>update<br/>
