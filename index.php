@@ -51,14 +51,15 @@
 				<li><a href="php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
 				<li><a href="php/forms/login-form.php">Login</a></li>
 				<li><a href="php/forms/update-profile.php">Update Profile</a></li>
-				<li><a href="php/forms/signup-form.php">Sign Up!</a></li>
+				<li><a href="php/forms/signup-form.php">Sign Up</a></li>
 				<li><a href="php/forms/log-out.php/">Log Out</a></li>
 			</ul>
 			<form class="navbar-form navbar-right">
-				<input type="text" class="form-control" placeholder="Search By City...">
+				<input type="text" class="form-control" placeholder="Search Events By City...">
 			</form>
-			<form class="navbar-form navbar-right">
-				<input type="text" class="form-control" placeholder="Search Venues...">
+			<form class="navbar-form navbar-right" id="venueSearchForm" method="get" action="php/form-processors/venue-search-form-processor.php">
+				<input type="text" id="venue" name="venue" class="form-control" placeholder="Search Venues...">
+				<!--<span class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span> This is to clear out the field but it is not residing IN the search box-->
 			</form>
 			<form class="navbar-form navbar-right">
 				<input type="text" class="form-control" placeholder="Search Events...">
@@ -74,6 +75,11 @@
 				<li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
 				<br>
 				<h5><strong>Find Local Events</strong></h5>
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h3 class="panel-title">Select Event Category</h3>
+					</div>
+				</div>
 				<li><a href="php/forms/event-name-search.php">Search By Events</a></li>
 				<li><a href="php/forms/venue-search-form.php">Search By Venues</a></li>
 				<li><a href="php/forms/event-category-search.php">Search Event Categories (THIS WILL BE A DROP DOWN)</a></li>
