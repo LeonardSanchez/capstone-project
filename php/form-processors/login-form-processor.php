@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 require_once("../forms/csrf.php");
 require_once("../forms/login-form.php");

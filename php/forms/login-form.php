@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
 require_once("csrf.php");
 ?>
 <html>
@@ -21,7 +23,7 @@ require_once("csrf.php");
 		<div class="container">
 
 
-				<h3 class="form-signin-heading">Please Login</h3>
+				<h3 class="login-section">Please Login</h3>
 				<label for="email" class="sr-only">Email address</label>
 				<input type="email" id="email" class="form-control" placeholder="Login with your email address" required autofocus>
 				<label for="password" class="sr-only">Password</label>
