@@ -55,6 +55,11 @@ $itemCount = count($_SESSION["cartItems"]);
 			<input type='radio' name='action' value='remove'>remove<br/>
 			<input id="checkout" type="submit" value="Submit Changes"/>
 		</form>
+		<?php
+		// We need to get a cart total then convert it to cents to be inserted into stripe embedded form
+		//$cartTotal = 10.00;
+		//$priceInCents = $cartTotal * 100;
+		?>
 		<form action="" method="POST">
 			<script
 				src="https://checkout.stripe.com/checkout.js" class="stripe-button"
