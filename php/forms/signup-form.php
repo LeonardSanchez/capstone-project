@@ -9,7 +9,7 @@ require_once("../forms/csrf.php");
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title></title>
+	<title>Sign Up for RGEvents</title>
 	<link type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
@@ -24,7 +24,7 @@ require_once("../forms/csrf.php");
 
 		<div class="container">
 
-				<h2 class="form-signin-heading">Please complete the form to sign up for an account</h2>
+				<h3 class="signupForm">Please complete the form to sign up for an RGEvnets account</h3>
 				<label for="firstName" class="sr-only">First Name</label>
 				<input type="text" id="firstName" name="firstName" class="form-control" placeholder="First Name">
 				<label for="lastName" class="sr-only">Last Name</label>
