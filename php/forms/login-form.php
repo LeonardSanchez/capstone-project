@@ -19,15 +19,14 @@ require_once("csrf.php");
 </head>
 <body>
 	<form id="loginForm" method="post" action="../form-processors/login-form-processor.php">
-		<?php generateInputTags() ?>;
+		<?php echo generateInputTags(); ?>
+
 		<div class="container">
-
-
 				<h3 class="login-section">Please Login</h3>
 				<label for="email" class="sr-only">Email address</label>
-				<input type="email" id="email" class="form-control" placeholder="Login with your email address" required autofocus>
+				<input type="email" id="email" name="email" class="form-control" placeholder="Login with your email address">
 				<label for="password" class="sr-only">Password</label>
-				<input type="password" id="password" class="form-control" placeholder="Password" required>
+				<input type="password" id="password" name="password" class="form-control" placeholder="Password">
 
 				<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
 

@@ -4,7 +4,6 @@ if(session_status() === PHP_SESSION_NONE) {
 }
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 require_once("../forms/csrf.php");
-require_once("../forms/login-form.php");
 require_once("../classes/user.php");
 require_once("../classes/profile.php");
 

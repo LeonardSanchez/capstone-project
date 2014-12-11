@@ -28,10 +28,6 @@ $(document).ready(function() {
 				data: $(form).serialize(),
 				success: function(ajaxOutput) {
 					$("#outputLogin").html(ajaxOutput);
-
-					if($(".alert-success").length >= 1) {
-						$(form).reset();
-					}
 				}
 			});
 		}
