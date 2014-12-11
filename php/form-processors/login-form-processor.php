@@ -16,15 +16,7 @@ try {
 	$email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
 	$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
 	if(isset($_SESSION['userId'])) {
-		echo "<script>
-					$(document).ready(function() {
-						$(':input').attr('disabled', true);
-						$('#login').hide();
-					});
-				</script>";
-		throw(new ErrorException("You are already signed in"));
-	} else {
-		//get user by email
+
 		$user = User::getUserByEmail($mysqli, $email);
 		if($user === null) {
 			throw(new ErrorException("User not found"));
