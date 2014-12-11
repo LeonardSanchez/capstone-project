@@ -55,6 +55,16 @@ $itemCount = count($_SESSION["cartItems"]);
 			<input type='radio' name='action' value='remove'>remove<br/>
 			<input id="checkout" type="submit" value="Submit Changes"/>
 		</form>
+		<form action="" method="POST">
+			<script
+				src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+				data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+				data-amount="<?php echo $priceInCents; ?>"
+				data-name="RGEvents"
+				data-description=""
+				data-image="../../images/redgreenchilelarge.jpg">
+			</script>
+		</form>
 		<br/><a href="../forms/event-name-search.php">Event Name Search</a>
 		<br/><a href="../forms/date-search.php">Event Date Search</a>
 		<!--<input id="empty" type="button" value="Empty Cart" onclick="emptyCart()" />
