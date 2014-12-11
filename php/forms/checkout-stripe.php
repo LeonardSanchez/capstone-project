@@ -1,6 +1,6 @@
 <?php
-require_once("shopping-cart-form.php");
-require_once("../form-processors/shopping-cart-form-processor.php");
+//require_once("shopping-cart-form.php");
+//require_once("../form-processors/shopping-cart-form-processor.php");
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +19,7 @@ require_once("../form-processors/shopping-cart-form-processor.php");
 	<link rel="stylesheet" type="text/css" />
 </head>
 <body>
+	<h2>Checkout</h2>
 	<form id="checkout-form" action="checkout-stripe.php" method="post">
 		<label>Cart Total</label><br />
 		<?php ?>
@@ -32,7 +33,8 @@ require_once("../form-processors/shopping-cart-form-processor.php");
 		<span> / </span>
 		<input type="text" size="4"><br /><br />
 		<label>Email Address</label><br />
-		<input type="email" autocomplete="off"><br />
+		<input name="email" type="email" autocomplete="off"><br />
+		<button
 		<div id="payment-errors"></div>
 	</form>
 </body>
