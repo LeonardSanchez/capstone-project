@@ -12,7 +12,7 @@ try {
 	if(verifyCsrf($_POST["csrfName"], $_POST["csrfToken"]) === false) {
 		throw(new RuntimeException("Make sure cookies are enabled"));
 	}
-	//filter sanitize email and password
+	//filter, validate, & sanitize email and password
 	$email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
 	$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
 	if(isset($_SESSION['userId'])) {
@@ -41,14 +41,11 @@ try {
 		} else {
 			$_SESSION["userId"] = $user->getUserId();
 			echo "<div class=\"alert alert-success\" role=\"alert\">Successful Sign In</div>
-						      <script>
-									$(document).ready(function() {
-										$(':input').attr('disabled', true);
-									 	$('#login').hide();
-									});
-								</script>"; }
 
 
 
 
 
+
+
+?>
