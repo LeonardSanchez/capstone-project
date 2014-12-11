@@ -14,6 +14,7 @@ $(document).ready(function() {
 				required: true,
 				password: true
 			},
+
 			// messages that are displayed to the user
 			messages       : {
 				email          : "Please enter a valid email",
