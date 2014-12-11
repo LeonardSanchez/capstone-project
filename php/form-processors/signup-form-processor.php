@@ -38,7 +38,7 @@ try {
 
 	// email the user with an activation message
 	$to 	= $user->getEmail();
-	$from	= "info@rgevents.com";
+	$from	= "james.mistalski@gmail.com";
 
 	// build headers
 	$headers 					= array();
