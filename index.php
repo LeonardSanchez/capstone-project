@@ -54,15 +54,15 @@
 				<li><a href="php/forms/signup-form.php">Sign Up</a></li>
 				<li><a href="php/forms/log-out.php/">Log Out</a></li>
 			</ul>
-			<form class="navbar-form navbar-right">
-				<input type="text" class="form-control" placeholder="Search Events By City...">
+			<form class="navbar-form navbar-right" id="citySearchForm" method="get" action="php/form-processors/city-search-form-processor.php">
+				<input type="text" id="city" name="city" style="background-color: lightgreen" class="form-control" placeholder="Search Events By City...">
 			</form>
 			<form class="navbar-form navbar-right" id="venueSearchForm" method="get" action="php/form-processors/venue-search-form-processor.php">
-				<input type="text" id="venue" name="venue" class="form-control" placeholder="Search Venues...">
+				<input type="text" id="venue" name="venue" style="background-color: lightgreen" class="form-control" placeholder="Search Venues...">
 				<!--<span class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span> This is to clear out the field but it is not residing IN the search box-->
 			</form>
-			<form class="navbar-form navbar-right">
-				<input type="text" class="form-control" placeholder="Search Events...">
+			<form class="navbar-form navbar-right" id="eventNameSearchForm" method="get" action="php/form-processors/event-name-search-form-processor.php">
+				<input type="text"  id="eventName" name="eventName" style="background-color: lightgreen" class="form-control" placeholder="Search Events...">
 			</form>
 		</div>
 	</div>
