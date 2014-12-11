@@ -1,13 +1,22 @@
 <?php
-session_start();
-
-// create the list of allowed types
+if(session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
+// create the white list of allowed types
 $goodExtensions = array("jpg", "jpeg", "png");
 $goodMimes      = array("image/jpeg", "image/png");
 
 // verify the file was uploaded OK
 if($_FILES["avatar"]["error"] !== UPLOAD_ERR_OK) {
 	throw(new RuntimeException("Error while uploading file: " . $_FILES["avatar"]["error"]));
+}
+
+// verify the CSRF tokens
+$csrfName = isset($_POST["csrfName"]) ? $_POST["csrfName"] : false;
+$csrfToken = isset($_POST["csrfToken"]) ? $_POST["csrfToken"] : false;
+
+if((verifyCsrf($_POST["csrfName"], $_POST["csrfToken"])) === false) {
+	throw(new Exception("external source violation"));
 }
 
 // verify the file is an allowed extension and type
