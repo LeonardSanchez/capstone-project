@@ -11,7 +11,7 @@ $priceInCents = $cartTotal * 100;
 <form action="" method="POST">
   <script
     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-    data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+    data-key="pk_test_zqXDIk9h00Tk0kLxXw0UrENB"
     data-amount="<?php echo $priceInCents; ?>"
     data-name="RGEvents"
     data-description=""
