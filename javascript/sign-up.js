@@ -59,27 +59,11 @@ $(document).ready(function() {
 					success: function(ajaxOutput) {
 						$("#outputSignUp").html(ajaxOutput);
 
-						if($(".alert-success").length >= 1) {
-							$(form).reset();
-						}
+						// if($(".alert-success").length >= 1) {
+							// $(form).reset();
+						// }
 					}
 				});
 			}
 		});
 });
-
-	/* verifies if the passwords match
-	 * input: n/a
-	 * output: (boolean) true if they matched, false if not */
-	function verifyPasswords() {
-		var firstPassword = document.getElementById("password").value;
-		var secondPassword = document.getElementById("confirmPassword").value;
-		// see if they match and blame the user!
-		if(firstPassword != secondPassword) {
-			alert("Passwords do not match");
-			return(false);
-		}
-		else {
-			return(true);
-		}
-}

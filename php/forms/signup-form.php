@@ -24,7 +24,7 @@ require_once("../forms/csrf.php");
 
 		<div class="container">
 
-				<h3 class="signupForm">Please complete the form to sign up for an RGEvnets account</h3>
+				<h3 class="signupForm">Please complete the form to sign up for a RGEvents account</h3>
 				<label for="firstName" class="sr-only">First Name</label>
 				<input type="text" id="firstName" name="firstName" class="form-control" placeholder="First Name">
 				<label for="lastName" class="sr-only">Last Name</label>
