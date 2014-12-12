@@ -5,20 +5,27 @@ $(document).ready(function() {
 
 		// rules that dictate what is (in)valid
 		rules: {
-			email   : {
+			name:  {
+				required: true
+			},
+			email: {
 				required: true,
 				email   : true
 			},
-			password: {
+			message: {
 				required: true,
-				password: true
+				maxlength: 512
 			}
 		},
 
 		// messages that are displayed to the user
 		messages: {
+			name: "Please enter your name",
 			email: "Please enter a valid email",
-			password: "Please enter a valid password"
+			message: {
+				required: "Please enter a message to send",
+				maxlength: "Maximum of 500 characters allowed in message"
+			}
 		},
 
 		submitHandler  : function(form) {
@@ -28,9 +35,13 @@ $(document).ready(function() {
 				data: $(form).serialize(),
 				success: function(ajaxOutput) {
 					$("#outputContactUs").html(ajaxOutput);
+
+					if($(".alert-success").length >= 1)
+					{
+						$(form).reset();
+					}
 				}
 			});
 		}
-
 	});
 });

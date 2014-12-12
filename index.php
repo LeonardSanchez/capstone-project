@@ -55,7 +55,7 @@
 				<li><a href="php/forms/log-out.php/">Log Out</a></li>
 			</ul>
 			<form class="navbar-form navbar-right" id="citySearchForm" method="get" action="php/form-processors/city-search-form-processor.php">
-				<input type="text" id="city" name="city" style="background-color: lightgreen" class="form-control" placeholder="Search Events By City...">
+				<input type="text" id="city" name="city" style="background-color: lightgreen" class="form-control" placeholder="Search Venues By City...">
 			</form>
 			<form class="navbar-form navbar-right" id="venueSearchForm" method="get" action="php/form-processors/venue-search-form-processor.php">
 				<input type="text" id="venue" name="venue" style="background-color: lightgreen" class="form-control" placeholder="Search Venues...">
@@ -89,9 +89,8 @@
 			</ul>
 			<br>
 			<ul class="nav nav-sidebar">
-				<li><a href="">PLACEHOLDER</a></li>
-				<li><a href="">PLACEHOLDER</a></li>
-				<li><a href="">PLACEHOLDER</a></li>
+				<li><a href="php/forms/contact-form.php">Contact Us</a></li>
+
 			</ul>
 		</div>
 	</div>
