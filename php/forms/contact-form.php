@@ -44,7 +44,6 @@ require_once("../forms/csrf.php");
 			</form>
 			<p id="outputContactUs"></p>
 		</article>
-
 	</div>
 </body>
 </html>

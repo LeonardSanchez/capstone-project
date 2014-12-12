@@ -17,9 +17,15 @@ require_once("../forms/csrf.php");
 </head>
 
 <body>
-	<form id="eventCatSearchForm" method="get" action="../form-processors/event-name-search-form-processor.php">
+	<form id="eventCatSearchForm" name="catSubCat" method="post" action="../form-processors/event-category-search-form-processor.php">
 		<?php echo generateInputTags(); ?>
-		<label for="eventCatSearch"></label>
+		<label for="eventCatSearch">Event Category</label>
+		<select name="category" onchange="reload(this.form)">
+			<option value="">Select Category</option>
+		</select>
+		<select name='subcat'>
+			<option value=''>Select Sub-Category</option>
+		<button id="catSearch" type="submit">Search</button>
 	</form>
 
 </body>
