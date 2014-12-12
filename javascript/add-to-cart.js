@@ -22,12 +22,12 @@ $(document).ready(function(){
 		submitHandler: function(form)
 		{
 			$(form).ajaxSubmit({
-				type: "GET",
-				url: "../php/form-processor/add-to-cart-form-processor.php",
+				type: "POST",
+				url: "../php/forms/date-search.php",
 				date: $(form).serialize(),
 				success: function(ajaxoutput) {
 					var eventId = document.getElementById('eventId').value;
-					$("#outputDateSearch"+eventId).html(ajaxoutput);
+					$("#outputAddToCart"+eventId).html(ajaxoutput);
 				}
 			});
 		}

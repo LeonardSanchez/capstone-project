@@ -10,14 +10,10 @@
 if(session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
-// require the transaction class so we can pull the ticket id which will have the event price and such
-require_once("../classes/event.php");
 // require to connect to our server I believe
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 // require for the csrf protection
 require_once("../forms/csrf.php");
-// require for add to cart data to be dropped into the cart
-//require_once("../forms/add-to-cart-form.php");
 
 try {
 	// require mySQLI
@@ -41,7 +37,6 @@ try {
 
 /**
  * update cart
- * TODO:complete update cart
  */
 try	{
 	// check each cartItem for changes in cart form

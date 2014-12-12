@@ -2,7 +2,6 @@
 require_once("../forms/csrf.php");
 require_once("../classes/event.php");
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
-// require_once("../form-processors/add-to-cart-form-processor.php");
 try {
 	if(session_status() === PHP_SESSION_NONE) {
 		session_start();
@@ -30,46 +29,33 @@ $itemCount = count($_SESSION["cartItems"]);
 		<!-- link rel="stylesheet" type="text/css" / -->
    </head>
    <body>
-      <form id="shoppingCart" action="../form-processors/shopping-cart-form-processor.php" method="POST">
 			<?php echo generateInputTags();?>
 			<h1>Shopping Cart: <?php echo $itemCount; ?> Item(s)</h1> <br /> <br />
 				<?php
-					foreach($_SESSION["cartItems"] as $item)	{
-						echo "<h5>" . $item['eventName'] . "</h5>"	. $item['eventDateTime']	.	"<br/>$"	.
-							$item['ticketPrice']	.	"<br/>";
-							echo	"<label for=\"ticketQuantity"	.	$item['eventId']	.
-								"\">Ticket Quantity: </label><select name=\"ticketQuantity"	.	$item['eventId']	.
-								"\" id=\"ticketQuantity"	.	$item['eventId']	.	"\">";
 
-						for($i=1;$i<=10;$i++)	{
-							if($i != $item['qty']) {
-								echo "<option value=\"" . $i . "\">" . $i . "</option>";
-							}	else	{
-								echo "<option value=\"" . $i . "\" selected>" . $i . "</option>";
-							}
-							}
-						echo "</select><br/>"	. "Select: <input type='checkbox' name=\"selected\" value=\""	.	$item['eventId']	.	"\"></p><hr/>";
+				foreach($_SESSION["cartItems"] as $item)	{
+				echo "<form id=\"updateItem" . $item['eventId'] . "\"action=\"../form-processors/update-cart-form-processor.php\" method=\"POST\">";
+					echo "<h5>" . $item['eventName'] . "</h5>"	. $item['eventDateTime']	.	"<br/>$"	.
+						$item['ticketPrice']	.	"<br/>";
+					echo	"<label for=\"ticketQuantity"	.	$item['eventId']	.
+						"\">Ticket Quantity: </label><select name=\"ticketQuantity"	.	$item['eventId']	.
+						"\" id=\"ticketQuantity"	.	$item['eventId']	.	"\">";
+
+					for($i=1;$i<=10;$i++)	{
+						if($i != $item['qty']) {
+							echo "<option value=\"" . $i . "\">" . $i . "</option>";
+						}	else	{
+							echo "<option value=\"" . $i . "\" selected>" . $i . "</option>";
+						}
 					}
+					echo "<input type=\"hidden\" id=\""	.$item['eventId']	.	"\"><input type=\"submit\"></form></p><hr/>";
+				}
+				echo "</select>";
 				?>
-			<input type='radio' name='action' value='update'>update<br/>
-			<input type='radio' name='action' value='remove'>remove<br/>
-			<input id="checkout" type="submit" value="Submit Changes"/>
-		</form>
-		<?php
-		// We need to get a cart total then convert it to cents to be inserted into stripe embedded form
-		//$cartTotal = 10.00;
-		//$priceInCents = $cartTotal * 100;
-		?>
-		<form action="" method="POST">
-			<script
-				src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-				data-key="pk_test_zqXDIk9h00Tk0kLxXw0UrENB"
-				data-amount="<?php echo $priceInCents; ?>"
-				data-name="RGEvents"
-				data-description=""
-				data-image="../../images/redgreenchilelarge.jpg">
-			</script>
-		</form>
+			<!-- input type='radio' name='action' value='update'>update<br/-->
+			<!--input type='radio' name='action' value='remove'>remove<br/-->
+			<!--input id="checkout" type="submit" value="Submit Changes"/-->
+		<form id="clearCart" action="../form-processors/clear-cart.php" method="POST"><input type="submit" value="Clear Cart"> </form>
 		<br/><a href="../forms/event-name-search.php">Event Name Search</a>
 		<br/><a href="../forms/date-search.php">Event Date Search</a>
 		<!--<input id="empty" type="button" value="Empty Cart" onclick="emptyCart()" />

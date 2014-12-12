@@ -4,7 +4,7 @@ if(session_status() === PHP_SESSION_NONE)	{
 }
 // require the transaction class so we can pull the ticket id which will have the event price and such
 require_once("../classes/event.php");
-//require_once("../forms/date-search.php");
+require_once("../forms/date-search.php");
 
 
 // require to connect to our server I believe
@@ -36,9 +36,11 @@ try {
 
 	$_SESSION["cartItems"][$_POST["eventId"]] = array('eventId' => $_POST['eventId'], 'eventName' => $_POST['eventName'], 'eventDateTime' => $_POST['eventDateTime'],
 												'ticketPrice' => $_POST['ticketPrice'], 'qty' => $_POST['qty']);
+	if(isset($_SESSION["cartItems"]))
 	echo "<div class=\"alert alert-success\" role=\"alert\">Item added to cart</div><a href='../forms/shopping-cart-form.php'>Cart</a> ";
 
 } catch (Exception $exception) {
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Unable to update cart: " . $exception->getMessage() . "</div>";
 }
 ?>
+<link type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />

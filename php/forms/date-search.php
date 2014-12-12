@@ -16,7 +16,6 @@ if(session_status() === PHP_SESSION_NONE)	{
 		<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap.3.3.1/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="../../javascript/date-search.js"></script>
-		<script type="text/javascript" src="../../javascript/add-to-cart.js"></script>
 
 
 	</head>
