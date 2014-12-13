@@ -1,6 +1,10 @@
 <?php
-session_start();
+if(session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
 require_once("../forms/csrf.php");
+require_once("../forms/event-cat-search-functions.php");
+
 ?>
 <html>
 <head>
@@ -19,13 +23,14 @@ require_once("../forms/csrf.php");
 <body>
 	<form id="eventCatSearchForm" name="catSubCat" method="post" action="../form-processors/event-category-search-form-processor.php">
 		<?php echo generateInputTags(); ?>
-		<label for="eventCatSearch">Event Category</label>
-		<select name="category" onchange="reload(this.form)">
-			<option value="">Select Category</option>
-		</select>
-		<select name='subcat'>
-			<option value=''>Select Sub-Category</option>
-		<button id="catSearch" type="submit">Search</button>
+		<label for="eventCatSearch">Search By Event Category</label>
+			<select name="category">
+				<option><?php getCategory() ?></option>
+			</select>
+			<select name="subCategory">
+				<option>Select Sub-Category</option>
+			</select>
+		<input id="catSearch" type="submit" value="Submit">
 	</form>
 
 </body>
