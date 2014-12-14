@@ -10,6 +10,6 @@ $row=$mysqli->prepare($results);
 $row->execute();
 $result=$row->fetch_all(MYSQLI_ASSOC);
 
-$eventCatSearch= array('data'=>$result);
-echo json_encode($eventCatSearch);
+$main= array('data'=>$result);
+echo json_encode($main);
 ?>
