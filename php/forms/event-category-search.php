@@ -31,7 +31,9 @@ require_once("../forms/event-cat-search-functions.php");
 				<option><?php getCategory() ?></option>
 			</select>
 			<p>Select Sub-Category</p>
-			<select name="subcat" id='s2'></select>
+			<select name="subcat" id='s2'>
+
+			</select>
 		<div class="search">
 		<input id="catSearch" type="submit" value="Submit">
 		</div>

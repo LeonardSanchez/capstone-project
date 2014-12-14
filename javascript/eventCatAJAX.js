@@ -51,7 +51,7 @@ function AjaxFunction()
 		}
 	} // end of function stateck
 	var url="../form-processors/event-category-dd.php";
-	var cat_id=document.getElementById('s1').value;
+	var eventCategoryId=document.getElementById('s1').value;
 	url=url+"?eventCategoryId="+eventCategoryId;
 	url=url+"&sid="+Math.random();
 	httpxml.onreadystatechange=stateck;

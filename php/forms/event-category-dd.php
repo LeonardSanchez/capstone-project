@@ -5,7 +5,7 @@ $mysqli = MysqliConfiguration::getMysqli();
 @$eventCategoryId=$_POST['eventCategoryId'];
 
 // grab the data out of mySQL to populate the sub-category drop down list for all Child Categories
-$results = "SELECT eventCategory FROM eventCategory WHERE parentCategory = 'eventCategoryId'";
+$results = "SELECT eventCategory, eventCategoryId FROM eventCategory WHERE parentCategory = '$eventCategoryId'";
 $row=$mysqli->prepare($results);
 $row->execute();
 $result=$row->fetch_all(MYSQLI_ASSOC);
