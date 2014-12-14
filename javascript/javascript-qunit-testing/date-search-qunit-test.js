@@ -5,27 +5,26 @@ module("tabs", {
 	}
 });
 // global variables for form values
-var VALID_
-var VALID_
-var VALID_
-var VALID_
-var VALID_
-var VALID_
+var VALID_EVENTCATEGORY   = "Music";
+var VALID_VENUENAME       = "Tingley Colliseum";
+var VALID_EVENTDATETIME   = "12/15/2015";
+var VALID_TICKETPRICE     = "$25.00";
+
 
 // define a function to perform the actual unit tests
 function testValidFields() {
 	// fill in the form values
-	F("").visible(function() {
-		this.type(VALID_);
+	F("#eventCategory").visible(function() {
+		this.type(VALID_EVENTCATEGORY);
 	});
-	F("").visible(function() {
-		this.type(VALID_);
+	F("#venueName").visible(function() {
+		this.type(VALID_VENUENAME);
 	});
-	F("").visible(function() {
-		this.type(VALID_);
+	F("#eventDatetime").visible(function() {
+		this.type(VALID_EVENTDATETIME);
 	});
-	F("").visible(function() {
-		this.type(VALID_);
+	F("#ticketPrice").visible(function() {
+		this.type(VALID_TICKETPRICE);
 	});
 	// click the button once all the fields are filled in
 	F("dateSearchSubmit").visible(function() {
