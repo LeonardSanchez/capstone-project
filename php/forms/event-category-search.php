@@ -17,6 +17,7 @@ require_once("../forms/event-cat-search-functions.php");
 	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
 	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../javascript/eventCatAJAX.js"></script>
 	<script type="text/javascript" src="../../javascript/event-category-search.js"></script>
 </head>
 
@@ -24,13 +25,20 @@ require_once("../forms/event-cat-search-functions.php");
 	<form id="eventCatSearchForm" name="catSubCat" method="post" action="../form-processors/event-category-search-form-processor.php">
 		<?php echo generateInputTags(); ?>
 		<label for="eventCatSearch">Search By Event Category</label>
-			<select name="category">
+			<p>Choose Category</p>
+			<select name="cat" id="s1" onchange=AjaxFunction()>
+				<option value=''>Select One</option>"
 				<option><?php getCategory() ?></option>
 			</select>
-			<select name="subCategory">
-				<option>Select Sub-Category</option>
+
+			<p>Choose Sub-Category</p>
 			</select>
+			<br>
+			Select Subcategory
+			<select name="subcat" id='s2'>
+		<div class="search">
 		<input id="catSearch" type="submit" value="Submit">
+		</div>
 	</form>
 
 </body>

@@ -1,5 +1,4 @@
 
-
 function AjaxFunction()
 {
 	var httpxml;
@@ -44,19 +43,19 @@ function AjaxFunction()
 			for (i=0;i<myarray.data.length;i++)
 			{
 				var optn = document.createElement("OPTION");
-				optn.text = myarray.data[i].subcategory;
-				optn.value = myarray.data[i].subcat_id;  // You can change this to subcategory
+				optn.text = myarray.data[i].eventCategory;
+				optn.value = myarray.data[i].eventCategoryId;  // You can change this to subcategory
 				document.catSubCat.subcat.options.add(optn);
 
 			}
 		}
 	} // end of function stateck
-	var url="../php/form-processors/event-category-search-form.php";
+	var url="../form-processors/event-category-dd.php";
 	var cat_id=document.getElementById('s1').value;
 	url=url+"?cat_id="+cat_id;
 	url=url+"&sid="+Math.random();
 	httpxml.onreadystatechange=stateck;
 //alert(url);
-	httpxml.open("GET",url,true);
+	httpxml.open("POST",url,true);
 	httpxml.send(null);
 }

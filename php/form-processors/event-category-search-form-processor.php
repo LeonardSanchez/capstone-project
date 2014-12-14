@@ -20,16 +20,12 @@ require_once("../classes/event-category.php");
 	$categories = EventCategory::getEventCategoryByAllParentEvents($mysqli, $eventCategory);
 
 	// populate the drop down options with results from mySQL query
-	$resultCount = count($categories);
-	for($i = 0; $i < $resultCount; $i++) {
-		$category = $categories[$i];
-		//display results
-		echo "<option>" . $category->getEventCategory() . "</option>";
-	}
-//}
+
+
+
 
 	// grab the data out of mySQL to populate the sub-category drop down list for all Child Categories
 
 
-
+}
 ?>
