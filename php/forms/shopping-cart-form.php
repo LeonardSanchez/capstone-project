@@ -33,34 +33,33 @@ $itemCount = count($_SESSION["cartItems"]);
 			<h1>Shopping Cart: <?php echo $itemCount; ?> Item(s)</h1> <br /> <br />
 				<?php
 
-				foreach($_SESSION["cartItems"] as $item)	{
-				echo "<form id=\"updateItem" . $item['eventId'] . "\"action=\"../form-processors/update-cart-form-processor.php\" method=\"POST\">";
-					echo "<h5>" . $item['eventName'] . "</h5>"	. $item['eventDateTime']	.	"<br/>$"	.
-						$item['ticketPrice']	.	"<br/>";
-					echo	"<label for=\"ticketQuantity"	.	$item['eventId']	.
-						"\">Ticket Quantity: </label><select name=\"ticketQuantity"	.	$item['eventId']	.
-						"\" id=\"ticketQuantity"	.	$item['eventId']	.	"\">";
+				if($itemCount === 0)	{
+					echo "<h4>Shopping cart is empty</h4>";
+				} else {
+					foreach($_SESSION["cartItems"] as $item) {
+						echo "<form id=\"updateItem" . $item['eventId'] . "\"action=\"../form-processors/update-cart-form-processor.php\" method=\"POST\">";
+						echo "<h5>" . $item['eventName'] . "</h5>" . $item['eventDateTime'] . "<br/>$" .
+							$item['ticketPrice'] . "<br/>";
+						echo "<label for=\"ticketQuantity" . $item['eventId'] .
+							"\">Ticket Quantity: </label><select name=\"ticketQuantity" . $item['eventId'] .
+							"\" id=\"ticketQuantity" . $item['eventId'] . "\">";
 
-					for($i=1;$i<=10;$i++)	{
-						if($i != $item['qty']) {
-							echo "<option value=\"" . $i . "\">" . $i . "</option>";
-						}	else	{
-							echo "<option value=\"" . $i . "\" selected>" . $i . "</option>";
+						for($i = 1; $i <= 10; $i++) {
+							if($i != $item['qty']) {
+								echo "<option value=\"" . $i . "\">" . $i . "</option>";
+							} else {
+								echo "<option value=\"" . $i . "\" selected>" . $i . "</option>";
+							}
 						}
+						echo "</select>" . "<input type=\"hidden\" id=\"" . $item['eventId'] . "\" value=\"" . $item['eventId'] . "\"><input type=\"submit\" value=\"Update\"></form>" .
+							"<form id=\"removeItem" . $item['eventId'] . "\" action=\"../form-processors/remove-item.php\" method=\"post\"><input id=\"r" . $item['eventId'] . "\" name=\"r" . $item['eventId'] . "\" type=\"hidden\" value=\"" .
+							$item['eventId'] . "\"><input type=\"submit\" value=\"Remove\"></form></p><hr/>";
 					}
-					echo "<input type=\"hidden\" id=\""	.$item['eventId']	.	"\"><input type=\"submit\"></form></p><hr/>";
 				}
-				echo "</select>";
 				?>
-			<!-- input type='radio' name='action' value='update'>update<br/-->
-			<!--input type='radio' name='action' value='remove'>remove<br/-->
-			<!--input id="checkout" type="submit" value="Submit Changes"/-->
+
 		<form id="clearCart" action="../form-processors/clear-cart.php" method="POST"><input type="submit" value="Clear Cart"> </form>
 		<br/><a href="../forms/event-name-search.php">Event Name Search</a>
 		<br/><a href="../forms/date-search.php">Event Date Search</a>
-		<!--<input id="empty" type="button" value="Empty Cart" onclick="emptyCart()" />
-		<input id="remove" type="button" value="remove" onclick="removeFromCart()"/>
-		<input id="update" type="button" value="Update Cart" onclick="updateCart()" />
-		<input id="continueShopping" type="button" value="Continue Shopping" onclick="continueShopping()" /> -->
 	</body>
 </html>

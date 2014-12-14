@@ -44,3 +44,4 @@ try {
 }
 ?>
 <link type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+<head><meta http-equiv="refresh" content="0; url=../forms/shopping-cart-form.php" /></head>
