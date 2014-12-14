@@ -5,28 +5,30 @@ module("tabs", {
 	}
 });
 // global variables for form values
-var VALID_
-var VALID_
-var VALID_
-var VALID_
-var VALID_
-var VALID_
+var VALID_VENUEADDRESS1    = "301 Central Ave Ne. Albuquerque, NM 87102";
+var VALID_VENUEADDRESS2    = "123 Elm st.Albuquerque, NM 87110";
+var VALID_VENUECITY        = "Albuquerque";
+var VALID_VENUEPHONE       = "505 867-5309";
+var VALID_VENUEWEBSITE     = "www.kimotheatre.com"
 
 // define a function to perform the actual unit tests
 function testValidFields() {
 	// fill in the form values
-	F("").visible(function() {
-		this.type(VALID_);
+	F("#venueAddress1").visible(function() {
+		this.type(VALID_VENUEADDRESS1);
 	});
-	F("").visible(function() {
-		this.type(VALID_);
+	F("#venueAddress2").visible(function() {
+		this.type(VALID_VENUEADDRESS2);
 	});
-	F("").visible(function() {
-		this.type(VALID_);
+	F("venueCity").visible(function() {
+		this.type(VALID_VENUECITY);
 	});
-	F("").visible(function() {
-		this.type(VALID_);
+	F("#venuePhone").visible(function() {
+		this.type(VALID_VENUEPHONE);
 	});
+	F("#venueWebsite").visible(function() {
+		this.type(VALID_VENUEWEBSITE);
+	}
 	// click the button once all the fields are filled in
 	F("citySearchSubmit").visible(function() {
 		this.click();
