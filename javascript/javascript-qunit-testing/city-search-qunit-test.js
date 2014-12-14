@@ -28,7 +28,7 @@ function testValidFields() {
 	});
 	F("#venueWebsite").visible(function() {
 		this.type(VALID_VENUEWEBSITE);
-	}
+	});
 	// click the button once all the fields are filled in
 	F("citySearchSubmit").visible(function() {
 		this.click();
