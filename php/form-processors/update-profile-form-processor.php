@@ -62,6 +62,8 @@ try {
 		$salt = bin2hex(openssl_random_pseudo_bytes(32));
 		$passwordHash = hash_pbkdf2("sha512", $_POST["newPassword"], $salt, 2048, 128);
 		$user->setPasswordHash($passwordHash);
+	// FIXME verify password and copy pasta javascript over
+
 	}
 
 

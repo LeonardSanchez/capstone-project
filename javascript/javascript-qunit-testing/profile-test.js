@@ -30,6 +30,7 @@ function testValidFields() {
 	});
 	F("#email").visible(function() {
 		this.type(VALID_EMAIL);
+	});
 	F("#password").visible(function() {
 		this.type(VALID_PASSWORD);
 	});
