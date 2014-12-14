@@ -5,27 +5,36 @@ module("tabs", {
 	}
 });
 // global variables for form values
-var VALID_
-var VALID_
-var VALID_
-var VALID_
-var VALID_
-var VALID_
-
+var VALID_FIRSTNAME   = "Michael";
+var VALID_LASTNAME    = "Jackson";
+var VALID_DATEOFBIRTH = "06/06/1966";
+var VALID_GENDER      = "M";
+var VALID_EMAIL		 = "MichaelJ@Yahoo.com";
+var VALID_PASSWORD    = "Neverlandranchismine477";
+var CONFIRM_VALID_PASSWORD  = "Neverlandismine477";
 // define a function to perform the actual unit tests
 function testValidFields() {
 	// fill in the form values
-	F("").visible(function() {
-		this.type(VALID_);
+	F("#updateFirstName").visible(function() {
+		this.type(VALID_FIRSTNAME);
 	});
-	F("").visible(function() {
-		this.type(VALID_);
+	F("#updateLastName").visible(function() {
+		this.type(VALID_LASTNAME);
 	});
-	F("").visible(function() {
-		this.type(VALID_);
+	F("#updateDateOfBirth").visible(function() {
+		this.type(VALID_DATEOFBIRTH);
 	});
-	F("").visible(function() {
-		this.type(VALID_);
+	F("#updateGender").visible(function() {
+		this.type(VALID_GENDER);
+	});
+	F("#updateEmail").visible(function() {
+		this.type(VALID_EMAIL);
+	});
+	F("#updatePassword").visible(function() {
+		this.type(VALID_PASSWORD);
+	});
+	F("#confirmUpdatedPassword").visible(function() {
+		this.type(VALID_PASSWORD);
 	});
 	// click the button once all the fields are filled in
 	F("editProfileSubmit").visible(function() {

@@ -36,7 +36,6 @@ function testValidFields() {
 	});
 	F("#confirmPassword").visible(function() {
 		 this.type(VALID_PASSWORD);
-
 	});
 
 	// click the button once all the fields are filled in
@@ -51,7 +50,7 @@ function testValidFields() {
 		ok(F(this).hasClass("alert-success"), "successful alert CSS");
 		ok(F(this).html().indexOf("Updated Successful") >= 0, "successful message");
 	});
-})
+}
 
 // the test function *MUST* be called in order for the test to execute
-test("test valid fields", testValidFields);}
+test("test valid fields", testValidFields);
