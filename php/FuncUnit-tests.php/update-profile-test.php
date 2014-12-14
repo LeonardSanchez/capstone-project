@@ -7,6 +7,7 @@
 	<script type="text/javascript" src="//code.jquery.com/qunit/qunit-1.15.0.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudfare.com/ajax/libs/FuncUnit/2.0.4/funcunit.min.js"></script>
 	<script type="text/javascript" src="updateProfile-test.js"></script>
+	<title>Update Profile Test</title>
 </head>
 <body>
 <div id="qunit"></div>
