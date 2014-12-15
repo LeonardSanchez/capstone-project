@@ -4,6 +4,7 @@
  *
  * This should handle the backend of the payment including the token
  **/
+require_once("../forms/shopping-cart-form.php");
 
 // Set the secret key
 Stripe::setApiKey("sk_test_10RALcMRpUK6T8px2D1QDXFW");
