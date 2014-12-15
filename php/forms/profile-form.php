@@ -23,7 +23,7 @@ require_once("../forms/csrf.php");
 	<?php echo generateInputTags(); ?>
 
 	<div class="container">
-		<h3 class="updateProfile">Create Your Profile Here</h3>
+		<h3 class="profile">Create Your Profile Here</h3>
 		<label for="firstName" class="sr-only">First Name</label>
 		<input type="text" id="firstName" name="firstName" class="form-control" placeholder="First Name">
 		<label for="lastName" class="sr-only">Last Name</label>
@@ -36,8 +36,6 @@ require_once("../forms/csrf.php");
 		<input type="email" id="email" name="email" class="form-control" placeholder="Email">
 		<label for="currentPassword" class="sr-only">Current Password</label>
 		<input type="password" id="currentPassword" name="currentPassword" class="form-control" placeholder="Current Password">
-		<label for="newPassword" class="sr-only">New Password</label>
-		<input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="New Password">
 		<label for="confirmPassword" class="sr-only">Confirm Password</label>
 		<input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm Password">
 
