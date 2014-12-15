@@ -29,7 +29,7 @@ try {
 	$firstName 			= filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_STRING);
 	$lastName 			= filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_STRING);
 	$dateOfBirth		= filter_input(INPUT_POST, 'dateOfBirth', FILTER_SANITIZE_STRING);
-	$dateOfBirth		= DateTime::createFromFormat("mm-dd-YYYY", $dateOfBirth);
+	$dateOfBirth		= DateTime::createFromFormat("m-d-Y", $dateOfBirth);
 	$gender				= filter_input(INPUT_POST, 'gender', FILTER_SANITIZE_STRING);
 	$email				= filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 	$password			= filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
