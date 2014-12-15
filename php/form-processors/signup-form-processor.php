@@ -87,6 +87,7 @@ EOF;
 }
 
 } catch(Exception $exception) {
+	$_SESSION[$csrfName]=$csrfToken;
 	echo "<div class=\"alert alert-danger\" role=\"alert\"><strong>Oh snap!</strong> Unable to sign up: " . $exception->getMessage() . "</div>";
 }
 ?>

@@ -10,7 +10,7 @@ var VALID_FIRSTNAME   = "Homer";
 var VALID_LASTNAME    = "Simpson";
 var VALID_DATEOFBIRTH = "11/11/2011";
 var VALID_GENDER      = "M";
-var VALID_EMAIL       = "homer@cnm.edu";
+var VALID_EMAIL       = "bslevin87@gmail.com";
 var VALID_PASSWORD    = "margeisgood123";
 var CONFIRM_VALID_PASSWORD  = "margeisgood123";
 
