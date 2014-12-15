@@ -2,6 +2,7 @@
 require_once("../forms/csrf.php");
 require_once("../classes/event.php");
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
+require_once("../form-processors/update-subtotal.php");
 try {
 	if(session_status() === PHP_SESSION_NONE) {
 		session_start();
@@ -53,7 +54,8 @@ $itemCount = count($_SESSION["cartItems"]);
 						}
 						echo "</select>" . "<input type=\"hidden\" id=\"" . $item['eventId'] . "\" value=\"" . $item['eventId'] . "\"><input type=\"submit\" value=\"Update\"></form>" .
 							"<form id=\"removeItem" . $item['eventId'] . "\" action=\"../form-processors/remove-item.php\" method=\"post\"><input id=\"r" . $item['eventId'] . "\" name=\"r" . $item['eventId'] . "\" type=\"hidden\" value=\"" .
-							$item['eventId'] . "\"><input type=\"submit\" value=\"Remove\"></form></p><hr/>";
+							$item['eventId'] . "\"><input type=\"submit\" value=\"Remove\"></form></p><hr/>".
+							"<form id=\"checkout\"><label for=\"\"></label><h3>$".$_SESSION['cartSubtotal']."</h3></form>";
 					}
 				}
 				?>
