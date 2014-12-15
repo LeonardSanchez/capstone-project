@@ -45,7 +45,7 @@ function testValidFields() {
 	F(".alert").visible(function() {
 		// the ok() function from qunit is equivalent to simpleTest's assertTrue()
 		ok(F(this).hasClass("alert-success"), "successful alert.CSS");
-		ok(F(this).html().indexOf("Updated Successful") >= 0, "successful message");
+		ok(F(this).html().indexOf("Update Successful") >= 0, "successful message");
 	});
 }
 // the test function *MUST* be called for the test to work
