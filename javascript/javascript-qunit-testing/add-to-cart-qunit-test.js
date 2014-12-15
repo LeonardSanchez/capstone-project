@@ -25,7 +25,7 @@ function testValidFields() {
 			F("#ticketPrice").visible(function() {
 					this.type(VALID_TICKETPRICE);
 			});
-			F("#ticketQuanitiy").visible(function(){
+			F("#ticketQuantity").visible(function(){
 					this.type(VALID_TICKETQUANTITY);
 			});
 			// click the button once all the fields are filled in
