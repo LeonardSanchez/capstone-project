@@ -125,13 +125,13 @@ require_once("php/forms/csrf.php");
 						</ol>
 						<div class="carousel-inner" role="listbox">
 							<div class="item">
-								<img data-src="holder.js/1140x500/auto/#777:#555/text:First slide" alt="First slide" data-holder-rendered="true">
+								<img data-src="holder.js/1140x500/auto/#777:#555/text:FEATURED VENUE: THE KIMO THEATRE" alt="FEATURED VENUE: THE KIMO THEATRE"  src="images/thekimotheater-front.jpg" data-holder-rendered="true">
 							</div>
 							<div class="item">
-								<img data-src="holder.js/1140x500/auto/#666:#444/text:Second slide" alt="Second slide">
+								<img data-src="holder.js/1140x500/auto/#666:#444/text:FEATURED " alt="Second slide" src="images/reelbigfishsunshine.jpg" data-holder-rendered="true">
 							</div>
 							<div class="item">
-								<img data-src="holder.js/1140x500/auto#555:#333/text:Third slide" alt="Third slide [1140x500]">
+								<img data-src="holder.js/1140x500/auto#555:#333/text:Third slide" alt="Third slide [1140x500]" data-holder-rendered="true">
 							</div>
 						</div>
 						<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">

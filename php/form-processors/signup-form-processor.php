@@ -26,14 +26,23 @@ try {
 		throw(new Exception("external source violation"));
 	}
 
+	$firstName 			= filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_STRING);
+	$lastName 			= filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_STRING);
+	$dateOfBirth		= filter_input(INPUT_POST, 'dateOfBirth', FILTER_SANITIZE_STRING);
+	$dateOfBirth		= DateTime::createFromFormat("mm-dd-YYYY", $dateOfBirth);
+	$gender				= filter_input(INPUT_POST, 'gender', FILTER_SANITIZE_STRING);
+	$email				= filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+	$password			= filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+	$confirmPassword	= filter_input(INPUT_POST, 'confirmPassword', FILTER_SANITIZE_STRING);
+
 
 	// create a new object and insert it to mySQL
 	$authToken = bin2hex(openssl_random_pseudo_bytes(16));
 	$salt = bin2hex(openssl_random_pseudo_bytes(32));
-	$passwordHash = hash_pbkdf2("sha512", $_POST["password"], $salt, 2048, 128);
-	$user = new User(null, $_POST["email"], $passwordHash, $salt, $authToken);
+	$passwordHash = hash_pbkdf2("sha512", $password, $salt, 2048, 128);
+	$user = new User(null, $email, $passwordHash, $salt, $authToken);
 	$user->insert($mysqli);
-	$profile = new Profile(null, $user->getUserId(), $_POST["firstName"], $_POST["lastName"], $_POST["dateOfBirth"], $_POST["gender"]);
+	$profile = new Profile(null, $user->getUserId(), $firstName, $lastName, $dateOfBirth, $gender);
 	$profile->insert($mysqli);
 
 	// email the user with an activation message
