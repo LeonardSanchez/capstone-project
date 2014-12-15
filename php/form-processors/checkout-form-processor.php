@@ -6,7 +6,7 @@
  **/
 
 // Set the secret key
-Stripe::setApiKey("sk_test_BQokikJOvBiI2HlWgH4olfQ2");
+Stripe::setApiKey("sk_test_10RALcMRpUK6T8px2D1QDXFW");
 
 // Get the credit card details submitted by the form
 $token = $_POST['stripeToken'];
