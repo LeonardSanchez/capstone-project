@@ -70,9 +70,6 @@ try {
 		$passwordHash = hash_pbkdf2("sha512", $_POST["confirmNewPassword"], $salt, 2048, 128);
 		$user->setPasswordHash($passwordHash);
 	}
-
-
-
 	else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\"><p><strong>Oh snap!</strong>No Entries to Update</p></div>";
 	}
