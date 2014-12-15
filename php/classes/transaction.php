@@ -22,10 +22,12 @@ class Transaction
 	 * the monetary amount for the transaction
 	 **/
 	private $amount;
-	/*
+	/**
 	 * the date that the transaction was approved
 	 **/
 	private $dateApproved;
+
+	private $stripeToken;
 
 
 	/**
@@ -39,7 +41,7 @@ class Transaction
 	 * @throws UnexpectedValueException when a parameter is not the right type
 	 * @throws RangeException when a parameter is invalid
 	 **/
-	public function __construct($newTransactionId, $newProfileId, $newTicketId, $newAmount, $newDateApproved)
+	public function __construct($newTransactionId, $newProfileId, $newTicketId, $newAmount, $newDateApproved,$newStripeToken)
 	{
 		try {
 			$this->setTransactionId($newTransactionId);
@@ -47,6 +49,7 @@ class Transaction
 			$this->setTicketId($newTicketId);
 			$this->setAmount($newAmount);
 			$this->setDateApproved($newDateApproved);
+			$this->setStripeToken($newStripeToken);
 		} catch(UnexpectedValueException $unexpectedValue) {
 			// rethrow to caller
 			throw(new UnexpectedValueException("Unable to construct Transaction", 0, $unexpectedValue));
@@ -257,6 +260,23 @@ class Transaction
 
 		// take the ticket id out of quarantine and assign it
 		$this->ticketId = $newTicketId;
+	}
+
+	public function getStripeToken()	{
+		return($this->stripeToken);
+	}
+
+	public function setStripeToken($newStripeToken)	{
+		if($newStripeToken === null)	{
+			$this->stripeToken = null;
+			return;
+		}
+
+		if(filter_var($newStripeToken, FILTER_SANITIZE_STRING)===false)	{
+			throw(new UnexpectedValueException("stripe token is not a string"));
+		}
+
+		$this->stripeToken = $newStripeToken;
 	}
 
 	/**

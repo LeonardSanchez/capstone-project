@@ -2,7 +2,7 @@
 if(session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
-if(array_key_exists(['email'],$_SESSION)===false)	{
+if(array_key_exists('email',$_SESSION)===false)	{
 	echo "<p>Please sign in to purchase</p>";
 } else	{
 

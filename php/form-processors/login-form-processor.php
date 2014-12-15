@@ -59,6 +59,7 @@ try {
 			} else {
 				echo "<div class=\"alert alert-danger\" role=\"alert\">Incorrect Password. Please try again.</div>";
 			}
+		header("../../index.php");
 		}
 } catch(Exception $exception) {
 	echo "<div class=\"alert alert-danger\" role=\"alert\"><strong>Oh snap!</strong> Unable to log in: " . $exception->getMessage() . "</div>";
