@@ -18,8 +18,6 @@ try	{
 	$endDate = filter_input(INPUT_GET, "endDate", FILTER_SANITIZE_STRING);
 	if($endDate !== "") {
 		$endDate = DateTime::createFromFormat("m-d-Y", $endDate);
-	} else	{
-		$endDate = null;
 	}
 
 	// grab mysql data

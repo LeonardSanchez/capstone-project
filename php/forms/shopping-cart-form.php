@@ -58,7 +58,7 @@ if(array_key_exists('cartItems', $_SESSION) === true){
 						}
 						echo "</select>" . "<input type=\"hidden\" id=\"" . $item['eventId'] . "\" value=\"" . $item['eventId'] . "\"><input type=\"submit\" value=\"Update\"></form>" .
 							"<form id=\"removeItem" . $item['eventId'] . "\" action=\"../form-processors/remove-item.php\" method=\"post\"><input id=\"r" . $item['eventId'] . "\" name=\"r" . $item['eventId'] . "\" type=\"hidden\" value=\"" .
-							$item['eventId'] . "\"><button class=\"glyphicon glyphicon-remove\" aria-hiddent=\"true\" type=\"submit\"></button></form></p><hr/>";
+							$item['eventId'] . "\"><button class=\"glyphicon glyphicon-trash\" aria-hiddent=\"true\" type=\"submit\"></button></form></p><hr/>";
 					}
 				}
 				echo "<form id=\"checkout\" action='../form-processors/stripe1.php' method='post'><label for=\"subtotal\">Cart Subtotal	:</label><input type=\"hidden\" value=\"".$_SESSION['cartSubtotal']."\"<h3>$".

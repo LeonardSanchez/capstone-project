@@ -27,7 +27,8 @@ try {
 			$venue->getVenueAddress2() . "<br />" .
 			$venue->getVenueCity() . ", " . $venue->getVenueState() . " " . $venue->getVenueZipCode() . "<br />" .
 			$venue->getVenuePhone() . "<br />" .
-			$venue->getVenueWebsite() . "</p>";
+			$venue->getVenueWebsite() . "</p>".
+			"<a href=\"../form-processors/event-venue-search.php?venueId=". $venue->getVenueId()."\"><button>View Events</button></a>";
 	}
 	// this is how you redirect with PHP
 	// header("Location: ../forms/venue-search-form.php");
