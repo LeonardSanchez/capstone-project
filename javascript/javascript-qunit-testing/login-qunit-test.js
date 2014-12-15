@@ -1,7 +1,7 @@
 // open a new window
 module("tabs", {
 	setup: function() {
-		F.open("../../php/forms/login.php");
+		F.open("../../php/forms/login-form.php");
 	}
 });
 
