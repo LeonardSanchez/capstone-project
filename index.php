@@ -1,5 +1,8 @@
 <?php
-
+if(session_status() === PHP_SESSION_NONE)	{
+	session_start();
+}
+require_once("php/forms/csrf.php");
 ?>
 <html lang="en">
 <head>
@@ -51,11 +54,15 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
-
-				<li><a href="php/forms/login-form.php">Login</a></li>
-				<li><a href="php/forms/update-profile.php">Update Profile</a></li>
-				<li><a href="php/forms/signup-form.php">Sign Up</a></li>
-				<li><a href="php/forms/log-out.php/">Log Out</a></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Account<span class="caret"></span></a>
+						<ul id="account-list-options" class="dropdown-menu" role="menu">
+							<li><a href="php/forms/login-form.php">Log In</a></li>
+							<li><a href="php/forms/update-profile.php">Update Profile</a></li>
+							<li><a href="php/forms/signup-form.php">Sign Up</a></li>
+							<li><a href="php/forms/log-out.php/">Log Out</a></li>
+							</ul>
+				</li>
 			</ul>
 			<form class="navbar-form navbar-right" id="citySearchForm" method="get" action="php/form-processors/city-search-form-processor.php">
 				<input type="text" id="city" name="city" style="background-color: beige" class="form-control" placeholder="Search Venues By City...">
@@ -70,54 +77,51 @@
 		</div>
 	</div>
 </nav>
+<!-- end of top nav bar -->
 
-<main>
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-sm-3 col-md-2 sidebar" style="background-color: ActiveBorder">
-			<ul class="nav nav-sidebar" id="leftnav1">
-				<li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-				<br>
-				<h5><strong>Find Local Events</strong></h5>
-				<div class="panel panel-success">
-					<div class="panel-heading">
-						<h3 class="panel-title">Select Event Category</h3>
-					</div>
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-6 col-md-3" style="background-color: ActiveBorder">
+					<ul class="nav nav-sidebar" id="leftnav1">
+						<li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+						<br>
+						<h5><strong>Find Local Events</strong></h5>
+						<div class="panel panel-success">
+							<div class="panel-heading">
+								<h3 class="panel-title">Select Event Category</h3>
+							</div>
+						</div>
+						<li><a href="php/forms/event-name-search.php">Search By Events</a></li>
+						<li><a href="php/forms/venue-search-form.php">Search By Venues</a></li>
+						<li><a href="php/forms/event-category-search.php">Search Event Categories (THIS WILL BE A DROP DOWN)</a></li>
+						<li><a href="#">Search Event Sub-Categories (THIS WILL BE A DROP DOWN)</a></li>
+						<li><a href="php/forms/city-search.php">Search By City</a></li>
+						<article>Search Events By Date
+							<form id="dateSearchForm" method="get" action="../form-processors/date-search-form-processor.php">
+								<label for="startDate">Start Date</label>
+								<input type="text" id="startDate" name="startDate" placeholder="mm-dd-yyyy"/><br/>
+								<label for="endDate">End Date</label>
+								<input type="text" id="endDate" name="endDate" placeholder="mm-dd-yyyy"><br/>
+								<button id="search" type="submit">Search</button>
+							</form>
+							<p id="outputDateSearch"></p>
+						</article>
+						<li><a href="php/forms/date-search.php">Search Events By Date</a></li>
+					</ul>
+					<br>
+					<ul class="nav nav-sidebar">
+						<li><a href="php/forms/contact-form.php">Contact Us</a></li>
+
+					</ul>
 				</div>
-				<li><a href="php/forms/event-name-search.php">Search By Events</a></li>
-				<li><a href="php/forms/venue-search-form.php">Search By Venues</a></li>
-				<li><a href="php/forms/event-category-search.php">Search Event Categories (THIS WILL BE A DROP DOWN)</a></li>
-				<li><a href="#">Search Event Sub-Categories (THIS WILL BE A DROP DOWN)</a></li>
-				<li><a href="php/forms/city-search.php">Search By City</a></li>
-				<article>Search Events By Date
-					<form id="dateSearchForm" method="get" action="../form-processors/date-search-form-processor.php">
-						<label for="startDate">Start Date</label>
-						<input type="text" id="startDate" name="startDate" placeholder="mm-dd-yyyy"/><br/>
-						<label for="endDate">End Date</label>
-						<input type="text" id="endDate" name="endDate" placeholder="mm-dd-yyyy"><br/>
-						<button id="search" type="submit">Search</button>
-					</form>
-					<p id="outputDateSearch"></p>
-				</article>
-				<li><a href="php/forms/date-search.php">Search Events By Date</a></li>
-			</ul>
-			<br>
-			<ul class="nav nav-sidebar">
-				<li><a href="php/forms/contact-form.php">Contact Us</a></li>
 
-			</ul>
+				<div class="col-xs-12 col-md-9" id="pageContent">
+					
+				</div>
+			</div>
 		</div>
-	</div>
 
-	<div class="row">
-
-	</div>
-</div>
-</main>
-
-		<div class="main-container">
-
-		</div>
 
 
 

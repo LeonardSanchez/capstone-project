@@ -2,3 +2,7 @@
 .navbar-fixed-top {
 	z-index: 999;
 }
+
+#pageContent {
+	border-color: black;
+}
