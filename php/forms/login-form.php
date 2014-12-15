@@ -28,7 +28,7 @@ require_once("csrf.php");
 				<label for="password" class="sr-only">Password</label>
 				<input type="password" id="password" name="password" class="form-control" placeholder="Password">
 
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+				<button id="loginSubmit" class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
 
 		</div>
 	</form>
