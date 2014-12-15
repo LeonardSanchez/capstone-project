@@ -1,13 +1,13 @@
 // open a new window with the form
 module("tabs", {
 		setup: function() {
-			F.open("../../add-to-cart.php");
+			F.open("../../../add-to-cart.php");
 		}
 });
 // global variables for form values
 var VALID_EVENTID = "149";
 var VALID_EVENTNAME = "A Christmas Carol";
-var VALID_EVENTDATETIME = "12/09/2015";
+var VALID_EVENTDATETIME = "12092015";
 var VALID_TICKETPRICE = "$25.00";
 var VALID_QUANTITY = "5";
 // define a function to perform the actual unit tests

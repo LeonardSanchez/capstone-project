@@ -8,7 +8,7 @@ module("tabs", {
 // global variables for form values
 var VALID_FIRSTNAME   = "Homer";
 var VALID_LASTNAME    = "Simpson";
-var VALID_DATEOFBIRTH = "11/11/2011";
+var VALID_DATEOFBIRTH = "11112011";
 var VALID_GENDER      = "M";
 var VALID_EMAIL       = "homer@cnm.edu";
 var VALID_PASSWORD    = "margeisgood123";
@@ -50,7 +50,7 @@ function testValidFields() {
 			ok(F(this).hasClass("alert-success"), "successful alert CSS");
 			ok(F(this).html().indexOf("Updated Successful") >= 0, "successful message");
 		});
-	})
+	});
 
 // the test function *MUST* be called in order for the test to execute
 	test("test valid fields", testValidFields);}

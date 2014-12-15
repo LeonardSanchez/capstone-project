@@ -7,7 +7,7 @@ module("tabs", {
 // global variables for form values
 var VALID_FIRSTNAME   = "Michael";
 var VALID_LASTNAME    = "Jackson";
-var VALID_DATEOFBIRTH = "06/06/1966";
+var VALID_DATEOFBIRTH = "06061966";
 var VALID_GENDER      = "M";
 var VALID_EMAIL		 = "MichaelJ@Yahoo.com";
 var VALID_PASSWORD    = "Neverlandranchismine477";

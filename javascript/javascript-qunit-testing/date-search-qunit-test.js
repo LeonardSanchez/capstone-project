@@ -7,7 +7,7 @@ module("tabs", {
 // global variables for form values
 var VALID_EVENTCATEGORY   = "Music";
 var VALID_VENUENAME       = "Tingley Colliseum";
-var VALID_EVENTDATETIME   = "12/15/2015";
+var VALID_EVENTDATETIME   = "12152015";
 var VALID_TICKETPRICE     = "$25.00";
 
 

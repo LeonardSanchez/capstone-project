@@ -68,9 +68,9 @@ try {
 		$authToken = bin2hex(openssl_random_pseudo_bytes(16));
 		$salt = bin2hex(openssl_random_pseudo_bytes(32));
 		$passwordHash = hash_pbkdf2("sha512", $_POST["confirmNewPassword"], $salt, 2048, 128);
-		$user->setPasswordHash($passwordHash);
+		$user->setPasswordHash($passwordHash);{
+		}
 	}
-
 
 
 	else {

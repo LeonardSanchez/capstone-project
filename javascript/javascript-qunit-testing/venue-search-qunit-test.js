@@ -8,7 +8,7 @@ module("tabs", {
 var VALID_VENUEADDRESS1  = "301 Central Ave Ne. Albuquerque, NM 87102";
 var VALID_VENUEADDRESS2  = "123 Elm St. Albuquerque, NM 87110";
 var VALID_VENUECITY      = "Albuquerque";
-var VALID_VENUEPHONE     = "(505) 867-5309"
+var VALID_VENUEPHONE     = "5058675309"
 var VALID_VENUEWEBSITE   = "www.redorgreenevents.com";
 
 // define a function to perform the actual unit tests
