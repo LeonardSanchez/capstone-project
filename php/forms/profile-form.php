@@ -19,7 +19,7 @@ require_once("../forms/csrf.php");
 	<script type="text/javascript" src="../../javascript/update-profile.js"></script>
 </head>
 <body>
-<form id="updateProfile" method="post" action="../form-processors/update-profile-form-processor.php">
+<form id="profile" method="post" action="../form-processors/update-profile-form-processor.php">
 	<?php echo generateInputTags(); ?>
 
 	<div class="container">
