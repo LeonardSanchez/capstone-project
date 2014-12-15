@@ -12,7 +12,11 @@ try {
 	echo "<div>Unable to verify csrf</div>";
 }
 $mysqli = MysqliConfiguration::getMysqli();
-$itemCount = count($_SESSION["cartItems"]);
+if(array_key_exists('cartItems', $_SESSION) === true){
+	$itemCount = count($_SESSION["cartItems"]);
+}	else	{
+	$itemCount	=	0;
+}
 ?>
 
 <!DOCTYPE html>
@@ -54,10 +58,12 @@ $itemCount = count($_SESSION["cartItems"]);
 						}
 						echo "</select>" . "<input type=\"hidden\" id=\"" . $item['eventId'] . "\" value=\"" . $item['eventId'] . "\"><input type=\"submit\" value=\"Update\"></form>" .
 							"<form id=\"removeItem" . $item['eventId'] . "\" action=\"../form-processors/remove-item.php\" method=\"post\"><input id=\"r" . $item['eventId'] . "\" name=\"r" . $item['eventId'] . "\" type=\"hidden\" value=\"" .
-							$item['eventId'] . "\"><input type=\"submit\" value=\"Remove\"></form></p><hr/>".
-							"<form id=\"checkout\"><label for=\"\"></label><h3>$".$_SESSION['cartSubtotal']."</h3></form>";
+							$item['eventId'] . "\"><button class=\"glyphicon glyphicon-remove\" aria-hiddent=\"true\" type=\"submit\"></button></form></p><hr/>";
 					}
 				}
+				echo "<form id=\"checkout\" action='../form-processors/stripe1.php' method='post'><label for=\"subtotal\">Cart Subtotal	:</label><input type=\"hidden\" value=\"".$_SESSION['cartSubtotal']."\"<h3>$".
+				$_SESSION['cartSubtotal']."</h3></form>";
+				include("../form-processors/stripe1.php");
 				?>
 
 		<form id="clearCart" action="../form-processors/clear-cart.php" method="POST"><input type="submit" value="Clear Cart"> </form>

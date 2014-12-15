@@ -1,13 +1,14 @@
 <?php
+if(session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
 
-
-$cartTotal = 10.00;
+$cartTotal = $_SESSION['cartSubtotal'];
 
 $priceInCents = $cartTotal * 100;
 ?>
 <html>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-<html>
 <form action="" method="POST">
   <script
     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
