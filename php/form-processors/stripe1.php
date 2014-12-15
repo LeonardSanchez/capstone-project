@@ -9,7 +9,7 @@ $priceInCents = $cartTotal * 100;
 ?>
 <html>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-<form action="" method="POST">
+<form action="../form-processors/checkout-form-processor.php" method="POST">
   <script
     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
     data-key="pk_test_zqXDIk9h00Tk0kLxXw0UrENB"
