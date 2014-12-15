@@ -5,27 +5,13 @@ module("tabs", {
 	}
 });
 // global variables for form values
-var VALID_
-var VALID_
-var VALID_
-var VALID_
-var VALID_
-var VALID_
+var VALID_EVENTCATEGORYBYALLPARENTEVENTS = "music";
 
 // define a function to perform the actual unit tests
 function testValidFields() {
 	// fill in the form values
-	F("").visible(function() {
-		this.type(VALID_);
-	});
-	F("").visible(function() {
-		this.type(VALID_);
-	});
-	F("").visible(function() {
-		this.type(VALID_);
-	});
-	F("").visible(function() {
-		this.type(VALID_);
+	F("eventCategoryByAllParentEvents").visible(function() {
+		this.type(VALID_EVENTCATEGORYBYALLPARENTEVENTS);
 	});
 	// click the button once all the fields are filled in
 	F("eventCategorySearchSubmit").visible(function() {
