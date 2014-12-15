@@ -6,7 +6,7 @@
 						<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 						<script type="text/javascript" src="//code.jquery.com/qunit/qunit-1.15.0.js"></script>
 						<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/FuncUnit/2.0.4/funcunit.min.js"></script>
-						<script type="text/javascript" src="profile-test.js"></script>
+						<script type="text/javascript" src="../../javascript/javascript-qunit-testing/login-qunit-test.js"></script>
 						<title>Login Test</title>
 			</head>
 			<body>

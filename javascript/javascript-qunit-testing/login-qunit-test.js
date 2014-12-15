@@ -1,7 +1,7 @@
 // open a new window
 module("tabs", {
 	setup: function() {
-		F.open("../../login.php");
+		F.open("../../php/forms/login.php");
 	}
 });
 
@@ -16,7 +16,7 @@ function testValidFields() {
 		this.type(VALID_EMAIL);
 	});
 	F("#password").visible(function() {
-		this.type(VALID_EMAIL);
+		this.type(VALID_PASSWORD);
 		});
 
 		// click the button once all the fields are filled in
