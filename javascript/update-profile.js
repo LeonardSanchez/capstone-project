@@ -12,6 +12,9 @@ $(document).ready(function() {
 					email: {
 									 email: true
 					},
+					currentPassword: {
+						password: true
+					},
 					newPassword: {
 
 									 password: true
@@ -24,6 +27,7 @@ $(document).ready(function() {
 					messages: {
 						gender         : "Please enter a single character gender",
 						email          : "Please enter a valid email",
+						currentPassword: "Please enter your current password",
 						newPassword: {
 							password: "Please enter a valid password",
 							minlength: "Your password must be at least 8 characters"

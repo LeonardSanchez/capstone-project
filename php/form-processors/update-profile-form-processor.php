@@ -56,19 +56,36 @@ try {
 		$_SESSION["user"]["email"] = $user->getEmail();
 	}
 
+	$oldPassword = $user->getPasswordHash();
+	$currentPassword = null;
+	$newPassword = null;
+	$confirmPassword = null;
+	//acquire passwords from POST
+	$currentPassword = $_POST["currentPassword"];
 	$newPassword = $_POST["newPassword"];
-	if(empty($newPassword) === false) {
-		$authToken = bin2hex(openssl_random_pseudo_bytes(16));
-		$salt = bin2hex(openssl_random_pseudo_bytes(32));
-		$passwordHash = hash_pbkdf2("sha512", $_POST["newPassword"], $salt, 2048, 128);
-		$user->setPasswordHash($passwordHash);
-	// FIXME verify password and copy pasta javascript over
-
+	$confirmPassword = $_POST["confirmPassword"];
+	//hash the current password
+	$salt		= $user->getSalt();
+	$hash 	= hash_pbkdf2("sha512", $currentPassword, $salt, 2048, 128);
+	//make sure that all fields are filled
+	if(empty($currentPassword) === true || empty($newPassword) === true || empty($confirmPassword) === true){
+		echo "<div class=\"alert alert-danger\" role=\"alert\"><p>All password fields must be filled</p></div>";
 	}
-
-
-	else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\"><p><strong>Oh snap!</strong>No Entries to Update</p></div>";
+	//confirm that current password matches old password
+	elseif($hash !== $oldPassword){
+		echo "<div class=\"alert alert-danger\" role=\"alert\"><p>Incorrect Password</p></div>";
+	}
+	//make sure that the new and confirmed password match
+	elseif($newPassword !== $confirmPassword){
+		echo "<div class=\"alert alert-danger\" role=\"alert\"><p>Passwords must match</p></div>";
+	}
+	else{
+		//No that you made it this far set new password
+		$salt		= $user->getSalt();
+		$newHash 	= hash_pbkdf2("sha512", $newPassword, $salt, 2048, 128);
+		$user->setPasswordHash($newHash);
+		$user->update($mysqli);
+		echo "<div class=\"alert alert-success\" role=\"alert\"><p>Password Changed</p></div>";
 	}
 
 }

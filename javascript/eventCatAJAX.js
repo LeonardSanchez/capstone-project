@@ -59,3 +59,6 @@ function AjaxFunction()
 	httpxml.open("POST",url,true);
 	httpxml.send(null);
 }
+function getSubCategories() {
+
+}

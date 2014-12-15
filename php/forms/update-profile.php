@@ -35,6 +35,8 @@ require_once("../forms/csrf.php");
 			<input type="text" id="gender" name="gender" class="form-control" placeholder="Gender (M, F, O)">
 			<label for="email" class="sr-only">Email</label>
 			<input type="email" id="email" name="email" class="form-control" placeholder="Email">
+			<label for="currentPassword" class="sr-only">Current Password</label>
+			<input type="password" id="currentPassword" name="currentPassword" class="form-control" placeholder="Current Password">
 			<label for="newPassword" class="sr-only">New Password</label>
 			<input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="New Password">
 			<label for="confirmPassword" class="sr-only">Confirm Password</label>

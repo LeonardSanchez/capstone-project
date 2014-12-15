@@ -26,6 +26,8 @@
 
 	<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
 
+	<link type="text/css" rel="stylesheet" href="site-css.css" />
+
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
 	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -49,29 +51,31 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
+
 				<li><a href="php/forms/login-form.php">Login</a></li>
 				<li><a href="php/forms/update-profile.php">Update Profile</a></li>
 				<li><a href="php/forms/signup-form.php">Sign Up</a></li>
 				<li><a href="php/forms/log-out.php/">Log Out</a></li>
 			</ul>
 			<form class="navbar-form navbar-right" id="citySearchForm" method="get" action="php/form-processors/city-search-form-processor.php">
-				<input type="text" id="city" name="city" style="background-color: lightgreen" class="form-control" placeholder="Search Venues By City...">
+				<input type="text" id="city" name="city" style="background-color: beige" class="form-control" placeholder="Search Venues By City...">
 			</form>
 			<form class="navbar-form navbar-right" id="venueSearchForm" method="get" action="php/form-processors/venue-search-form-processor.php">
-				<input type="text" id="venue" name="venue" style="background-color: lightgreen" class="form-control" placeholder="Search Venues...">
+				<input type="text" id="venue" name="venue" style="background-color: beige" class="form-control" placeholder="Search Venues...">
 				<!--<span class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span> This is to clear out the field but it is not residing IN the search box-->
 			</form>
 			<form class="navbar-form navbar-right" id="eventNameSearchForm" method="get" action="php/form-processors/event-name-search-form-processor.php">
-				<input type="text"  id="eventName" name="eventName" style="background-color: lightgreen" class="form-control" placeholder="Search Events...">
+				<input type="text"  id="eventName" name="eventName" style="background-color: beige" class="form-control" placeholder="Search Events...">
 			</form>
 		</div>
 	</div>
 </nav>
 
+<main>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-3 col-md-2 sidebar" style="background-color: ActiveBorder">
-			<ul class="nav nav-sidebar">
+			<ul class="nav nav-sidebar" id="leftnav1">
 				<li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
 				<br>
 				<h5><strong>Find Local Events</strong></h5>
@@ -85,6 +89,16 @@
 				<li><a href="php/forms/event-category-search.php">Search Event Categories (THIS WILL BE A DROP DOWN)</a></li>
 				<li><a href="#">Search Event Sub-Categories (THIS WILL BE A DROP DOWN)</a></li>
 				<li><a href="php/forms/city-search.php">Search By City</a></li>
+				<article>Search Events By Date
+					<form id="dateSearchForm" method="get" action="../form-processors/date-search-form-processor.php">
+						<label for="startDate">Start Date</label>
+						<input type="text" id="startDate" name="startDate" placeholder="mm-dd-yyyy"/><br/>
+						<label for="endDate">End Date</label>
+						<input type="text" id="endDate" name="endDate" placeholder="mm-dd-yyyy"><br/>
+						<button id="search" type="submit">Search</button>
+					</form>
+					<p id="outputDateSearch"></p>
+				</article>
 				<li><a href="php/forms/date-search.php">Search Events By Date</a></li>
 			</ul>
 			<br>
@@ -94,7 +108,16 @@
 			</ul>
 		</div>
 	</div>
+
+	<div class="row">
+
+	</div>
 </div>
+</main>
+
+		<div class="main-container">
+
+		</div>
 
 
 
