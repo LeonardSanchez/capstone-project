@@ -32,7 +32,7 @@ try {
 			"customer" => $customer->id)
 	);
 
-	$transaction	=	new Transaction(null, $_SESSION['profile'], null, $_SESSION['cartSubtotal'],date("Y-m-d H:i:s"),$customer->id);
+	$transaction	=	new Transaction(null, $_SESSION['profile']['profileId'], null, $_SESSION['cartSubtotal'],date("Y-m-d H:i:s"),$customer->id);
 	$transaction->insert($mysqli);
 	if($charge["paid"]	===	true)	{
 		echo "<span class=\"alert alert-success\" role=\"alert\"><strong>Thank you for your purchase!</strong></span>";

@@ -24,18 +24,22 @@ require_once("../forms/event-cat-search-functions.php");
 <body>
 	<form id="eventCatSearchForm" name="catSubCat" method="post" action="../form-processors/event-category-search-form-processor.php">
 		<?php echo generateInputTags(); ?>
-		<label for="eventCatSearch" class="sr-only">Search By Event Category</label>
+		<label for="eventCatSearch">Search By Event Category</label>
 			<p>Choose Category</p>
-			<select class="form-control" name="cat" id="s1" onchange=AjaxFunction()>
-				<option value=''>Select One</option>"
-				<option><?php getCategory() ?></option>
+			<select name="cat" id="s1" onchange=AjaxFunction()>
+				<option value='' selected>Select One</option>"
+				<option>
+					<?php
+
+					?>
+				</option>
 			</select>
 			<p>Select Sub-Category</p>
-			<select class="form-control" name="subcat" id='s2'>
+			<select name="subcat" id='s2'>
 
 			</select>
 		<div class="search">
-			<button id="search" class="btn btn-rgevents" type="submit">Search</button>
+		<input id="catSearch" type="submit" value="Submit">
 		</div>
 	</form>
 
