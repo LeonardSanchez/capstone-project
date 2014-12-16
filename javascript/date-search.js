@@ -24,7 +24,9 @@ $(document).ready(function()	{
 				url: "../form-processors/date-search-form-processor.php",
 				date: $(form).serialize(),
 				success:	function(ajaxOutput)	{
-					$("#outputDateSearch").html(ajaxOutput);
+					//$("#rowArea").html(ajaxOutput);
+					window.location.href = "../../search-results.php";
+					document.getElementById("rowArea").innerHTML = $(ajaxOutput);
 				}
 			})
 		}

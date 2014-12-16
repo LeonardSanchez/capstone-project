@@ -23,6 +23,7 @@ try	{
 	// grab mysql data
 	$events = Event::getEventByEventDateTime($mysqli, $startDate, $endDate);
 	$resultCount = count($events);
+	echo "<script>document.getElementById(\"rowArea\").innerHTML(\"";
 	foreach($events as $event) {
 		// set linked eventCategoryId to separate variable
 		$eventCategoryId = $event->getEventCategoryId();
@@ -33,18 +34,17 @@ try	{
 		// grabbing venueName from Venue class
 		$venue = Venue::getVenueByVenueId($mysqli, $venueId);
 		// display results
-		echo <<<EOF
-			<tr>
-			"<td><strong>" . $event->getEventName() . "</strong></td>" .
-			<$eventCategory->getEventCategory() . "<br/>" .
-			$venue->getVenueName() . "<br/>" .
-			$event->getEventDateTime()->format("m-d-Y h:i") . "<br/>$" .
-			$event->getTicketPrice() . "</p>";
+		echo
+			"<tr><td><strong>" . $event->getEventName() . "</strong></td><td>" .
+			$eventCategory->getEventCategory() . "</td><td>" .
+			$venue->getVenueName() . "</td><td>" .
+			$event->getEventDateTime()->format("m-d-Y h:i") . "</td><td>$ " .
+			$event->getTicketPrice() . "</td>";
 		include("../forms/add-to-cart-form.php");
-		</tr>
-EOF;
-		echo "<br/><br/><br/>";
+		echo"</tr>";
+		//echo "<br/><br/><br/>";
 	}
+	echo "\");</script>";
 } catch (Exception $exception) {
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Unable to search: " . $exception->getMessage() . "</div>";
 }

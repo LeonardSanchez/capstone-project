@@ -4,7 +4,16 @@
 	height: 4.5em;
 }
 
-#myaccdrop li a{
+.dropdown-menu>li>a {
+	color: white;
+}
+
+.dropdown-menu>li>a:hover {
+	color: #ffffff;
+	background-color: #246121;
+}
+
+#myaccdrop {
 	color: #ffffff;
 }
 
@@ -16,10 +25,6 @@
 	margin-top: 10px;
 	width: 1000px;
 
-}
-
-#myaccdrop li a:hover {
-	background-color: #6F751B;
 }
 
 #pageContent {
@@ -70,6 +75,10 @@
 #search {
 	width: 100px;
 	position: inherit;
+}
+
+#citySearchForm {
+	width: 200px;
 }
 
 #s1 {

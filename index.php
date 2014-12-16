@@ -52,13 +52,13 @@ require_once("php/forms/event-cat-search-functions.php");
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.php"><h3><strong><span style="color: #C53337">Red</span> or <span style="color: green">Green</span> Events</strong>	-	Find Events With A Local Flavor</h3></a>
+			<a class="navbar-brand" id="navbarName" href="index.php"><h3><strong><span style="color: #C53337">Red</span> or <span style="color: green">Green</span> Events</strong>	-	Find Events With A Local Flavor</h3></a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" style="color: #C53337" aria-hidden="true"></span></a></li>
 				<li class="dropdown">
-					<a href="#" id="myaccdrop" class="dropdown-toggle" data-toggle="dropdown" role="button" style="color: #6F751B" aria-expanded="false">My Account<span class="caret"></span></a>
+					<a href="#" id="myaccdrop" class="dropdown-toggle" data-toggle="dropdown" role="button" style="color: #fffffff" aria-expanded="false">My Account<span class="caret"></span></a>
 						<ul id="account-list-options" class="dropdown-menu" role="menu" style="background-color: #C53337">
 							<li><a href="php/forms/login-form.php">Log In</a></li>
 							<li><a href="php/forms/update-profile.php">Update Profile</a></li>
@@ -67,9 +67,6 @@ require_once("php/forms/event-cat-search-functions.php");
 							</ul>
 				</li>
 			</ul>
-			<form class="navbar-form navbar-right" id="citySearchForm" method="get" action="php/form-processors/city-search-form-processor.php">
-				<input type="text" id="city" name="city" style="background-color: beige" class="form-control" placeholder="Search Venues By City...">
-			</form>
 			<form class="navbar-form navbar-right" id="venueSearchForm" method="get" action="php/form-processors/venue-search-form-processor.php">
 				<input type="text" id="venue" name="venue" style="background-color: beige" class="form-control" placeholder="Search Venues...">
 				<!--<span class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span> This is to clear out the field but it is not residing IN the search box-->
@@ -96,7 +93,14 @@ require_once("php/forms/event-cat-search-functions.php");
 								<h3 class="panel-title" style="color: #ffffff">Find Local Events</h3>
 							</div>
 						</div>
-
+							<article>
+								<h5><strong>Venue Search By City</strong></h5>
+								<form id="citySearchForm" method="get" action="php/form-processors/city-search-form-processor.php">
+									<input type="text" id="city" name="city" style="background-color: beige" class="form-control" placeholder="Search Venues By City...">
+									<br>
+									<button id="search" class="btn btn-rgevents" type="submit">Search</button>
+								</form>
+							</article>
 							<article>
 								<h5><strong>Search By Event Date</strong></h5>
 								<form id="dateSearchForm" method="get" action="php/form-processors/date-search-form-processor.php">
