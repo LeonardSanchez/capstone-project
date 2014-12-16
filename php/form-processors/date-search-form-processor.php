@@ -23,7 +23,6 @@ try	{
 	// grab mysql data
 	$events = Event::getEventByEventDateTime($mysqli, $startDate, $endDate);
 	$resultCount = count($events);
-	echo "<script>document.getElementById(\"rowArea\").innerHTML(\"";
 	foreach($events as $event) {
 		// set linked eventCategoryId to separate variable
 		$eventCategoryId = $event->getEventCategoryId();
@@ -34,15 +33,15 @@ try	{
 		// grabbing venueName from Venue class
 		$venue = Venue::getVenueByVenueId($mysqli, $venueId);
 		// display results
-		echo
-			"<tr><td><strong>" . $event->getEventName() . "</strong></td><td>" .
-			$eventCategory->getEventCategory() . "</td><td>" .
-			$venue->getVenueName() . "</td><td>" .
-			$event->getEventDateTime()->format("m-d-Y h:i") . "</td><td>$ " .
-			$event->getTicketPrice() . "</td>";
+		echo 	"<tr>";
+		echo 	"<td><strong>" . $event->getEventName() . "</strong></td>";
+		echo	"<td>" . $eventCategory->getEventCategory() . "</td>";
+		echo	"<td>" . $venue->getVenueName() . "</td>";
+		echo	"<td>" . $event->getEventDateTime()->format("m-d-Y h:i") . "</td>";
+		echo	"<td>$" . $event->getTicketPrice() . "</td>";
 		include("../forms/add-to-cart-form.php");
-		echo"</tr>";
-		//echo "<br/><br/><br/>";
+
+		// echo "<br/><br/><br/>";
 	}
 	echo "\");</script>";
 } catch (Exception $exception) {
