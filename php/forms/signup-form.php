@@ -17,12 +17,13 @@ require_once("../forms/csrf.php");
 	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
 	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../../javascript/sign-up.js"></script>
+
 </head>
 <body>
 	<div class="container">
 		<div class="col-lg-6">
 			<form id="signupForm" name="signupForm" method="post" action="../form-processors/signup-form-processor.php">
-			<?php echo generateInputTags(); ?>
+				<?php echo generateInputTags(); ?>
 
 				<div class="">
 
