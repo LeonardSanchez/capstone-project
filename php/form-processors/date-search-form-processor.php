@@ -23,7 +23,6 @@ try	{
 	// grab mysql data
 	$events = Event::getEventByEventDateTime($mysqli, $startDate, $endDate);
 	$resultCount = count($events);
-	echo "<script>document.getElementById(\"rowArea\").innerHTML(\"";
 	foreach($events as $event) {
 		// set linked eventCategoryId to separate variable
 		$eventCategoryId = $event->getEventCategoryId();
@@ -43,8 +42,10 @@ try	{
 		include("../forms/add-to-cart-form.php");
 		echo"</tr>";
 		//echo "<br/><br/><br/>";
+		?><?php //header("Location: ../../search-results.php");
+		$_SESSION["previousResults"] = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		header("Location: ../../search-results.php");
 	}
-	echo "\");</script>";
 } catch (Exception $exception) {
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Unable to search: " . $exception->getMessage() . "</div>";
 }

@@ -12,7 +12,7 @@ require_once("../classes/event.php");
 		<input type="hidden" name="eventDateTime" value="<?php echo $event->getEventDateTime()->format("Y-m-d H:i:s"); ?>" />
 		<input type="hidden" name="ticketPrice" value="<?php echo $event->getTicketPrice(); ?>" />
 		<label for="qty">Ticket Quantity: </label>
-		<select id="qty" name="qty">
+		<td><select id="qty" name="qty">
 			<option value="1">1</option>
 			<option value="2">2</option>
 			<option value="3">3</option>
@@ -25,8 +25,8 @@ require_once("../classes/event.php");
 			<option value="10">10</option>
 		</select>
 
-		<br />
-		<input id="addToCart" type="submit" name="addToCart" value="Add to Cart" /><br/>
+		</td>
+		<td><input id="addToCart" type="submit" name="addToCart" value="Add to Cart" /></td>
 	</form>
 
 	<?php echo "<p id=\"outputAddToCart". $event->getEventId() . "\" class=\"col-sm-6\"></p><br/><br/><br/>"; ?>
