@@ -37,7 +37,7 @@ try	{
 			"<tr><td><strong>" . $event->getEventName() . "</strong></td><td>" .
 			$eventCategory->getEventCategory() . "</td><td>" .
 			$venue->getVenueName() . "</td><td>" .
-			$event->getEventDateTime()->format("m-d-Y h:i") . "</td><td>$ " .
+			$event->getEventDateTime()->format("m-d-Y h:i A") . "</td><td>$ " .
 			$event->getTicketPrice() . "</td>";
 		include("../forms/add-to-cart-form.php");
 		echo"</tr>";

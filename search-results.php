@@ -20,6 +20,8 @@ require_once("php/forms/csrf.php");
 
 	<link type="text/css" rel="stylesheet" href="site-css.css" />
 	<script src="javascript/date-search.js"></script>
+	<script src="javascript/event-name.js"></script>
+	<script src="javascript/event-venue-search.js"></script>
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -143,7 +145,6 @@ require_once("php/forms/csrf.php");
 						<th>Venue</th>
 						<th>Date & Time</th>
 						<th>Ticket Price</th>
-						<th>Ticket Qty</th>
 						<th>Buy Tickets</th>
 					</tr>
 				</thead>

@@ -11,14 +11,14 @@ require_once("../forms/date-search.php");
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 // require for the csrf protection
 require_once("../forms/csrf.php");
-
+var_dump($_POST);
 
 try {
 	// require mySQLI
 	$mysqli = MysqliConfiguration::getMysqli();
 
 	// verify the form was submitted OK
-	if(@isset($_POST["addToCart"]) === false) {
+	if(@isset($_POST["eventId"]) === false) {
 		throw(new RuntimeException("Form variable incomplete or missing"));
 	}
 
@@ -44,4 +44,4 @@ try {
 }
 ?>
 <link type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
-<head><meta http-equiv="refresh" content="0; url=../forms/shopping-cart-form.php" /></head>
+<!--<head><meta http-equiv="refresh" content="0; url=../forms/shopping-cart-form.php" /></head>-->

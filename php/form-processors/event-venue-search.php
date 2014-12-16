@@ -13,25 +13,38 @@ require_once("/etc/apache2/capstone-mysql/rgevents.php");
 
 $mysqli = MysqliConfiguration::getMysqli();
 
-$venueId	=	filter_input(INPUT_GET, "venueId",FILTER_VALIDATE_INT);
+//if(@isset($_GET["venue"]) === false) {
+//	throw(new RuntimeException("Form variables incomplete or missing"));
+//}
 
-$events	=	Event::getEventByVenueId($mysqli, $venueId);
-$resultCount = count($events);
-foreach($events as $event) {
-	// set linked eventCategoryId to separate variable
-	$eventCategoryId = $event->getEventCategoryId();
-	// grabbing eventCategory from EventCategory class
-	$eventCategory = EventCategory::getEventCategoryByEventCategoryId($mysqli, $eventCategoryId);
-	// set linked venueId to separate variable
-	$venueId = $event->getVenueId();
-	// grabbing venueName from Venue class
-	$venue = Venue::getVenueByVenueId($mysqli, $venueId);
-	// display results
-	echo "<p class=\"col-sm-6\"><strong>" . $event->getEventName() . "</strong><br/>" .
-		$eventCategory->getEventCategory() . "<br/>" .
-		$venue->getVenueName() . "<br/>" .
-		$event->getEventDateTime()->format("m-d-Y h:i") . "<br/>$" .
-		$event->getTicketPrice() . "</p>";
-	include("../forms/add-to-cart-form.php");
-	echo "<br/><br/><br/>";
-}
+// use filter_input to sanitize the venue name
+$venueName = filter_input(INPUT_GET, 'venue', FILTER_SANITIZE_STRING);
+
+$venues = Venue::getVenueByVenueName($mysqli, $venueName);
+foreach($venues as $venue)	{
+	if(filter_var($venue->getVenueId(),FILTER_VALIDATE_INT)===false)	{
+		throw(new UnexpectedValueException("venue Id is not an int"));
+	}
+	$venueId	=	$venue->getVenueId();
+
+	$events	=	Event::getEventByVenueId($mysqli, $venueId);
+
+	$resultCount = count($events);
+	foreach($events as $event) {
+		// set linked eventCategoryId to separate variable
+		$eventCategoryId = $event->getEventCategoryId();
+		// grabbing eventCategory from EventCategory class
+		$eventCategory = EventCategory::getEventCategoryByEventCategoryId($mysqli, $eventCategoryId);
+		// set linked venueId to separate variable
+		$venueId = $event->getVenueId();
+		// grabbing venueName from Venue class
+		$venue = Venue::getVenueByVenueId($mysqli, $venueId);
+		// display results
+		echo "<tr><td><strong>" . $event->getEventName() . "</strong></td><td>" .
+			$eventCategory->getEventCategory() . "</td><td>" .
+			$venue->getVenueName() . "</td><td>" .
+			$event->getEventDateTime()->format("m-d-Y h:i") . "</td><td>$" .
+			$event->getTicketPrice() . "</td>";
+		include("../forms/add-to-cart-form.php");
+		echo "</tr>";
+}}

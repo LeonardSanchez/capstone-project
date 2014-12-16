@@ -12,10 +12,10 @@ session_start();
 		<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="../../javascript/venue-search.js"></script>
+		<script type="text/javascript" src="../../javascript/event-venue-search.js"></script>
 	</head>
 	<body>
-		<form id="venueSearchForm" method="get" action="../form-processors/venue-search-form-processor.php">
+		<form id="venueSearchForm" method="get" action="../form-processors/event-venue-search.php">
 			<label for="venue">Venue</label>
 			<input type="text" id="venue" name="venue" /><br />
 			<button id="search" type="submit">Search</button>

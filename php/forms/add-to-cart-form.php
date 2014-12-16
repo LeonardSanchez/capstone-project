@@ -4,15 +4,15 @@ require_once("../classes/event.php");
 
 ?>
 
-<p class="col-sm-6">
-	<form id="addToCartForm" class="addToCartForm" action="../form-processors/add-to-cart-form-processor.php" method="post">
+<td>
+	<form id="addToCartForm" class="addToCartForm" action="../capstone-project/php/form-processors/add-to-cart-form-processor.php" method="post">
 		<?php echo generateInputTags(); ?>
 		<input type="hidden" name="eventId" id="eventId" value="<?php echo $event->getEventId(); ?>" />
 		<input type="hidden" name="eventName" value="<?php echo $event->getEventName(); ?>" />
 		<input type="hidden" name="eventDateTime" value="<?php echo $event->getEventDateTime()->format("Y-m-d H:i:s"); ?>" />
 		<input type="hidden" name="ticketPrice" value="<?php echo $event->getTicketPrice(); ?>" />
 		<label for="qty">Ticket Quantity: </label>
-		<td><select id="qty" name="qty">
+		<select id="qty" name="qty">
 			<option value="1">1</option>
 			<option value="2">2</option>
 			<option value="3">3</option>
@@ -25,9 +25,9 @@ require_once("../classes/event.php");
 			<option value="10">10</option>
 		</select>
 
-		</td>
-		<td><button class="btn btn-rgevents" id="addToCart" type="submit">Add To Cart</button></td>
-	</form>
+
+		<button class="btn btn-success" id="addToCart" type="submit">Add To Cart</button>
+	</form></td>
 
 	<?php echo "<p id=\"outputAddToCart". $event->getEventId() . "\" class=\"col-sm-6\"></p><br/><br/><br/>"; ?>
 </p>

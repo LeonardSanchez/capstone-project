@@ -23,7 +23,7 @@ $(document).ready(function(){
 		{
 			$(form).ajaxSubmit({
 				type: "POST",
-				url: "../php/forms/date-search.php",
+				url: "php/forms/date-search.php",
 				date: $(form).serialize(),
 				success: function(ajaxoutput) {
 					var eventId = document.getElementById('eventId').value;

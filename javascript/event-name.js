@@ -18,13 +18,11 @@ $(document).ready(function()	{
 		submitHandler: function(form)	{
 			$(form).ajaxSubmit	({
 				type: "GET",
-				url: "../form-processors/event-name-search-form-processor.php",
-				date: $(form).serialize(),
+				url: "php/form-processors/event-name-search-form-processor.php",
 				success:	function(ajaxOutput)	{
-					$("#outputEventSearch").html(ajaxOutput);
+					$("#rowArea").html(ajaxOutput);
 				}
 			})
 		}
 	});
 });
-
