@@ -130,6 +130,13 @@ require_once("php/forms/csrf.php");
 						</li>
 
 					</ul>
+					<br>
+					<br>
+					<ul class="nav nav-sidebar">
+						<li>
+							<a id="aboutusbutton" class="btn btn-about" href="about.php">About Us</a>
+						</li>
+					</ul>
 				</div>
 
 				<div class="col-xs-13 col-md-8" id="indexContent">
@@ -143,7 +150,7 @@ require_once("php/forms/csrf.php");
 						<div id="landingData" class="landing-page" name="landing-page">
 							<p>Thank you for visiting Red Or Green Events, you home for purchasing tickets to New Mexico's best events and attractions!</p>
 							<br>
-							<p>You will find the most popular events and attractions for the Greater Albuqeuerque, NM and surrounding areas.</p>
+							<p>You will find the most popular events and attractions for the Greater Albuquerque, NM and surrounding areas.</p>
 							<p>Please take a moment to sign up for Red Or Green Events so that you can purchase tickets.</p>
 							<p>We hope that you will enjoy using Red Or Green Events. We welcome your feedback via the Contact Us form to improve your experience shoppin with us.</p>
 

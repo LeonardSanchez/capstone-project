@@ -8,6 +8,10 @@
 	color: #ffffff;
 }
 
+#account-list-options li {
+	color: #ffffff;
+}
+
 .carousel {
 	margin-top: 10px;
 	width: 1000px;
@@ -34,7 +38,18 @@
 	border-color: #7b0704;
 }
 
+.btn-about {
+	color: #ffffff;
+	background-color: #246121;
+	border-color: #0E3012;
+}
+
 #contactbutton {
+	width: 100px;
+	position: inherit;
+}
+
+#aboutusbutton {
 	width: 100px;
 	position: inherit;
 }
