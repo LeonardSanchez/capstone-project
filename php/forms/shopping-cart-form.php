@@ -36,16 +36,17 @@ if(array_key_exists('cartItems', $_SESSION) === true){
    <body>
 			<?php echo generateInputTags();?>
 			<h1>Shopping Cart: <?php echo $itemCount; ?> Item(s)</h1> <br /> <br />
+			<table class="table table-striped">
 				<?php
-
 				if($itemCount === 0)	{
 					echo "<h4>Shopping cart is empty</h4>";
 				} else {
+					echo	"<thead><tr><th>Item #</th><th>Item</th><th>Quantity</th><th>Remove</th><th>Item Total</th></tr>";
 					foreach($_SESSION["cartItems"] as $item) {
-						echo "<form id=\"updateItem" . $item['eventId'] . "\"action=\"../form-processors/update-cart-form-processor.php\" method=\"POST\">";
-						echo "<h5>" . $item['eventName'] . "</h5>" . $item['eventDateTime'] . "<br/>$" .
-							$item['ticketPrice'] . "<br/>";
-						echo "<label for=\"ticketQuantity" . $item['eventId'] .
+						echo "<tbody><tr><td><h3>".$itemCount."</h3></td><form id=\"updateItem" . $item['eventId'] . "\" action=\"../form-processors/update-cart-form-processor.php\" method=\"POST\">";
+						echo "<td><h4>" . $item['eventName'] . "</h4><h5>" . $item['eventDateTime'] . "</h5><h5>$" .
+							$item['ticketPrice'] . "</h5></td>";
+						echo "<td><h4><label for=\"ticketQuantity" . $item['eventId'] .
 							"\">Ticket Quantity: </label><select name=\"ticketQuantity" . $item['eventId'] .
 							"\" id=\"ticketQuantity" . $item['eventId'] . "\">";
 
@@ -56,18 +57,22 @@ if(array_key_exists('cartItems', $_SESSION) === true){
 								echo "<option value=\"" . $i . "\" selected>" . $i . "</option>";
 							}
 						}
-						echo "</select>" . "<input type=\"hidden\" id=\"" . $item['eventId'] . "\" value=\"" . $item['eventId'] . "\"><input type=\"submit\" value=\"Update\"></form>" .
-							"<form id=\"removeItem" . $item['eventId'] . "\" action=\"../form-processors/remove-item.php\" method=\"post\"><input id=\"r" . $item['eventId'] . "\" name=\"r" . $item['eventId'] . "\" type=\"hidden\" value=\"" .
-							$item['eventId'] . "\"><button class=\"glyphicon glyphicon-trash\" aria-hiddent=\"true\" type=\"submit\"></button></form></p><hr/>";
+						echo "</select>" . "<input type=\"hidden\" id=\"" . $item['eventId'] . "\" value=\"" . $item['eventId'] . "\"><button type=\"submit\" class=\"btn btn-default\">Update</button></form></h4></td>" .
+							"<td><h3><form id=\"removeItem" . $item['eventId'] . "\" action=\"../form-processors/remove-item.php\" method=\"post\"><input id=\"r" . $item['eventId'] . "\" name=\"r" . $item['eventId'] . "\" type=\"hidden\" value=\"" .
+							$item['eventId'] . "\"><button class=\"glyphicon glyphicon-trash\" aria-hiddent=\"true\" type=\"submit\"></button></h4></form></td><td><h3>$ ".$_SESSION['cartItems'][$item["eventId"]]["itemSubtotal"]."</h3></td></tr>";
+						$itemCount = $itemCount-1;
 					}
 				}
+				echo "</tbody>";
+				?>
+			</table>
+				<?php
 				echo "<form id=\"checkout\" action='../form-processors/stripe1.php' method='post'><label for=\"subtotal\">Cart Subtotal	:</label><input type=\"hidden\" value=\"".$_SESSION['cartSubtotal']."\"<h3>$".
 				$_SESSION['cartSubtotal']."</h3></form>";
 				include("../form-processors/stripe1.php");
 				?>
 
-		<form id="clearCart" action="../form-processors/clear-cart.php" method="POST"><input type="submit" value="Clear Cart"> </form>
-		<br/><a href="../forms/event-name-search.php">Event Name Search</a>
-		<br/><a href="../forms/date-search.php">Event Date Search</a>
+		<br/><form id="clearCart" action="../form-processors/clear-cart.php" method="POST"><button type="submit" class="btn btn-danger">Clear Cart</button> </form>
+		<br/>
 	</body>
 </html>

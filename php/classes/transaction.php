@@ -305,14 +305,14 @@ class Transaction
 		}
 
 		// create query template
-		$query = "INSERT INTO transaction(profileId, ticketId, amount, dateApproved) VALUES(?, ?, ?, ?)";
+		$query = "INSERT INTO transaction(profileId, ticketId, amount, dateApproved, cardToken) VALUES(?, ?, ?, ?, ?)";
 		$statement = $mysqli->prepare($query);
 		if($statement === false) {
 			throw(new mysqli_sql_exception("Unable to prepare statement"));
 		}
 
 		// bind the member variables to the place holders in the template
-		$wasClean = $statement->bind_param("iids", $this->profileId, $this->ticketId, $this->amount, $dateApproved);
+		$wasClean = $statement->bind_param("iidss", $this->profileId, $this->ticketId, $this->amount, $dateApproved, $this->stripeToken);
 		if($wasClean === false) {
 			throw(new mysqli_sql_exception("Unable to bind parameters"));
 		}
@@ -461,7 +461,7 @@ class Transaction
 		// convert the associative array to a Transaction
 		if($row !== null) {
 			try {
-				$transaction = new Transaction($row["transactionId"], $row["profileId"], $row["ticketId"], $row["amount"], $row["dateApproved"]);
+				$transaction = new Transaction($row["transactionId"], $row["profileId"], $row["ticketId"], $row["amount"], $row["dateApproved"], $row["cardToken"]);
 			} catch(Exception $exception) {
 				// if row couldn't be converted, rethrow it
 				throw(new mysqli_sql_exception("Unable to convert row to Transaction", 0, $exception));
@@ -525,7 +525,7 @@ class Transaction
 		// convert the associative array to a Transaction
 		if($row !== null) {
 			try {
-				$transaction = new Transaction($row["transactionId"], $row["profileId"], $row["ticketId"], $row["amount"], $row["dateApproved"]);
+				$transaction = new Transaction($row["transactionId"], $row["profileId"], $row["ticketId"], $row["amount"], $row["dateApproved"], $row["cardToken"]);
 			} catch(Exception $exception) {
 				// if row couldn't be converted, rethrow it
 				throw(new mysqli_sql_exception("Unable to convert row to Transaction", 0, $exception));
