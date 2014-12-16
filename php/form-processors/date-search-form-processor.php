@@ -42,9 +42,9 @@ try	{
 		include("../forms/add-to-cart-form.php");
 		echo"</tr>";
 		//echo "<br/><br/><br/>";
-		?><?php //header("Location: ../../search-results.php");
-		$_SESSION["previousResults"] = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-		header("Location: ../../search-results.php");
+		?><?php
+		//$_SESSION["previousResults"] = urldecode("https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+		//header("Location: ../../search-results.php");
 	}
 } catch (Exception $exception) {
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Unable to search: " . $exception->getMessage() . "</div>";

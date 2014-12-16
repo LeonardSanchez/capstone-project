@@ -26,7 +26,7 @@ require_once("../classes/event.php");
 		</select>
 
 		</td>
-		<td><input id="addToCart" type="submit" name="addToCart" value="Add to Cart" /></td>
+		<td><button class="btn btn-rgevents" id="addToCart" type="submit">Add To Cart</button></td>
 	</form>
 
 	<?php echo "<p id=\"outputAddToCart". $event->getEventId() . "\" class=\"col-sm-6\"></p><br/><br/><br/>"; ?>
