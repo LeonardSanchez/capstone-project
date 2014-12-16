@@ -28,6 +28,17 @@
 	border-color: #0E3012;
 }
 
+.btn-contact {
+	color: #ffffff;
+	background-color: #C53337;
+	border-color: #7b0704;
+}
+
+#contactbutton {
+	width: 100px;
+	position: inherit;
+}
+
 .btn-rgevents:hover,
 .btn-rgevents:focus,
 .btn-rgevents:active,
@@ -44,6 +55,14 @@
 #search {
 	width: 100px;
 	position: inherit;
+}
+
+#s1 {
+	width: 200px;
+}
+
+#s2 {
+	width: 200px;
 }
 
 .landing-page {

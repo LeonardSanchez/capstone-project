@@ -3,6 +3,7 @@ if(session_status() === PHP_SESSION_NONE)	{
 	session_start();
 }
 require_once("php/forms/csrf.php");
+
 ?>
 <html lang="en">
 <head>
@@ -93,26 +94,40 @@ require_once("php/forms/csrf.php");
 								<h3 class="panel-title" style="color: #ffffff">Find Local Events</h3>
 							</div>
 						</div>
-						<li><a href="php/forms/event-name-search.php">Search By Events</a></li>
-						<li><a href="php/forms/venue-search-form.php">Search By Venues</a></li>
-							<li><a href="php/forms/event-category-search.php">Search Event Categories (THIS WILL BE A DROP DOWN)</a></li>
-							<li><a href="#">Search Event Sub-Categories (THIS WILL BE A DROP DOWN)</a></li>
-						<li><a href="php/forms/city-search.php">Search By City</a></li>
-						<article>
-							<h5><strong>Search By Event Date</strong></h5>
-							<form id="dateSearchForm" method="get" action="php/form-processors/date-search-form-processor.php">
-								<label for="startDate" class="sr-only"></label>
-								<input type="text" id="startDate" name="startDate" class="form-control" placeholder="Start Date: mm-dd-yyyy"/><br/>
-								<label for="endDate" class="sr-only"></label>
-								<input type="text" id="endDate" name="endDate" class="form-control" placeholder="End Date: mm-dd-yyyy"><br/>
-								<button id="search" class="btn btn-rgevents" type="submit">Search</button>
-							</form>
-							<p id="outputDateSearch"></p>
-						</article>
+
+							<article>
+								<h5><strong>Search By Event Date</strong></h5>
+								<form id="dateSearchForm" method="get" action="php/form-processors/date-search-form-processor.php">
+									<label for="startDate" class="sr-only"></label>
+									<input type="text" id="startDate" name="startDate" class="form-control" placeholder="Start Date: mm-dd-yyyy"/><br/>
+									<label for="endDate" class="sr-only"></label>
+									<input type="text" id="endDate" name="endDate" class="form-control" placeholder="End Date: mm-dd-yyyy"><br/>
+									<button id="search" class="btn btn-rgevents" type="submit">Search</button>
+								</form>
+								<p id="outputDateSearch"></p>
+							</article>
+
+<!--							<aside>-->
+<!--								<h5><strong>Search By Event Category</strong></h5>-->
+<!--								<form id="eventCatSearchForm" name="catSubCat" method="post" action="php/form-processors/event-category-search-form-processor.php">-->
+<!--									--><?php //echo generateInputTags(); ?>
+<!--									<label for="eventCatSearch" class="sr-only"></label>-->
+<!--									<p>Choose Category</p>-->
+<!--									<select class="form-control" name="cat" id="s1" onchange=AjaxFunction()>-->
+<!--										<option value=''>Select One</option>"-->
+<!--										<option>--><?php //getCategory() ?><!--</option>-->
+<!--									</select>-->
+<!--									<div class="search">-->
+<!--										<button id="search" class="btn btn-rgevents" type="submit">Search</button>-->
+<!--									</div>-->
+<!--								</form>-->
+<!--							</aside>-->
 					</ul>
 					<br>
 					<ul class="nav nav-sidebar">
-						<li><a href="php/forms/contact-form.php">Contact Us</a></li>
+						<li>
+							<a id="contactbutton" class="btn btn-contact" href="php/forms/contact-form.php">Contact Us</a>
+						</li>
 
 					</ul>
 				</div>
@@ -122,11 +137,16 @@ require_once("php/forms/csrf.php");
 					<br>
 					<br>
 					<br>
-					<h3>Welcome to Red Or Green Events!</h3><div><a href="images/redgreenchilelarge.jpg"></a></div>
+					<h3>Welcome to <span style="color: #C53337">Red</span> or <span style="color: green">Green</span> Events!</h3><div><a href="images/redgreenchilelarge.jpg"></a></div>
 					<br>
 					<article style="background-image: url(https://lh5.googleusercontent.com/WHkxyZ0wYHicjPaUmccqLmx7T1TFhcDaZRA4FhBMoA=w575-h207-p-no)">
 						<div id="landingData" class="landing-page" name="landing-page">
-							<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+							<p>Thank you for visiting Red Or Green Events, you home for purchasing tickets to New Mexico's best events and attractions!</p>
+							<br>
+							<p>You will find the most popular events and attractions for the Greater Albuqeuerque, NM and surrounding areas.</p>
+							<p>Please take a moment to sign up for Red Or Green Events so that you can purchase tickets.</p>
+							<p>We hope that you will enjoy using Red Or Green Events. We welcome your feedback via the Contact Us form to improve your experience shoppin with us.</p>
+
 						</div>
 						<br>
 						<br>
