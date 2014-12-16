@@ -2,8 +2,7 @@
 $(document).ready(function() {
 	// set up the form validation
 	$("#signupForm").validate({
-		// debug option in jQuery's validator
-		debug: true,
+
 		// rules that dictate whats (in)valid
 		rules: {
 			firstName      : {

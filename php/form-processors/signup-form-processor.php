@@ -21,7 +21,6 @@ try {
 	// verify the CSRF tokens
 	$csrfName = isset($_POST["csrfName"]) ? $_POST["csrfName"] : false;
 	$csrfToken = isset($_POST["csrfToken"]) ? $_POST["csrfToken"] : false;
-	var_dump($csrfName, $csrfToken);
 
 	if((verifyCsrf($_POST["csrfName"], $_POST["csrfToken"])) === false) {
 		throw(new Exception("external source violation"));
