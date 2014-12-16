@@ -28,6 +28,9 @@ require_once("php/forms/event-cat-search-functions.php");
 
 	<!-- load .js files for RGEvents -->
 	<link type="text/css" rel="stylesheet" href="site-css.css" />
+	<script src="javascript/date-search.js"></script>
+	<script src="javascript/event-name.js"></script>
+	<script src="javascript/event-venue-search.js"></script>
 
 </head>
 
@@ -141,7 +144,7 @@ require_once("php/forms/event-cat-search-functions.php");
 							<br>
 							<p>You will find the most popular events and attractions for the Greater Albuquerque, NM and surrounding areas.</p>
 							<p>Please take a moment to sign up for Red Or Green Events so that you can purchase tickets.</p>
-							<p>We hope that you will enjoy using Red Or Green Events. We welcome your feedback via the Contact Us form to improve your experience shoppin with us.</p>
+							<p>We hope that you will enjoy using Red Or Green Events. We welcome your feedback via the Contact Us form to improve your experience shopping with us.</p>
 
 						</div>
 
