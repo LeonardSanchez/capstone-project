@@ -40,7 +40,7 @@ require_once("php/forms/csrf.php");
 
 <body>
 
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color: #D1BBA1">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -49,14 +49,14 @@ require_once("php/forms/csrf.php");
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.php"><h4><strong>Red or Green Events</strong>	-	Find Events With A Local Flavor</h4></a>
+			<a class="navbar-brand" href="index.php"><h3><strong><span style="color: #C53337">Red</span> or <span style="color: green">Green</span> Events</strong>	-	Find Events With A Local Flavor</h3></a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
+				<li><a href="php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" style="color: #C53337" aria-hidden="true"></span></a></li>
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Account<span class="caret"></span></a>
-						<ul id="account-list-options" class="dropdown-menu" role="menu">
+					<a href="#" id="myaccdrop" class="dropdown-toggle" data-toggle="dropdown" role="button" style="color: #6F751B" aria-expanded="false">My Account<span class="caret"></span></a>
+						<ul id="account-list-options" class="dropdown-menu" role="menu" style="background-color: #C53337">
 							<li><a href="php/forms/login-form.php">Log In</a></li>
 							<li><a href="php/forms/update-profile.php">Update Profile</a></li>
 							<li><a href="php/forms/signup-form.php">Sign Up</a></li>
@@ -82,32 +82,33 @@ require_once("php/forms/csrf.php");
 
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-xs-6 col-md-2" style="background-color: ActiveBorder">
+				<div class="col-xs-7 col-md-3" style="background-color: ActiveBorder">
+					<br>
+					<br>
 					<ul class="nav nav-sidebar" id="leftnav1">
-						<li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
 						<br>
-						<h5><strong>Find Local Events</strong></h5>
+						<br>
 						<div class="panel panel-success">
-							<div class="panel-heading">
-								<h3 class="panel-title">Select Event Category</h3>
+							<div class="panel-heading" style="background-color: #C53337">
+								<h3 class="panel-title" style="color: #ffffff">Find Local Events</h3>
 							</div>
 						</div>
 						<li><a href="php/forms/event-name-search.php">Search By Events</a></li>
 						<li><a href="php/forms/venue-search-form.php">Search By Venues</a></li>
-						<li><a href="php/forms/event-category-search.php">Search Event Categories (THIS WILL BE A DROP DOWN)</a></li>
-						<li><a href="#">Search Event Sub-Categories (THIS WILL BE A DROP DOWN)</a></li>
+							<li><a href="php/forms/event-category-search.php">Search Event Categories (THIS WILL BE A DROP DOWN)</a></li>
+							<li><a href="#">Search Event Sub-Categories (THIS WILL BE A DROP DOWN)</a></li>
 						<li><a href="php/forms/city-search.php">Search By City</a></li>
-						<article>Search Events By Date
-							<form id="dateSearchForm" method="get" action="../form-processors/date-search-form-processor.php">
-								<label for="startDate">Start Date</label>
-								<input type="text" id="startDate" name="startDate" placeholder="mm-dd-yyyy"/><br/>
-								<label for="endDate">End Date</label>
-								<input type="text" id="endDate" name="endDate" placeholder="mm-dd-yyyy"><br/>
-								<button id="search" type="submit">Search</button>
+						<article>
+							<h5><strong>Search By Event Date</strong></h5>
+							<form id="dateSearchForm" method="get" action="php/form-processors/date-search-form-processor.php">
+								<label for="startDate" class="sr-only"></label>
+								<input type="text" id="startDate" name="startDate" class="form-control" placeholder="Start Date: mm-dd-yyyy"/><br/>
+								<label for="endDate" class="sr-only"></label>
+								<input type="text" id="endDate" name="endDate" class="form-control" placeholder="End Date: mm-dd-yyyy"><br/>
+								<button id="search" class="btn btn-rgevents" type="submit">Search</button>
 							</form>
 							<p id="outputDateSearch"></p>
 						</article>
-						<li><a href="php/forms/date-search.php">Search Events By Date</a></li>
 					</ul>
 					<br>
 					<ul class="nav nav-sidebar">
@@ -116,33 +117,67 @@ require_once("php/forms/csrf.php");
 					</ul>
 				</div>
 
-				<div class="col-xs-12 col-md-10" id="indexContent">
+				<div class="col-xs-13 col-md-8" id="indexContent">
+					<br>
+					<br>
+					<br>
+					<br>
+					<h3>Welcome to Red Or Green Events!</h3><div><a href="images/redgreenchilelarge.jpg"></a></div>
+					<br>
+					<article style="background-image: url(https://lh5.googleusercontent.com/WHkxyZ0wYHicjPaUmccqLmx7T1TFhcDaZRA4FhBMoA=w575-h207-p-no)">
+						<div id="landingData" class="landing-page" name="landing-page">
+							<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+						</div>
+						<br>
+						<br>
+
+
+					</article>
+
 					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+						<!-- Indicators -->
 						<ol class="carousel-indicators">
-							<li data-target="#carousel-example-generic" data-slide-to="0"></li>
+							<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
 							<li data-target="#carousel-example-generic" data-slide-to="1"></li>
 							<li data-target="#carousel-example-generic" data-slide-to="2"></li>
 						</ol>
-						<div class="carousel-inner" role="listbox">
-							<div class="item">
-								<img data-src="holder.js/1140x500/auto/#777:#555/text:FEATURED VENUE: THE KIMO THEATRE" alt="FEATURED VENUE: THE KIMO THEATRE"  src="images/thekimotheater-front.jpg" data-holder-rendered="true">
+
+						<!-- Wrapper for slides -->
+						<div class="carousel-inner">
+							<div class="item active">
+								<img src="https://lh3.googleusercontent.com/-fkmSaw5F7Rs/VI9ydOHlwdI/AAAAAAAAABo/2-vMu8cHueQ/w1050-h450-no/reelbigfishsunshine1050x450.png" alt="...">
+								<div class="carousel-caption">
+									<h3>FEATURED BAND: REEL BIG FISH</h3>
+								</div>
 							</div>
 							<div class="item">
-								<img data-src="holder.js/1140x500/auto/#666:#444/text:FEATURED " alt="Second slide" src="images/reelbigfishsunshine.jpg" data-holder-rendered="true">
+								<img src="https://lh3.googleusercontent.com/-EGe_FBgEm08/VI9yc_oqdoI/AAAAAAAAABg/SI5PfbSjoRw/w1050-h450-no/thekimotheater_front1050x450.png" alt="...">
+								<div class="carousel-caption">
+									<h3>FEATURED VENUE: THE KIMO THEATRE</h3>
+								</div>
 							</div>
 							<div class="item">
-								<img data-src="holder.js/1140x500/auto#555:#333/text:Third slide" alt="Third slide [1140x500]" data-holder-rendered="true">
+								<img src="https://lh3.googleusercontent.com/-uz3vf63pQhA/VI9ydMWfTWI/AAAAAAAAABk/bKkvFzZwkhc/w1050-h450-no/thenutcrackerpopejoy1050x450.png" alt="...">
+								<div class="carousel-caption">
+									<h3>FEATURED STAGE SHOW: THE NUTCRACKER SUITE</h3>
+								</div>
 							</div>
 						</div>
+
+						<!-- Controls -->
 						<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-							<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-							<span class="sr-only">Previous</span>
+							<span class="glyphicon glyphicon-chevron-left"></span>
 						</a>
 						<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-							<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-							<span class="sr-only">Next</span>
+							<span class="glyphicon glyphicon-chevron-right"></span>
 						</a>
-					</div>
+					</div> <!-- Carousel -->
+				</div>
+				</div>
+
+			<div class="col-xs-4 col-md-1" id="indexContent">
+				<div class="rightFiller">
+
 				</div>
 			</div>
 		</div>

@@ -1,8 +1,51 @@
 
 .navbar-fixed-top {
 	z-index: 999;
+	height: 4.5em;
+}
+
+#myaccdrop li a{
+	color: #ffffff;
+}
+
+.carousel {
+	margin-top: 10px;
+	width: 1000px;
+	margin-left: 120px;
+}
+
+#myaccdrop li a:hover {
+	background-color: #6F751B;
 }
 
 #pageContent {
 	border-color: black;
+}
+
+.btn-rgevents {
+	color: #ffffff;
+	background-color: #246121;
+	border-color: #0E3012;
+}
+
+.btn-rgevents:hover,
+.btn-rgevents:focus,
+.btn-rgevents:active,
+.btn-rgevents.active,
+
+#endDate {
+	width: 200px;
+}
+
+#startDate {
+	width: 200px;
+}
+
+#search {
+	width: 100px;
+	position: inherit;
+}
+
+.landing-page {
+	z-index: 500;
 }

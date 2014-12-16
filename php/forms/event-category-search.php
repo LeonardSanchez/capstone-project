@@ -24,7 +24,7 @@ require_once("../forms/event-cat-search-functions.php");
 <body>
 	<form id="eventCatSearchForm" name="catSubCat" method="post" action="../form-processors/event-category-search-form-processor.php">
 		<?php echo generateInputTags(); ?>
-		<label for="eventCatSearch">Search By Event Category</label>
+		<label for="eventCatSearch" class="sr-only">Search By Event Category</label>
 			<p>Choose Category</p>
 			<select name="cat" id="s1" onchange=AjaxFunction()>
 				<option value=''>Select One</option>"

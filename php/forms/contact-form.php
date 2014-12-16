@@ -20,6 +20,7 @@ require_once("../forms/csrf.php");
 		<article>
 			<div class="page-header">
 				<h1>Contact Us</h1>
+
 			</div>
 			<form id="contactForm" method="post" action="../form-processors/contact-us-form-processor.php">
 				<?php echo generateInputTags(); ?>
