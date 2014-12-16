@@ -5,7 +5,7 @@ module("tabs", {
 	}
 });
 
-// global variables for form values
+//  global variables for form values
 
 var VALID_NAME       = "Brendan";
 var VALID_EMAIL      = "bslevin87@gmail.com";
