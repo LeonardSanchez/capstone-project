@@ -105,7 +105,7 @@ require_once("php/forms/csrf.php");
 						<input type="text" id="endDate" name="endDate" class="form-control" placeholder="End Date: mm-dd-yyyy"><br/>
 						<button id="search" class="btn btn-rgevents" type="submit">Search</button>
 					</form>
-					<p id="outputDateSearch"></p>
+<!--					<p id="outputDateSearch"></p>-->
 				</article>
 
 				<!--							<aside>-->
@@ -160,6 +160,7 @@ require_once("php/forms/csrf.php");
 					</tr>
 				</thead>
 				<tbody id="rowArea">
+				<?php $_SESSION["previousResults"]= str_replace("amp;", "", $_SESSION["previousResults"]); $result = file_get_contents($_SESSION["previousResults"]); var_dump($_SESSION["previousResults"]); echo $result; ?>
 				</tbody>
 			</table>
 		</div>

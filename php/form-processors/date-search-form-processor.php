@@ -33,17 +33,19 @@ try	{
 		// grabbing venueName from Venue class
 		$venue = Venue::getVenueByVenueId($mysqli, $venueId);
 		// display results
-		echo 	"<tr>";
-		echo 	"<td><strong>" . $event->getEventName() . "</strong></td>";
-		echo	"<td>" . $eventCategory->getEventCategory() . "</td>";
-		echo	"<td>" . $venue->getVenueName() . "</td>";
-		echo	"<td>" . $event->getEventDateTime()->format("m-d-Y h:i") . "</td>";
-		echo	"<td>$" . $event->getTicketPrice() . "</td>";
+		echo
+			"<tr><td><strong>" . $event->getEventName() . "</strong></td><td>" .
+			$eventCategory->getEventCategory() . "</td><td>" .
+			$venue->getVenueName() . "</td><td>" .
+			$event->getEventDateTime()->format("m-d-Y h:i") . "</td><td>$ " .
+			$event->getTicketPrice() . "</td>";
 		include("../forms/add-to-cart-form.php");
-
-		// echo "<br/><br/><br/>";
+		echo"</tr>";
+		//echo "<br/><br/><br/>";
+		?><?php //header("Location: ../../search-results.php");
+		$_SESSION["previousResults"] = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		header("Location: ../../search-results.php");
 	}
-	echo "\");</script>";
 } catch (Exception $exception) {
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Unable to search: " . $exception->getMessage() . "</div>";
 }
