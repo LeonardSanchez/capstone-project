@@ -166,7 +166,7 @@ CREATE TABLE transaction (
 	-- FOREIGN KEY
 	profileId 		INT UNSIGNED NOT NULL,
 	-- FOREIGN KEY
-	ticketId			INT UNSIGNED NOT NULL,
+	ticketId			INT UNSIGNED NULL,
    amount 			DECIMAL(9, 2) UNSIGNED NOT NULL,
    dateApproved 	DATETIME NOT NULL,
 	cardToken 		VARCHAR(128) NOT NULL,
