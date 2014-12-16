@@ -7,7 +7,7 @@ module("tabs", {
 
 // global variables for form values
 var VALID_EMAIL       = "bslevin87@gmail.com";
-var VALID_PASSWORD    = "margeisgood123"
+var VALID_PASSWORD    = "margeisgood123";
 
 // define a function to perform the actual unit tests
 function testValidFields() {
