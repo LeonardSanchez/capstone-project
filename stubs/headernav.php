@@ -2,6 +2,8 @@
 if(session_status() === PHP_SESSION_NONE)	{
 	session_start();
 }
+require_once("../php/forms/csrf.php");
+
 ?>
 <html lang="en">
 <head>
@@ -39,7 +41,7 @@ if(session_status() === PHP_SESSION_NONE)	{
 
 <body>
 
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color: #D1BBA1">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -48,27 +50,32 @@ if(session_status() === PHP_SESSION_NONE)	{
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.php"><h4><strong>Red or Green Events</strong>	-	Find Events With A Local Flavor</h4></a>
+			<a class="navbar-brand" href="../index.php"><h3><strong><span style="color: #C53337">Red</span> or <span style="color: green">Green</span> Events</strong>	-	Find Events With A Local Flavor</h3></a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
-
-				<li><a href="php/forms/login-form.php">Login</a></li>
-				<li><a href="php/forms/update-profile.php">Update Profile</a></li>
-				<li><a href="php/forms/signup-form.php">Sign Up</a></li>
-				<li><a href="php/forms/log-out.php/">Log Out</a></li>
+				<li><a href="../php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" style="color: #C53337" aria-hidden="true"></span></a></li>
+				<li class="dropdown">
+					<a href="#" id="myaccdrop" class="dropdown-toggle" data-toggle="dropdown" role="button" style="color: #6F751B" aria-expanded="false">My Account<span class="caret"></span></a>
+					<ul id="account-list-options" class="dropdown-menu" role="menu" style="background-color: #C53337">
+						<li><a href="../php/forms/login-form.php">Log In</a></li>
+						<li><a href="../php/forms/update-profile.php">Update Profile</a></li>
+						<li><a href="../php/forms/signup-form.php">Sign Up</a></li>
+						<li><a href="../php/forms/log-out.php/">Log Out</a></li>
+					</ul>
+				</li>
 			</ul>
-			<form class="navbar-form navbar-right" id="citySearchForm" method="get" action="php/form-processors/city-search-form-processor.php">
+			<form class="navbar-form navbar-right" id="citySearchForm" method="get" action="../php/form-processors/city-search-form-processor.php">
 				<input type="text" id="city" name="city" style="background-color: beige" class="form-control" placeholder="Search Venues By City...">
 			</form>
-			<form class="navbar-form navbar-right" id="venueSearchForm" method="get" action="php/form-processors/venue-search-form-processor.php">
+			<form class="navbar-form navbar-right" id="venueSearchForm" method="get" action="../php/form-processors/venue-search-form-processor.php">
 				<input type="text" id="venue" name="venue" style="background-color: beige" class="form-control" placeholder="Search Venues...">
 				<!--<span class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span> This is to clear out the field but it is not residing IN the search box-->
 			</form>
-			<form class="navbar-form navbar-right" id="eventNameSearchForm" method="get" action="php/form-processors/event-name-search-form-processor.php">
+			<form class="navbar-form navbar-right" id="eventNameSearchForm" method="get" action="../php/form-processors/event-name-search-form-processor.php">
 				<input type="text"  id="eventName" name="eventName" style="background-color: beige" class="form-control" placeholder="Search Events...">
 			</form>
 		</div>
 	</div>
 </nav>
+<!-- end of top nav bar -->

@@ -126,7 +126,7 @@ require_once("php/forms/csrf.php");
 					<br>
 					<ul class="nav nav-sidebar">
 						<li>
-							<a id="contactbutton" class="btn btn-contact" href="php/forms/contact-form.php">Contact Us</a>
+							<a id="contactbutton" class="btn btn-contact" href="contact-us.php">Contact Us</a>
 						</li>
 
 					</ul>
