@@ -33,12 +33,16 @@ try	{
 		// grabbing venueName from Venue class
 		$venue = Venue::getVenueByVenueId($mysqli, $venueId);
 		// display results
-		echo "<p class=\"col-sm-6\"><strong>" . $event->getEventName() . "</strong><br/>" .
-			$eventCategory->getEventCategory() . "<br/>" .
+		echo <<<EOF
+			<tr>
+			"<td><strong>" . $event->getEventName() . "</strong></td>" .
+			<$eventCategory->getEventCategory() . "<br/>" .
 			$venue->getVenueName() . "<br/>" .
 			$event->getEventDateTime()->format("m-d-Y h:i") . "<br/>$" .
 			$event->getTicketPrice() . "</p>";
 		include("../forms/add-to-cart-form.php");
+		</tr>
+EOF;
 		echo "<br/><br/><br/>";
 	}
 } catch (Exception $exception) {

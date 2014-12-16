@@ -1,7 +1,6 @@
 <?php
 
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
-require_once("../classes/event-category.php");
 
 // name the function
 function getCategory()

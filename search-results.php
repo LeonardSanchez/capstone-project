@@ -158,6 +158,8 @@ require_once("php/forms/csrf.php");
 						<th>Buy Tickets</th>
 					</tr>
 				</thead>
+				<tbody id="rowArea">
+				</tbody>
 			</table>
 		</div>
 

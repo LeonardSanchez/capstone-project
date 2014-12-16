@@ -50,6 +50,7 @@ function verifyCsrf($name, $sentToken) {
 	if(isset($_SESSION[$name]) === false) {
 		throw(new RuntimeException("Unable to verify CSRF token: form name does not exist"));
 	}
+	var_dump($name, $sentToken);
 
 	// compare the sent token and session token
 	$verified = false;

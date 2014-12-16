@@ -3,6 +3,7 @@ if(session_status() === PHP_SESSION_NONE)	{
 	session_start();
 }
 require_once("php/forms/csrf.php");
+require_once("php/forms/event-cat-search-functions.php");
 
 ?>
 <html lang="en">
@@ -18,25 +19,26 @@ require_once("php/forms/csrf.php");
 	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
 	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="../../dist/js/bootstrap.min.js"></script>
-	<script src="../../assets/js/docs.min.js"></script>
-	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
 	<!-- Bootstrap core CSS -->
 	<link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
 
 	<!-- Custom styles for this template -->
-	<link href="dashboard.css" rel="stylesheet">
+	<link href="grid.css" rel="stylesheet">
 
+	<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 	<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-
-	<link type="text/css" rel="stylesheet" href="site-css.css" />
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
 	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
+
+	<!-- load .js files for RGEvents -->
+	<link type="text/css" rel="stylesheet" href="site-css.css" />
+
 </head>
 
 <body>
@@ -83,7 +85,7 @@ require_once("php/forms/csrf.php");
 
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-xs-7 col-md-3" style="background-color: ActiveBorder">
+				<div class="col-xs-7 col-md-3">
 					<br>
 					<br>
 					<ul class="nav nav-sidebar" id="leftnav1">
@@ -106,22 +108,23 @@ require_once("php/forms/csrf.php");
 								</form>
 								<p id="outputDateSearch"></p>
 							</article>
-
-<!--							<article>-->
-<!--								<h5><strong>Search By Event Category</strong></h5>-->
-<!--								<form id="eventCatSearchForm" name="catSubCat" method="post" action="php/form-processors/event-category-search-form-processor.php">-->
-<!--									--><?php //echo generateInputTags(); ?>
-<!--									<label for="eventCatSearch" class="sr-only"></label>-->
-<!--									<p>Choose Category</p>-->
-<!--									<select class="form-control" name="cat" id="s1" onchange=AjaxFunction()>-->
-<!--										<option value=''>Select One</option>"-->
-<!--										<option>--><?php //getCategory() ?><!--</option>-->
-<!--									</select>-->
-<!--									<div class="search">-->
-<!--										<button id="search" class="btn btn-rgevents" type="submit">Search</button>-->
-<!--									</div>-->
-<!--								</form>-->
-<!--							</article>-->
+							<br>
+							<article>
+								<h5><strong>Search By Event Category</strong></h5>
+								<form id="eventCatSearchForm" name="catSubCat" method="post" action="php/form-processors/event-category-search-form-processor.php">
+									<?php echo generateInputTags(); ?>
+									<label for="eventCatSearch" class="sr-only"></label>
+									<p>Choose Category</p>
+									<select class="form-control" name="cat" id="s1">
+										<option value=''>Select One</option>"
+										<option><?php getCategory() ?></option>
+									</select>
+									<br>
+									<div class="search">
+										<button id="search" class="btn btn-rgevents" type="submit">Search</button>
+									</div>
+								</form>
+							</article>
 					</ul>
 					<br>
 					<ul class="nav nav-sidebar">
@@ -214,9 +217,8 @@ require_once("php/forms/csrf.php");
  ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="../../dist/js/bootstrap.min.js"></script>
-<script src="../../assets/js/docs.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
 </body>
 </html>
