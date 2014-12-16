@@ -20,16 +20,6 @@ require_once("php/forms/event-cat-search-functions.php");
 	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-	<!-- Bootstrap core CSS -->
-	<link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
-
-	<!-- Custom styles for this template -->
-	<link href="grid.css" rel="stylesheet">
-
-	<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-	<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
 	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -93,21 +83,14 @@ require_once("php/forms/event-cat-search-functions.php");
 								<h3 class="panel-title" style="color: #ffffff">Find Local Events</h3>
 							</div>
 						</div>
-							<article>
-								<h5><strong>Venue Search By City</strong></h5>
-								<form id="citySearchForm" method="get" action="php/form-processors/city-search-form-processor.php">
-									<input type="text" id="city" name="city" style="background-color: beige" class="form-control" placeholder="Search Venues By City...">
-									<br>
-									<button id="search" class="btn btn-rgevents" type="submit">Search</button>
-								</form>
-							</article>
+
 							<article>
 								<h5><strong>Search By Event Date</strong></h5>
 								<form id="dateSearchForm" method="get" action="php/form-processors/date-search-form-processor.php">
 									<label for="startDate" class="sr-only"></label>
-									<input type="text" id="startDate" name="startDate" class="form-control" placeholder="Start Date: mm-dd-yyyy"/><br/>
+									<input type="text" id="startDate" style="background-color: beige" name="startDate" class="form-control" placeholder="Start Date: mm-dd-yyyy"/><br/>
 									<label for="endDate" class="sr-only"></label>
-									<input type="text" id="endDate" name="endDate" class="form-control" placeholder="End Date: mm-dd-yyyy"><br/>
+									<input type="text" id="endDate" style="background-color: beige" name="endDate" class="form-control" placeholder="End Date: mm-dd-yyyy"><br/>
 									<button id="search" class="btn btn-rgevents" type="submit">Search</button>
 								</form>
 								<p id="outputDateSearch"></p>
@@ -119,7 +102,7 @@ require_once("php/forms/event-cat-search-functions.php");
 									<?php echo generateInputTags(); ?>
 									<label for="eventCatSearch" class="sr-only"></label>
 									<p>Choose Category</p>
-									<select class="form-control" name="cat" id="s1">
+									<select class="form-control" style="background-color: beige" name="cat" id="s1">
 										<option value=''>Select One</option>"
 										<option><?php getCategory() ?></option>
 									</select>
