@@ -107,7 +107,7 @@ require_once("php/forms/csrf.php");
 								<p id="outputDateSearch"></p>
 							</article>
 
-<!--							<aside>-->
+<!--							<article>-->
 <!--								<h5><strong>Search By Event Category</strong></h5>-->
 <!--								<form id="eventCatSearchForm" name="catSubCat" method="post" action="php/form-processors/event-category-search-form-processor.php">-->
 <!--									--><?php //echo generateInputTags(); ?>
@@ -121,7 +121,7 @@ require_once("php/forms/csrf.php");
 <!--										<button id="search" class="btn btn-rgevents" type="submit">Search</button>-->
 <!--									</div>-->
 <!--								</form>-->
-<!--							</aside>-->
+<!--							</article>-->
 					</ul>
 					<br>
 					<ul class="nav nav-sidebar">
@@ -143,10 +143,9 @@ require_once("php/forms/csrf.php");
 					<br>
 					<br>
 					<br>
+					<h3>Welcome to <span style="color: #C53337">Red</span> or <span style="color: green">Green</span> Events!</h3>
 					<br>
-					<h3>Welcome to <span style="color: #C53337">Red</span> or <span style="color: green">Green</span> Events!</h3><div><a href="images/redgreenchilelarge.jpg"></a></div>
-					<br>
-					<article style="background-image: url(https://lh5.googleusercontent.com/WHkxyZ0wYHicjPaUmccqLmx7T1TFhcDaZRA4FhBMoA=w575-h207-p-no)">
+					<article>
 						<div id="landingData" class="landing-page" name="landing-page">
 							<p>Thank you for visiting Red Or Green Events, you home for purchasing tickets to New Mexico's best events and attractions!</p>
 							<br>
@@ -155,8 +154,7 @@ require_once("php/forms/csrf.php");
 							<p>We hope that you will enjoy using Red Or Green Events. We welcome your feedback via the Contact Us form to improve your experience shoppin with us.</p>
 
 						</div>
-						<br>
-						<br>
+
 
 
 					</article>

@@ -150,13 +150,11 @@ require_once("php/forms/csrf.php");
 				<thead>
 					<tr>
 						<th>Event Name</th>
+						<th>Event Category</th>
 						<th>Venue</th>
-						<th>Address</th>
-						<th>City</th>
-						<th>State</th>
-						<th>Zip Code</th>
 						<th>Date & Time</th>
 						<th>Ticket Price</th>
+						<th>Ticket Qty</th>
 						<th>Buy Tickets</th>
 					</tr>
 				</thead>
