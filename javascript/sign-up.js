@@ -53,7 +53,7 @@ $(document).ready(function() {
 			submitHandler  : function(form) {
 				$(form).ajaxSubmit({
 					type   : "POST",
-					url    : "../form-processors/signup-form-processor.php",
+					url    : "php/form-processors/signup-form-processor.php",
 					data   : $(form).serialize(),
 					success: function(ajaxOutput) {
 						$("#outputSignUp").html(ajaxOutput);

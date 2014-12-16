@@ -24,7 +24,7 @@ $(document).ready(function() {
 		submitHandler  : function(form) {
 			$(form).ajaxSubmit({
 				type   : "POST",
-				url    : "../form-processors/login-form-processor.php",
+				url    : "php/form-processors/login-form-processor.php",
 				data: $(form).serialize(),
 				success: function(ajaxOutput) {
 					$("#outputLogin").html(ajaxOutput);

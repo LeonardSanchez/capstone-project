@@ -11,7 +11,7 @@ require_once("php/forms/event-cat-search-functions.php");
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<!-- create and add a favicon for our site <link rel="icon" href="#"> -->
-	<title>RGEvents Main</title>
+	<title>Log In</title>
 	<link type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
@@ -28,13 +28,12 @@ require_once("php/forms/event-cat-search-functions.php");
 
 	<!-- load .js files for RGEvents -->
 	<link type="text/css" rel="stylesheet" href="site-css.css" />
-	<script src="javascript/date-search.js"></script>
-	<script src="javascript/event-name.js"></script>
-	<script src="javascript/event-venue-search.js"></script>
+	<script type="text/javascript" src="javascript/date-search.js"></script>
+	<script type="text/javascript" src="javascript/event-name.js"></script>
+	<script type="text/javascript" src="javascript/event-venue-search.js"></script>
 	<script type="text/javascript" src="javascript/login.js"></script>
 
 </head>
-
 <body>
 
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color: #D1BBA1">
@@ -53,12 +52,12 @@ require_once("php/forms/event-cat-search-functions.php");
 				<li><a href="php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" style="color: #C53337" aria-hidden="true"></span></a></li>
 				<li class="dropdown">
 					<a href="#" id="myaccdrop" class="dropdown-toggle" data-toggle="dropdown" role="button" style="color: #fffffff" aria-expanded="false">My Account<span class="caret"></span></a>
-						<ul id="account-list-options" class="dropdown-menu" role="menu" style="background-color: #C53337">
-							<li><a href="login.php">Log In</a></li>
-							<li><a href="php/forms/update-profile.php">Update Profile</a></li>
-							<li><a href="php/forms/signup-form.php">Sign Up</a></li>
-							<li><a href="php/forms/log-out.php/">Log Out</a></li>
-							</ul>
+					<ul id="account-list-options" class="dropdown-menu" role="menu" style="background-color: #C53337">
+						<li><a href="login.php">Log In</a></li>
+						<li><a href="php/forms/update-profile.php">Update Profile</a></li>
+						<li><a href="php/forms/signup-form.php">Sign Up</a></li>
+						<li><a href="php/forms/log-out.php/">Log Out</a></li>
+					</ul>
 				</li>
 			</ul>
 			<form class="navbar-form navbar-right" id="venueSearchForm" method="get" action="php/form-processors/venue-search-form-processor.php">
@@ -133,66 +132,30 @@ require_once("php/forms/event-cat-search-functions.php");
 			</ul>
 		</div>
 
-				<div class="col-xs-13 col-md-8" id="indexContent">
-					<br>
-					<br>
-					<br>
-					<h3>Welcome to <span style="color: #C53337">Red</span> or <span style="color: green">Green</span> Events!</h3>
-					<br>
-					<article>
-						<div id="landingData" class="landing-page" name="landing-page">
-							<p>Thank you for visiting Red Or Green Events, you home for purchasing tickets to New Mexico's best events and attractions!</p>
-							<br>
-							<p>You will find the most popular events and attractions for the Greater Albuquerque, NM and surrounding areas.</p>
-							<p>Please take a moment to sign up for Red Or Green Events so that you can purchase tickets.</p>
-							<p>We hope that you will enjoy using Red Or Green Events. We welcome your feedback via the Contact Us form to improve your experience shopping with us.</p>
+		<div class="col-xs-13 col-md-8" id="indexContent">
+			<br>
+			<br>
+			<br>
+			<br>
+			<h3><span style="color: #C53337">Log</span> <span style="color: green">In</span></h3><div>
+				<br>
 
-						</div>
+				<form class="form-signin" id="loginForm" method="post" action="php/form-processors/login-form-processor.php" novalidate="novalidate">
+					<?php echo generateInputTags(); ?>
+					<div class="">
+						<h3 class="form-signin-heading">Please Login</h3>
+						<label for="email" class="sr-only">Email address</label>
+						<input type="text" id="email" name="email" class="form-control" placeholder="Login with your email address"><br />
+						<label for="password" class="sr-only">Password</label>
+						<input type="password" id="password" name="password" class="form-control" placeholder="Password"><br />
 
+						<button id="loginSubmit" class="btn btn-lg btn-primary" type="submit">Login</button>
 
+					</div>
+				</form>
 
-					</article>
-
-					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-						<!-- Indicators -->
-						<ol class="carousel-indicators">
-							<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-							<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-							<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-						</ol>
-
-						<!-- Wrapper for slides -->
-						<div class="carousel-inner">
-							<div class="item active">
-								<img src="https://lh3.googleusercontent.com/-fkmSaw5F7Rs/VI9ydOHlwdI/AAAAAAAAABo/2-vMu8cHueQ/w1050-h450-no/reelbigfishsunshine1050x450.png" alt="...">
-								<div class="carousel-caption">
-									<h3>FEATURED BAND: REEL BIG FISH</h3>
-								</div>
-							</div>
-							<div class="item">
-								<img src="https://lh3.googleusercontent.com/-EGe_FBgEm08/VI9yc_oqdoI/AAAAAAAAABg/SI5PfbSjoRw/w1050-h450-no/thekimotheater_front1050x450.png" alt="...">
-								<div class="carousel-caption">
-									<h3>FEATURED VENUE: THE KIMO THEATRE</h3>
-								</div>
-							</div>
-							<div class="item">
-								<img src="https://lh3.googleusercontent.com/-uz3vf63pQhA/VI9ydMWfTWI/AAAAAAAAABk/bKkvFzZwkhc/w1050-h450-no/thenutcrackerpopejoy1050x450.png" alt="...">
-								<div class="carousel-caption">
-									<h3>FEATURED STAGE SHOW: THE NUTCRACKER SUITE</h3>
-								</div>
-							</div>
-						</div>
-
-						<!-- Controls -->
-						<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-							<span class="glyphicon glyphicon-chevron-left"></span>
-						</a>
-						<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-							<span class="glyphicon glyphicon-chevron-right"></span>
-						</a>
-					</div> <!-- Carousel -->
-				</div>
-				</div>
+				<p id="outputLogin"></p>
+			</div>
 
 			<div class="col-xs-4 col-md-1" id="indexContent">
 				<div class="rightFiller">
@@ -200,16 +163,5 @@ require_once("php/forms/event-cat-search-functions.php");
 				</div>
 			</div>
 		</div>
-
-
-
-
-<!-- Bootstrap core JavaScript
- ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-
 </body>
 </html>

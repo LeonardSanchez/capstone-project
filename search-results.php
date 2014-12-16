@@ -31,6 +31,7 @@ require_once("php/forms/event-cat-search-functions.php");
 	<script src="javascript/date-search.js"></script>
 	<script src="javascript/event-name.js"></script>
 	<script src="javascript/event-venue-search.js"></script>
+	<script type="text/javascript" src="javascript/login.js"></script>
 
 </head>
 <body>
@@ -52,7 +53,7 @@ require_once("php/forms/event-cat-search-functions.php");
 				<li class="dropdown">
 					<a href="#" id="myaccdrop" class="dropdown-toggle" data-toggle="dropdown" role="button" style="color: #fffffff" aria-expanded="false">My Account<span class="caret"></span></a>
 					<ul id="account-list-options" class="dropdown-menu" role="menu" style="background-color: #C53337">
-						<li><a href="php/forms/login-form.php">Log In</a></li>
+						<li><a href="login.php">Log In</a></li>
 						<li><a href="php/forms/update-profile.php">Update Profile</a></li>
 						<li><a href="php/forms/signup-form.php">Sign Up</a></li>
 						<li><a href="php/forms/log-out.php/">Log Out</a></li>
@@ -72,19 +73,19 @@ require_once("php/forms/event-cat-search-functions.php");
 <!-- end of top nav bar -->
 
 
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-xs-7 col-md-3">
-			<br>
-			<br>
-			<ul class="nav nav-sidebar" id="leftnav1">
-				<br>
-				<br>
-				<div class="panel panel-success">
-					<div class="panel-heading" style="background-color: #C53337">
-						<h3 class="panel-title" style="color: #ffffff">Find Local Events</h3>
-					</div>
-				</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-7 col-md-3">
+					<br>
+					<br>
+					<ul class="nav nav-sidebar" id="leftnav1">
+						<br>
+						<br>
+						<div class="panel panel-success">
+							<div class="panel-heading" style="background-color: #C53337">
+								<h3 class="panel-title" style="color: #ffffff">Find Local Events</h3>
+							</div>
+						</div>
 
 				<article>
 					<h5><strong>Search By Event Date</strong></h5>
@@ -97,38 +98,39 @@ require_once("php/forms/event-cat-search-functions.php");
 					</form>
 <!--					<p id="outputDateSearch"></p>-->
 				</article>
+						<br>
+						<article>
+							<h5><strong>Search By Event Category</strong></h5>
+							<form id="eventCatSearchForm" name="catSubCat" method="post" action="php/form-processors/event-category-search-form-processor.php">
+								<?php echo generateInputTags(); ?>
+								<label for="eventCatSearch" class="sr-only"></label>
+								<p>Choose Category</p>
+								<select class="form-control" style="background-color: beige" name="cat" id="s1">
+									<option value=''>Select One</option>"
+									<option><?php getCategory() ?></option>
+								</select>
+								<br>
+								<div class="search">
+									<button id="search" class="btn btn-rgevents" type="submit">Search</button>
+								</div>
+							</form>
+						</article>
+					</ul>
+					<br>
+					<ul class="nav nav-sidebar">
+						<li>
+							<a id="contactbutton" class="btn btn-contact" href="contact-us.php">Contact Us</a>
+						</li>
 
-				<!--							<aside>-->
-				<!--								<h5><strong>Search By Event Category</strong></h5>-->
-				<!--								<form id="eventCatSearchForm" name="catSubCat" method="post" action="php/form-processors/event-category-search-form-processor.php">-->
-				<!--									--><?php //echo generateInputTags(); ?>
-				<!--									<label for="eventCatSearch" class="sr-only"></label>-->
-				<!--									<p>Choose Category</p>-->
-				<!--									<select class="form-control" name="cat" id="s1" onchange=AjaxFunction()>-->
-				<!--										<option value=''>Select One</option>"-->
-				<!--										<option>--><?php //getCategory() ?><!--</option>-->
-				<!--									</select>-->
-				<!--									<div class="search">-->
-				<!--										<button id="search" class="btn btn-rgevents" type="submit">Search</button>-->
-				<!--									</div>-->
-				<!--								</form>-->
-				<!--							</aside>-->
-			</ul>
-			<br>
-			<ul class="nav nav-sidebar">
-				<li>
-					<a id="contactbutton" class="btn btn-contact" href="contact-us.php">Contact Us</a>
-				</li>
-
-			</ul>
-			<br>
-			<br>
-			<ul class="nav nav-sidebar">
-				<li>
-					<a id="aboutusbutton" class="btn btn-about" href="about.php">About Us</a>
-				</li>
-			</ul>
-		</div>
+					</ul>
+					<br>
+					<br>
+					<ul class="nav nav-sidebar">
+						<li>
+							<a id="aboutusbutton" class="btn btn-about" href="about.php">About Us</a>
+						</li>
+					</ul>
+				</div>
 
 		<div class="col-xs-13 col-md-8" id="indexContent">
 			<br>
