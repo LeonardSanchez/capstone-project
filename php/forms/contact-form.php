@@ -30,7 +30,7 @@ require_once("../forms/csrf.php");
 				</p>
 				<p>
 					<label for="email">Email</label><br />
-					<input type="email" id="email" name="email" size="32" placeholder="Enter your Email Address" />
+					<input type="text" id="email" name="email" size="32" placeholder="Enter your Email Address" />
 				</p>
 
 				<p>

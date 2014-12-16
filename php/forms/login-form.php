@@ -16,6 +16,10 @@ require_once("csrf.php");
 	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
 	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../../javascript/login.js"></script>
+	<!-- Bootstrap core CSS -->
+	<link href="../../bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="../../bootstrap/dist/css/signin.css" rel="stylesheet">
 </head>
 <body>
 	<form id="loginForm" method="post" action="../form-processors/login-form-processor.php">
