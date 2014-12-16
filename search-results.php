@@ -17,26 +17,14 @@ require_once("php/forms/csrf.php");
 	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
 	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="../../dist/js/bootstrap.min.js"></script>
-	<script src="../../assets/js/docs.min.js"></script>
-	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-	<!-- Bootstrap core CSS -->
-	<link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
-
-	<!-- Custom styles for this template -->
-	<link href="dashboard.css" rel="stylesheet">
-
-	<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
 
 	<link type="text/css" rel="stylesheet" href="site-css.css" />
 	<script src="javascript/date-search.js"></script>
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
-	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 </head>
 
@@ -160,7 +148,7 @@ require_once("php/forms/csrf.php");
 					</tr>
 				</thead>
 				<tbody id="rowArea">
-				<?php $_SESSION["previousResults"]= str_replace("amp;", "", $_SESSION["previousResults"]); $result = file_get_contents($_SESSION["previousResults"]); var_dump($_SESSION["previousResults"]); echo $result; ?>
+<!--				--><?php //$result = file_get_contents(($_SESSION["previousResults"])); var_dump($_SESSION["previousResults"]); echo $result; ?>
 				</tbody>
 			</table>
 		</div>
@@ -171,17 +159,5 @@ require_once("php/forms/csrf.php");
 		</div>
 	</div>
 </div>
-
-
-
-
-<!-- Bootstrap core JavaScript
- ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="../../dist/js/bootstrap.min.js"></script>
-<script src="../../assets/js/docs.min.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

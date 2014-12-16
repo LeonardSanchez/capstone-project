@@ -21,12 +21,9 @@ $(document).ready(function()	{
 		submitHandler: function(form)	{
 			$(form).ajaxSubmit	({
 				type: "GET",
-				url: "../form-processors/date-search-form-processor.php",
-				date: $(form).serialize(),
+				url: "php/form-processors/date-search-form-processor.php",
 				success:	function(ajaxOutput)	{
-					//$("#rowArea").html(ajaxOutput);
-					window.location.href = "../../search-results.php";
-					document.getElementById("rowArea").innerHTML = $(ajaxOutput);
+					$("#rowArea").html(ajaxOutput);
 				}
 			})
 		}
