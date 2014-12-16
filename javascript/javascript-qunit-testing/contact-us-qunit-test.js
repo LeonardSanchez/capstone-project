@@ -1,7 +1,7 @@
 // open a new window
 module("tabs", {
 	setup: function() {
-		F.open("../../php/forms/contact-us.php");
+		F.open("../../php/forms/contact-form.php");
 	}
 });
 
