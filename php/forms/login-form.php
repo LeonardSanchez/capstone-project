@@ -23,14 +23,13 @@ require_once("csrf.php");
 	<div class="col-lg-6">
 
 		<form class="form-signin" id="loginForm" method="post" action="../form-processors/login-form-processor.php" novalidate="novalidate">
-			<input name="csrfName" type="hidden" value="csrfName163826737">
-			<input name="csrfToken" type="hidden" value="84a0778fd3f5ef5147073ad098bbb5f7dbc204b8c422a17babf7e94a88764491183fa6a2ea8fc44c71495ccf240646539ccf90780f3c652875dd4f18a7e3aa9d">
+			<?php echo generateInputTags(); ?>
 			<div class="">
 				<h3 class="form-signin-heading">Please Login</h3>
 				<label for="email" class="sr-only">Email address</label>
-				<input type="text" id="email" name="email" class="form-control" placeholder="Login with your email address">
+				<input type="text" id="email" name="email" class="form-control" placeholder="Login with your email address"><br />
 				<label for="password" class="sr-only">Password</label>
-				<input type="password" id="password" name="password" class="form-control" placeholder="Password">
+				<input type="password" id="password" name="password" class="form-control" placeholder="Password"><br />
 
 				<button id="loginSubmit" class="btn btn-lg btn-primary" type="submit">Login</button>
 
