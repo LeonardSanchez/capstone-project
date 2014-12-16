@@ -39,7 +39,7 @@ require_once("../forms/csrf.php");
 				</p>
 				<p>
 					<label>Submit</label><br />
-					<button class="btn btn-primary" type="submit">Send</button>
+					<button id="contactUs" class="btn btn-primary" type="submit">Send</button>
 					<button class="btn btn-primary" type="reset">Clear</button>
 				</p>
 			</form>

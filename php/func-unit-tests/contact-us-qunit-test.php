@@ -6,12 +6,11 @@
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript" src="//code.jquery.com/qunit/qunit-1.15.0.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/FuncUnit/2.0.4/funcunit.min.js"></script>
-	<script type="text/javascript" src="contactUs-test.js"></script>
+	<script type="text/javascript" src="../../javascript/javascript-qunit-testing/contact-us-qunit-test.js"></script>
 	<title>Contact Us Test</title>
 </head>
 <body>
-<div id="qunit"></div>
-<div id="qunit-fixture"></div>
-
+	<div id="qunit"></div>
+	<div id="qunit-fixture"></div>
 </body>
 </html>

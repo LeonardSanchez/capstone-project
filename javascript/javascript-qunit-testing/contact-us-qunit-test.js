@@ -1,29 +1,32 @@
 // open a new window
 module("tabs", {
 	setup: function() {
-		F.open("../../contact-us.php");
+		F.open("../../php/forms/contact-us.php");
 	}
 });
 
 // global variables for form values
 
-var VALID_EMAIL       = "homer@cnm.edu";
-var VALID_PASSWORD    = "margeisgood123";
-
+var VALID_NAME       = "Brendan";
+var VALID_EMAIL      = "bslevin87@gmail.com";
+var VALID_MESSAGE    = "Hello RG Events";
 
 // define a function to perform the actual unit tests
 function testValidFields() {
 	// fill in the form values
 
+   F("#name").visible(function() {
+      this.type(VALID_NAME)
+   });
 	F("#email").visible(function() {
 		this.type(VALID_EMAIL);
 	});
-	F("#password").visible(function() {
-		this.type(VALID_PASSWORD);
+	F("#message").visible(function() {
+		this.type(VALID_MESSAGE);
 	});
 
 		// click the button once all the fields are filled in
-		F("#Contact Us").visible(function() {
+		F("#contactUs").visible(function() {
 			this.click();
 		});
 
