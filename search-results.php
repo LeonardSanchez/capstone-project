@@ -133,27 +133,27 @@ require_once("php/forms/event-cat-search-functions.php");
 				</div>
 
 		<div class="col-xs-13 col-md-8" id="indexContent">
-			<br>
-			<br>
-			<br>
-			<br>
-			<h3><span style="color: #C53337">Search</span> <span style="color: green">Results</span></h3><div>
-			<br>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Event Name</th>
-						<th>Event Category</th>
-						<th>Venue</th>
-						<th>Date & Time</th>
-						<th>Ticket Price</th>
-						<th>Buy Tickets</th>
-					</tr>
-				</thead>
-				<tbody id="rowArea">
-<!--				--><?php //$result = file_get_contents(($_SESSION["previousResults"])); var_dump($_SESSION["previousResults"]); echo $result; ?>
-				</tbody>
-			</table>
+<!--			<br>-->
+<!--			<br>-->
+<!--			<br>-->
+<!--			<br>-->
+<!--			<h3><span style="color: #C53337">Search</span> <span style="color: green">Results</span></h3><div>-->
+<!--			<br>-->
+<!--			<table class="table table-striped">-->
+<!--				<thead>-->
+<!--					<tr>-->
+<!--						<th>Event Name</th>-->
+<!--						<th>Event Category</th>-->
+<!--						<th>Venue</th>-->
+<!--						<th>Date & Time</th>-->
+<!--						<th>Ticket Price</th>-->
+<!--						<th>Buy Tickets</th>-->
+<!--					</tr>-->
+<!--				</thead>-->
+<!--				<tbody id="rowArea">-->
+<!--<!--	update with url when user doesn't have JS enabled			-->--><?php ////$result = file_get_contents(($_SESSION["previousResults"])); var_dump($_SESSION["previousResults"]); echo $result; ?>
+<!--				</tbody>-->
+<!--			</table>-->
 		</div>
 
 	<div class="col-xs-4 col-md-1" id="indexContent">

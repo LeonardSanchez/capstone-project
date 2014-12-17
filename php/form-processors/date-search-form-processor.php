@@ -11,7 +11,7 @@ require_once("../classes/venue.php");
 //require mysqli
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 try	{
-	header("Location: ../../search-results.php");
+//	header("Location: ../../search-results.php");
 	$mysqli = MysqliConfiguration::getMysqli();
 
 	$startDate = filter_input(INPUT_GET, "startDate", FILTER_SANITIZE_STRING);

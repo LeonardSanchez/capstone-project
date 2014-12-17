@@ -192,24 +192,13 @@ require_once("php/forms/event-cat-search-functions.php");
 						</a>
 					</div> <!-- Carousel -->
 				</div>
-				</div>
+	</div>
 
-			<div class="col-xs-4 col-md-1" id="indexContent">
+			<div class="col-xs-4 col-md-1">
 				<div class="rightFiller">
 
 				</div>
 			</div>
 		</div>
-
-
-
-
-<!-- Bootstrap core JavaScript
- ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-
 </body>
 </html>
