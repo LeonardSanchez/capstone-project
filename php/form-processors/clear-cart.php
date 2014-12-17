@@ -4,4 +4,4 @@ if(session_status() === PHP_SESSION_NONE)	{
 }
 	unset($_SESSION["cartItems"]);
 ?>
-<head><meta http-equiv="refresh" content="0; url=../forms/shopping-cart-form.php" /></head>
+<head><meta http-equiv="refresh" content="0; url=../../shopping-cart-form.php" /></head>

@@ -12,7 +12,7 @@ $("#parentCategory").change(function()	{
 			},
 
 			messages:	{
-				parentCategory: "Please select "
+				parentCategory: "Please select"
 			},
 
 			submitHandler: function(form)	{

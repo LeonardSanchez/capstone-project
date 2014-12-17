@@ -10,4 +10,4 @@ foreach($_SESSION['cartItems'] as $processItem ) {
 	}
 }
 ?>
-<head><meta http-equiv="refresh" content="0; url=../forms/shopping-cart-form.php" /></head>
+<head><meta http-equiv="refresh" content="0; url=../../shopping-cart-form.php" /></head>
