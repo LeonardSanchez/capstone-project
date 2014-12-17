@@ -54,8 +54,8 @@ require_once("php/forms/event-cat-search-functions.php");
 					<a href="#" id="myaccdrop" class="dropdown-toggle" data-toggle="dropdown" role="button" style="color: #fffffff" aria-expanded="false">My Account<span class="caret"></span></a>
 					<ul id="account-list-options" class="dropdown-menu" role="menu" style="background-color: #C53337">
 						<li><a href="login.php">Log In</a></li>
-						<li><a href="php/forms/update-profile.php">Update Profile</a></li>
-						<li><a href="php/forms/signup-form.php">Sign Up</a></li>
+						<li><a href="update-profile.php">Update Profile</a></li>
+						<li><a href="signup.php">Sign Up</a></li>
 						<li><a href="php/forms/log-out.php/">Log Out</a></li>
 					</ul>
 				</li>

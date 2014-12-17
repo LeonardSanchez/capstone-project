@@ -56,7 +56,7 @@ require_once("php/forms/event-cat-search-functions.php");
 					<a href="#" id="myaccdrop" class="dropdown-toggle" data-toggle="dropdown" role="button" style="color: #fffffff" aria-expanded="false">My Account<span class="caret"></span></a>
 					<ul id="account-list-options" class="dropdown-menu" role="menu" style="background-color: #C53337">
 						<li><a href="login.php">Log In</a></li>
-						<li><a href="php/forms/update-profile.php">Update Profile</a></li>
+						<li><a href="update-profile.php">Update Profile</a></li>
 						<li><a href="signup.php">Sign Up</a></li>
 						<li><a href="php/forms/log-out.php/">Log Out</a></li>
 					</ul>
@@ -139,7 +139,7 @@ require_once("php/forms/event-cat-search-functions.php");
 			<br>
 			<br>
 			<br>
-			<h3><span style="color: #C53337">Log</span> <span style="color: green">In</span></h3><div>
+			<h3><span style="color: #C53337">Sign</span> <span style="color: green">Up</span></h3><div>
 				<br>
 
 					<form id="signupForm" name="signupForm" method="post" action="php/form-processors/signup-form-processor.php">
@@ -147,7 +147,7 @@ require_once("php/forms/event-cat-search-functions.php");
 
 						<div class="">
 
-							<h3 class="signupForm">Please complete the form to sign up</h3><h3>for a RGEvents account</h3>
+							<h4 class="signupForm">Please complete the form to sign up for a RGEvents account</h4>
 							<label for="firstName" class="sr-only">First Name</label>
 							<input type="text" id="firstName" name="firstName" class="form-control alert" placeholder="First Name">
 							<label for="lastName" class="sr-only">Last Name</label>
