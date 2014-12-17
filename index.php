@@ -32,6 +32,7 @@ require_once("php/forms/event-cat-search-functions.php");
 	<script src="javascript/event-name.js"></script>
 	<script src="javascript/event-venue-search.js"></script>
 	<script type="text/javascript" src="javascript/login.js"></script>
+	<script type="text/javascript" src="javascript/sign-up.js"></script>
 
 </head>
 

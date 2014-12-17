@@ -11,7 +11,7 @@ require_once("php/forms/event-cat-search-functions.php");
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<!-- create and add a favicon for our site <link rel="icon" href="#"> -->
-	<title>Sign Up</title>
+	<title>RGEvents Main</title>
 	<link type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
@@ -28,13 +28,14 @@ require_once("php/forms/event-cat-search-functions.php");
 
 	<!-- load .js files for RGEvents -->
 	<link type="text/css" rel="stylesheet" href="site-css.css" />
-	<script type="text/javascript" src="javascript/date-search.js"></script>
-	<script type="text/javascript" src="javascript/event-name.js"></script>
-	<script type="text/javascript" src="javascript/event-venue-search.js"></script>
+	<script src="javascript/date-search.js"></script>
+	<script src="javascript/event-name.js"></script>
+	<script src="javascript/event-venue-search.js"></script>
 	<script type="text/javascript" src="javascript/login.js"></script>
 	<script type="text/javascript" src="javascript/sign-up.js"></script>
 
 </head>
+
 <body>
 
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color: #D1BBA1">
@@ -56,7 +57,7 @@ require_once("php/forms/event-cat-search-functions.php");
 					<ul id="account-list-options" class="dropdown-menu" role="menu" style="background-color: #C53337">
 						<li><a href="login.php">Log In</a></li>
 						<li><a href="php/forms/update-profile.php">Update Profile</a></li>
-						<li><a href="php/forms/signup-form.php">Sign Up</a></li>
+						<li><a href="signup.php">Sign Up</a></li>
 						<li><a href="php/forms/log-out.php/">Log Out</a></li>
 					</ul>
 				</li>
@@ -170,7 +171,7 @@ require_once("php/forms/event-cat-search-functions.php");
 			</div>
 			<p id="outputSignUp"></p>
 
-			<div class="col-xs-4 col-md-1" id="indexContent">
+			<div class="col-xs-4 col-md-1">
 				<div class="rightFiller">
 
 				</div>

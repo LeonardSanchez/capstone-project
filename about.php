@@ -3,6 +3,7 @@ if(session_status() === PHP_SESSION_NONE)	{
 	session_start();
 }
 require_once("php/forms/csrf.php");
+require_once("php/forms/event-cat-search-functions.php");
 
 ?>
 <html lang="en">
@@ -17,20 +18,7 @@ require_once("php/forms/csrf.php");
 	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
 	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="../../dist/js/bootstrap.min.js"></script>
-	<script src="../../assets/js/docs.min.js"></script>
-	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-	<!-- Bootstrap core CSS -->
-	<link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
 
-	<!-- Custom styles for this template -->
-	<link href="dashboard.css" rel="stylesheet">
-
-	<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-
-	<link type="text/css" rel="stylesheet" href="site-css.css" />
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -38,8 +26,13 @@ require_once("php/forms/csrf.php");
 	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 
-	<!-- RGEvents javascript files for this page -->
-	<script type="text/javascript" src="javascript/contact-us.js"></script>
+	<!-- load .js files for RGEvents -->
+	<link type="text/css" rel="stylesheet" href="site-css.css" />
+	<script src="javascript/date-search.js"></script>
+	<script src="javascript/event-name.js"></script>
+	<script src="javascript/event-venue-search.js"></script>
+	<script type="text/javascript" src="javascript/login.js"></script>
+
 </head>
 
 <body>
@@ -53,24 +46,21 @@ require_once("php/forms/csrf.php");
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.php"><h3><strong><span style="color: #C53337">Red</span> or <span style="color: green">Green</span> Events</strong>	-	Find Events With A Local Flavor</h3></a>
+			<a class="navbar-brand" id="navbarName" href="index.php"><h3 style="color: #ffffff"><strong><span style="color: #C53337">Red</span> or <span style="color: green">Green</span> Events</strong>	-	Find Events With A Local Flavor</h3></a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" style="color: #C53337" aria-hidden="true"></span></a></li>
 				<li class="dropdown">
-					<a href="#" id="myaccdrop" class="dropdown-toggle" data-toggle="dropdown" role="button" style="color: #6F751B" aria-expanded="false">My Account<span class="caret"></span></a>
+					<a href="#" id="myaccdrop" class="dropdown-toggle" data-toggle="dropdown" role="button" style="color: #fffffff" aria-expanded="false">My Account<span class="caret"></span></a>
 					<ul id="account-list-options" class="dropdown-menu" role="menu" style="background-color: #C53337">
-						<li><a href="php/forms/login-form.php">Log In</a></li>
+						<li><a href="login.php">Log In</a></li>
 						<li><a href="php/forms/update-profile.php">Update Profile</a></li>
-						<li><a href="php/forms/signup-form.php">Sign Up</a></li>
+						<li><a href="signup.php">Sign Up</a></li>
 						<li><a href="php/forms/log-out.php/">Log Out</a></li>
 					</ul>
 				</li>
 			</ul>
-			<form class="navbar-form navbar-right" id="citySearchForm" method="get" action="php/form-processors/city-search-form-processor.php">
-				<input type="text" id="city" name="city" style="background-color: beige" class="form-control" placeholder="Search Venues By City...">
-			</form>
 			<form class="navbar-form navbar-right" id="venueSearchForm" method="get" action="php/form-processors/venue-search-form-processor.php">
 				<input type="text" id="venue" name="venue" style="background-color: beige" class="form-control" placeholder="Search Venues...">
 				<!--<span class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span> This is to clear out the field but it is not residing IN the search box-->
@@ -86,7 +76,7 @@ require_once("php/forms/csrf.php");
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-xs-7 col-md-3" style="background-color: ActiveBorder">
+		<div class="col-xs-7 col-md-3">
 			<br>
 			<br>
 			<ul class="nav nav-sidebar" id="leftnav1">
@@ -107,30 +97,32 @@ require_once("php/forms/csrf.php");
 						<input type="text" id="endDate" name="endDate" class="form-control" placeholder="End Date: mm-dd-yyyy"><br/>
 						<button id="search" class="btn btn-rgevents" type="submit">Search</button>
 					</form>
-					<p id="outputDateSearch"></p>
+					<!--					<p id="outputDateSearch"></p>-->
 				</article>
-
-				<!--							<aside>-->
-				<!--								<h5><strong>Search By Event Category</strong></h5>-->
-				<!--								<form id="eventCatSearchForm" name="catSubCat" method="post" action="php/form-processors/event-category-search-form-processor.php">-->
-				<!--									--><?php //echo generateInputTags(); ?>
-				<!--									<label for="eventCatSearch" class="sr-only"></label>-->
-				<!--									<p>Choose Category</p>-->
-				<!--									<select class="form-control" name="cat" id="s1" onchange=AjaxFunction()>-->
-				<!--										<option value=''>Select One</option>"-->
-				<!--										<option>--><?php //getCategory() ?><!--</option>-->
-				<!--									</select>-->
-				<!--									<div class="search">-->
-				<!--										<button id="search" class="btn btn-rgevents" type="submit">Search</button>-->
-				<!--									</div>-->
-				<!--								</form>-->
-				<!--							</aside>-->
+				<br>
+				<article>
+					<h5><strong>Search By Event Category</strong></h5>
+					<form id="eventCatSearchForm" name="catSubCat" method="post" action="php/form-processors/event-category-search-form-processor.php">
+						<?php echo generateInputTags(); ?>
+						<label for="eventCatSearch" class="sr-only"></label>
+						<p>Choose Category</p>
+						<select class="form-control" style="background-color: beige" name="cat" id="s1">
+							<option value=''>Select One</option>"
+							<option><?php getCategory() ?></option>
+						</select>
+						<br>
+						<div class="search">
+							<button id="search" class="btn btn-rgevents" type="submit">Search</button>
+						</div>
+					</form>
+				</article>
 			</ul>
 			<br>
 			<ul class="nav nav-sidebar">
 				<li>
 					<a id="contactbutton" class="btn btn-contact" href="contact-us.php">Contact Us</a>
 				</li>
+
 			</ul>
 			<br>
 			<br>
@@ -141,7 +133,7 @@ require_once("php/forms/csrf.php");
 			</ul>
 		</div>
 
-		<div class="col-xs-13 col-md-8" id="aboutContent">
+		<div class="col-xs-13 col-md-8" id="indexContent">
 			<br>
 			<br>
 			<br>
@@ -156,7 +148,7 @@ require_once("php/forms/csrf.php");
 			<p>Please take a moment to sign up for Red Or Green Events so that you can purchase tickets.</p>
 			<p>We hope that you will enjoy using Red Or Green Events. We welcome your feedback via the Contact Us form to improve your experience shopping with us.</p>
 
-		<div class="col-xs-4 col-md-1" id="indexContent">
+		<div class="col-xs-4 col-md-1">
 			<div class="rightFiller">
 
 			</div>
@@ -166,13 +158,5 @@ require_once("php/forms/csrf.php");
 
 
 
-		<!-- Bootstrap core JavaScript
-		 ================================================== -->
-		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script src="../../dist/js/bootstrap.min.js"></script>
-		<script src="../../assets/js/docs.min.js"></script>
-		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-		<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>
