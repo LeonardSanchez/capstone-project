@@ -37,6 +37,12 @@
 	border-color: #0E3012;
 }
 
+.stripe-button-el span {
+	color: #ffffff;
+	background-color: #246121;
+	border-color: #0E3012;
+}
+
 .btn-contact {
 	color: #ffffff;
 	background-color: #C53337;

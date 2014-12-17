@@ -51,7 +51,7 @@ require_once("php/forms/event-cat-search-functions.php");
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="php/forms/shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" style="color: #C53337" aria-hidden="true"></span></a></li>
+				<li><a href="shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" style="color: #C53337" aria-hidden="true"></span></a></li>
 				<li class="dropdown">
 					<a href="#" id="myaccdrop" class="dropdown-toggle" data-toggle="dropdown" role="button" style="color: #fffffff" aria-expanded="false">My Account<span class="caret"></span></a>
 					<ul id="account-list-options" class="dropdown-menu" role="menu" style="background-color: #C53337">
@@ -164,7 +164,7 @@ require_once("php/forms/event-cat-search-functions.php");
 							<label for="confirmPassword" class="sr-only alert">Confirm Password</label>
 							<input type="password" id="confirmPassword" name="confirmPassword" class="form-control alert" placeholder="Confirm Password">
 
-							<button id="signupSubmit" class="btn btn-lg btn-primary btn-block alert" type="submit">Sign Up</button>
+							<button id="signupSubmit" class="btn btn-rgevents" type="submit">Sign Up</button>
 						</div>
 					</form>
 				</div>

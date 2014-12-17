@@ -138,7 +138,7 @@ require_once("php/forms/event-cat-search-functions.php");
 			<br>
 			<br>
 			<br>
-			
+
 		</div>
 		</div>
 
