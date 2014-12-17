@@ -25,6 +25,7 @@ if(session_status() === PHP_SESSION_NONE)	{
 			<input type="text" id="startDate" name="startDate" class="form-control" placeholder="mm-dd-yyyy"/><br/>
 			<label for="endDate" class="sr-only">End Date</label>
 			<input type="text" id="endDate" name="endDate" class="form-control" placeholder="mm-dd-yyyy"><br/>
+			</div>
 			<button id="search" class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
 		</form>
 		<p id="outputDateSearch"></p>
