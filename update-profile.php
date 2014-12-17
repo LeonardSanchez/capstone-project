@@ -164,7 +164,7 @@ require_once("php/forms/event-cat-search-functions.php");
 							<label for="confirmPassword" class="sr-only">Confirm Password</label>
 							<input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm Password"></br>
 
-							<button id="profileUpdateSubmit" class="btn btn-lg btn-primary btn-block" type="submit">Update Profile</button>
+							<button id="profileUpdateSubmit" class="btn btn-rgevents" type="submit">Update Profile</button>
 
 		</div>
 

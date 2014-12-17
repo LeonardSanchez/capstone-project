@@ -151,7 +151,7 @@ require_once("php/forms/event-cat-search-functions.php");
 						<label for="password" class="sr-only">Password</label>
 						<input type="password" id="password" name="password" class="form-control" placeholder="Password"><br />
 
-						<button id="loginSubmit" class="btn btn-lg btn-primary" type="submit">Login</button>
+						<button id="loginSubmit" class="btn btn-rgevents" type="submit">Login</button>
 
 					</div>
 				</form>
