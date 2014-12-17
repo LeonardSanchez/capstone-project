@@ -4,7 +4,7 @@
  *
  * This should handle the backend of the payment including the token
  **/
-require_once("../forms/shopping-cart-form.php");
+require_once("../../shopping-cart-form.php");
 require_once("../classes/transaction.php");
 require_once("/etc/apache2/capstone-mysql/rgevents.php");
 require("../../lib/Stripe.php");
@@ -34,9 +34,10 @@ try {
 
 	$transaction	=	new Transaction(null, $_SESSION['profile']['profileId'], null, $_SESSION['cartSubtotal'],date("Y-m-d H:i:s"),$customer->id);
 	$transaction->insert($mysqli);
-	var_dump($charge);
+
 	if($charge["paid"]	===	true)	{
 		unset($_SESSION['cartItems']);
+//		header ("Location: ../../shopping-cart-form.php");
 		echo "<span class=\"alert alert-success\" role=\"alert\"><strong>Thank you for your purchase!</strong></span>";
 	}
 } catch(Stripe_CardError $e) {

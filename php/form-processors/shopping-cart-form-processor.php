@@ -59,7 +59,7 @@ try	{
 	}
 
 	// echo link back to cart
-	echo "<a href='../forms/shopping-cart-form.php'>Back to cart</a>";
+//	echo "<a href='../forms/shopping-cart-form.php'>Back to cart</a>";
 
 }	catch(Exception $exception)	{
 	echo "unable to update cart";
