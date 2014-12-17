@@ -151,7 +151,7 @@ if(array_key_exists('cartItems', $_SESSION) === true){
 
 			<div class="col-xs-13 col-md-8" id="indexContent">
 				<?php echo generateInputTags();?>
-				<h1>Shopping Cart: <?php echo $itemCount; ?> Item(s)</h1> <br /> <br />
+				<h1><span style="color: #C53337">Shopping</span> <span style="color: green">Cart</span>: <?php echo $itemCount; ?> Item(s)</h1> <br /> <br />
 				<table class="table table-striped">
 					<?php
 					if($itemCount === 0)	{
