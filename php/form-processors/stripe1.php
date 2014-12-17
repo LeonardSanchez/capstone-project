@@ -20,7 +20,7 @@ if(array_key_exists('email',$_SESSION)===false)	{
     data-amount="<?php echo $priceInCents; ?>"
     data-name="RGEvents"
     data-description=""
-    data-image="../../images/redgreenchilelarge.jpg">
+    data-image="images/redgreenchilelarge.jpg">
   </script>
 </form>
 </html>

@@ -3,7 +3,7 @@
 $(document).ready(function()	{
 	// setup form validation
 	$("#parentCategory").change({
-		$("#getSubcategory").
+
 		// rules that are dictated
 		//rules:	{
 		//	parentCategory:	{
