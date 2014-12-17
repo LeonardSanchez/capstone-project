@@ -4,7 +4,7 @@ if(session_status() === PHP_SESSION_NONE)	{
 }
 // require the transaction class so we can pull the ticket id which will have the event price and such
 require_once("../classes/event.php");
-require_once("../forms/date-search.php");
+//require_once("../forms/date-search.php");
 
 
 // require to connect to our server I believe
@@ -44,4 +44,4 @@ try {
 }
 ?>
 <link type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
-<head><meta http-equiv="refresh" content="0; url=shopping-cart-form.php" /></head>
+<head><meta http-equiv="refresh" content="0; url=../../shopping-cart-form.php" /></head>
