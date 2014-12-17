@@ -1,24 +1,178 @@
 <?php
-<html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Bootstrap 101 Template</title>
-
-        <!-- Bootstrap -->
-        <link rel="stylesheet" href="/static/css/bootstrap.css">
-        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script src="/static/js/bootstrap.min.js"></script>
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-    </head>
-    <body>
-    <!-- Fixed navbar -->
 ?>
+<?php
+if(session_status() === PHP_SESSION_NONE)	{
+	session_start();
+}
+require_once("php/forms/csrf.php");
+require_once("php/forms/event-cat-search-functions.php");
+
+?>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<!-- create and add a favicon for our site <link rel="icon" href="#"> -->
+	<title>RGEvents Main</title>
+	<link type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
+	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<!-- load .js files for RGEvents -->
+	<link type="text/css" rel="stylesheet" href="site-css.css" />
+	<script src="javascript/date-search.js"></script>
+	<script src="javascript/event-name.js"></script>
+	<script src="javascript/event-venue-search.js"></script>
+	<script type="text/javascript" src="javascript/login.js"></script>
+	<script type="text/javascript" src="javascript/sign-up.js"></script>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color: #D1BBA1">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" id="navbarName" href="index.php"><h3 style="color: #ffffff"><strong><span style="color: #C53337">Red</span> or <span style="color: green">Green</span> Events</strong>	-	Find Events With A Local Flavor</h3></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="shopping-cart-form.php"><span class="glyphicon glyphicon-shopping-cart" style="color: #C53337" aria-hidden="true"></span></a></li>
+				<li class="dropdown">
+					<a href="#" id="myaccdrop" class="dropdown-toggle" data-toggle="dropdown" role="button" style="color: #fffffff" aria-expanded="false">My Account<span class="caret"></span></a>
+					<ul id="account-list-options" class="dropdown-menu" role="menu" style="background-color: #C53337">
+						<li><a href="login.php">Log In</a></li>
+						<li><a href="php/forms/update-profile.php">Update Profile</a></li>
+						<li><a href="signup.php">Sign Up</a></li>
+						<li><a href="php/forms/log-out.php/">Log Out</a></li>
+					</ul>
+				</li>
+			</ul>
+			<form class="navbar-form navbar-right" id="venueSearchForm" method="get" action="php/form-processors/venue-search-form-processor.php">
+				<input type="text" id="venue" name="venue" style="background-color: beige" class="form-control" placeholder="Search Venues...">
+				<!--<span class="clearer glyphicon glyphicon-remove-circle form-control-feedback"></span> This is to clear out the field but it is not residing IN the search box-->
+			</form>
+			<form class="navbar-form navbar-right" id="eventNameSearchForm" method="get" action="php/form-processors/event-name-search-form-processor.php">
+				<input type="text"  id="eventName" name="eventName" style="background-color: beige" class="form-control" placeholder="Search Events...">
+			</form>
+		</div>
+	</div>
+</nav>
+<!-- end of top nav bar -->
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-7 col-md-3">
+			<br>
+			<br>
+			<ul class="nav nav-sidebar" id="leftnav1">
+				<br>
+				<br>
+				<div class="panel panel-success">
+					<div class="panel-heading" style="background-color: #C53337">
+						<h3 class="panel-title" style="color: #ffffff">Find Local Events</h3>
+					</div>
+				</div>
+
+				<article>
+					<h5><strong>Search By Event Date</strong></h5>
+					<form id="dateSearchForm" method="get" action="php/form-processors/date-search-form-processor.php">
+						<label for="startDate" class="sr-only"></label>
+						<input type="text" id="startDate" name="startDate" class="form-control" placeholder="Start Date: mm-dd-yyyy"/><br/>
+						<label for="endDate" class="sr-only"></label>
+						<input type="text" id="endDate" name="endDate" class="form-control" placeholder="End Date: mm-dd-yyyy"><br/>
+						<button id="search" class="btn btn-rgevents" type="submit">Search</button>
+					</form>
+					<!--					<p id="outputDateSearch"></p>-->
+				</article>
+				<br>
+				<article>
+					<h5><strong>Search By Event Category</strong></h5>
+					<form id="eventCatSearchForm" name="catSubCat" method="post" action="php/form-processors/event-category-search-form-processor.php">
+						<?php echo generateInputTags(); ?>
+						<label for="eventCatSearch" class="sr-only"></label>
+						<p>Choose Category</p>
+						<select class="form-control" style="background-color: beige" name="cat" id="s1">
+							<option value=''>Select One</option>"
+							<option><?php getCategory() ?></option>
+						</select>
+						<br>
+						<div class="search">
+							<button id="search" class="btn btn-rgevents" type="submit">Search</button>
+						</div>
+					</form>
+				</article>
+			</ul>
+			<br>
+			<ul class="nav nav-sidebar">
+				<li>
+					<a id="contactbutton" class="btn btn-contact" href="contact-us.php">Contact Us</a>
+				</li>
+
+			</ul>
+			<br>
+			<br>
+			<ul class="nav nav-sidebar">
+				<li>
+					<a id="aboutusbutton" class="btn btn-about" href="about.php">About Us</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="col-xs-13 col-md-8" id="indexContent">
+			<br>
+			<br>
+			<br>
+			<form id="updateProfile" method="post" action="php/form-processors/update-profile-form-processor.php">
+				<?php echo generateInputTags(); ?>
+
+				<div class="container">
+					<div class="container">
+						<div class="col-lg-6">
+							<h3 class="updateProfile">Update your Profile below</h3>
+							<label for="firstName" class="sr-only">First Name</label>
+							<input type="text" id="firstName" name="firstName" class="form-control" placeholder="First Name"></br>
+							<label for="lastName" class="sr-only">Last Name</label>
+							<input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last Name"></br>
+							<label for="dateOfBirth" class="sr-only">Date of Birth</label>
+							<input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="Date of Birth mm-dd-yyyy"></br>
+							<label for="gender" class="sr-only">Gender</label>
+							<input type="text" id="gender" name="gender" class="form-control" placeholder="Gender (M, F, O)"></br>
+							<label for="email" class="sr-only">Email</label>
+							<input type="email" id="email" name="email" class="form-control" placeholder="Email"></br>
+							<label for="currentPassword" class="sr-only">Current Password</label>
+							<input type="password" id="currentPassword" name="currentPassword" class="form-control" placeholder="Current Password"></br>
+							<label for="newPassword" class="sr-only">New Password</label>
+							<input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="New Password"></br>
+							<label for="confirmPassword" class="sr-only">Confirm Password</label>
+							<input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm Password"></br>
+
+							<button id="profileUpdateSubmit" class="btn btn-lg btn-primary btn-block" type="submit">Update Profile</button>
+
+		</div>
+
+		<div class="col-xs-4 col-md-1">
+			<div class="rightFiller">
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
