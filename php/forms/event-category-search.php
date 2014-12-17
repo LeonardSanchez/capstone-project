@@ -3,7 +3,7 @@ if(session_status() === PHP_SESSION_NONE) {
 	session_start();
 }
 require_once("../forms/csrf.php");
-require_once("../forms/event-cat-search-functions.php");
+require_once("../classes/event-category.php");
 
 ?>
 <html>
@@ -17,30 +17,37 @@ require_once("../forms/event-cat-search-functions.php");
 	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
 	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="../../javascript/eventCatAJAX.js"></script>
-	<script type="text/javascript" src="../../javascript/event-category-search.js"></script>
+	<script type="text/javascript" src="../../javascript/get-subcategories.js"
 </head>
 
 <body>
-	<form id="eventCatSearchForm" name="catSubCat" method="post" action="../form-processors/event-category-search-form-processor.php">
+	<form id="eventCatSearchForm" name="catSubCat" method="get" action="../form-processors/get-subcategories.php">
 		<?php echo generateInputTags(); ?>
-		<label for="eventCatSearch">Search By Event Category</label>
-			<p>Choose Category</p>
-			<select name="cat" id="s1" onchange=AjaxFunction()>
-				<option value='' selected>Select One</option>"
-				<option>
-					<?php
-
-					?>
-				</option>
+		<label for="eventCatSearch">Search By Event Category</label><br/>
+			<label for="parentCategory">Choose Category</label>
+			<select name="parentCategory" id="parentCategory">
+				<option selected disabled>Main Category</option>
+				<?php require_once("/etc/apache2/capstone-mysql/rgevents.php");$mysqli = MysqliConfiguration::getMysqli();
+				$parentCategories = EventCategory::getEventCategoryByAllParentEvents($mysqli);
+				if(isset($parentCategories)===true)	{
+					foreach($parentCategories as $parentCategory)	{
+						echo "<option value=\"".$parentCategory->getEventCategoryId()."\">" . $parentCategory->getEventCategory() . "</option>";
+					}
+				}
+				?>
 			</select>
-			<p>Select Sub-Category</p>
-			<select name="subcat" id='s2'>
-
+		<input type="submit"/>
+	</form>
+	<form>
+			<label >Select Sub-Category</label>
+			<select name="subcategory" id='subcategory' disabled>
+				<option disabled>Sub-Category</option>
+				<span id="subcategoryArea"></span>
 			</select>
 		<div class="search">
 		<input id="catSearch" type="submit" value="Submit">
 		</div>
 	</form>
+
 
 </body>

@@ -16,16 +16,5 @@ require_once("../classes/event-category.php");
 		throw(new Exception("external source violation"));
 	}
 
-	// grab the data out of mySQL to populate the category drop down list for all Parent Categories
-	$categories = EventCategory::getEventCategoryByAllParentEvents($mysqli, $eventCategory);
 
-	// populate the drop down options with results from mySQL query
-
-
-
-
-	// grab the data out of mySQL to populate the sub-category drop down list for all Child Categories
-
-
-}
 ?>
