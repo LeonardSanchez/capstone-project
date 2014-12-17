@@ -1,32 +1,29 @@
-$(document).ready(function(){
-$("#parentCategory").change(function()	{
-	var parentCategory = document.getElementById("parentCategory").value;
-		// setup form validation
-		$("#parentCategory").validate({
 
-			// rules that are dictated
-			rules:	{
-				parentCategory:	{
-					required: true
+// validate the form using jquery
+$(document).ready(function()	{
+	// setup form validation
+	$("#parentCategory").change({
+		$("#getSubcategory").
+		// rules that are dictated
+		//rules:	{
+		//	parentCategory:	{
+		//		//required: true
+		//	}
+		//},
+		//
+		//messages:	{
+		//	parentCategory: "Please select"
+		//},
+
+		submitHandler: function(form)	{
+			$(form).ajaxSubmit	({
+				type: "GET",
+				url: "https://bootcamp-coders.cnm.edu/~ssandoval/capstone-project/php/form-processors/get-subcategories.php",
+				success:	function(ajaxOutput)	{
+					$("#subcategory").html(ajaxOutput).prop("disabled", false);
+
 				}
-			},
-
-			messages:	{
-				parentCategory: "Please select"
-			},
-
-			submitHandler: function(form)	{
-				$("#parentCategory").ajaxSubmit	({
-					type: "GET",
-					url: "../form-processors/get-subcategories.php",
-					success:	function(ajaxOutput)	{
-
-						$("#subcategoryArea").replace(ajaxOutput);
-						$("#subcategory").prop("disabled", false);
-					}
-				})
-			}
-		});
-
+			})
+		}
 	});
-	});
+});

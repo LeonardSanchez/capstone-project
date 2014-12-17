@@ -13,7 +13,7 @@ if(array_key_exists('email',$_SESSION)===false)	{
 ?>
 <html>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-<form action="../form-processors/checkout-form-processor.php" method="POST">
+<form action="https://bootcamp-coders.cnm.edu/~ssandoval/capstone-project/php/form-processors/checkout-form-processor.php" method="POST">
   <script
     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
     data-key="pk_test_zqXDIk9h00Tk0kLxXw0UrENB"

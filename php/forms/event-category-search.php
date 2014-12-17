@@ -17,13 +17,13 @@ require_once("../classes/event-category.php");
 	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/additional-methods.min.js"></script>
 	<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="../../javascript/get-subcategories.js"
+	<script type="text/javascript" src="../../javascript/get-subcategories.js"></script>
 </head>
 
 <body>
-	<form id="eventCatSearchForm" name="catSubCat" method="get" action="../form-processors/get-subcategories.php">
+	<form id="getSubcategory" name="getSubcategory" method="get" action="https://bootcamp-coders.cnm.edu/~ssandoval/capstone-project/php/form-processors/get-subcategories.php">
 		<?php echo generateInputTags(); ?>
-		<label for="eventCatSearch">Search By Event Category</label><br/>
+		<label>Search By Event Category</label><br/>
 			<label for="parentCategory">Choose Category</label>
 			<select name="parentCategory" id="parentCategory">
 				<option selected disabled>Main Category</option>
@@ -38,14 +38,13 @@ require_once("../classes/event-category.php");
 			</select>
 		<input type="submit"/>
 	</form>
-	<form>
-			<label >Select Sub-Category</label>
+	<form id="eventCategorySearch" method="get" action="https://bootcamp-coders.cnm.edu/~ssandoval/capstone-project/php/form-processors/event-category-search-form-processor.php">
+			<label for="subcategory">Select Sub-Category</label>
 			<select name="subcategory" id='subcategory' disabled>
 				<option disabled>Sub-Category</option>
-				<span id="subcategoryArea"></span>
 			</select>
 		<div class="search">
-		<input id="catSearch" type="submit" value="Submit">
+		<input id="catSearch" type="submit" value="Search">
 		</div>
 	</form>
 
