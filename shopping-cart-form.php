@@ -178,9 +178,9 @@ if(array_key_exists('cartItems', $_SESSION) === true){
 
 								for($j = 1; $j <= 10; $j++) {
 									if($j != $item['qty']) {
-										echo "<option value=\"" . $i . "\">" . $i . "</option>";
+										echo "<option value=\"" . $j . "\">" . $j . "</option>";
 									} else {
-										echo "<option value=\"" . $i . "\" selected>" . $i . "</option>";
+										echo "<option value=\"" . $j . "\" selected>" . $j . "</option>";
 									}
 								}
 								echo "</select>" . "<input type=\"hidden\" id=\"" . $item['eventId'] . "\" value=\"" . $item['eventId'] . "\"><button type=\"submit\" class=\"btn btn-default\">Update</button></form></h4></td>" .
