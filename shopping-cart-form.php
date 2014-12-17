@@ -157,29 +157,39 @@ if(array_key_exists('cartItems', $_SESSION) === true){
 				<h1><span style="color: #C53337">Shopping</span> <span style="color: green">Cart</span>: <?php echo $itemCount; ?> Item(s)</h1> <br /> <br />
 				<table class="table table-striped">
 					<?php
-					if($itemCount === 0)	{
+					if(array_key_exists("purchaseStatus", $_SESSION)===true){
+						if($_SESSION["purchaseStatus"]===true) {
+							echo "<h4><span class=\"alert alert-success\" role=\"alert\"><strong>Thank you for your purchase!</strong></span></h4>";
+							unset($_SESSION["purchaseStatus"]);
+						}
+					} elseif($itemCount === 0)	{
 						echo "<h4>Shopping cart is empty</h4>";
 					} else {
 						echo	"<thead><tr><th>Item #</th><th>Item</th><th>Quantity</th><th>Remove</th><th>Item Total</th></tr>";
-						foreach($_SESSION["cartItems"] as $item) {
-							echo "<tbody><tr><td><h3>".$itemCount."</h3></td><form id=\"updateItem" . $item['eventId'] . "\" action=\"php/form-processors/update-cart-form-processor.php\" method=\"POST\">";
-							echo "<td><h4>" . $item['eventName'] . "</h4><h5>" . $item['eventDateTime'] . "</h5><h5>$" .
-								$item['ticketPrice'] . "</h5></td>";
-							echo "<td><h4><label for=\"ticketQuantity" . $item['eventId'] .
-								"\">Ticket Quantity: </label><select name=\"ticketQuantity" . $item['eventId'] .
-								"\" id=\"ticketQuantity" . $item['eventId'] . "\">";
 
-							for($i = 1; $i <= 10; $i++) {
-								if($i != $item['qty']) {
-									echo "<option value=\"" . $i . "\">" . $i . "</option>";
-								} else {
-									echo "<option value=\"" . $i . "\" selected>" . $i . "</option>";
+						$i=1;
+						foreach($_SESSION["cartItems"] as $item) {
+								echo "<tbody><tr><td><h3>" . $i . "</h3></td><form id=\"updateItem" . $item['eventId'] . "\" action=\"php/form-processors/update-cart-form-processor.php\" method=\"POST\">";
+								echo "<td><h4>" . $item['eventName'] . "</h4><h5>" . $item['eventDateTime'] . "</h5><h5>$" .
+									$item['ticketPrice'] . "</h5></td>";
+								echo "<td><h4><label for=\"ticketQuantity" . $item['eventId'] .
+									"\">Ticket Quantity: </label><select name=\"ticketQuantity" . $item['eventId'] .
+									"\" id=\"ticketQuantity" . $item['eventId'] . "\">";
+
+								for($j = 1; $j <= 10; $j++) {
+									if($j != $item['qty']) {
+										echo "<option value=\"" . $i . "\">" . $i . "</option>";
+									} else {
+										echo "<option value=\"" . $i . "\" selected>" . $i . "</option>";
+									}
 								}
+								echo "</select>" . "<input type=\"hidden\" id=\"" . $item['eventId'] . "\" value=\"" . $item['eventId'] . "\"><button type=\"submit\" class=\"btn btn-default\">Update</button></form></h4></td>" .
+									"<td><h3><form id=\"removeItem" . $item['eventId'] . "\" action=\"php/form-processors/remove-item.php\" method=\"post\"><input id=\"r" . $item['eventId'] . "\" name=\"r" . $item['eventId'] . "\" type=\"hidden\" value=\"" .
+									$item['eventId'] . "\"><button class=\"glyphicon glyphicon-trash\" aria-hiddent=\"true\" type=\"submit\"></button></h4></form></td><td><h3>$ " . $_SESSION['cartItems'][$item["eventId"]]["itemSubtotal"] . "</h3></td></tr>";
+							if($i <= $itemCount)	{
+								++$i;
 							}
-							echo "</select>" . "<input type=\"hidden\" id=\"" . $item['eventId'] . "\" value=\"" . $item['eventId'] . "\"><button type=\"submit\" class=\"btn btn-default\">Update</button></form></h4></td>" .
-								"<td><h3><form id=\"removeItem" . $item['eventId'] . "\" action=\"php/form-processors/remove-item.php\" method=\"post\"><input id=\"r" . $item['eventId'] . "\" name=\"r" . $item['eventId'] . "\" type=\"hidden\" value=\"" .
-								$item['eventId'] . "\"><button class=\"glyphicon glyphicon-trash\" aria-hiddent=\"true\" type=\"submit\"></button></h4></form></td><td><h3>$ ".$_SESSION['cartItems'][$item["eventId"]]["itemSubtotal"]."</h3></td></tr>";
-							$itemCount = $itemCount-1;
+
 						}
 					}
 					echo "</tbody>";

@@ -138,7 +138,18 @@ require_once("php/forms/event-cat-search-functions.php");
 			<br>
 			<br>
 			<br>
-
+			<?php
+			// require mysqli
+			require_once("/etc/apache2/capstone-mysql/rgevents.php");
+			$mysqli = MysqliConfiguration::getMysqli();
+			$transactions = Transaction::getTransactionByProfileId($mysqli, $_SESSION["profile"]["profileId"]);
+			foreach($transactions as $transaction) {
+				if($transaction->getCustomerToken()===null)	{
+					echo "<span class=\"alert alert-success\" role=\"alert\"><strong>Thank you for your purchase!</strong></span>";
+				}
+			}
+			?>
+			
 		</div>
 		</div>
 

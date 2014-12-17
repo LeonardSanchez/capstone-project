@@ -34,11 +34,11 @@ try {
 
 	$transaction	=	new Transaction(null, $_SESSION['profile']['profileId'], null, $_SESSION['cartSubtotal'],date("Y-m-d H:i:s"),$customer->id);
 	$transaction->insert($mysqli);
-
+	var_dump($charge);
 	if($charge["paid"]	===	true)	{
 		unset($_SESSION['cartItems']);
-//		header ("Location: ../../shopping-cart-form.php");
-		echo "<span class=\"alert alert-success\" role=\"alert\"><strong>Thank you for your purchase!</strong></span>";
+		$_SESSION["purchaseStatus"] = true;
+		echo "<head><meta http-equiv=\"refresh\" content=\"0; url=../../shopping-cart-form.php\" /></head>";
 	}
 } catch(Stripe_CardError $e) {
 	// The card has been declined
