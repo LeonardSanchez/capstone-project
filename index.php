@@ -142,11 +142,11 @@ require_once("php/forms/event-cat-search-functions.php");
 					<br>
 					<article>
 						<div id="landingData" class="landing-page" name="landing-page">
-							<p>Thank you for visiting Red Or Green Events, you home for purchasing tickets to New Mexico's best events and attractions!</p>
+							<p>Thank you for visiting Red Or Green Events, your home for purchasing tickets to New Mexico's best events and attractions!</p>
 							<br>
-							<p>You will find the most popular events and attractions for the Greater Albuquerque, NM and surrounding areas.</p>
+							<p>You will find the most popular events and attractions for the Greater Albuquerque Area, New Mexico, and surrounding areas.</p>
 							<p>Please take a moment to sign up for Red Or Green Events so that you can purchase tickets.</p>
-							<p>We hope that you will enjoy using Red Or Green Events. We welcome your feedback via the Contact Us form to improve your experience shopping with us.</p>
+							<p>We hope that you enjoy using Red Or Green Events. We welcome your feedback via the "Contact Us" form. We strive to improve your experience shopping with us.</p>
 
 						</div>
 
