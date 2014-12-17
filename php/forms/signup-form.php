@@ -45,10 +45,9 @@ require_once("../forms/csrf.php");
 					<input type="password" id="confirmPassword" name="confirmPassword" class="form-control alert" placeholder="Confirm Password">
 
 					<button id="signupSubmit" class="btn btn-lg btn-primary btn-block alert" type="submit">Sign Up</button>
-				</div>
+
 			</form>
-		</div>
-	</div>
+
 	<p id="outputSignUp"></p>
 </body>
 </html>
