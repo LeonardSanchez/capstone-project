@@ -146,7 +146,7 @@ require_once("php/forms/event-cat-search-functions.php");
 							<br>
 							<p>You will find the most popular events and attractions for the Greater Albuquerque Area, New Mexico, and surrounding areas.</p>
 							<p>Please take a moment to sign up for Red Or Green Events so that you can purchase tickets.</p>
-							<p>We hope that you enjoy using Red Or Green Events. We welcome your feedback via the "Contact Us" form. We strive to improve your experience shopping with us.</p>
+							<p>We hope that you enjoy using Red Or Green Events. We welcome your feedback via the "Contact Us" form. We constantly strive to improve your experience shopping with us.</p>
 
 						</div>
 
