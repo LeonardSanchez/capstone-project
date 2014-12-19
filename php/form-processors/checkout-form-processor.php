@@ -34,7 +34,6 @@ try {
 
 	$transaction	=	new Transaction(null, $_SESSION['profile']['profileId'], null, $_SESSION['cartSubtotal'],date("Y-m-d H:i:s"),$customer->id);
 	$transaction->insert($mysqli);
-	var_dump($charge);
 	if($charge["paid"]	===	true)	{
 		unset($_SESSION['cartItems']);
 		$_SESSION["purchaseStatus"] = true;
